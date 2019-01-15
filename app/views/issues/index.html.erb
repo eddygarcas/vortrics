@@ -1,0 +1,85 @@
+<% @title = "#{@project_name.to_s} #{@sprint.name}" %>
+<script>
+    $('#hideSubtasks').on("click", function () {
+        var rows = $('table.table tr');
+        var otro = rows.filter('.false').show();
+        if ($("#hideSubtasks")[0].checked) {
+            rows.not(otro).hide();
+        } else {
+            rows.not(otro).show();
+        }
+    });
+</script>
+
+<% content_for :description do %>
+    <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30' %>
+      <%= @project_name.to_s %></p>
+<% end %>
+
+<% content_for :actions do %>
+    <label class="switch switch-info pull-right align-middle" data-toggle="tooltip" data-title="Hide Sub-Tasks" data-placement="auto">
+      <input type="checkbox" id="hideSubtasks" text="Hide subtasks">
+      <span></span>
+    </label>
+<% end %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="sheet sheet-condensed">
+        <div class="sheet-inner">
+          <table class="table small">
+            <thead>
+            <tr class="false">
+              <th>Type</th>
+              <th>Key</th>
+              <th><%= sort_link 'customfield_11382', "#Sprint(s)" %> </th>
+              <th>Summary</th>
+              <th><%= sort_link 'customfield_11802', "Story Points" %></th>
+              <th>Created</th>
+              <th>Resolved</th>
+              <th><%= sort_link 'status', "Status" %></th>
+              <th>Components</th>
+              <th>Assignee</th>
+              <th>Flagged</th>
+              <th>Release Time</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @issues.each do |issue| %>
+                <tr class="active <%= issue.issuetype.to_s.downcase.eql? 'subtarea' %>">
+                  <td><%= image_tag issue.issueicon, data: {toggle: "tooltip", title: issue.issuetype.to_s} %> </td>
+                  <td><%= issue.key %></td>
+                  <td><%= issue.customfield_11382 %> <%= issue.customfield_11382.to_i > 1 ? fa_icon_tag("exclamation-triangle") : '' %></td>
+                  <td><%= issue.summary[0..60] %></td>
+                  <td><%= issue.customfield_11802 %></td>
+                  <td><%= issue.created.strftime("%d/%m") unless issue.created.nil? %></td>
+                  <td><%= issue.resolutiondate.strftime("%d/%m") unless issue.resolutiondate.nil? %></td>
+                  <td><%= issue_status issue.status, issue.statusname %></td>
+                  <td><%= issue.components %></td>
+                  <td><%= issue.assignee %></td>
+                  <td><%= fa_icon_tag("flag") if issue.flagged? %></td>
+                  <td><%= issue.time_in :wip, :done %></td>
+                  <td class="actions">
+                    <%= link_to fa_icon_tag("eye"), issue, rel: 'tooltip', data: {toggle: "tooltip", title: 'Show issue details'} %>
+                    <%= link_to ionicon_icon_tag("ios-infinite"), issue.sprint, rel: 'tooltip', title: 'Go to sprint' %>
+                  </td>
+                </tr>
+            <% end %>
+            <% if @issues.length == 0 %>
+                <tr>
+                  <td colspan=42 class='text-center'>No issues.</td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <%# Remove the trailing if condition if you're using pagination. %>
+          <%= will_paginate @issues if @issues.respond_to?(:total_pages) %>
+        </div><!-- /.sheet-inner -->
+      </div><!-- /.sheet -->
+
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+<% @title = "Showing answer" %>
+
+<% content_for :description do %>
+  <p>Edit this template in <code>app/views/answers/show.html.erb</code>.</p>
+  <% end %>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="sheet sheet-condensed">
+          <div class="sheet-inner p30">
+            <div class="form-horizontal">
+                              <div class="form-inputs">
+                 <div class="form-group">
+                    <label class="col-md-2 control-label">Type</label>
+                    <div class="col-md-8">
+                      <div class="text-justify">
+                        <span>
+                          <%= @answer.field_type %>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+                              <div class="form-inputs">
+                 <div class="form-group">
+                    <label class="col-md-2 control-label">Text</label>
+                    <div class="col-md-8">
+                      <div class="text-justify">
+                        <span>
+                          <%= @answer.text %>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+                              <div class="form-inputs">
+                 <div class="form-group">
+                    <label class="col-md-2 control-label">Value</label>
+                    <div class="col-md-8">
+                      <div class="text-justify">
+                        <span>
+                          <%= @answer.value %>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-inputs">
+                 <div class="form-group">
+                    <label class="col-md-2 control-label">Questions</label>
+                    <div class="col-md-8">
+                      <div class="text-justify">
+                        <span>
+                          <%= @answer.question.question %>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-inputs">
+                <div class="form-group">
+                  <label class="col-md-2 control-label">Stage</label>
+                  <div class="col-md-8">
+                    <div class="text-justify">
+                        <span>
+                          <%= @answer.question.q_stage.name %>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-inputs">
+                <div class="form-group">
+                  <label class="col-md-2 control-label">Category</label>
+                  <div class="col-md-8">
+                    <div class="text-justify">
+                        <span>
+                          <%= @answer.question.level.name %>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+                            <div class="form-actions col-md-offset-2">
+                <%= link_to fa_icon_tag("pencil") + ' Edit', edit_answer_path(@answer), class: 'btn btn-primary' %>
+                <%= link_to 'Back', answers_path, class: 'btn' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

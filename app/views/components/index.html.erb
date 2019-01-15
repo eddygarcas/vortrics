@@ -1,0 +1,56 @@
+<% @title = "Components" %>
+
+
+
+<% content_for :description do %>
+    <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '20', width: '20' %>
+      <%= @project_name.to_s %></p>
+
+<% end %>
+
+<% content_for :actions do %>
+    <%= link_to new_component_path, class: 'btn btn-primary btn-large pull-right' do %>
+        <%= fa_icon_tag "plus" %> Add Component
+    <% end %>
+<% end %>
+
+<%= render "layouts/flashes" %>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="sheet sheet-condensed">
+        <div class="sheet-inner">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @components.each do |component| %>
+                <tr>
+                  <td><%= component.name %></td>
+                  <td class="actions">
+                    <%= link_to fa_icon_tag("eye"), component, rel: 'tooltip', title: 'Show' %>
+                    <%= link_to fa_icon_tag("pencil"), edit_component_path(component), rel: 'tooltip', title: 'Edit' %>
+                    <%= link_to fa_icon_tag("trash-o"), component, rel: 'tooltip', title: 'Delete', data: {confirm: 'Are you sure?'}, method: :delete %>
+                  </td>
+                </tr>
+            <% end %>
+            <% if @components.length == 0 %>
+                <tr>
+                  <td colspan=42 class='text-center'>No components.</td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+
+        </div><!-- /.sheet-inner -->
+      </div><!-- /.sheet -->
+
+    </div>
+  </div>
+</div>

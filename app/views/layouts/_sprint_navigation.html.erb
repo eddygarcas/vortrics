@@ -1,0 +1,39 @@
+<div class="panel-body clearfix">
+  <ul class="nav nav-tabs">
+
+    <!--<ul class="nav navbar-nav navbar-right">-->
+    <li role="presentation" class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+        <i class="fa fa-fw fa-folder-open"></i>Sprint Archive
+        <span class="caret caret-light"></span>
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li class="divider"></li>
+        <% @sprint.team.sprints.sort_by(&:enddate).reverse.each do |sprint| %>
+            <li><%= link_to fa_icon_tag("folder-open") << " #{sprint.name} - " << sprint.enddate.strftime('%d/%b/%Y'), sprint, rel: 'tooltip' %></li>
+        <% end %>
+      </ul>
+    </li>
+
+    <li role="presentation" class="dropdown pull-right">
+      <%= dropdown_menu "<i class='fa fa-fw fa fa-bolt'></i>Active Sprints".html_safe do %>
+          <% @sprint.active_sprints(@team.project).each do |sprint| %>
+              <%= activatable_li_tag_with_link "#{sprint.team.name} - #{sprint.name}", sprint %>
+          <% end %>
+      <% end %>
+    </li>
+
+
+    <% if @sprint.enddate.next_weekday >= Date.today %>
+        <li role="presentation">
+          <%= link_to fa_icon_tag("download") << " Refresh", sprint_refresh_issues_path(@sprint.to_param), data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Downloading..."} %>
+        </li>
+    <% end %>
+
+    <li role="presentation">
+      <%= link_to fa_icon_tag("trash-o") << " Delete", @sprint, method: :delete, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Removing..."} %>
+    </li>
+
+
+  </ul>
+</div>

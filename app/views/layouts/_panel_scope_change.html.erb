@@ -1,0 +1,11 @@
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <p class="lead"><%= fa_icon_tag("exchange") %>  Sprint Change <b> Scope</b></p>
+  </div>
+  <div class='panel-body text-red-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= ScrumMetrics.config[:popover][:pass_rate] %>" data-original-title="" title="" id="popoverScopeChange">
+    <h2 class="m0"><%= sprint.scope %>%</h2>
+    <small>% Sprint Scope has changed</small>
+  </div>
+
+</div>
+

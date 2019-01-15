@@ -1,0 +1,65 @@
+defaults: &defaults
+  name: Voardtrix
+  :performance:
+    :graph_limit: 60
+  :jira:
+    :site: "https://jira.scmspain.com"
+    :restbasepath: "/rest/api/2"
+    :contextpath: ""
+    :httpdebug: true
+    :signaturemethod: "RSA-SHA1"
+    :privatekeyfile: "rsakey.pem"
+    :consumerkey: "7f60c1a9c6c79bc03071b41870c3e09d"
+    :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint
+    :oauth: true
+  :changelog:
+    :open: open,nil,to do
+    :backlog: backlog,ready
+    :wip: in progress,analysis
+    :testing: review,in review,testing
+    :done: closed,done,production
+    :flagged: impediment
+  :baseline:
+    :leadtime: 7
+  :messages:
+    :more_than_sprint: "<strong>Listen up!</strong> Sprint has stories that started <strong>sprints ago</strong>, bring them at the retrospective and seek for improvements to avoid this situation."
+    :estimation_over_average_closed_points: "<strong>Ups!</strong> Sprint has stories which estimation is bigger than <strong>15%</strong> of team's capacity. Reduce either complexity by splitting or risk."
+    :overcommitment: "<strong>Watch out!</strong> Sprint commitment is bigger than historical average, there is a strong possibility of leftovers at the end."
+    :has_service_types: "<strong>Advice</strong> The Sprint has more than one service type, see if having different work-flows and policies may help improving the lead time."
+    :external_service_error: "Unable to retrieve external service information. Please try it later."
+    :no_teams_available: "Before getting information from the external service, create a team."
+    :variance_volatility: "<strong>Ups!</strong> Team's velocity seems highly spread out from its average value. Ideally, teams should display a fairly consistent velocity, ideally with a gradually increasing slope. Major gaps and spikes in velocity are not a good sign."
+  :popover:
+    :average_velocity: "Velocity is quite simple to calculate. At the end of a sprint, add up the total of all the story points that were moved to 'Done' (based on your Definition of Done) in that sprint."
+    :average_stories: "At the end of a sprint, add up the total of all the user stories that were moved to 'Done' (based on your Definition of Done) in that sprint."
+    :varianza: "It measures how far a set of sprint story counting numbers are spread out from their average value."
+    :sprint_forecast: "Forecast team's velocity according to current team work-force. Ideally, you should not commit the same amount of work if less people working."
+    :pass_rate: "Quality metric, it is the percentage of 'Review' that pass the first time they are run. If it is below 90%, there is a quality problem, find out the part of the process that is a cause of problems."
+    :bug_sprint: "This is a simple metric that lets you see how many defects you are raising each sprint. You calculate by adding the number of defects that were created at some point during the sprint."
+    :ratio_bugs: "It is the ratio of the defects created during the sprint to the total number of user stories in the sprint."
+    :time_blocked: "Simply, Adds up all the time that any story or task in the current sprint spent in a blocked state."
+    :ratio_time_blocked: "It tells you how much time every story in the current sprint would spend blocked, distributing total blocked time per user story or task."
+    :ratio_items_blocked: "Measures what proportion of user stories in a sprint are blocked by impediments."
+
+development:
+  <<: *defaults
+  name: Voardtrix Development
+
+production:
+  <<: *defaults
+  name: Voardtrix Production
+  :jira:
+    :site: "https://jira.scmspain.com"
+    :restbasepath: "/rest/api/2"
+    :contextpath: ""
+    :httpdebug: true
+    :signaturemethod: "RSA-SHA1"
+    :privatekeyfile: "rsakey.pem"
+    :consumerkey: "OauthKey"
+    :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint
+    :oauth: true
+
+
+test: &test
+  <<: *defaults
+  name: Voardtrix Testing

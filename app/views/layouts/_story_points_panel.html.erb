@@ -1,0 +1,19 @@
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <p class="lead"><i class="fa fa-fire"></i> <b>Points</b></p>
+  </div>
+  <div class='panel-body text-light-blue-400 text-center'>
+    <h2 class="m0"><%= percent_num sprint.closed_points, (sprint.closed_points + sprint.remaining_points) %>%</h2>
+    <small>Completed Story Points
+      <strong><%= sprint.closed_points %> of <%= (sprint.closed_points + sprint.remaining_points) %></strong></small>
+
+  </div>
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-sm-12">
+        <%= summary_trend sprint.team.trend_points, ' in average Story Points per sprint.', false %>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>

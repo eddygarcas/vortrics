@@ -1,0 +1,40 @@
+<div class="panel panel-info mt15">
+  <div class="panel-heading">
+    <p class="lead"><%= fa_icon_tag("info") %>  <b>Report</b></p>
+  </div>
+  <div class='panel-body text-center'>
+    <h5 class="m0">
+      <% if @issue.flagged? %>
+          <span class="fa-stack fa-lg" data-toggle="tooltip" title="Time Flagged <%= @issue.time_flagged.round %> Days" data-placement="top">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-flag fa-stack-1x fa-inverse" style="color:red;"></i>
+          </span>
+      <% end %>
+
+      <% if @issue.bug? %>
+        <span class="fa-stack fa-lg" data-toggle="tooltip" title="Bug item" data-placement="top">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-bug fa-stack-1x fa-inverse"></i>
+          </span>
+      <% end %>
+
+      <% if @issue.first_time_pass_rate? %>
+       <span class="fa-stack fa-lg" data-toggle="tooltip" title="First Time Pass Rate" data-placement="top">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-bolt fa-stack-1x fa-inverse" style="color:gold;"></i>
+          </span>
+      <% end %>
+
+      <% if @issue.more_than_sprint? %>
+
+      <span class="fa-stack fa-lg" data-toggle="tooltip" title="This item last more 1 sprint" data-placement="top">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse" style="color:yellow;"></i>
+          </span>
+      <% end %>
+
+
+    </h5>
+    <small>Issue Report</small>
+  </div>
+</div>

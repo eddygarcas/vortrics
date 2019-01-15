@@ -1,0 +1,22 @@
+
+<div class="row match-my-cols">
+  <div class="col-sm-12 col-md-9 animate-left-fade-1200">
+    <%= render "layouts/closed_by_day_graph", :locals => {:graph_id => "rickshaw-bars-stories"} %>
+  </div>
+  <div class="col-sm-12 col-md-3 animate-right-fade-1200">
+    <%= render "layouts/sprint_panel" %>
+  </div>
+</div>
+
+<div class="row top-summary animate-fade-in-900">
+  <%= render "layouts/sprint_sumary_transitions" %>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-rise-fade-1200">
+    <%= render partial: "layouts/activity_panel", :locals => {:sprint => @team.sprint} %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-rise-fade-1200">
+    <%= render partial: "layouts/sprint_tasks_panel", :locals => {:sprint => @team.sprint} %>
+  </div>
+</div>

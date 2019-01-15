@@ -1,0 +1,61 @@
+<script>
+    $(document).ready(function () {
+        InitializeClosedByDayGraphSprint();
+        InitializeReleaseTimeGraphSprint();
+    });
+</script>
+
+<% @title = "Sprint / #{@sprint.name}" %>
+
+<% content_for :description do %>
+    <p><%= project_data @sprint.team.project %> / <%= @sprint.team.name %> -
+      from <%= @sprint.start_date.strftime('%d/%b/%Y') %> to <%= @sprint.enddate.strftime('%d/%b/%Y') %></p>
+<% end %>
+
+<% content_for :actions do %>
+    <% if @sprint.enddate > Date.today %>
+        <%= render partial: "layouts/sprint_panel" %>
+    <% end %>
+<% end %>
+
+
+<%= render "layouts/sprint_navigation" %>
+<div class="container-fluid">
+
+
+  <%= render "layouts/flashes" %>
+
+
+  <%= hidden_field_tag 'sprintid', @sprint.id, class: 'form-control', id: 'sprintid' %>
+  <div class="row top-summary animate-fade-in-900">
+    <%= render "layouts/single_sprint_sumary" %>
+  </div>
+  <div class="row match-my-cols">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-left-fade-1000">
+      <%= render "layouts/closed_by_day_graph", :locals => {:graph_id => "rickshaw-bars-sprint"} %>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-left-fade-1000">
+      <%= render "layouts/release_time_graph", :locals => {:graph_id => "bars-release", :title => "Release time"} %>
+    </div>
+  </div>
+
+
+  <div class="row match-my-cols">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-left-fade-1000">
+      <%= render partial: "layouts/bugs_summary_panel", :locals => {:sprint => @sprint} %>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-left-fade-1000">
+      <%= render partial: "layouts/blocked_summary", :locals => {:sprint => @sprint} %>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-rise-fade-1200">
+      <%= render partial: "layouts/activity_panel", :locals => {:sprint => @sprint} %>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-rise-fade-1200">
+      <%= render partial: "layouts/sprint_tasks_panel", :locals => {:sprint => @sprint} %>
+    </div>
+  </div>
+</div>

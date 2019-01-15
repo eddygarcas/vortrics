@@ -1,0 +1,46 @@
+<li class="dropdown notifications">
+  <button class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 30px;">
+
+    <svg class="icon fa fa-fw icon-voardtrix" style="font-size: 32px;margin-left: -5px;margin-right: -30px;" data-toggle="tooltip" title="Voardtrix advisor" data-placement="bottom">
+      <use xlink:href="#icon-voardtrix"></use>
+    </svg>
+
+
+    <span class="badge badge-sm" style="font-size: 11px;"><%= session[:agent].length %></span>
+
+    <span class="visible-xs-inline" style="font-size: 16px;">
+      Kaizen system advice(s)
+    </span>
+
+    <span class="caret caret-light"></span>
+
+
+  </button>
+  <!-- dropdown -->
+  <ul class="dropdown-menu">
+    <li>
+      <div class="panel">
+        <div class="panel-heading text-center">
+          <small><strong>You have <span><%= session[:agent].length %></span> advices</strong></small>
+        </div>
+        <div class="list-group">
+          <% session[:agent].each_with_index do |element, index| %>
+              <a href="#" class="media list-group-item">
+                          <span class="pull-left">
+                            <i class="fa fa-fw fa-eye"></i>
+                          </span>
+                <span class="media-body">
+                            <small class="text-muted"><%= element.html_safe %></small>
+                          </span>
+              </a>
+          <% end %>
+        </div>
+        <div class="panel-footer">
+          <a href="#" class="pull-right"><i class="fa fa-cog"></i></a>
+          <a href="#">View all advices</a>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <!-- / dropdown -->
+</li>

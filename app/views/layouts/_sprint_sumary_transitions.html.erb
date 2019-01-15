@@ -1,0 +1,83 @@
+<div class="col-lg-3 col-md-6 col-sm-12 animate-drop-fade">
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <p class="lead"><i class="fa fa-list"></i><%= puts_non_nill(@team.longer_issue, :key) %> <b> Open</b></p>
+    </div>
+    <div class='panel-body text-orange-400 text-center'>
+      <h2 class='page-hits m0'><%= puts_no_defined(@team.longer_issue.time_in :open, :wip) %></h2>
+      <small>Time</small>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-sm-12">
+          <%= work_time_content puts_non_nill(@team.shortest_issue, :key), ' Open', puts_no_defined(@team.shortest_issue.time_in(:open, :wip)) %>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-3 col-md-6 col-sm-12 animate-drop-fade">
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <p class="lead"><%= fa_icon_tag("wrench") %><%= puts_non_nill(@team.longer_issue, :key) %> <b>In Progress</b></p>
+    </div>
+    <div class='panel-body text-orange-400 text-center'>
+      <h2 class="m0"><%= puts_no_defined(@team.longer_issue.time_in :wip, :testing) %></h2>
+      <small>Time</small>
+
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-sm-12">
+          <%= work_time_content puts_non_nill(@team.shortest_issue, :key), ' In Progress', puts_no_defined(@team.shortest_issue.time_in(:wip, :testing)) %>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-lg-3 col-md-6 col-sm-12 animate-drop-fade">
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <p class="lead"><%= fa_icon_tag("eye") %> <%= puts_non_nill(@team.longer_issue, :key) %> <b>Review</b></p>
+    </div>
+    <div class='panel-body text-orange-400 text-center'>
+      <h2 class="m0"><%= puts_no_defined(@team.longer_issue.time_in :testing, :done) %></h2>
+      <small>Time</small>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-sm-12">
+          <%= work_time_content puts_non_nill(@team.shortest_issue, :key), ' Review', puts_no_defined(@team.shortest_issue.time_in(:testing, :done)) %>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-lg-3 col-md-6 col-sm-12 animate-drop-fade">
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <p class="lead"><i class="fa fa-gift"></i><%= puts_non_nill(@team.longer_issue, :key) %> <b> Cycle Time</b></p>
+    </div>
+    <div class='panel-body text-orange-400 text-center'>
+      <h2 class="m0"><%= puts_no_defined (@team.longer_issue.time_in :wip, :done) %></h2>
+        <small>Time</small>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-sm-12">
+          <%= work_time_content puts_non_nill(@team.shortest_issue, :key), ' Cycle time', puts_no_defined(@team.shortest_issue.time_in(:wip, :done)) %>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<% @title = "Showing question" %>
+
+<% content_for :description do %>
+    <p>Edit this template in <code>app/views/questions/show.html.erb</code>.</p>
+<% end %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="sheet sheet-condensed">
+        <div class="sheet-inner p30">
+          <div class="form-horizontal">
+
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Category</label>
+                <div class="col-md-8">
+                  <div class="text-justify">
+                        <span>
+                          <%= @question.q_stage.level.name %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Stage</label>
+                <div class="col-md-8">
+                  <div class="text-justify">
+                        <span>
+                          <%= @question.q_stage.name %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Question</label>
+                <div class="col-md-8">
+                  <div class="text-justify">
+                        <span>
+                          <%= @question.question %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Help text</label>
+                <div class="col-md-8">
+                  <div class="text-justify">
+                        <span>
+                          <%= @question.help_text %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Allow comment</label>
+                <div class="col-md-8">
+                  <div class="pull-left">
+                    <label class="switch switch-info pull-right font_small">
+                      <%= check_box_tag "comment", "1", @question.allow_comment, data: {toggle: :tooltip, title: 'Allow comments'}, disabled: true %>
+                      <span></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-actions col-md-offset-2">
+              <%= link_to fa_icon_tag("plus") + ' New', new_question_path, class: 'btn btn-primary' %>
+              <%= link_to fa_icon_tag("pencil") + ' Edit', edit_question_path(@question), class: 'btn btn-primary' %>
+              <%= link_to 'Back', questions_path, class: 'btn' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

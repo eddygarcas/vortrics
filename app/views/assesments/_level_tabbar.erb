@@ -1,0 +1,134 @@
+<style>
+  .collapsed {
+    max-height: 32px;
+    overflow: hidden;
+    position: relative;
+  }
+</style>
+<!-- Blockquote Expand/Collapse -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('blockquote').addClass('collapsed');
+        $('blockquote').click(function () {
+            $(this).toggleClass("expanded collapsed");
+            $(this).children('#arrow').toggleClass("glyphicon-chevron-right glyphicon-chevron-down")
+            e.preventDefault();
+        });
+    });
+</script>
+
+<div class="container-fluid">
+  <div class="panel-group" id="accordion">
+    <% @assesment.maturity_framework.levels.each_with_index do |level, index| %>
+
+        <div class="panel panel-<%= each_level index %>">
+
+
+          <div class="panel-heading">
+            <i class="fa fa-chevron-down"></i>
+            <%= tmf_stars @assesment.evalutaion(level.id) %>
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#<%= level.name %>" aria-expanded="false">
+              <%= content_tag(:strong, @assesment.maturity_framework.name.upcase) + " - #{@assesment.team.name.upcase} - #{level.name.upcase}" %>
+            </a>
+            <%= link_to content_tag(:i, nil, class: "fa fa-refresh pull-right", data: {toggle: :tooltip, title: "Refresh from database", placement: :left}) %>
+
+          </div>
+
+
+          <div id="<%= level.name %>" class="panel-collapse collapse" aria-expanded="false" style="">
+            <% level.q_stages.each do |stage| %>
+
+                <div class="panel-body">
+                  <div class="alert alert-<%= each_level index %> alert-bottom-border ">
+                    <%= content_tag(:h5, level.name.upcase << " - " << stage.name) %>
+                  </div>
+
+                  <% @answers.select {|ans| ans.question.q_stage.id.eql? stage.id}.each do |answer| %>
+
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                          <div class="form-horizontal">
+
+                            <div class="form-inputs">
+                              <div class="form-group">
+                                <label class="col-md-2 control-label"></label>
+                                <div class="col-md-8">
+                                  <div class="text-justify">
+                        <span>
+                          <strong><%= answer.question.question %></strong>
+                        </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="form-inputs">
+                              <div class="form-group">
+                                <label class="col-md-2 control-label"></label>
+                                <div class="col-md-8">
+                                  <blockquote class="small">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size: 16px;" id="arrow"></span>
+                                    <strong>Any help?</strong>
+                                    <p><%= answer.question.help_text %></p>
+                                  </blockquote>
+
+
+                                </div>
+                              </div>
+                            </div>
+
+                            <%= form_for(answer, method: :patch, html: {class: 'form-horizontal'}) do |f| %>
+
+                                <div class="form-inputs">
+                                  <%= f.hidden_field :field_type, value: '' %>
+                                  <%= f.hidden_field :assesment_id, value: @assesment.id %>
+                                  <%= f.hidden_field :question_id, value: answer.question_id %>
+
+
+
+                                  <%= f.form_group :value do |f| %>
+                                      <%= f.label 'True?', class: 'control-label col-md-2' %>
+                                      <div class='col-md-8 pull-left'>
+                                        <label class="switch switch-success pull-left font_small">
+                                          <%= f.check_box :value, class: 'form-control', :onchange => 'submit()' %>
+                                          <%= f.error_messages %>
+                                          <span></span>
+                                        </label>
+                                      </div>
+                                  <% end %>
+
+
+                                  <%= f.form_group :text do |f| %>
+                                      <%= f.label "Comments", class: 'control-label col-md-2' %>
+                                      <div class='col-md-8'>
+                                        <%= f.text_area :text, class: 'form-control', :onblur => 'submit()' %>
+                                        <%= f.error_messages %>
+                                      </div>
+                                  <% end %>
+                                </div>
+                            <% end %>
+                          </div>
+
+                        </div>
+                      </div>
+                  <% end %>
+
+                </div>
+            <% end %>
+
+          </div>
+          <div class="panel-footer">
+            <%= @assesment.team.name %> has achieved
+            <strong>
+              <%= @answers.select {|ans| (ans.question.q_stage.level.id.eql? level.id) && (ans.value.eql? "1")}.count %>
+            </strong> of
+            <strong> <%= @answers.select {|ans| (ans.question.q_stage.level.id.eql? level.id)}.count %> </strong>
+            suggestions for <%= level.name.downcase %> category
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
+

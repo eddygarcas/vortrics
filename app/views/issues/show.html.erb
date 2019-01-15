@@ -1,0 +1,43 @@
+<% @title = " #{@issue.key} - #{@issue.summary}" %>
+
+<% content_for :description do %>
+    <p></p>
+<% end %>
+<script>
+    $(document).ready(function () {
+        InitializeReleaseTimeGraphSprint();
+    });
+</script>
+<%= hidden_field_tag 'sprintid', @sprint.id, class: 'form-control', id: 'sprintid' %>
+
+<%= render "issue_nav_bar" %>
+<div class="container-fluid">
+  <%= render "layouts/flashes" %>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-md-12  animate-left-fade-1000">
+      <%= render "layouts/issue_details", :locals => {:issue => @issue} %>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-md-12 animate-left-fade-1000">
+      <%= render "layouts/issue_summary_transition", :locals => {:issue => @issue} %>
+
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-md-12 col-lg-4 animate-rise-fade-1200">
+      <%= render partial: "layouts/issue_comments" %>
+    </div>
+    <div class="col-sm-12 col-md-12 col-md-12 col-lg-8 animate-rise-fade-1200">
+      <%= render "layouts/release_time_graph", :locals => {:graph_id => "bars-release", :title => "Release time"} %>
+    </div>
+  </div>
+
+
+</div>
+

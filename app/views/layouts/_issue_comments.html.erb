@@ -1,0 +1,110 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <p class='lead'><%= fa_icon_tag 'comment' %> COMMENTS</p>
+    <ul class="nav nav-tabs nav-tabs-xs">
+      <li class="active">
+        <a href="#story-recent-comments" data-toggle="tab">Comments</a>
+      </li>
+      <li class="">
+        <a href="#story-attach-data" data-toggle="tab">Attachments</a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="tab-content">
+    <div class="tab-pane fade active in" style='height: 250px; overflow: scroll;' id='story-recent-comments'>
+      <ul class="list-group list-group-flush">
+        <% @comments.each do |comment| %>
+            <li class='list-group-item'>
+              <div class="media">
+                <a class="pull-left" href="#">
+                  <%= image_tag comment.author['avatarUrls']["32x32"], data: {toggle: "tooltip", title: comment.author['displayName']} unless comment.author.nil? %>
+                  <%= random_avatar 40, "media-object" if comment.author.nil? %>
+                </a>
+                <div class="media-body">
+                  <h5 class="media-heading">
+                    <a href="#" title=""><%= comment.author['displayName'] %></a> commented at
+                    <a href="#" title=""><%= comment.created.to_datetime.strftime("%d/%m/%Y %H:%M") %> </a>
+                  </h5>
+                  <p class='small'><%= comment.body %></p>
+
+                </div>
+              </div>
+            </li>
+        <% end %>
+        <% if @comments.empty? %>
+            <li class='list-group-item'>
+              <div class="media">
+                <a class="pull-left" href="#">
+                  <%= image_tag @issue.assigneeavatar, data: {toggle: "tooltip", title: @issue.assignee} %>
+                </a>
+                <div class="media-body">
+                  <h5 class="media-heading">
+                    <%= @issue.key %>
+                  </h5>
+                  <p class='small'> Has no comments</p>
+                </div>
+              </div>
+            </li>
+        <% end %>
+
+
+
+      </ul>
+    </div>
+
+
+    <div class="tab-pane fade" style='height: 250px; overflow: scroll;' id='story-attach-data'>
+      <ul class="list-group list-group-flush">
+
+        <% @attachments.each do |attach| %>
+            <li class='list-group-item'>
+              <div class="media">
+                <a class="pull-left" href="#">
+                  <%= image_tag attach['author']['avatarUrls']["32x32"], data: {toggle: "tooltip", title: attach['author']['displayName']} unless attach['author'].nil? %>
+                  <%= random_avatar 40, "media-object" if attach['author'].nil? %>
+                </a>
+                <div class="media-body">
+                  <h5 class="media-heading">
+                    <a href="#" title=""><%= attach['author']['displayName'] %></a> attached at
+                    <a href="#" title=""><%= attach['created'].to_datetime.strftime("%d/%m/%Y %H:%M") %> </a>
+                  </h5>
+                  <p class='small'>
+                    <% if attach['thumbnail'].blank? %>
+                        <%= link_to attach['content'], data: {toggle: "tooltip", title: attach['author']['displayName']} unless attach['author'].nil? %>
+                    <% else %>
+                        <%= link_to image_tag(attach['thumbnail']), attach['content'], data: {lightbox: "#{attach['author']['displayName']}", title: "#{@issue.key} Attachment"} %>
+                    <% end %>
+                  </p>
+
+                </div>
+              </div>
+            </li>
+        <% end %>
+
+        <% if @attachments.empty? %>
+            <li class='list-group-item'>
+              <div class="media">
+                <a class="pull-left" href="#">
+                  <%= image_tag @issue.assigneeavatar, data: {toggle: "tooltip", title: @issue.assignee} %>
+                </a>
+                <div class="media-body">
+                  <h5 class="media-heading">
+                    <%= @issue.key %>
+                  </h5>
+                  <p class='small'> Has no attachments</p>
+                </div>
+              </div>
+            </li>
+        <% end %>
+
+      </ul>
+    </div>
+
+
+  </div>
+  <div class="panel-footer">
+  </div>
+
+</div>

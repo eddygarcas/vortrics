@@ -1,0 +1,28 @@
+<div class="panel-body clearfix">
+  <ul class="nav nav-tabs">
+
+    <!--<ul class="nav navbar-nav navbar-right">-->
+    <li role="presentation" class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+        <i class="fa fa-fw fa-th-list"></i>Task list
+        <span class="caret caret-light"></span>
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li class="divider"></li>
+        <% @issue.sprint.issues.sort_by(&:key).each do |issue| %>
+          <li><%= link_to image_tag(issue.issueicon) << " #{issue.key} - " << issue.summary, issue, rel: 'tooltip' %></li>
+        <% end %>
+      </ul>
+    </li>
+
+    <li role="presentation">
+      <%= link_to fa_icon_tag("eye") << " Sprint", @issue.sprint %>
+    </li>
+
+    <li role="presentation">
+      <%= link_to_ext @issue.key, fa_icon_tag("external-link") << " Jira" %>
+    </li>
+
+
+  </ul>
+</div>

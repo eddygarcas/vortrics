@@ -1,0 +1,12 @@
+<%# Links for current user. %>
+<nav class='navbar'>
+  <div class='navbar-brand'>
+    <%= app_name %>
+  </div>
+  <div class="navbar-text pull-right">
+
+    <%= fa_icon_tag "user" %> Welcome, <strong><%= @current_user.displayName %></strong>
+    <span class="divider">|</span>
+    <%= link_to "Back to Home", root_path, method: :get %>
+  </div>
+</nav>

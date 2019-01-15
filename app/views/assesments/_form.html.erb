@@ -1,0 +1,50 @@
+<%= form_for(@assesment, html: {class: 'form-horizontal'}) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs">
+
+      <%= f.form_group :name do |f| %>
+          <%= f.label :name, class: 'control-label col-md-2' %>
+          <div class='col-md-8'>
+            <%= f.text_field :name, required: true, class: 'form-control' %>
+            <%= f.error_messages %>
+          </div>
+      <% end %>
+
+      <%= f.form_group :date do |f| %>
+          <%= f.label :date, class: 'control-label col-md-2' %>
+          <div class='col-md-8'>
+            <%= f.date_field :date, min: Time.now, required: true, class: 'form-control' %>
+            <%= f.error_messages %>
+          </div>
+      <% end %>
+
+      <%= f.form_group :team_id do |f| %>
+          <%= f.label :team_id, class: 'control-label col-md-2' %>
+          <div class='col-md-8'>
+            <%= f.collection_select :team_id, Team.order(:id), :id, :name, include_blank: false, required: true, class: 'form-control' %>
+            <%= f.error_messages %>
+          </div>
+      <% end %>
+
+      <%= f.form_group :maturity_framework_id do |f| %>
+          <%= f.label :maturity_framework_id, class: 'control-label col-md-2' %>
+          <div class='col-md-8'>
+            <%= f.collection_select :maturity_framework_id, MaturityFramework.order(:id), :id, :name, include_blank: false, required: true, class: 'form-control' %>
+            <%= f.error_messages %>
+          </div>
+      <% end %>
+
+    </div>
+
+    <div class="form-actions">
+      <div class="form-group">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <%= f.submit class: 'btn btn-primary' %>
+          <%= link_to "Cancel", assesments_path, class: 'btn' %>
+        </div>
+      </div>
+    </div>
+<% end %>
+

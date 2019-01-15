@@ -1,0 +1,59 @@
+<% @title = "Maturity Framework" %>
+
+<% content_for :description do %>
+    <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
+      <li><%= link_to "Frameworks", maturity_frameworks_path%></li>
+      <li><%= link_to "Categories", levels_path%></li>
+      <li><%= link_to "Stages", q_stages_path %></li>
+      <li><%= link_to "Questions", questions_path%></li>
+    </ol>
+<% end %>
+
+<% content_for :actions do %>
+<%= link_to new_level_path, class: 'btn btn-primary btn-large pull-right' do %>
+<%= fa_icon_tag "plus" %> Add Level
+<% end %>
+<% end %>
+
+<%= render "layouts/flashes" %>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="sheet sheet-condensed">
+        <div class="sheet-inner">
+          <table class="table">
+            <thead>
+              <tr>
+                                <th>Name</th>
+                                <th>Maturity framework</th>
+                                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @levels.each do |level| %>
+              <tr>
+                                <td><%= level.name %></td>
+                                <td><%= level.maturity_framework.name %></td>
+                                <td class="actions">
+                  <%= link_to fa_icon_tag("eye"), level, rel: 'tooltip', title: 'Show' %>
+                  <%= link_to fa_icon_tag("pencil"), edit_level_path(level), rel: 'tooltip', title: 'Edit' %>
+                  <%= link_to fa_icon_tag("trash-o"), level, rel: 'tooltip', title: 'Delete',
+                  data: { confirm: 'Are you sure?' }, method: :delete %>
+                </td>
+              </tr>
+              <% end %>
+              <% if @levels.length == 0 %>
+              <tr><td colspan=42 class='text-center'>No levels.</td></tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div><!-- /.sheet-inner -->
+      </div><!-- /.sheet -->
+
+            <%# Remove the trailing if condition if you're using pagination. %>
+      <%= will_paginate @levels if @levels.respond_to?(:total_pages) %>
+                </div>
+  </div>
+</div>

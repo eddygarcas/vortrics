@@ -1,0 +1,69 @@
+<style>
+  .rickshaw_graph .detail .x_label {
+    display: none
+  }
+
+  .rickshaw_graph .detail .item {
+    line-height: 1.4;
+    padding: 0.5em
+  }
+  .detail_swatch {
+    float: right;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 4px 0 0
+  }
+  .rickshaw_graph .detail .date {
+    color: #a0a0a0
+  }
+
+  .column {
+    display: inline-block
+  }
+
+  #<%= locals[:graph_id] %>-legend {
+    background: transparent;
+    position: absolute;
+  }
+
+  #<%= locals[:graph_id] %>-legend .line {
+    color: #333
+  }
+
+  #<%= locals[:graph_id] %>y_axis-1 {
+    position: absolute;
+    left: 520px;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+  }
+
+  #<%= locals[:graph_id] %>y_axis2 {
+    position: absolute;
+    left: 520px;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+  }
+</style>
+
+<div class="panel panel-default">
+  <div class="panel-heading ">
+    <p class="lead">
+      <i class="fa fa-line-chart"></i><span id="graphtitle"><%= locals[:title] %>
+      <%= "/ #{@sprint.name}" if @sprint.present? %></span>
+    </p>
+  </div>
+
+  <div class="panel-body" style="position: relative">
+
+    <div id="<%= locals[:graph_id] %>" style="position: relative">
+      <div id="<%= locals[:graph_id] %>-loader">
+        <i class="fa fa-fw fa-spinner fa-pulse" style="font-size: 18px;"></i>
+      </div>
+      <div id="<%= locals[:graph_id] %>-legend" class="pull-right"></div>
+    </div>
+    <div id="<%= locals[:graph_id] %>-x_axis"></div>
+  </div>
+</div>

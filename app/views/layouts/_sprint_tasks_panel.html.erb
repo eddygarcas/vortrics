@@ -1,0 +1,70 @@
+<div class="panel panel-default">
+
+  <div class="panel-heading">
+    <%= sprint.name.upcase unless sprint.blank? %> TASK LIST
+    <div class="btn-group pull-right">
+      <% if sprint.issues.length == 0 %>
+          <button type="button" class="btn btn-default disabled" data-toggle="tooltip" data-original-title="Ups! Should have data to store" aria-expanded="false">
+            <i class="fa fa-cog"></i>
+          </button>
+
+      <%end%>
+    </div>
+  </div>
+
+  <div class="panel-body" style='height: 470px; overflow: scroll;'>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+          <th>Type</th>
+          <th>Key</th>
+          <th>#Sprint(s)</th>
+          <th>Summary</th>
+          <th>Story points</th>
+          <th>Created</th>
+          <th>Resolved</th>
+          <th>Components</th>
+          <th>Status</th>
+          <th>Cycle time</th>
+
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% sprint.issues.each do |issue| %>
+            <tr class="active" >
+              <td><%= image_tag issue.issueicon, data: {toggle: "tooltip", title: issue.issuetype} %> </td>
+              <td><h6><%= issue.key %></h6></td>
+              <td>
+                <h6><%= issue.customfield_11382 %> <%= issue.more_than_sprint? ? fa_icon_tag("exclamation-triangle") : '' %></h6>
+              </td>
+              <td><h6><%= issue.summary[0..60] %></h6></td>
+              <td><h6><%= issue.customfield_11802 %></h6></td>
+              <td><h6><%= issue.created.strftime("%d/%m") unless issue.created.nil? %></h6></td>
+              <td><h6><%= issue.resolutiondate.strftime("%d/%m") unless issue.resolutiondate.nil? %></h6></td>
+              <td><h6><%= issue.components %></h6></td>
+              <td><%= issue_status issue.status, issue.statusname %></td>
+              <td><h6><%= issue.time_in :wip, :done %></h6></td>
+              <td>
+                <div class="btn-group btn-group-xs">
+                  <%= link_to fa_icon_tag("eye"), issue %>
+                </div>
+              </td>
+            </tr>
+        <% end %>
+        <% if sprint.issues.length == 0 %>
+            <tr>
+              <td colspan=42 class='text-center'>There are no active sprints for this team.</td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="panel-footer"><%= "<strong>".html_safe << sprint.sprint_commitment.to_s << " </strong>".html_safe %> Story
+    points
+    <%= "<strong>".html_safe << sprint.issues.count(&:task?).to_s << " </strong>".html_safe %> User stories
+    <%= "<strong>".html_safe << sprint.issues.count(&:bug?).to_s << " </strong>".html_safe %> Bugs
+  </div>
+</div>

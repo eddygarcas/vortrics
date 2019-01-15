@@ -1,0 +1,22 @@
+<div class="row match-my-cols">
+  <div class="col-lg-6 col-md-6 col-sm-12 animate-drop-fade">
+    <%= render partial: "layouts/open_bugs_panel", :locals => {:bugs => @bugs} %>
+
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-12 animate-drop-fade">
+    <%= render partial: "layouts/ratio_bugs_panel", :locals => {:bugs => @bugs, :sprint => @sprint} %>
+  </div>
+</div>
+
+<div class="row match-my-cols">
+
+
+  <div class="col-lg-6 col-md-6 col-sm-12 animate-drop-fade">
+    <%= render partial: "layouts/panel_first_time_rate", :locals => {:sprint => @sprint} %>
+
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-12 animate-drop-fade">
+    <%= render partial: "layouts/panel_scope_change", :locals => {:sprint => @sprint} %>
+
+  </div>
+</div>

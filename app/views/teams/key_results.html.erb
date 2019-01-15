@@ -1,0 +1,41 @@
+<script>
+    $(document).ready(function () {
+        InitializeCycleTimeGraphTeam();
+    });
+</script>
+
+<% @title = "Cycle Time / #{@team.name}" %>
+
+<% content_for :description do %>
+  <p><%= project_data @team.project %> / <%= @team.name %></p>
+
+<% end %>
+
+<% content_for :actions do %>
+<% end %>
+
+
+<%#= render "layouts/sprint_navigation" %>
+<div class="container-fluid">
+  <%= render "layouts/flashes" %>
+
+  <div class="row top-summary mt15 animate-fade-in-900">
+    <%= render "layouts/sprint_sumary_transitions" %>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-left-fade-1000">
+      <%= render "teams/cycle_time_chart", :locals => { :title => "Cycle Time" } %>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-left-fade-1200">
+      <%= render "layouts/average_stories_graph" %>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  animate-rise-fade-1200">
+      <%= render partial: "teams/cycle_time_issue_list", :locals => { :team => @team } %>
+    </div>
+  </div>
+</div>

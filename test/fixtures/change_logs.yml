@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  created: 2018-10-03 15:06:53
+  fromString: MyString
+  toString: MyString
+  issue: one
+
+two:
+  created: 2018-10-03 15:06:53
+  fromString: MyString
+  toString: MyString
+  issue: two

@@ -1,0 +1,10 @@
+<div class="panel panel-warning">
+  <div class="panel-heading">
+    <p class="lead"><%= fa_icon_tag("pie-chart") %>  Ratio Bugs vs <b> stories</b></p>
+  </div>
+  <div class='panel-body text-orange-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= ScrumMetrics.config[:popover][:ratio_bugs] %>" data-original-title="" title="" id="popoverRatioBug">
+    <h2 class="m0"><%= ((bugs.count.to_f / (sprint.remainingstories + sprint.stories).to_f) * 100.to_f).round(0) %>
+      %</h2>
+    <small>Open Bugs vs Total User Stories</small>
+  </div>
+</div>

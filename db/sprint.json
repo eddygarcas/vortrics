@@ -1,0 +1,57 @@
+
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "331963",
+            "self": "https://jira.scmspain.com/rest/api/2/issue/331963",
+            "key": "MTR-14212",
+            "fields": {
+                "summary": "Change name section PTA when user have an Ad",
+                "issuetype": {
+                    "self": "https://jira.scmspain.com/rest/api/2/issuetype/10800",
+                    "id": "10800",
+                    "description": "A task that needs to be done.",
+                    "iconUrl": "https://jira.scmspain.com/secure/viewavatar?size=xsmall&avatarId=14458&avatarType=issuetype",
+                    "name": "Tasks",
+                    "subtask": false,
+                    "avatarId": 14458
+                },
+                "components": [
+                    {
+                        "self": "https://jira.scmspain.com/rest/api/2/component/15240",
+                        "id": "15240",
+                        "name": "Android"
+                    },
+                    {
+                        "self": "https://jira.scmspain.com/rest/api/2/component/15132",
+                        "id": "15132",
+                        "name": "Motorheads"
+                    }
+                ],
+                "customfield_11802": 3,
+                "customfield_11382": [
+                    "com.atlassian.greenhopper.service.sprint.Sprint@60c47605[id=12518,rapidViewId=3925,state=ACTIVE,name=MC5 - Sprint 5 Q2,startDate=2018-05-29T12:45:38.904+02:00,endDate=2018-06-11T12:45:00.000+02:00,completeDate=<null>,sequence=12445]"
+                ],
+                "timeoriginalestimate": null,
+                "description": "Change the name below the section icon when the user havean Ad",
+                "priority": {
+                    "self": "https://jira.scmspain.com/rest/api/2/priority/5",
+                    "iconUrl": "https://jira.scmspain.com/images/icons/priorities/trivial.svg",
+                    "name": "ASAP",
+                    "id": "5"
+                },
+                "status": {
+                    "self": "https://jira.scmspain.com/rest/api/2/status/1",
+                    "description": "La incidencia está abierta y lista para que el responsable empiece a trabajar en ella.",
+                    "iconUrl": "https://jira.scmspain.com/images/icons/statuses/open.png",
+                    "name": "Abierta",
+                    "id": "1",
+                    "statusCategory": {
+                        "self": "https://jira.scmspain.com/rest/api/2/statuscategory/2",
+                        "id": 2,
+                        "key": "new",
+                        "colorName": "blue-gray",
+                        "name": "Por hacer"
+                    }
+                }
+            }
+        }

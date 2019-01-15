@@ -1,0 +1,12 @@
+<div class="panel panel-cover mt15" style="background-image: url(<%= image_path("/images/grey_panel.jpg") %>); height: 310px;">
+  <p class="lead p10">Assigned</p>
+  <%= image_tag @issue.assigneeavatar, class: "avatar img-rounded", height: '115', width: '115' unless @issue.assigneeavatar.blank? %>
+
+  <h3 class='mt0'><%= @issue.assignee %></h3>
+  <ul class="stats list-unstlyed list-inline clearfix">
+    <li class="col-4"><span><%= @issue.created.strftime("%d/%m/%Y") %></span>Date Created</li>
+    <li class="col-4"><span><%= @issue.resolutiondate.strftime("%d/%m/%Y") unless @issue.resolutiondate.blank? %></span>Resolution
+      Date
+    </li>
+  </ul>
+</div>

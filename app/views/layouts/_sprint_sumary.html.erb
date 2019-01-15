@@ -1,0 +1,49 @@
+<div class="col-lg-3 col-md-6 col-sm-12 animate-drop-fade">
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <p class="lead"><i class="fa fa-gift"></i> Average <b>Stories</b></p>
+    </div>
+    <div class='panel-body text-red-400 text-center'>
+      <h2 class='page-hits m0'><%= @team.average_stories %></h2>
+      <small>User Stories/Tasks</small>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-sm-12">
+          <%= summary_trend @team.trend_stories, ' in average Stories per sprint.', true %>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-3 col-md-6 col-sm-12 animate-drop-fade">
+  <%= render partial: "layouts/average_bugs_sprints", :locals => {:team => @team} %>
+</div>
+
+
+<div class="col-lg-3 col-md-6 col-sm-12 animate-drop-fade">
+  <div class="panel panel-info">
+    <div class="panel-heading" data-toggle="popover" data-placement="left" data-content="<%= ScrumMetrics.config[:popover][:average_velocity] %>" data-original-title="" title="" id="popoverOne">
+      <p class="lead"><i class="fa fa-fire"></i> Average <b>Points</b></p>
+    </div>
+    <div class='panel-body text-light-blue-400 text-center'>
+      <h2 class="m0"><%= @team.average_closed_points %></h2>
+      <small>Story Points</small>
+
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-sm-12">
+          <%= summary_trend @team.trend_points, ' in average Story Points per sprint.', false %>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div class="col-lg-3 col-md-6 col-sm-12 animate-drop-fade">
+  <%= render partial: "layouts/varianza_sprint", :locals => {:team => @team} %>
+</div>
+

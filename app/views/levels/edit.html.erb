@@ -1,0 +1,17 @@
+<% @title = "Editing level" %>
+
+<% content_for :description do %>
+    <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '20', width: '20' %> <%= @project_name.to_s %></p>
+<% end %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="sheet sheet-condensed">
+        <div class="sheet-inner p30">
+          <%= render 'form' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

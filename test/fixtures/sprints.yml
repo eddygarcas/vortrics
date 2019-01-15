@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Sprint1
+  stories: 22
+  bugs: 1
+  closed_points: 1
+  remaining_points: 1
+  team: one
+one:
+  name: Sprint2
+  stories: 22
+  bugs: 1
+  closed_points: 1
+  remaining_points: 1
+  team: one
+one:
+  name: Sprint3
+  stories: 22
+  bugs: 1
+  closed_points: 1
+  remaining_points: 1
+  team: one
+
+two:
+  name: Sprint2
+  stories: 21
+  bugs: 1
+  closed_points: 1
+  remaining_points: 1
+  team: two

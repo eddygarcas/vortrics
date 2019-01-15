@@ -1,0 +1,32 @@
+<style>
+  .rickshaw_graph .detail .x_label { display: none }
+  .rickshaw_graph .detail .item { line-height: 1.4; padding: 0.5em }
+  .detail_swatch { float: right; display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 0 }
+  .rickshaw_graph .detail .date { color: #a0a0a0 }
+</style>
+
+<div class="panel panel-default">
+  <div class="panel-heading ">
+    <p class="lead"><i class="fa fa-area-chart"></i><span id="graphtitle">Closed VS Remaining - Story Points</span>
+
+      <label class="switch switch-info pull-right font_small">Stories vs Points
+        <input type="checkbox" data-toggle="tooltip" data-title="Stories & Points" id="sgraph_noestimate">
+        <span></span>
+      </label>
+
+      <label class="switch switch-info pull-right font_small" id="sgraph_title">NoEstimates
+        <input type="checkbox" data-toggle="tooltip" data-title="Try NoEstimates" id="sgraph">
+        <span></span>
+      </label>
+
+
+    </p>
+  </div>
+  <div class="panel-body">
+    <div id="rickshaw-bars"></div>
+    <div id="legend_container">
+      <div id="legend"></div>
+    </div>
+    <div id="x_axis"></div>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<% @title = "Create or Import a sprint" %>
+
+<% content_for :description do %>
+
+    <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30' %>
+      <%= @project_name.to_s %></p>
+    <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
+      <li><%= link_to "Locally", new_sprint_path %></li>
+      <li><%= link_to "External service", new_sprint_path %></li>
+
+    </ol>
+<% end %>
+
+
+<div class="container-fluid">
+
+  <ul class="nav nav-tabs">
+    <li role="presentation" class="dropdown">
+      <%= dropdown_menu "Change board selection #{params[:board_id].blank? ? @project_name.to_s : @boards[params[:board_id].to_i]}" do %>
+          <% @boards.each do |board| %>
+              <%= activatable_li_tag_with_link board[1], sprint_import_path(board[0]) %>
+          <% end %>
+
+      <% end %>
+    </li>
+  </ul>
+
+  <%= render "layouts/flashes" %>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="sheet sheet-condensed">
+        <div class="sheet-inner">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>#Id</th>
+              <th><%= sort_link "name", "Name", {board_id: params[:board_id]} %></th>
+              <th><%= sort_link "startDate", "Start Date", {board_id: params[:board_id]} %></th>
+              <th><%= sort_link "endDate", "End Date", {board_id: params[:board_id]} %></th>
+              <th>Complete date</th>
+              <th>State</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @board_sprint.each do |sprint| %>
+                <tr>
+                  <td><%= sprint['id'] %></td>
+                  <td><%= sprint['name'] %></td>
+                  <td><%= formatDate sprint['startDate'] %></td>
+                  <td><%= formatDate sprint['endDate'] %></td>
+                  <td><%= formatDate sprint['completeDate'] %></td>
+                  <td><%= issue_status sprint['state'], sprint['state'].upcase %></td>
+
+                  <td class="actions">
+
+                    <%= link_to fa_icon_tag("cloud-download"), sprint_import_issues_path(sprint), rel: 'tooltip', title: 'Download', data: {disable_with: "<i class='fa fa-spinner fa-pulse'></i>"} %>
+                  </td>
+
+                </tr>
+            <% end %>
+            <% if @board_sprint.length == 0 %>
+                <tr>
+                  <td colspan=42 class='text-center'>No sprints.</td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div><!-- /.sheet-inner -->
+      </div><!-- /.sheet -->
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,107 @@
+<% @title = "Sprint(s)" %>
+
+<% content_for :description do %>
+    <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30' %>
+      <%= @project_name.to_s %></p>
+<% end %>
+
+<% content_for :actions do %>
+
+<% end %>
+
+<script>
+    $(document).ready(function () {
+        $('input#filterProject').change(function () {
+            var rows = $('table.table tr');
+            var prj = $(this).val();
+            prj = prj.toLowerCase();
+            console.log(prj)
+            if (prj === '') {
+                rows.show();
+            } else {
+                var otro = rows.filter('.' + prj).show();
+                rows.not(otro).hide();
+            }
+        });
+    });
+</script>
+
+
+<div class="container-fluid">
+
+
+  <ul class="nav nav-tabs">
+
+    <li role="presentation" class='navbar-form search-form form-group'>
+
+      <%= text_field_tag 'name', nil, class: 'form-control', id: 'filterProject', placeholder: "Filter by team's name", data: {toggle: "tooltip", title: 'Filter by team name'} %>
+      <span class="search-button"><i class="fa fa-filter"></i></span>
+      <div class="help-block"></div>
+    </li>
+    <li class='navbar-form pull-left'>
+      <%= link_to sprint_import_path, class: 'pull-left', data: {toggle: "tooltip", title: 'Add sprints from external service'} do %>
+          <%= fa_icon_tag "plus" %> Add Sprint
+      <% end %>
+    </li>
+  </ul>
+
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="sheet sheet-condensed">
+        <div class="sheet-inner">
+          <table class="table">
+            <thead>
+            <tr>
+              <th class="text-center">Refresh</th>
+              <th><%= sort_link "name" %></th>
+              <th>Start date</th>
+              <th><%= sort_link "enddate", "End Date" %></th>
+              <th><%= sort_link "stories" %></th>
+              <th>Leftover stories</th>
+              <th>Bugs</th>
+              <th>Closed points</th>
+              <th>Remaining points</th>
+              <th><%= sort_link "team_name", "Team" %></th>
+              <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @sprints.each do |sprint| %>
+                <tr class="active <%= sprint.team_name.downcase %>">
+                  <td class="text-center"><%= link_to fa_icon_tag("refresh"), sprint_refresh_issues_path(sprint), rel: 'tooltip', title: 'Sprint Active / Click to refresh', data: {disable_with: "<i class='fa fa-refresh fa-spin'></i>"} if sprint.enddate >= Time.now %></td>
+                  <td><%= sprint.name %></td>
+                  <td><%= sprint.start_date.strftime('%a, %d/%b/%Y') unless sprint.start_date.blank? %></td>
+                  <td><%= sprint.enddate.strftime('%a, %d/%b/%Y') unless sprint.enddate.blank? %></td>
+                  <td><%= sprint.stories %></td>
+                  <td><%= sprint.remainingstories %></td>
+                  <td><%= sprint.bugs %></td>
+                  <td><%= sprint.closed_points %></td>
+                  <td><%= sprint.remaining_points %></td>
+                  <td><%= sprint.team_name %></td>
+                  <td class="actions text-center">
+                    <%= link_to fa_icon_tag("eye"), sprint, rel: 'tooltip', data: {toggle: "tooltip", title: 'Show sprint dashboard'} %>
+                    <% if sprint.issues? %>
+                        <%= link_to fa_icon_tag("list"), sprint_issues_path(sprint.id), rel: 'tooltip', data: {toggle: "tooltip", title: 'Show sprint issues'} %>
+                    <% end %>
+                    <%= link_to fa_icon_tag("pencil"), edit_sprint_path(sprint), rel: 'tooltip', title: 'Edit' %>
+                    <%= link_to fa_icon_tag("trash-o"), sprint, rel: 'tooltip', title: 'Delete', method: :delete, data: {confirm: 'Are you sure?'} %>
+                  </td>
+                </tr>
+            <% end %>
+            <% if @sprints.length == 0 %>
+                <tr>
+                  <td colspan=42 class='text-center'>No sprints.</td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <%# Remove the trailing if condition if you're using pagination. %>
+          <%= will_paginate @sprints if @sprints.respond_to?(:total_pages) %>
+        </div><!-- /.sheet-inner -->
+      </div><!-- /.sheet -->
+    </div>
+  </div>
+</div>
+
+

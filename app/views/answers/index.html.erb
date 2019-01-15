@@ -1,0 +1,71 @@
+<% @title = "Maturity Framework" %>
+
+<% content_for :description do %>
+    <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
+      <li><%= link_to "Frameworks", maturity_frameworks_path %></li>
+      <li><%= link_to "Categories", levels_path %></li>
+      <li><%= link_to "Questions", questions_path %></li>
+      <li><%= link_to "Answers", answers_path %></li>
+    </ol>
+<% end %>
+
+<% content_for :actions do %>
+    <%= link_to new_answer_path, class: 'btn btn-primary btn-large pull-right' do %>
+        <%= fa_icon_tag "plus" %> Add Answer
+    <% end %>
+<% end %>
+
+
+<div class="alert alert-info alert-dismissable fade in">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <%= fa_icon_tag "info-sign" %>     <strong>Listen up!</strong> By default all questions will have field type <i>Boolean</i> and value <i>False</i>, only create a new answer if you want to use another field type for a specific question.
+</div>
+
+
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="sheet sheet-condensed">
+        <div class="sheet-inner">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Stage</th>
+              <th>Category</th>
+              <th>Question</th>
+              <th>Value</th>
+              <th>Comments</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @answers.each do |answer| %>
+                <tr>
+                  <td><%= answer.question.q_stage.name %></td>
+                  <td><%= answer.question.level.name %></td>
+                  <td><%= answer.question.question[0..100] %></td>
+                  <td><%= answer.value %></td>
+                  <td><%= answer.text %></td>
+                  <td class="actions">
+                    <%= link_to fa_icon_tag("eye"), answer, rel: 'tooltip', title: 'Show' %>
+                    <%= link_to fa_icon_tag("pencil"), edit_answer_path(answer), rel: 'tooltip', title: 'Edit' %>
+                    <%= link_to fa_icon_tag("trash-o"), answer, rel: 'tooltip', title: 'Delete',
+                                data: {confirm: 'Are you sure?'}, method: :delete %>
+                  </td>
+                </tr>
+            <% end %>
+            <% if @answers.length == 0 %>
+                <tr>
+                  <td colspan=42 class='text-center'>No answers.</td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div><!-- /.sheet-inner -->
+      </div><!-- /.sheet -->
+
+      <%# Remove the trailing if condition if you're using pagination. %>
+      <%= will_paginate @answers if @answers.respond_to?(:total_pages) %>
+    </div>
+  </div>
+</div>

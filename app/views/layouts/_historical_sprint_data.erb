@@ -1,0 +1,34 @@
+<div class="row top-summary animate-fade-in-900">
+  <%= render "layouts/sprint_sumary" %>
+</div>
+
+<div class="row">
+  <div class="col-sm-12 col-md-9 animate-left-fade-1000">
+    <%= render "layouts/remaining_closed_graph" %>
+  </div>
+
+  <div class="col-sm-12 col-md-3 animate-right-fade-1200">
+    <%= render "layouts/tmf_panel" %>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-right-fade-1000">
+    <%= render "layouts/release_time_graph", :locals => { :graph_id => "bars-team-release", :title => "Cycle Time User Stories" } %>
+
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-left-fade-1200">
+    <%= render "layouts/average_stories_graph" %>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-right-fade-1000">
+    <%= render "layouts/release_time_graph", :locals => {:graph_id => "bars-team-release-bugs", :title => "Lead time Bugs"} %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-right-fade-1200">
+    <%= render "layouts/release_time_graph", :locals => { :graph_id => "bars-team-openclosed-bugs", :title => "Comulative Flow Diagram Bugs" } %>
+  </div>
+</div>
