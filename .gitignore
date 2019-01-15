@@ -6,7 +6,6 @@
 
 #Ignore sensitive information
 tags
-*.pem
 #/config/*.yml
 
 # Ignore the default SQLite database.
