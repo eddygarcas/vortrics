@@ -57,7 +57,7 @@ gem "sweet-alert-confirm", git: "https://github.com/humancopy/sweet-alert-rails-
 
 
 source "https://gems.rapidrailsthemes.com/gems" do
-  gem "dresssed-ives", "~> 1.0.66"
+  gem "dresssed-ives", "~> 1.0.67"
 end
 
 group :development, :test do
