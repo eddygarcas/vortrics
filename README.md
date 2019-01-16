@@ -2,7 +2,7 @@
 ![Travis](https://travis-ci.org/eddygarcas/AgentAgile.svg?branch=master)
 
 
-# Voardtrix - *Coaching with Data*
+![Image of Voardtrix](public/images/voardtrix_left.png)
 
 Voardtrix was conceived from the idea to have a customized Scrum Dashboards as well as a system to analyze every team sprints and propose improvements based on expertise.
 
@@ -133,14 +133,17 @@ Once has been deployment, open a Heroku console and run Rails database migration
 
 ## Authors
 
-**Eduard Garcia Castelló** - *Bio* - [Bitbucket](https://bitbucket.org/Eddygarcas/) - [Linkedin](https://www.linkedin.com/in/eduard-garcia-castello/) - [Twitter](https://twitter.com/egarciacastello)
+**Eduard Garcia Castelló** - *Bio* - [Linkedin](https://www.linkedin.com/in/eduard-garcia-castello/) - [Twitter](https://twitter.com/egarciacastello)
 
 ## License
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Screenshots
-#### Historical data
-![Image of Yaktocat](public/images/screenshot_1.png)
-#### Current sprint section
-![Image of Yaktocat](public/images/screenshot_2.png)
+#### Historical data analysis
+![Image of Historical data](public/images/screenshot_5.png)
+#### Sprint Metrics
+![Image of Sprint](public/images/screenshot_4.png)
+#### Cycle Time analysis
+![Image of Sprint](public/images/screenshot_3.png)
+
