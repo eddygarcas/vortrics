@@ -30,7 +30,7 @@ class Sprint < ApplicationRecord
 
   def active_sprints project
     Rails.cache.fetch("active_sprints_#{project}", expires_in: 1.hour) {
-      Sprint.joins(:team).select('sprints.*,teams.name as team_name').where('project = ? and enddate >= ? ', project, Time.now)
+      Sprint.joins(:team).select('sprints.*,teams.name as team_name').where('project = ? and enddate >= ? ', project, Date.today.prev_weekday)
     }
   end
 
