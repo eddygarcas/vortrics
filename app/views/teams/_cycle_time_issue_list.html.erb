@@ -23,16 +23,16 @@
           <th>Summary</th>
           <th>Story points</th>
           <th>Created</th>
-          <th>Resolved</th>
+          <th><%= sort_link 'resolutiondate', "Resolved" %></th>
           <th>Components</th>
           <th>Status</th>
-          <th>Cycle time</th>
+          <th><%= sort_link 'cycle_time', "Cycle time" %></th>
 
           <th>Jira</th>
         </tr>
         </thead>
         <tbody>
-        <% team.issues_selectable_for_graph.reverse.each do |issue| %>
+        <% @cycle_time_issues.reverse.each do |issue| %>
           <tr class="active">
             <td><%= image_tag issue.issueicon, data: { toggle: "tooltip", title: issue.issuetype } %> </td>
             <td><h6><%= issue.key %></h6></td>
@@ -69,7 +69,7 @@
             <td><h6><%= issue.created.strftime("%d/%m/%Y") unless issue.created.nil? %></h6></td>
             <td><h6><%= issue.resolutiondate.strftime("%d/%m/%Y") unless issue.resolutiondate.nil? %></h6></td>
             <td><h6><%= issue.components %></h6></td>
-            <td><%= issue_status issue.status, issue.statusname %></td>
+            <td><%= issue_status issue.status, issue.statusname.humanize %></td>
             <td><h6><%= issue.cycle_time.round %>d</h6></td>
             <td>
               <div class="btn-group btn-group-xs">
