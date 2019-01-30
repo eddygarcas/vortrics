@@ -11,6 +11,12 @@ Rails.application.routes.draw do
   resources :issues
 
   devise_for :users, controllers: {registrations: 'registrations'}
+  match 'users/:id', to: 'users#destroy', via: :delete, as: :admin_destroy_user
+  get '/users/manage_users', to: 'users#manage_users', as: 'devise_manage_users'
+  get '/users', to: 'users#index', as: 'users_index'
+  post '/users/group', to: 'users#group_assigment', as: 'users_update_group'
+
+
   get '/signin', to: 'jira_sessions#new'
   get '/callback', to: 'jira_sessions#authorize'
   get '/signout', to: 'jira_sessions#destroy'
@@ -46,6 +52,7 @@ Rails.application.routes.draw do
   post '/issues/search', to: 'issues#search', as: 'issues_search'
   get '/:id', to: 'home#dashboard', as: 'get_dashboard'
   get '/:id/refresh', to: 'home#refresh', as: 'refresh_path'
+
   get '/assesments/:assesment_id/results', to: 'answers#results', as: 'assesment_result'
 
   get '/assesments/:assesment_id/answer', to: 'assesments#answer', as: 'assesment_answer'

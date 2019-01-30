@@ -403,8 +403,6 @@ function InitializeOpenClosedBugsGraphTeam(id) {
     if ($('#teamid')[0] === undefined) {
         return;
     }
-    console.log(id)
-
     $.ajax({
         type: 'GET',
         url: '/teams/' + $('#teamid')[0].value + '/graph_ratio_bugs_closed',
@@ -417,7 +415,6 @@ function InitializeOpenClosedBugsGraphTeam(id) {
                 document.getElementById(_id + '-x_axis').innerHTML = "";
 
             }
-            console.log(data)
 
 
 

@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
     redirect_to "/403.html"
   end
 
-
   protected
 
 
@@ -62,7 +61,10 @@ class ApplicationController < ActionController::Base
     current_user.active = user[:active.to_s]
     current_user.avatar = user[:avatarUrls.to_s]['48x48']
     current_user.update(displayName: user[:displayName.to_s], active: user[:active.to_s], avatar: user[:avatarUrls.to_s]['48x48'])
+  end
 
+  def admin_user?
+    raise JIRA::HTTPError, "User Not Authorised" unless current_user.admin?
   end
 
   def team_session

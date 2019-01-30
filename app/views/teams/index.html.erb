@@ -1,10 +1,11 @@
-<% @title = "Teams" %>
+<% @title = "Manage Team(s)" %>
 
 
 
 <% content_for :description do %>
-    <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30' %>
-      <%= @project_name.to_s %></p>
+
+  <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
+    Team(s)</p>
 
 <% end %>
 
@@ -49,7 +50,7 @@
                   <td><%= team.tmf_value %></td>
                   <td><%= team.tmf_quality %></td>
                   <td class="actions">
-                    <%= link_to fa_icon_tag("eye"), team, rel: 'tooltip', title: 'Show' %>
+                    <%= link_to fa_icon_tag("eye"), get_dashboard_path(team.id), rel: 'tooltip', title: 'Show' %>
                     <%= link_to fa_icon_tag("pencil"), edit_team_path(team), rel: 'tooltip', title: 'Edit' %>
                     <%= link_to fa_icon_tag("trash-o"), team, rel: 'tooltip', title: 'Delete', method: :delete, data: {confirm: 'Are you sure?'} %>
 

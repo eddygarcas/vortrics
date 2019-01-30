@@ -6,26 +6,26 @@
   }
 </style>
 <%= render :layout => "layouts/minimal" do %>
-    <%= render partial: "layouts/sidenav" %>
-    <div class='main-content'>
-      <nav class="navbar navbar-default navbar-shadow" role="navigation">
-        <div class="navbar-inner">
-          <!-- Brand and toggle get grouped for better mobile display -->
+  <%= render partial: "layouts/sidenav" %>
+  <div class='main-content'>
+    <nav class="navbar navbar-default navbar-shadow" role="navigation">
+      <div class="navbar-inner">
+        <!-- Brand and toggle get grouped for better mobile display -->
 
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-content-nav">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-
-
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="main-content-nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-content-nav">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
 
 
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="main-content-nav">
+
+          <% if @team.id.present? %>
             <div class="navbar-header">
               <div class="visible-lg-inline">
                 <%= image_tag @project_icon.to_s, class: "avatar img-rounded project_image", height: '32', width: '32' %>
@@ -34,35 +34,34 @@
             <ul class="nav navbar-nav" style="font-size: 18px;">
               <li class="dropdown navbar-brand">
                 <%= dropdown_menu @team.blank? ? "No team selected" : @team.name.to_s.upcase do %>
-                    <% Team.all.each do |team| %>
-                        <%= activatable_li_tag_with_link team.name, "/#{team.id}" %>
-                    <% end %>
+                  <% Team.all.each do |team| %>
+                    <%= activatable_li_tag_with_link team.name, "/#{team.id}" %>
+                  <% end %>
                 <% end %>
               </li>
             </ul>
-
-
-
             <ul class="nav navbar-nav">
               <li class="dropdown">
                 <%= dropdown_menu "<span style='font-size: 18px;'>Download</span>".html_safe do %>
-                    <% @boards.each do |board| %>
-                        <%= activatable_li_tag_with_link board[1], sprint_import_path(board[0]) %>
-                    <% end %>
+                  <% @boards.each do |board| %>
+                    <%= activatable_li_tag_with_link board[1], sprint_import_path(board[0]) %>
+                  <% end %>
                 <% end %>
               </li>
             </ul>
+          <% end %>
 
+          <ul class="nav navbar-nav navbar-right">
+            <%= hidden_field_tag 'id', session[:team_id], class: 'form-control', id: 'searchbox' %>
 
-            <ul class="nav navbar-nav navbar-right">
-              <%= hidden_field_tag 'id', session[:team_id], class: 'form-control', id: 'searchbox' %>
+            <% if @team.id.present? %>
 
               <li>
                 <%= form_tag issues_search_path, class: 'navbar-form search-form form-group has-error', method: :post do %>
-                    <%= text_field_tag 'key', params[:key], class: 'form-control', id: 'key', placeholder: "Find by key, component, assignee or status" %>
-                    <span class="search-button"><i class="fa fa-search"></i></span>
-                    <div class="help-block">
-                    </div>
+                  <%= text_field_tag 'key', params[:key], class: 'form-control', id: 'key', placeholder: "Find by key, component, assignee or status" %>
+                  <span class="search-button"><i class="fa fa-search"></i></span>
+                  <div class="help-block">
+                  </div>
                 <% end %>
               </li>
 
@@ -71,66 +70,72 @@
 
               <%= render "layouts/scrum_agent_dropdown" unless session[:agent].blank? %>
 
+            <% end %>
 
-              <li class="dropdown user-nav">
-                <button class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <%= image_tag @current_user.avatar, class: "avatar img-rounded", height: '32', width: '32' %>
-                  <span class="visible-lg-inline">
+
+            <li class="dropdown user-nav">
+              <button class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%= image_tag @current_user.avatar, class: "avatar img-rounded", height: '32', width: '32' %>
+                <span class="visible-lg-inline">
                     <%= @current_user.displayName.split.first %>
                   </span>
-                  <span class="visible-xs-inline">
+                <span class="visible-xs-inline">
                     <%= @current_user.displayName %>
                   </span>
-                  <span class="caret caret-light"></span>
-                </button>
+                <span class="caret caret-light"></span>
+              </button>
 
-                <ul class="dropdown-menu" role="menu">
-                  <li class="profile-header">
-                    <%= image_tag @current_user.avatar, class: "avatar img-rounded", height: '64', width: '64' %>
+              <ul class="dropdown-menu" role="menu">
 
-                    <p class="m0 p0">
-                      <%= @current_user.displayName %>
-                    </p>
-                    <p class="small m0 p0"> <%= @current_user.active? ? "Active" : "Offline" %></p>
-                  </li>
-                  <li class="profile-footer">
-                    <div class="pull-left">
-                      <%= link_to "Edit Profile", edit_user_registration_path, method: :get, class: "btn btn-default btn-flat" %>
+                <li class="profile-header">
+                  <%= image_tag @current_user.avatar, class: "avatar img-rounded", height: '64', width: '64' %>
 
-                    </div>
-                    <div class="pull-right">
-                      <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-default btn-flat small" %>
-                    </div>
-                  </li>
-                </ul>
-              </li>
+                  <p class="m0 p0">
+                    <%= @current_user.displayName %>
+                  </p>
+                  <p class="small m0 p0"> <%= @current_user.active? ? "Active" : "Offline" %> <%= @current_user.group.name.humanize if @current_user.group? %></p>
 
 
-            </ul>
-          </div><!-- /.navbar-collapse -->
-        </div><!-- /.navbar-inner -->
-      </nav>
+                </li>
+                <li class="profile-footer">
+                  <div class="pull-left">
+                    <%= link_to "Edit Profile", edit_user_registration_path, method: :get, class: "btn btn-default btn-flat" %>
 
-      <% if content_for?(:description) || content_for?(:actions) %>
-          <div class="page-header mb0">
-            <div class='container-fluid'>
-              <div class="row row-same-height">
-                <div class="col-md-10 col-sm-height col-middle">
-                  <% if content_for?(:description) %>
-                      <h2 class='m0'><%= @title %></h2>
-                      <%= yield :description %>
-                  <% end %>
-                </div>
-                <div class="col-md-2 col-sm-height col-middle">
-                  <% if content_for?(:actions) %>
-                      <%= yield :actions %>
-                  <% end %>
-                </div>
-              </div>
+                  </div>
+                  <div class="pull-right">
+                    <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-default btn-flat small" %>
+                  </div>
+                </li>
+              </ul>
+
+            </li>
+
+
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.navbar-inner -->
+    </nav>
+
+    <% if content_for?(:description) || content_for?(:actions) %>
+      <div class="page-header mb0">
+        <div class='container-fluid'>
+          <div class="row row-same-height">
+            <div class="col-md-10 col-sm-height col-middle">
+              <% if content_for?(:description) %>
+                <h2 class='m0'><%= @title %></h2>
+                <%= yield :description %>
+              <% end %>
             </div>
-          </div><!-- /.page-header -->
-      <% end %>
+            <div class="col-md-2 col-sm-height col-middle">
+              <% if content_for?(:actions) %>
+                <%= yield :actions %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.page-header -->
+    <% end %>
 
-      <%= yield %>
-    </div>
+    <%= yield %>
+  </div>
 <% end %>

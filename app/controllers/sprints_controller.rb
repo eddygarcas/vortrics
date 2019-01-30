@@ -3,12 +3,12 @@ class SprintsController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_action :set_sprint, only: [:show, :edit, :update, :destroy, :graph_closed_by_day, :graph_release_time, :refresh_issues]
   before_action :team_session, :user_session
+  before_action :admin_user?, only: [:index, :new, :edit, :destroy]
 
   # GET /sprints
   # GET /sprints.json
   def index
-    @sprints = Sprint.joins(:team).select('sprints.*,teams.name as team_name').where('team_id = ?', @team.id)
-                   .paginate(page: params[:page], per_page: 25).order("#{sort_column} #{sort_direction}").all
+    @sprints = Sprint.joins(:team).select('sprints.*,teams.name as team_name').paginate(page: params[:page], per_page: 25).order("#{sort_column} #{sort_direction}").all
   end
 
   # GET /sprints/1
