@@ -87,6 +87,7 @@
         </ul>
     <% end %>
 
+    <% if @team.id.present? %>
     <li class="nav-item">
 
       <a class="nav-link"> <i class="icon ion-erlenmeyer-flask fa-lg fa-fw"></i> Agile spectral analysis
@@ -100,6 +101,7 @@
 
       </ul>
     </li>
+    <% end %>
 
     <li class="nav-item">
       <a class="nav-link"> <i class="fa fa-fw fa-map-o fa-lg fa-fw"></i> Forecasting <span class="fa arrow"></span></a>
@@ -139,6 +141,25 @@
 
       </ul>
     </li>
+
+    <% if @current_user.admin? %>
+      <li class="nav-item">
+        <a class="nav-link"> <i class="fa fa-fw fa-cog fa-lg fa-fw"></i> Settings<span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level" aria-expanded="false">
+          <%= activatable_li_tag devise_manage_users_path(@team.id) do |url| %>
+            <%= link_to fa_icon_tag("users") << "Users & Groups", url %>
+          <% end %>
+
+          <%= activatable_li_tag sprints_path do |url| %>
+            <%= link_to fa_icon_tag("heart") << "Clean up", url %>
+          <% end %>
+
+          <%= activatable_li_tag sprints_path do |url| %>
+            <%= link_to fa_icon_tag("wrench") << "Configuration", url %>
+          <% end %>
+        </ul>
+      </li>
+    <% end %>
     <% if @team.present? %>
         <%= render "layouts/sprint_progress_bar", :locals => {:team => @team} %>
     <% end %>

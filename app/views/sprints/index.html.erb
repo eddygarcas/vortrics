@@ -1,8 +1,15 @@
-<% @title = "Sprint(s)" %>
+<% @title = "Clean up" %>
 
 <% content_for :description do %>
-    <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30' %>
-      <%= @project_name.to_s %></p>
+
+  <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
+    Sprints</p>
+
+  <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
+    <li><%= link_to "Sprint(s)", sprints_path %></li>
+    <li><%= link_to "Issues", issues_path %></li>
+
+  </ol>
 <% end %>
 
 <% content_for :actions do %>

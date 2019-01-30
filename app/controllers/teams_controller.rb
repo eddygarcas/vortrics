@@ -1,6 +1,7 @@
 class TeamsController < ApplicationController
 	helper_method :boards_by_team
 	layout 'sidenav'
+	helper_method :sort_column, :sort_direction
 	before_action :set_team, only: [:show, :edit, :update, :key_results, :update_capacity, :destroy]
 	before_action :team_session, except: [:show, :update, :edit, :update_capacity, :destroy]
 	before_action :user_session
@@ -172,7 +173,9 @@ class TeamsController < ApplicationController
 	end
 
 	def key_results
-
+		@cycle_time_issues = @team.issues_selectable_for_graph
+		@cycle_time_issues.sort_by!(&sort_column.to_sym)
+		@cycle_time_issues.reverse! if sort_direction.eql? 'asc'
 	end
 
 	# GET /teams/1
@@ -252,6 +255,20 @@ class TeamsController < ApplicationController
 		bug_for_board(@team.board_id, (DateTime.now - 3.months).strftime("%Y-%m-%d"), options).each { |elem| bugs << JiraIssue.new(elem).to_issue }
 		bugs.sort_by!(&:created)
 	end
+
+
+	def sortable_columns
+		['resolutiondate', 'cycle_time']
+	end
+
+	def sort_column
+		sortable_columns.include?(params[:column]) ? params[:column] : 'cycle_time'
+	end
+
+	def sort_direction
+		%w[asc desc].include?(params[:direction]) ? params[:direction] : 'desc'
+	end
+
 
 	# Use callbacks to share common setup or constraints between actions.
 	def set_team

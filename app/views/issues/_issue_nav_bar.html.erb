@@ -19,9 +19,11 @@
       <%= link_to fa_icon_tag("eye") << " Sprint", @issue.sprint %>
     </li>
 
+    <% if @current_user.external_user? %>
     <li role="presentation">
       <%= link_to_ext @issue.key, fa_icon_tag("external-link") << " Jira" %>
     </li>
+    <% end %>
 
 
   </ul>

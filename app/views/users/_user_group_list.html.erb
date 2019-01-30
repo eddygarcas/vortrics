@@ -1,0 +1,63 @@
+<% @title = "Users & Groups" %>
+
+<% content_for :description do %>
+
+  <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
+    Manage User</p>
+<% end %>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="sheet sheet-condensed">
+        <div class="sheet-inner">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Avatar</th>
+              <th><%= sort_link "displayName", "Name" %></th>
+              <th><%= sort_link "email", "email" %></th>
+              <th><%= sort_link "extuser", "Login" %></th>
+              <th>Last login</th>
+              <th>Admin</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= image_tag user.avatar.to_s, class: "img-circle profile-image", height: '35', width: '35' %></td>
+                <td><%= user.displayName %></td>
+                <td><%= user.email %></td>
+                <td><%= user.extuser %></td>
+                <td><%= user.last_sign_in_at.strftime("%d-%m-%Y") %></td>
+                <td>
+                  <label class="switch switch-success small">
+                    <%= check_box_tag "#{user.id}", "#{user.group.blank? ? '0' : user.group.priority}", user.admin?, data: { behaviour: :user_link } %>
+                    <span></span>
+                  </label>
+
+                </td>
+
+                <td class="actions">
+
+                  <%= link_to fa_icon_tag("trash-o"), admin_destroy_user_path(user.id), rel: 'tooltip', title: 'Delete', method: :delete, data: { confirm: 'Are you sure?' } %>
+                </td>
+
+              </tr>
+            <% end %>
+            <% if @users.length == 0 %>
+              <tr>
+                <td colspan=42 class='text-center'>No sprints.</td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div><!-- /.sheet-inner -->
+      </div><!-- /.sheet -->
+
+    </div>
+  </div>
+
+</div>
