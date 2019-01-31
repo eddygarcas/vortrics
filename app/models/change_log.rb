@@ -29,6 +29,7 @@ class ChangeLog < ApplicationRecord
     return 'n/d' if toDate.blank?
     intervals = [["d", 1], ["h", 24], ["m", 60]]
     elapsed = toDate.created.to_datetime - created.to_datetime
+
     interval = 1.0
     parts = intervals.collect do |name, new_interval|
       interval /= new_interval

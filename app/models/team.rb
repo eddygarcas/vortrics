@@ -34,7 +34,7 @@ class Team < ApplicationRecord
 
   def average_time
     Rails.cache.fetch("average_time_#{id}", expires_in: 1.day) {
-      issues_selectable_for_graph.map {|issue| ((issue.lead_time({toString: :wip}, {toString: :done})) / 1.day).abs}.average
+      issues_selectable_for_graph.map { |issue| (issue.lead_time({ toString: :wip }, { toString: :done })).abs }.average
     }
   end
 

@@ -68,19 +68,19 @@ class Issue < ApplicationRecord
   end
 
   def time_flagged
-    ((lead_time({fromString: :flagged}, {toString: :flagged})) / 1.day).abs
+    (lead_time({ fromString: :flagged }, { toString: :flagged })).abs
   end
 
   def time_in_wip
-    ((lead_time({toString: :wip}, {toString: :testing})) / 1.day).abs
+    (lead_time({ toString: :wip }, { toString: :testing })).abs
   end
 
   def time_to_release
-    ((lead_time({toString: :testing}, {toString: :done})) / 1.day).abs
+    (lead_time({ toString: :testing }, { toString: :done })).abs
   end
 
   def time_in_backlog
-    ((lead_time({toString: :first}, {toString: :wip})) / 1.day).abs
+    (lead_time({ toString: :first }, { toString: :wip })).abs
   end
 
 
@@ -102,8 +102,8 @@ class Issue < ApplicationRecord
 
   def life_time
     return nil if created.blank?
-    return updated.business_time_until(created) if resolutiondate.blank?
-    resolutiondate.business_time_until(created)
+    return updated - created if resolutiondate.blank?
+    resolutiondate - created
   end
 
   def lead_time finish = {}, start = {}
@@ -114,7 +114,7 @@ class Issue < ApplicationRecord
     #Next call will avoid the chance of no testing state, so will get the WIP time towards the last record
     start.each_pair { |method, tag| lead_times[1] = changelog_lapse(method, :done, &:last) } if lead_times[1].blank?
     return 0 if lead_times[0].blank? || lead_times[1].blank?
-    lead_times.inject { |sum, number| sum.created.business_time_until(number.created) }
+    lead_times[0].created.to_date.business_days_until(lead_times[1].created.to_date).to_f
   end
 
   def save_changelog
@@ -136,7 +136,7 @@ class Issue < ApplicationRecord
   end
 
   def task_lead_time
-    ((lead_time({ toString: :wip }, { toString: :done })) / 1.day).abs
+    (lead_time({ toString: :wip }, { toString: :done })).abs
   end
 
   def changelog_lapse column, tag
