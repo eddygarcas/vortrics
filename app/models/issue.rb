@@ -102,8 +102,8 @@ class Issue < ApplicationRecord
 
   def life_time
     return nil if created.blank?
-    return updated - created if resolutiondate.blank?
-    resolutiondate - created
+    return updated.business_time_until(created) if resolutiondate.blank?
+    resolutiondate.business_time_until(created)
   end
 
   def lead_time finish = {}, start = {}
@@ -114,7 +114,7 @@ class Issue < ApplicationRecord
     #Next call will avoid the chance of no testing state, so will get the WIP time towards the last record
     start.each_pair { |method, tag| lead_times[1] = changelog_lapse(method, :done, &:last) } if lead_times[1].blank?
     return 0 if lead_times[0].blank? || lead_times[1].blank?
-    lead_times.inject {|sum, number| sum.created - number.created}
+    lead_times.inject { |sum, number| sum.created.business_time_until(number.created) }
   end
 
   def save_changelog

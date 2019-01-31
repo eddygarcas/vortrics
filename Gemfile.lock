@@ -60,6 +60,9 @@ GEM
     bootstrap-datepicker-rails (1.8.0.1)
       railties (>= 3.0)
     builder (3.2.3)
+    business_time (0.9.3)
+      activesupport (>= 3.2.0)
+      tzinfo
     byebug (10.0.2)
     capybara (2.18.0)
       addressable
@@ -252,6 +255,7 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   bootstrap-datepicker-rails
+  business_time
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)

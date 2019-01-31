@@ -51,6 +51,7 @@ gem 'jquery-ui-rails'
 
 gem 'resque'
 
+gem 'business_time'
 
 gem "sweet-alert", git: "https://github.com/frank184/sweet-alert-rails"
 gem "sweet-alert-confirm", git: "https://github.com/humancopy/sweet-alert-rails-confirm"
