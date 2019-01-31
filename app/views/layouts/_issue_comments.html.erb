@@ -37,7 +37,7 @@
             <li class='list-group-item'>
               <div class="media">
                 <a class="pull-left" href="#">
-                  <%= image_tag @issue.assigneeavatar, data: {toggle: "tooltip", title: @issue.assignee} %>
+                  <%= image_tag @issue.assigneeavatar.blank? ? "/images/voardtrix_logo.png" : @issue.assigneeavatar, data: { toggle: "tooltip", title: @issue.assignee }, height: 24, width: 24 %>
                 </a>
                 <div class="media-body">
                   <h5 class="media-heading">
@@ -87,7 +87,7 @@
             <li class='list-group-item'>
               <div class="media">
                 <a class="pull-left" href="#">
-                  <%= image_tag @issue.assigneeavatar, data: {toggle: "tooltip", title: @issue.assignee} %>
+                  <%= image_tag @issue.assigneeavatar.blank? ? "/images/voardtrix_logo.png" : @issue.assigneeavatar, data: { toggle: "tooltip", title: @issue.assignee }, height: 24, width: 24 %>
                 </a>
                 <div class="media-body">
                   <h5 class="media-heading">

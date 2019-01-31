@@ -1,6 +1,6 @@
 <div class="panel panel-cover mt15" style="background-image: url(<%= image_path("/images/grey_panel.jpg") %>); height: 310px;">
   <p class="lead p10">Assigned</p>
-  <%= image_tag @issue.assigneeavatar, class: "avatar img-rounded", height: '115', width: '115' unless @issue.assigneeavatar.blank? %>
+  <%= image_tag @issue.assigneeavatar.blank? ? "/images/voardtrix_logo.png" : @issue.assigneeavatar, class: "avatar img-rounded", height: '115', width: '115' %>
 
   <h3 class='mt0'><%= @issue.assignee %></h3>
   <ul class="stats list-unstlyed list-inline clearfix">
