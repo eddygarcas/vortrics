@@ -7,6 +7,7 @@
     <%= f.form_group :project do |f| %>
         <%= f.label :project, class: 'control-label col-md-2' %>
         <div class='col-md-8'>
+          <%= @team.avatar.blank? ? image_tag('/images/voardtrix_logo.png', class: "img-rounded", height: '32', width: '32', id: 'project_image') : image_tag(@team.avatar, class: "img-rounded", height: '32', width: '32', id: 'project_image') %>
           <%= f.select :project, @project_list, include_blank: true, prompt: 'Select project...', required: true, class: 'form-control' %>
           <%= f.error_messages %>
         </div>

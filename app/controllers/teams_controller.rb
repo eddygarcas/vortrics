@@ -9,7 +9,7 @@ class TeamsController < ApplicationController
 	# GET /teams
 	# GET /teams.json
 	def index
-		@teams = Team.paginate(page: params[:page], per_page: 10)
+		@teams = Team.paginate(page: params[:page], per_page: 25)
 	end
 
 	# GET /teams/1/graph_points
@@ -169,6 +169,7 @@ class TeamsController < ApplicationController
 	end
 
 	def boards_by_team
+
 		render json: boards_by_project(params['proj_id']).invert
 	end
 
@@ -196,7 +197,7 @@ class TeamsController < ApplicationController
 	# POST /teams.json
 	def create
 		@team = Team.new(team_params)
-
+		@team.avatar = project_details(@team.project)[:avatarUrls.to_s]['32x32']
 		respond_to do |format|
 			if @team.save
 				format.html { redirect_to teams_url, notice: 'Team was successfully created.' }
@@ -212,6 +213,7 @@ class TeamsController < ApplicationController
 	# PATCH/PUT /teams/1.json
 	def update
 		respond_to do |format|
+			@team.avatar = project_details(@team.project)[:avatarUrls.to_s]['32x32']
 			if @team.update(team_params)
 				format.html { redirect_to teams_path, notice: 'Team was successfully updated.' }
 				format.json { render :show, status: :ok, location: @team }

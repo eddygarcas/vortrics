@@ -7,6 +7,15 @@ $(document).on('turbolinks:load', function () {
         var selected_id = $(this).val();
         $.ajax({
             type: 'GET',
+            url: '/teams/full_project_details/' + selected_id,
+            success: function (items) {
+                document.getElementById("project_image").src = items['avatarUrls']['32x32']
+            }
+        })
+
+
+        $.ajax({
+            type: 'GET',
             url: '/teams/boards_by_team/' + selected_id,
             success: function (items) {
                 $('#team_board_id').empty()

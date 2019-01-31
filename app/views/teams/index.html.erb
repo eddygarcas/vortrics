@@ -40,7 +40,7 @@
             <% @teams.each do |team| %>
 
                 <tr>
-                  <td><%= team.project %></td>
+                  <td><%= image_tag(team.avatar, class: "img-rounded", height: '24', width: '24', id: 'project_image') %> <%= team.project %></td>
                   <td><%= team.name %></td>
                   <td><%= @boards[team.board_id] %></td>
                   <td><%= team.max_capacity %></td>

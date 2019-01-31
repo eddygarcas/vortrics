@@ -1,3 +1,4 @@
+#require 'open-uri'
 require_relative '../../app/helpers/jira_helper'
 require_relative '../../app/helpers/array'
 require_relative '../../app/helpers/numeric'
@@ -6,8 +7,14 @@ class Team < ApplicationRecord
   include JiraHelper
   has_many :sprints, dependent: :destroy
   has_many :assesments, dependent: :destroy
+  #has_one_attached :avatar
 
   attr_writer :issues, :sprint, :changelog
+
+  # def grab_image avatar_url
+  #   downloaded_image = open(avatar_url)
+  #   avatar.attach(io: downloaded_image, filename: "team_#{id}.jpg")
+  # end
 
   def issues
     sprint.issues
