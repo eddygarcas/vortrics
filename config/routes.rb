@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   get 'landing', to: 'landing#info', as: 'landing_info'
+  post 'register', to: 'landing#register', as: 'landing_register'
+
 
   resources :assesments
   resources :q_stages

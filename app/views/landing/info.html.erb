@@ -1,14 +1,15 @@
 <% content_for :body_class, "landing" %>
 
 <% content_for :header do %>
-  <header>
+  <header xmlns="http://www.w3.org/1999/html">
     <div class="bg"></div>
     <div class="container">
       <div class="row">
         <div class="col-lg-6 col-xs-12">
           <div class="text">
             <h1>Voardtrix - Agile Metrics Boards</h1>
-            <p class='lead'>Supports software product teams and coaches handling and visualise performance agile metrics
+            <p class='lead'>Supports software product teams, Agile coaches and Scrum Masters, handling and visualise
+              performance agile metrics
               in an Agile transformation.</p>
             <a href="#screenshots" class='btn btn-outline-default btn-lg'>Learn More &rarr;</a>
           </div>
@@ -17,12 +18,16 @@
     </div>
   </header>
 <% end %>
-
 <section class="features">
-
-  <p class="lead">This is the best application you could ever buy. You'd be crazy not to buy it. Especially as it's been
-    endorsed by the product teaching mafia.</p>
   <div class="container">
+    <p class="lead">
+      <strong>Voartrix</strong> offers tools and support in an Agile transformation. Based on our on expertise we can
+      help organizations to set up a 'Coach with data' system and boost product teams performance, coaching them on how
+      to use these tools on their own benefit and for the sake of the organization they are working for.
+      <br/>
+      We are are currently working on offering free access but so far see what we would offer you.</p>
+
+
     <div class="row">
       <div class="col-xs-12 col-md-4">
         <section>
@@ -76,28 +81,46 @@
     </div>
   </div>
 </section>
+
+
 <section class="getting-started">
+
   <div class="container">
+
     <div class="row">
+
+
       <div class="col-md-10 col-md-offset-1">
+        <% flash.each do |type, message| %>
+          <div class="alert alert-dismissable alert-bottom-border fade in" style="color:white;">
+            <h4>Thank you!</h4>
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <%= fa_icon_tag "info-sign" %> <%= message.html_safe %>
+          </div>
+        <% end %>
+
         <div class="col-md-5 text-xs-center text-md-left">
-          <h1>Start a free trial</h1>
-          <p>No charges or down payments, just free!</p>
+          <h1>Interested?</h1>
+          <p>Just know what we could do for you.</p>
         </div>
         <div class="col-md-7 text-xs-center text-right ctas">
 
-
-          <form class="signup-form form-inline">
+          <%= form_for @user, url: landing_register_path,
+                       html: { class: "form-inline", novalidate: false } do |f| %>
+            <%= f.error_notification %>
             <div class="text-center">
-              <div class="form-group">
-                <input type="email" placeholder="Your email" class="form-control col-xs-12 mr10 mb10" required="" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}">
-                <input type="button" class="btn btn-outline-default" value="Request Try out →" style="padding:8px;">
-              </div>
+
+              <%= f.form_group :email do |f| %>
+                <%= f.email_field :email, autofocus: true, required: true, placeholder: 'Your email', class: 'form-control col-xs-12 mr10 mb10', pattern: '[^@]+@[^@]+\.[a-zA-Z]{2,6}' %>
+                <%= f.submit value: 'Want to know more →', class: 'btn btn-outline-default', style: 'padding:8px;' %>
+                <%= f.error_messages %>
+              <% end %>
             </div>
-          </form>
+          <% end %>
         </div>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -109,8 +132,8 @@
     <div class='row'>
       <div class='col-sm-12'>
         <h2 class='h1 text-center'>Screenshots</h2>
-        <p class="lead text-center">Look at Voardtrix current features and boards, request us access and try them out
-          for free. </p>
+        <p class="lead text-center">Look at Voardtrix current features and boards. Feel free to contact us to know what
+          we could do to support your Agile transformation.</p>
 
         <div class="panel-body" id="screenshots">
           <div id="carousel-example-generic" class="carousel slide">
@@ -160,24 +183,12 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12 col-md-12">
-        <h2 class="text-xs-center">Request access for free and will contact you shortly</h2>
+        <h2 class="text-xs-center">“If you don't know where you are going any road can take you there”</h2>
       </div>
     </div>
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
-        <p class="lead text-xs-center">We want to support you on your Agile transformation</p>
-      </div>
-    </div>
-    <div class="row mt20">
-      <div class="col-xs-12">
-        <form class="signup-form form-inline">
-          <div class="text-center">
-            <div class="form-group">
-              <input type="email" placeholder="Your email" class="form-control col-xs-12 mr10 mb10" required="" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}">
-              <input type="button" class="btn btn-outline-primary" value="Contact me for a free try →">
-            </div>
-          </div>
-        </form>
+        <p class="lead text-xs-center">― Lewis Carroll, Alice in Wonderland</p>
       </div>
     </div>
   </div>

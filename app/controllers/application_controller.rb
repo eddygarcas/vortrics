@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   #Will only get into JIRA if a Devise user has logged in
   #It calls get_jira_client every time a redirect is requested.
-  before_action :authenticate_user!, except: :info
+  before_action :authenticate_user!, except: [:info, :register]
   before_action :get_jira_client
 
 
