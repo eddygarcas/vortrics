@@ -6,6 +6,7 @@ class LandingController < ApplicationController
 	end
 
 	def register
+		logger.info "Sending a register email"
 		ApplicationMailer.send_info_email @user
 		respond_to do |format|
 			format.html { redirect_to landing_info_path, notice: 'Our team will contact you shortly to know your needs and see how we can support your organization on its Agile Tranformation.' }

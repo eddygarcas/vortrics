@@ -1,7 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
   layout 'mailer'
 
-  default from: 'info@voardtrix.com'
+  #default from: 'info@voardtrix.com'
 
   def send_info_email(user)
     @user = user
