@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'landing', to: 'landing#info', as: 'landing_info'
+
   resources :assesments
   resources :q_stages
   resources :answers
