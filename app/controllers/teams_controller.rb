@@ -169,7 +169,6 @@ class TeamsController < ApplicationController
 	end
 
 	def boards_by_team
-
 		render json: boards_by_project(params['proj_id']).invert
 	end
 

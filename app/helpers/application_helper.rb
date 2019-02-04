@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include EmailTemplateHelper
+
   def app_name
     ScrumMetrics.config['name']
 
