@@ -1,114 +1,18 @@
-<html>
-<head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-</head>
-<body>
+<%= email_message_section do %>
+  <%= email_message_spacer 2 %>
+  <%= email_message_body_text do %>
+    Hello <%= @user.email %>! has requested a link to access in Voardtrix
+  <% end %>
 
+  <%= email_message_button do %>
+    <%= link_to 'Grant Access', root_path, style: 'color: #fff;' %></span>
+  <% end %>
 
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px">
-  <tbody>
-  <tr>
-    <td>
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-        <tbody>
-        <tr>
-          <td align="center" valign="top">
-            <table border="0" cellpadding="10" cellspacing="0" width="100%">
-              <tbody>
-              <tr>
-                <td align="center" valign="top">
-                  <br>
-                  <br>
-                  <a style="font-family:Arial;font-size:60px;color:#444444;text-decoration:none" href="http:///" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http:///&amp;source=gmail&amp;ust=1549294497133000&amp;usg=AFQjCNHEx882wPbGb5Fn4ABOofkgxhV2gw">
-            <span class="m_-7312157913226881949center">
-              <img src="https://sch.voardtrix.com/images/voardtrix_left.png" style="margin-left:12px;margin-top:12px;height:74px" class="CToWUd">
-            </span>
-                  </a>
-                  <br>
-                  <br>
-                  <span style="font-family:Arial;font-weight:bold;font-size:26px;color:#444444;text-decoration:none">Requested Access</span>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </td>
+  <%= email_message_spacer 2 %>
 
-  </tr>
+  <%= email_message_small_text do %>
+    If you didn't request this, please ignore this email. Your password won't change until you access the link above and create a new one.
+  <% end %>
 
-  <tr>
-    <td>
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-        <tbody>
-        <tr>
-          <td align="center" valign="top">
-            <table border="0" cellpadding="10" cellspacing="0" width="100%">
-              <tbody>
-              <tr>
-                <td align="center" valign="top">
-                  <br>
-                  <span style="font-family:Avenir,'Helvetica Neue',Helvetica,sans-serif;font-size:28px;color:#444444">
-                    Hello <a href="mailto:<%= @user.email %>" target="_blank"><%= @user.email %>!</a>!  has requested a link to access in Voardtrix
-                  </span>
-                  <table border="0" cellpadding="0" cellspacing="0" width="50%" style="background-color:#16a086">
-                    <tbody>
-                    <tr>
-                      <td><br></td>
-                      <td style="padding:18px 20px 18px 20px;font-family:Avenir,'Helvetica Neue',Helvetica,sans-serif,sans-serif;color:#ffffff;font-size:18px;text-align:center"><span style="text-decoration:none;color:#ffffff">
-                        <a style="color:#fff" href="#" target="_blank" data-saferedirecturl="">Send him an invite</a>
-                      </span>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                  <br>
-                  <span style="font-family:Avenir,'Helvetica Neue',Helvetica,sans-serif;font-size:22px;color:#444444">
-                    If you didn't request this, please ignore this email. Your password won't change until you access the link above and create a new one.
-                  </span>
-                  <br>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </td>
-  </tr>
-
-  <tr>
-    <td>
-      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px">
-        <tbody>
-        <tr>
-          <td align="center" valign="top">
-            <table border="0" cellpadding="10" cellspacing="0" width="100%">
-              <tbody>
-              <tr>
-                <td align="left" valign="top">
-                  <br>
-                  <br>
-                  <span class="m_-7312157913226881949applefix" style="font-family:Arial;font-size:14px;color:#888888">
-        <b>Information:</b><br>
-        Voardtrix Production <br>
-        Built by Eduard Garcia Castelló for Schibsted<br>
-      </span>
-                  <br>
-                  <br>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </td>
-  </tr>
-  </tbody>
-</table>
-</body>
+  <%= email_message_spacer 2 %>
+<% end %>
