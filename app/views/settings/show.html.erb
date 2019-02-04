@@ -1,0 +1,133 @@
+<% @title = "Showing setting" %>
+
+<% content_for :description do %>
+  <p>Edit this template in <code>app/views/settings/show.html.erb</code>.</p>
+<% end %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="sheet sheet-condensed">
+        <div class="sheet-inner p30">
+          <div class="form-horizontal">
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Site</label>
+                <div class="col-md-8">
+                  <div class="form-control uneditable-input">
+                        <span>
+                          <%= @setting.site %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Base path</label>
+                <div class="col-md-8">
+                  <div class="form-control uneditable-input">
+                        <span>
+                          <%= @setting.base_path %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Context</label>
+                <div class="col-md-8">
+                  <div class="form-control uneditable-input">
+                        <span>
+                          <%= @setting.context %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Debug</label>
+                <div class="col-md-8">
+                  <div class="form-control uneditable-input">
+                        <span>
+                          <%= @setting.debug %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Signature method</label>
+                <div class="col-md-8">
+                  <div class="form-control uneditable-input">
+                        <span>
+                          <%= @setting.signature_method %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Key file</label>
+                <div class="col-md-8">
+                  <div class="form-control uneditable-input">
+                        <span>
+                          <%= @setting.key_file %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Consumer key</label>
+                <div class="col-md-8">
+                  <div class="form-control uneditable-input">
+                        <span>
+                          <%= @setting.consumer_key %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-inputs">
+              <div class="form-group">
+                <label class="col-md-2 control-label">Oauth</label>
+                <div class="col-md-8">
+                  <div class="form-control uneditable-input">
+                        <span>
+                          <%= @setting.oauth %>
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-actions col-md-offset-2">
+              <%= link_to fa_icon_tag("pencil") + ' Edit', edit_setting_path(@setting), class: 'btn btn-primary' %>
+              <%= link_to 'Back', settings_path, class: 'btn' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

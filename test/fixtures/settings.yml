@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  site: MyString
+  base_path: MyString
+  context: MyString
+  debug: false
+  signature_method: MyString
+  key_file: MyString
+  consumer_key: MyString
+  oauth: false
+
+two:
+  site: MyString
+  base_path: MyString
+  context: MyString
+  debug: false
+  signature_method: MyString
+  key_file: MyString
+  consumer_key: MyString
+  oauth: false

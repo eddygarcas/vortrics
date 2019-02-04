@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-  get 'landing', to: 'landing#info', as: 'landing_info'
-  post 'register', to: 'landing#register', as: 'landing_register'
-
-
+  resources :settings, only: [:index, :new, :edit, :destroy]
   resources :assesments
   resources :q_stages
   resources :answers
@@ -37,7 +34,6 @@ Rails.application.routes.draw do
   get '/teams/:id/graph_ratio_bugs_closed', to: 'teams#graph_ratio_bugs_closed'
   get '/teams/:id/cycle_time_chart', to: 'teams#cycle_time_chart'
   get '/teams/:id/key_results', to: 'teams#key_results', as: 'teams_key_results'
-
   get '/teams/boards_by_team/:proj_id', to: 'teams#boards_by_team', as: 'teams_boards_by_team'
   get '/teams/full_project_details/:proj_id', to: 'teams#full_project_details', as: 'teams_full_project_details'
 
@@ -45,12 +41,10 @@ Rails.application.routes.draw do
   get '/sprints/:id/graph_closed_by_day', to: 'sprints#graph_closed_by_day'
   get '/sprints/:id/graph_release_time', to: 'sprints#graph_release_time'
 
-
   # Will make board_id optional
   get '/import/sprint(/:board_id)', to: 'sprints#import', as: 'sprint_import'
   get '/import/issues', to: 'sprints#import_issues', as: 'sprint_import_issues'
   get '/refresh/:id/issues', to: 'sprints#refresh_issues', as: 'sprint_refresh_issues'
-
 
   get '/issues/sprint/:sprint_id', to: 'issues#sprint_issues', as: 'sprint_issues'
   post '/issues/search', to: 'issues#search', as: 'issues_search'
@@ -58,8 +52,11 @@ Rails.application.routes.draw do
   get '/:id/refresh', to: 'home#refresh', as: 'refresh_path'
 
   get '/assesments/:assesment_id/results', to: 'answers#results', as: 'assesment_result'
-
   get '/assesments/:assesment_id/answer', to: 'assesments#answer', as: 'assesment_answer'
+
+  get 'landing', to: 'landing#info', as: 'landing_info'
+  post 'register', to: 'landing#register', as: 'landing_register'
+
   root to: 'home#dashboard'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

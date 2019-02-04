@@ -1,0 +1,27 @@
+<% @title = "Settings" %>
+
+<% content_for :description do %>
+  <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
+    Settings</p>
+  <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
+    <li><%= link_to "REST Server API", settings_path %></li>
+    <li><%= link_to "Change Log", settings_path %></li>
+    <li><%= link_to "Threshold", settings_path %></li>
+    <li><%= link_to "Messages", settings_path %></li>
+  </ol>
+<% end %>
+
+<br/>
+<div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="row sheet sheet-condensed">
+    <div class="panel panel-default sheet-inner">
+      <div class="panel-heading">
+        <span class="fa fa-cog"></span>
+        Add new REST Server api provider
+      </div>
+      <p class="panel-body">
+        <%= render 'form' %>
+      </p>
+    </div>
+  </div>
+</div>

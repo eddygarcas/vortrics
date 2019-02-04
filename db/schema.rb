@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190130115257) do
+ActiveRecord::Schema.define(version: 20190204143532) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -143,6 +143,20 @@ ActiveRecord::Schema.define(version: 20190130115257) do
     t.datetime "updated_at", null: false
     t.integer "q_stage_id"
     t.index ["q_stage_id"], name: "index_questions_on_q_stage_id"
+  end
+
+  create_table "settings", force: :cascade do |t|
+	  t.string "site"
+	  t.string "base_path"
+	  t.string "context"
+	  t.boolean "debug"
+	  t.string "signature_method"
+	  t.string "key_file"
+	  t.string "consumer_key"
+	  t.boolean "oauth"
+	  t.datetime "created_at", null: false
+	  t.datetime "updated_at", null: false
+	  t.binary "key_data"
   end
 
   create_table "sprints", force: :cascade do |t|

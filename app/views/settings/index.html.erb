@@ -1,0 +1,65 @@
+<% @title = "External services" %>
+
+<% content_for :description do %>
+  <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
+    REST Server API list</p>
+<% end %>
+
+<% content_for :actions do %>
+  <%= link_to new_setting_path, class: 'btn btn-primary btn-large pull-right' do %>
+    <%= fa_icon_tag "plus" %> Add Setting
+  <% end %>
+<% end %>
+<br/>
+<div class="container-fluid">
+  <%= render "layouts/flashes" %>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="sheet sheet-condensed">
+        <div class="sheet-inner">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Site</th>
+              <th>Base path</th>
+              <th>Context</th>
+              <th>Signature method</th>
+              <th>Key file</th>
+              <th>Consumer key</th>
+              <th>Oauth</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @settings.each do |setting| %>
+              <tr>
+                <td><%= setting.site %></td>
+                <td><%= setting.base_path %></td>
+                <td><%= setting.context %></td>
+                <td><%= setting.signature_method %></td>
+                <td><%= setting.key_file %></td>
+                <td><%= setting.consumer_key %></td>
+                <td><%= setting.oauth %></td>
+                <td class="actions">
+                  <%= link_to fa_icon_tag("pencil"), edit_setting_path(setting), rel: 'tooltip', title: 'Edit' %>
+                  <%= link_to fa_icon_tag("trash-o"), setting, rel: 'tooltip', title: 'Delete',
+                              data: { confirm: 'Are you sure?' }, method: :delete %>
+                </td>
+              </tr>
+            <% end %>
+            <% if @settings.length == 0 %>
+              <tr>
+                <td colspan=42 class='text-center'>No settings.</td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div><!-- /.sheet-inner -->
+      </div><!-- /.sheet -->
+
+      <%# Remove the trailing if condition if you're using pagination. %>
+      <%= will_paginate @settings if @settings.respond_to?(:total_pages) %>
+    </div>
+  </div>
+</div>
