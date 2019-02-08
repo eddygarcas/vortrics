@@ -28,10 +28,11 @@ class SettingsController < ApplicationController
 	# POST /settings.json
 	def create
 		@setting = Setting.new(setting_params)
+		unless setting_params[:key_data].blank?
+			@setting.key_file = setting_params[:key_data].original_filename
+			@setting.key_data = setting_params[:key_data].tempfile.read
+		end
 
-		@setting.key_file = setting_params[:key_data].original_filename
-		@setting.key_data = setting_params[:key_data].tempfile.read
-		puts "Filename #{@setting.to_s}"
 		respond_to do |format|
 			if @setting.save
 				format.html { redirect_to settings_url, notice: 'Setting was successfully created.' }
@@ -47,11 +48,13 @@ class SettingsController < ApplicationController
 	# PATCH/PUT /settings/1.json
 	def update
 		respond_to do |format|
+			unless setting_params[:key_data].blank?
+				@setting.key_file = setting_params[:key_data].original_filename
+			end
 			if @setting.update(setting_params)
 				unless setting_params[:key_data].blank?
-					@setting.key_file = setting_params[:key_data].original_filename
 					@setting.key_data = setting_params[:key_data].tempfile.read
-					@setting.save!
+					@setting.save
 				end
 				format.html { redirect_to settings_url, notice: 'Setting was successfully updated.' }
 				format.json { render :show, status: :ok, location: @setting }
@@ -81,6 +84,6 @@ class SettingsController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def setting_params
-		params.require(:setting).permit(:site, :base_path, :context, :debug, :signature_method, :key_file, :key_data, :consumer_key, :oauth)
+		params.require(:setting).permit(:site, :base_path, :context, :debug, :signature_method, :key_file, :key_data, :consumer_key, :oauth, :login, :password)
 	end
 end

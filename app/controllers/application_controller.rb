@@ -1,5 +1,6 @@
 require 'jira-ruby'
 require_relative '../../app/helpers/jira_helper'
+require_relative '../../app/helpers/file'
 
 class ApplicationController < ActionController::Base
   include JiraHelper
@@ -94,53 +95,35 @@ class ApplicationController < ActionController::Base
   private
 
   def get_jira_client
-    if ScrumMetrics.config[:jira][:oauth]
-      @jira_client = jira_client_instance
-      jira_session
-    else
-      @jira_client = jira_basic_auth
-    end
+    setting = Setting.first
+    @jira_client = jira_client_instance setting
+    jira_session if setting.oauth?
+
     flash[:danger] = ScrumMetrics.config[:messages][:external_service_error] if @jira_client.nil?
   end
 
 
-  def jira_client_instance
+  def jira_client_instance(setting)
     options = {
-        site: ScrumMetrics.config[:jira][:site],
-        rest_base_path: ScrumMetrics.config[:jira][:restbasepath],
-        context_path: ScrumMetrics.config[:jira][:contextpath],
-        :auth_type => :oauth,
+        site: setting.site,
+        rest_base_path: setting.base_path,
+        context_path: setting.context,
+        :auth_type => setting.oauth? ? :oauth : :basic,
         #:ssl_verify_mode => 0,
-        :http_debug => ScrumMetrics.config[:jira][:httpdebug],
-        :signature_method => ScrumMetrics.config[:jira][:signaturemethod],
+        :http_debug => setting.debug?,
+        :signature_method => setting.signature_method,
         :request_token_path => "/plugins/servlet/oauth/request-token",
         :authorize_path => "/plugins/servlet/oauth/authorize",
         :access_token_path => "/plugins/servlet/oauth/access-token",
-        :private_key_file => ScrumMetrics.config[:jira][:privatekeyfile],
-        :consumer_key => ScrumMetrics.config[:jira][:consumerkey]
-
+        :private_key_file => File.create_rsa_file(setting.key_data, setting.key_file),
+        :consumer_key => setting.consumer_key,
+        username: setting.login,
+        password: setting.password
+        # username: ENV[:EXT_SERVICE_USERNAME.to_s],
+        # password: ENV[:EXT_SERVICE_PASSWORD.to_s],
     }
     JIRA::Client.new(options)
   end
-
-
-  def jira_basic_auth
-
-    options = {
-        site: ScrumMetrics.config[:jira][:site],
-        rest_base_path: ScrumMetrics.config[:jira][:restbasepath],
-        username: ENV[:EXT_SERVICE_USERNAME.to_s],
-        password: ENV[:EXT_SERVICE_PASSWORD.to_s],
-        #:ssl_verify_mode => 0,
-        context_path: '',
-        :auth_type => :basic,
-        :http_debug => ScrumMetrics.config[:jira][:httpdebug]
-    }
-    JIRA::Client.new(options)
-
-
-  end
-
 
   def jira_session
     # Add AccessToken if authorised previously.s

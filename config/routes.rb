@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :settings, only: [:index, :new, :edit, :destroy]
+	resources :settings, except: :show
   resources :assesments
   resources :q_stages
   resources :answers

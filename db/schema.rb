@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190204143532) do
+ActiveRecord::Schema.define(version: 20190206064845) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -146,17 +146,19 @@ ActiveRecord::Schema.define(version: 20190204143532) do
   end
 
   create_table "settings", force: :cascade do |t|
-	  t.string "site"
-	  t.string "base_path"
-	  t.string "context"
-	  t.boolean "debug"
-	  t.string "signature_method"
-	  t.string "key_file"
-	  t.string "consumer_key"
-	  t.boolean "oauth"
-	  t.datetime "created_at", null: false
-	  t.datetime "updated_at", null: false
-	  t.binary "key_data"
+    t.string "site"
+    t.string "base_path"
+    t.string "context"
+    t.boolean "debug"
+    t.string "signature_method"
+    t.string "key_file"
+    t.string "consumer_key"
+    t.boolean "oauth"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.binary "key_data"
+    t.string "login"
+    t.string "password"
   end
 
   create_table "sprints", force: :cascade do |t|
