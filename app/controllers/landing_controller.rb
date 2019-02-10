@@ -1,6 +1,7 @@
 class LandingController < ApplicationController
 	layout 'home'
 	before_action :set_request, only: [:register]
+
 	def info
 		@user = User.new
 	end

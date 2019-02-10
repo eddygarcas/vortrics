@@ -54,8 +54,8 @@ Rails.application.routes.draw do
   get '/assesments/:assesment_id/results', to: 'answers#results', as: 'assesment_result'
   get '/assesments/:assesment_id/answer', to: 'assesments#answer', as: 'assesment_answer'
 
-  get 'landing', to: 'landing#info', as: 'landing_info'
-  post 'register', to: 'landing#register', as: 'landing_register'
+	get '/landing/info', to: 'landing#info', as: 'landing_info'
+	post '/register', to: 'landing#register', as: 'landing_register'
 
   root to: 'home#dashboard'
 

@@ -2,6 +2,7 @@ class SprintsController < ApplicationController
   layout 'sidenav'
   helper_method :sort_column, :sort_direction
   before_action :set_sprint, only: [:show, :edit, :update, :destroy, :graph_closed_by_day, :graph_release_time, :refresh_issues]
+  before_action :get_jira_client
   before_action :team_session, :user_session
   before_action :admin_user?, only: [:index, :new, :edit, :destroy]
 

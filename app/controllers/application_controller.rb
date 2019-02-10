@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   #Will only get into JIRA if a Devise user has logged in
   #It calls get_jira_client every time a redirect is requested.
   before_action :authenticate_user!, except: [:info, :register]
-  before_action :get_jira_client
 
 
   rescue_from JIRA::HTTPError, with: :render_403
@@ -30,13 +29,14 @@ class ApplicationController < ActionController::Base
 
   def side_nav_info
     @total_teams = Team.all.count
-    dropdown_project_list
-    project_information
+    @project_list = project_list unless @jira_client.blank?
+    @project_name = ScrumMetrics.config['name']
+    @project_icon = '/images/voartrix_logo.png'
+    @boards = { id: 0, name: 'None' }
+    project_information unless @project_list.blank?
+
   end
 
-  def dropdown_project_list
-    @project_list = project_list
-  end
 
   def sprint_by_board board_id, sort_column, sort_direction, options = {}
     return if board_id.blank?
@@ -95,6 +95,7 @@ class ApplicationController < ActionController::Base
   private
 
   def get_jira_client
+    redirect_to new_setting_url and return if Setting.first.nil?
     setting = Setting.first
     @jira_client = jira_client_instance setting
     jira_session if setting.oauth?
@@ -108,19 +109,20 @@ class ApplicationController < ActionController::Base
         site: setting.site,
         rest_base_path: setting.base_path,
         context_path: setting.context,
-        :auth_type => setting.oauth? ? :oauth : :basic,
-        #:ssl_verify_mode => 0,
-        :http_debug => setting.debug?,
-        :signature_method => setting.signature_method,
-        :request_token_path => "/plugins/servlet/oauth/request-token",
-        :authorize_path => "/plugins/servlet/oauth/authorize",
-        :access_token_path => "/plugins/servlet/oauth/access-token",
-        :private_key_file => File.create_rsa_file(setting.key_data, setting.key_file),
-        :consumer_key => setting.consumer_key,
+        auth_type: setting.oauth? ? :oauth : :basic,
+        http_debug: setting.debug?,
+        signature_method: setting.signature_method,
+        request_token_path: "/plugins/servlet/oauth/request-token",
+        authorize_path: "/plugins/servlet/oauth/authorize",
+        access_token_path: "/plugins/servlet/oauth/access-token",
+        private_key_file: File.create_rsa_file(setting.key_data, setting.key_file),
+        consumer_key: setting.consumer_key,
         username: setting.login,
         password: setting.password
         # username: ENV[:EXT_SERVICE_USERNAME.to_s],
         # password: ENV[:EXT_SERVICE_PASSWORD.to_s],
+        #:ssl_verify_mode => 0,
+
     }
     JIRA::Client.new(options)
   end

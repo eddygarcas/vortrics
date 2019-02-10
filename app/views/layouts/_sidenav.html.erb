@@ -131,7 +131,7 @@
               <%= link_to fa_icon_tag("star") << "Assesments", url %>
             <% end %>
 
-            <% if @current_user.admin? %>
+            <% if current_user.admin? %>
               <%= activatable_li_tag maturity_frameworks_path do |url| %>
                 <%= link_to fa_icon_tag("pied-piper") << "Framework Setup", url %>
               <% end %>
@@ -142,7 +142,7 @@
       </ul>
     </li>
 
-    <% if @current_user.admin? %>
+    <% if current_user.admin? %>
       <li class="nav-item">
         <a class="nav-link"> <i class="fa fa-fw fa-cog fa-lg fa-fw"></i> Settings<span class="fa arrow"></span></a>
         <ul class="nav nav-second-level" aria-expanded="false">
@@ -154,9 +154,32 @@
             <%= link_to fa_icon_tag("heart") << "Clean up", url %>
           <% end %>
 
-          <%= activatable_li_tag settings_path do |url| %>
-            <%= link_to fa_icon_tag("wrench") << "Configuration", url %>
-          <% end %>
+
+
+          <li class="nav-item">
+            <a class="nav-link"><i class="fa fa-fw fa-wrench fa-lg fa-fw"></i> Configuration
+              <span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level" aria-expanded="false">
+
+              <%= activatable_li_tag settings_path do |url| %>
+                <%= link_to fa_icon_tag("server") << "External service", url %>
+              <% end %>
+
+              <%= activatable_li_tag settings_path do |url| %>
+                <%= link_to fa_icon_tag("tasks") << "Issue fields", url %>
+              <% end %>
+
+              <%= activatable_li_tag settings_path do |url| %>
+                <%= link_to fa_icon_tag("flag") << "Threshold", url %>
+              <% end %>
+
+              <%= activatable_li_tag settings_path do |url| %>
+                <%= link_to fa_icon_tag("comment") << "Messages", url %>
+              <% end %>
+            </ul>
+          </li>
+
+
         </ul>
       </li>
     <% end %>

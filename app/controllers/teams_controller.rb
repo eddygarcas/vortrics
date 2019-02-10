@@ -3,6 +3,7 @@ class TeamsController < ApplicationController
 	layout 'sidenav'
 	helper_method :sort_column, :sort_direction
 	before_action :set_team, only: [:show, :edit, :update, :key_results, :update_capacity, :destroy]
+	before_action :get_jira_client
 	before_action :team_session, except: [:show, :update, :edit, :update_capacity, :destroy]
 	before_action :user_session
 
