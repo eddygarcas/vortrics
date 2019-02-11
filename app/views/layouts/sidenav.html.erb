@@ -25,7 +25,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="main-content-nav">
 
-          <% if @team.id.present? %>
+          <% if navbar_visible? %>
             <div class="navbar-header">
               <div class="visible-lg-inline">
                 <%= image_tag @project_icon.to_s, class: "avatar img-rounded project_image", height: '32', width: '32' %>
@@ -54,8 +54,7 @@
           <ul class="nav navbar-nav navbar-right">
             <%= hidden_field_tag 'id', session[:team_id], class: 'form-control', id: 'searchbox' %>
 
-            <% if @team.id.present? %>
-
+            <% if navbar_visible? %>
               <li>
                 <%= form_tag issues_search_path, class: 'navbar-form search-form form-group has-error', method: :post do %>
                   <%= text_field_tag 'key', params[:key], class: 'form-control', id: 'key', placeholder: "Find by key, component, assignee or status" %>
@@ -64,6 +63,7 @@
                   </div>
                 <% end %>
               </li>
+
 
               <%= yield :navbar %>
 

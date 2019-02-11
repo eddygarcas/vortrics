@@ -17,4 +17,8 @@ module HomeHelper
   def puts_no_defined element = nil
     element.blank? ? 'n/d' : element
   end
+
+  def navbar_visible?
+	  return (@team.id.present? && @project_list.present?)
+  end
 end

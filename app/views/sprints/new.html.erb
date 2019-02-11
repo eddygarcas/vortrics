@@ -1,21 +1,29 @@
-<% @title = "Add a Sprint" %>
+<% @title = "Create a sprint" %>
 
 <% content_for :description do %>
-    <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
+  <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
+    Voardtrix
+  </p>
+  <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
       <li><%= link_to "Locally", new_sprint_path %></li>
       <li><%= link_to "External service", sprint_import_path %></li>
 
     </ol>
 <% end %>
 
-
-<div class="container-fluid">
+<br/>
+<div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <%= render "layouts/flashes" %>
-
-
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <%= render 'form' %>
+  <div class="row sheet sheet-condensed">
+    <div class="panel panel-default sheet-inner">
+      <div class="panel-heading">
+        <span class="fa fa-cog"></span>
+        Create a sprint locally
+      </div>
+      <p class="panel-body">
+        <%= render 'form' %>
+      </p>
     </div>
   </div>
 </div>
+

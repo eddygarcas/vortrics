@@ -31,8 +31,8 @@ class ApplicationController < ActionController::Base
     @total_teams = Team.all.count
     @project_list = project_list unless @jira_client.blank?
     @project_name = ScrumMetrics.config['name']
-    @project_icon = '/images/voartrix_logo.png'
-    @boards = { id: 0, name: 'None' }
+    @project_icon = '/images/voardtrix_logo.png'
+    @boards = { name: 'None' }
     project_information unless @project_list.blank?
 
   end
@@ -96,9 +96,9 @@ class ApplicationController < ActionController::Base
 
   def get_jira_client
     redirect_to new_setting_url and return if Setting.first.nil?
-    setting = Setting.first
-    @jira_client = jira_client_instance setting
-    jira_session if setting.oauth?
+    @setting = Setting.first
+    @jira_client = jira_client_instance @setting
+    jira_session if @setting.oauth?
 
     flash[:danger] = ScrumMetrics.config[:messages][:external_service_error] if @jira_client.nil?
   end

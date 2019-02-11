@@ -29,21 +29,6 @@
       </div>
     <% end %>
 
-    <%= f.form_group :max_capacity do |f| %>
-      <%= f.label :max_capacity, class: 'control-label col-md-2' %>
-        <div class='col-md-1'>
-        <%= f.number_field :max_capacity, required: true, min: 1, max: 12, class: 'form-control' %>
-        <%= f.error_messages %>
-      </div>
-    <% end %>
-
-    <%= f.form_group :current_capacity do |f| %>
-      <%= f.label :current_capacity, class: 'control-label col-md-2' %>
-        <div class='col-md-1'>
-        <%= f.number_field :current_capacity, required: true, min: 1, max: 12, class: 'form-control' %>
-        <%= f.error_messages %>
-      </div>
-    <% end %>
 
 
 

@@ -3,24 +3,23 @@
 <% content_for :description do %>
   <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
 
-    from <strong>JIRA</strong> https://jira.scmspain.com/rest version 7.2
+    from
+    <strong>JIRA</strong> <%= "#{@setting.site}#{@setting.base_path} #{(@setting.oauth? ? :oauth : :basic).to_s.humanize} authentication" %>
   </p>
 
 <% end %>
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="sheet sheet-condensed">
-        <div class="sheet-inner p30">
-          <%= render 'form' %>
-        </div>
+<br/>
+<div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <%= render "layouts/flashes" %>
+  <div class="row sheet sheet-condensed">
+    <div class="panel panel-default sheet-inner">
+      <div class="panel-heading">
+        <span class="fa fa-cog"></span>
+        Add team from external service
       </div>
+      <p class="panel-body">
+        <%= render 'form' %>
+      </p>
     </div>
   </div>
 </div>
-
-
-
-
-
