@@ -15,6 +15,14 @@ module JiraHelper
     }
   end
 
+  def field_list project, options = {}
+	  elems = Rails.cache.fetch("field_list_#{project}", expires_in: 7.day) {
+		  param_hash = {}
+		  rest_query @jira_client, '/field', param_hash, options
+	  }
+	  elems.map { |c| [c['id'], c['name']] }.to_h
+  end
+
   def project_details key, options = {}
     Rails.cache.fetch("project_information_#{key.to_s}", expires_in: 7.day) {
       param_hash = {}
