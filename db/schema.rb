@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190206064845) do
+ActiveRecord::Schema.define(version: 20190211141542) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -65,6 +65,13 @@ ActiveRecord::Schema.define(version: 20190206064845) do
     t.integer "component_id"
     t.index ["component_id"], name: "index_components_sprints_on_component_id"
     t.index ["sprint_id"], name: "index_components_sprints_on_sprint_id"
+  end
+
+  create_table "configs", force: :cascade do |t|
+	  t.integer "user_id"
+	  t.integer "setting_id"
+	  t.datetime "created_at", null: false
+	  t.datetime "updated_at", null: false
   end
 
   create_table "groups", force: :cascade do |t|

@@ -8,7 +8,7 @@
         <%= f.label :project, class: 'control-label col-md-2' %>
         <div class='col-md-8'>
           <%= @team.avatar.blank? ? image_tag('/images/voardtrix_logo.png', class: "img-rounded", height: '32', width: '32', id: 'project_image') : image_tag(@team.avatar, class: "img-rounded", height: '32', width: '32', id: 'project_image') %>
-          <%= f.select :project, @project_list, include_blank: true, prompt: 'Select project...', required: true, class: 'form-control' %>
+          <%= f.select :project, @project_list, include_blank: true, prompt: 'Select project...', required: true, class: 'form-control form-control-lg' %>
           <%= f.error_messages %>
         </div>
     <% end %>
@@ -16,7 +16,7 @@
     <%= f.form_group :board_id do |f| %>
         <%= f.label :board_id, class: 'control-label col-md-2' %>
         <div class='col-md-8'>
-          <%= f.select :board_id, @boards.invert, include_blank: true, prompt: 'No defined', required: true, class: 'form-control' %>
+          <%= f.select :board_id, @boards.invert, include_blank: true, prompt: 'No defined', required: true, class: 'form-control form-control-lg' %>
           <%= f.error_messages %>
         </div>
     <% end %>

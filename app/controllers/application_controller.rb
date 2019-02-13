@@ -95,8 +95,8 @@ class ApplicationController < ActionController::Base
   private
 
   def get_jira_client
-    redirect_to new_setting_url and return if Setting.first.nil?
-    @setting = Setting.first
+    return if current_user.setting.blank?
+    @setting = current_user.setting
     @jira_client = jira_client_instance @setting
     jira_session if @setting.oauth?
 

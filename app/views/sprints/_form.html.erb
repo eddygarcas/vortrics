@@ -6,7 +6,7 @@
       <%= f.form_group :team do |f| %>
           <%= f.label :team_id, class: 'control-label col-md-2' %>
           <div class='col-md-8'>
-            <%= f.collection_select :team_id, Team.order(:name), :id, :name, include_blank: false, required: true, class: 'form-control' %>
+            <%= f.collection_select :team_id, Team.order(:name), :id, :name, include_blank: false, required: true, class: 'form-control form-control-lg' %>
             <%= f.error_messages %>
           </div>
       <% end %>

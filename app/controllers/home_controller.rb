@@ -11,9 +11,11 @@ class HomeController < ApplicationController
   end
 
   #dashboard method should retrieve all information regarding average date from team selected. If any it should deal with the error codes produced.
+  # All redirections should happend here, so far when there is no service connection, no teams defined or team has to import a sprint to see data.
   def dashboard
     @advices = Hash.new
-    redirect_to teams_url and return if Team.first.nil?
+    redirect_to new_setting_url and return if current_user.setting.blank?
+    redirect_to teams_url and return if Team.first.blank?
     redirect_to sprint_import_url(@team.board_id) and return if @team.sprint.blank?
     advice_agent
   end

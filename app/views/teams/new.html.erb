@@ -4,7 +4,7 @@
   <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
 
     from
-    <strong>JIRA</strong> <%= "#{@setting.site}#{@setting.base_path} #{(@setting.oauth? ? :oauth : :basic).to_s.humanize} authentication" %>
+    <strong>JIRA</strong> <%= "#{current_user.setting.site}#{current_user.setting.base_path} #{(current_user.setting.oauth? ? :oauth : :basic).to_s.humanize} authentication" %>
   </p>
 
 <% end %>

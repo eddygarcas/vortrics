@@ -12,7 +12,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="sheet sheet-condensed">
         <div class="sheet-inner">
-          <table class="table">
+          <table class="table" id="userlist">
             <thead>
             <tr>
               <th>Avatar</th>
@@ -21,6 +21,7 @@
               <th><%= sort_link "extuser", "Login" %></th>
               <th>Last login</th>
               <th>Admin</th>
+              <th>Connection</th>
               <th>Actions</th>
             </tr>
             </thead>
@@ -33,15 +34,18 @@
                 <td><%= user.extuser %></td>
                 <td><%= user.last_sign_in_at.strftime("%d-%m-%Y") %></td>
                 <td>
-                  <label class="switch switch-success small">
+                  <label class="switch switch-success">
                     <%= check_box_tag "#{user.id}", "#{user.group.blank? ? '0' : user.group.priority}", user.admin?, data: { behaviour: :user_link } %>
                     <span></span>
                   </label>
-
+                </td>
+                <td>
+                  <div class="btn-group" data-behavior='user_info_<%= user.id %>'>
+                    <%= select_tag "setting", options_from_collection_for_select(Setting.all, "id", "site", (user.setting.id unless user.setting.blank?)), id: user.id, include_blank: 'Not defined', data: { behaviour: :site_link }, class: 'form-control form-control-lg' %>
+                  </div>
                 </td>
 
                 <td class="actions">
-
                   <%= link_to fa_icon_tag("trash-o"), admin_destroy_user_path(user.id), rel: 'tooltip', title: 'Delete', method: :delete, data: { confirm: 'Are you sure?' } %>
                 </td>
 
@@ -49,7 +53,7 @@
             <% end %>
             <% if @users.length == 0 %>
               <tr>
-                <td colspan=42 class='text-center'>No sprints.</td>
+                <td colspan=42 class='text-center'>No other users created</td>
               </tr>
             <% end %>
             </tbody>

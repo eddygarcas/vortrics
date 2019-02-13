@@ -4,6 +4,7 @@ class Users
 
   setup: ->
     $("[data-behaviour='user_link']").on "click", @handleClick
+    $("[data-behaviour='site_link']").on "change", @handleChange
 
   handleClick: (e) ->
     @elems = document.activeElement
@@ -15,10 +16,30 @@ class Users
       method: "POST"
       contentType: "application/json"
       processData: false
-      success: ->
-        $("[data-behavior='user_info']").text("User updated")
+      success: (data)  ->
+        if (data['success'] is "true")
+          $("[data-behavior='user_info_" + data['message'] + "']")[0].className += ' has-success';
+        else
+          $("[data-behavior='user_info_" + data['message'] + "']")[0].className += ' has-error';
     )
 
+  handleChange: (e) ->
+    @elems = $(this).val();
+    @user = this.id;
+    console.log(@user)
+    $.ajax(
+      url: "/users/config"
+      type: "JSON"
+      data: JSON.stringify({"setting_id": @elems, "user_id": @user})
+      method: "POST"
+      contentType: "application/json"
+      processData: false
+      success: (data)  ->
+        if (data['success'] is "true")
+          $("[data-behavior='user_info_" + data['message'] + "']")[0].className += ' has-success';
+        else
+          $("[data-behavior='user_info_" + data['message'] + "']")[0].className += ' has-error';
+    )
 
 jQuery ->
   new Users

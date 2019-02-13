@@ -7,6 +7,9 @@ class User < ApplicationRecord
 	has_one :access
 	has_one :group, through: :access
 
+	has_one :config
+	has_one :setting, through: :config
+
 	def admin?
 		return false if group.blank?
 		group.priority.eql? 1
