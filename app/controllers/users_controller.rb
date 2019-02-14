@@ -22,6 +22,7 @@ class UsersController < ApplicationController
 
 	def setting_assigment
 		@user = User.find(user_params[:user_id])
+
 		if @user.save_dependent user_params[:setting_id]
 			render json: { success: :true, message: @user.id }
 		else
@@ -31,7 +32,7 @@ class UsersController < ApplicationController
 
 	def group_assigment
 		@user = User.find(user_params[:id])
-		if Access.where(user_id: @user).update_or_create(group_id: Group.find_by_priority((user_params[:admin] ? 1 : 99).to_i).id)
+		if @user.save_dependent nil, user_params[:admin]
 			render json: { success: :true, message: @user.id }
 		else
 			render json: { success: :false, message: @user.id }
@@ -41,8 +42,6 @@ class UsersController < ApplicationController
 	# POST /teams
 	# POST /teams.json
 	def create
-		puts "#{user_new_params.to_s} and setting_id #{params[:setting_id]}"
-
 		@user = User.new(user_new_params)
 		respond_to do |format|
 			if @user.save_dependent params[:setting_id], user_params[:admin]

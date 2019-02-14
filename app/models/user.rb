@@ -14,6 +14,7 @@ class User < ApplicationRecord
 		save
 		Config.where(user_id: id).update_or_create(user_id: id, setting_id: setting_id.to_i) unless setting_id.blank?
 		Access.where(user_id: id).update_or_create(group_id: Group.find_by_priority((is_admin ? 1 : 99).to_i).id) unless is_admin.blank?
+		true
 	rescue ActiveRecordError
 		false
 	end
