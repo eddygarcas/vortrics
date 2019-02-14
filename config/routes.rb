@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {registrations: 'registrations'}
   match 'users/:id', to: 'users#destroy', via: :delete, as: :admin_destroy_user
   get '/users/manage_users', to: 'users#manage_users', as: 'devise_manage_users'
-  get '/users', to: 'users#index', as: 'users_index'
+	post '/users/manage_users', to: 'users#create'
+
+	get '/users', to: 'users#index', as: 'users_index'
   post '/users/group', to: 'users#group_assigment', as: 'users_update_group'
 	post '/users/config', to: 'users#setting_assigment', as: 'users_update_setting'
 

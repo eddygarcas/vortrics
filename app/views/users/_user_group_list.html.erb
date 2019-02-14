@@ -32,7 +32,7 @@
                 <td><%= user.displayName %></td>
                 <td><%= user.email %></td>
                 <td><%= user.extuser %></td>
-                <td><%= user.last_sign_in_at.strftime("%d-%m-%Y") %></td>
+                <td><%= user.last_sign_in_at.strftime("%d-%m-%Y") unless user.last_sign_in_at.blank? %></td>
                 <td>
                   <label class="switch switch-success">
                     <%= check_box_tag "#{user.id}", "#{user.group.blank? ? '0' : user.group.priority}", user.admin?, data: { behaviour: :user_link } %>
@@ -41,7 +41,7 @@
                 </td>
                 <td>
                   <div class="btn-group" data-behavior='user_info_<%= user.id %>'>
-                    <%= select_tag "setting", options_from_collection_for_select(Setting.all, "id", "site", (user.setting.id unless user.setting.blank?)), id: user.id, include_blank: 'Not defined', data: { behaviour: :site_link }, class: 'form-control form-control-lg' %>
+                    <%= select_tag "setting_id", options_from_collection_for_select(Setting.all, "id", "site", (user.setting.id unless user.setting.blank?)), id: user.id, include_blank: 'Not defined', data: { behaviour: :site_link }, class: 'form-control form-control-lg' %>
                   </div>
                 </td>
 
@@ -56,6 +56,49 @@
                 <td colspan=42 class='text-center'>No other users created</td>
               </tr>
             <% end %>
+
+            <%= form_for(@user, url: devise_manage_users_path, method: :post, html: { class: 'form-horizontal' }) do |f| %>
+              <thead>
+              <tr>
+                <th>Avatar</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Login</th>
+                <th>Password</th>
+                <th>Admin</th>
+                <th>Connection</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tr>
+                <td><%= image_tag '/images/voardtrix_logo.png', class: "img-circle profile-image", height: '35', width: '35' %></td>
+                <td><%= f.text_field :displayName, autofocus: true, required: true, placeholder: 'User name' %></td>
+                <td><%= f.email_field :email, required: true, placeholder: 'Email' %></td>
+                <td><%= f.text_field :extuser, required: true, value: "", placeholder: 'External login' %></td>
+                <td><%= f.password_field :password, required: true, placeholder: 'Password' %></td>
+                <td>
+                  <label class="switch switch-success">
+                    <%= check_box_tag 'admin' %>
+
+                    <span></span>
+                  </label>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <%= select_tag "setting_id", options_from_collection_for_select(Setting.all, "id", "site"), class: 'form-control form-control-lg' %>
+                  </div>
+                </td>
+                <td>
+                  <%= button_tag(class: "btn btn-circle btn-sm btn-link") do %>
+                    <%= fa_icon_tag("plus") %> Add
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+
+
+
+
             </tbody>
           </table>
         </div><!-- /.sheet-inner -->
