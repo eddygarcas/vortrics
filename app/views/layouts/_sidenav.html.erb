@@ -1,4 +1,5 @@
-<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1"
+     xmlns="http://www.w3.org/2000/svg">
   <defs>
     <symbol id="icon-voardtrix" viewBox="0 0 39 32">
       <title>voardtrix</title>
@@ -6,9 +7,6 @@
     </symbol>
   </defs>
 </svg>
-
-
-
 <style>
   .icon-voardtrix {
     display: inline-block;
@@ -20,171 +18,18 @@
     -moz-osx-font-smoothing: grayscale;
     width: 1.203125em;
   }
-
 </style>
 
 <div class="nav-side-menu">
-  <div class="navbar-header">
-    <div class="profile">
-      <span class="profile-image">
-      <svg class="icon icon-voardtrix" style="font-size: 50px;margin-left: -10px;margin-right: -10px;margin-top: -4px;">
-        <use xlink:href="#icon-voardtrix"></use>
-      </svg>
-      </span>
-
-
-      <div class="profile-body">
-        <h4>
-          <a href="https://pages.github.schibsted.io/eduard-garcia/Voardtrix/"><img src="/images/voardtrix_name.png" style="height: 18px;"></a>
-        </h4>
-
-        <div class="user-links">
-          <a class="btn btn-link btn-flat btn-xs btn-borderless" href="#" data-placement="bottom" data-toggle="tooltip" data-original-title="Messages"><i class="fa fa-envelope"></i></a>
-
-          <%= link_to edit_user_registration_path, method: :get, class: "btn btn-link btn-flat btn-xs btn-borderless", data: { title: 'Profile', toggle: :tooltip } do %>
-            <i class="fa fa-user"></i>
-          <% end %>
-
-          <a class="btn btn-link btn-flat btn-xs btn-borderless" href="#" data-placement="bottom" data-toggle="tooltip" data-original-title="Settings"><i class="fa fa-cog"></i></a>
-
-          <%= link_to destroy_user_session_path, method: :delete, class: "btn btn-link btn-flat btn-xs btn-borderless", data: { title: 'Logout', toggle: :tooltip } do %>
-            <i class="fa fa-sign-out"></i>
-          <% end %>
-
-        </div>
-      </div>
-    </div>
-    <i class="navbar-toggle collapsed fa fa-bars" data-toggle="collapse" data-target="#menu-content"></i>
-  </div>
-
-
+  <%= render 'menu/menu_header' %>
   <ul id="menu-content" class="nav collapse navbar-collapse">
-    <%= activatable_li_tag root_path, class: "nav-item" do |root_url| %>
-      <%= link_to root_url, class: "nav-link" do %>
-        <i class="fa fa-fw fa-cubes fa-lg fa-fw"></i> Scrum <span class="fa arrow"></span>
-      <% end %>
-
-      <ul class="nav nav-second-level" aria-expanded="false">
-        <%= activatable_li_tag root_path do |url| %>
-          <%= link_to fa_icon_tag("line-chart") << "Dashboard", url %>
-        <% end %>
-
-        <% if @team.sprint.present? %>
-          <%= activatable_li_tag sprint_path(@team.sprint) do |url| %>
-            <%= link_to fa_icon_tag("cogs") << "Sprints", url %>
-          <% end %>
-        <% else %>
-          <%= activatable_li_tag sprint_import_path do |url| %>
-            <%= link_to fa_icon_tag("cogs") << "Sprints", url %>
-          <% end %>
-        <% end %>
-
-        <%= activatable_li_tag teams_path do |url| %>
-          <%= link_to fa_icon_tag("users") << "Teams", url %>
-        <% end %>
-
-
-      </ul>
-    <% end %>
-
-    <% if @team.id.present? %>
-      <li class="nav-item">
-
-        <a class="nav-link"> <i class="icon ion-erlenmeyer-flask fa-lg fa-fw"></i> Agile spectral analysis
-          <span class="fa arrow"></span></a>
-        <ul class="nav nav-second-level" aria-expanded="false">
-
-
-          <%= activatable_li_tag teams_key_results_path(@team.id) do |url| %>
-            <%= link_to "<i class='fa fa-signal fa-flip-horizontal'></i>Cycle time".html_safe, url %>
-          <% end %>
-
-        </ul>
-      </li>
-    <% end %>
-
-    <li class="nav-item">
-      <a class="nav-link"> <i class="fa fa-fw fa-map-o fa-lg fa-fw"></i> Forecasting <span class="fa arrow"></span></a>
-      <ul class="nav nav-second-level" aria-expanded="false">
-
-        <%= activatable_li_tag maturity_frameworks_path do |url| %>
-          <%= link_to fa_icon_tag("balance-scale") << "Montecarlo", url %>
-        <% end %>
-
-      </ul>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link"> <i class="fa fa-fw fa-magic fa-lg fa-fw"></i> Kaizen <span class="fa arrow"></span></a>
-      <ul class="nav nav-second-level" aria-expanded="false">
-
-        <%= activatable_li_tag maturity_frameworks_path do |url| %>
-          <%= link_to fa_icon_tag("compass") << "Actions", url %>
-        <% end %>
-
-        <li class="nav-item">
-          <a class="nav-link"><i class="fa fa-fw fa-trophy fa-lg fa-fw"></i> Team maturity
-            <span class="fa arrow"></span></a>
-          <ul class="nav nav-third-level" aria-expanded="false">
-
-            <%= activatable_li_tag assesments_path do |url| %>
-              <%= link_to fa_icon_tag("star") << "Assesments", url %>
-            <% end %>
-
-            <% if current_user.admin? %>
-              <%= activatable_li_tag maturity_frameworks_path do |url| %>
-                <%= link_to fa_icon_tag("pied-piper") << "Framework Setup", url %>
-              <% end %>
-            <% end %>
-
-          </ul>
-        </li>
-      </ul>
-    </li>
-
-    <% if current_user.admin? %>
-      <li class="nav-item">
-        <a class="nav-link"> <i class="fa fa-fw fa-cog fa-lg fa-fw"></i> Settings<span class="fa arrow"></span></a>
-        <ul class="nav nav-second-level" aria-expanded="false">
-          <%= activatable_li_tag devise_manage_users_path(@team.id) do |url| %>
-            <%= link_to fa_icon_tag("users") << "Users & Groups", url %>
-          <% end %>
-
-          <%= activatable_li_tag sprints_path do |url| %>
-            <%= link_to fa_icon_tag("heart") << "Clean up", url %>
-          <% end %>
-
-
-
-          <li class="nav-item">
-            <a class="nav-link"><i class="fa fa-fw fa-wrench fa-lg fa-fw"></i> Configuration
-              <span class="fa arrow"></span></a>
-            <ul class="nav nav-third-level" aria-expanded="false">
-
-              <%= activatable_li_tag settings_path do |url| %>
-                <%= link_to fa_icon_tag("server") << "External service", url %>
-              <% end %>
-
-              <%= activatable_li_tag settings_path do |url| %>
-                <%= link_to fa_icon_tag("columns") << "Workflow status", url %>
-              <% end %>
-
-              <%= activatable_li_tag settings_path do |url| %>
-                <%= link_to fa_icon_tag("tasks") << "Issue map", url %>
-              <% end %>
-
-              <%= activatable_li_tag settings_path do |url| %>
-                <%= link_to fa_icon_tag("comment") << "Messages", url %>
-              <% end %>
-            </ul>
-          </li>
-
-
-        </ul>
-      </li>
-    <% end %>
+    <%= render 'menu/menu_dashboard' %>
     <% if @team.present? %>
-      <%= render "layouts/sprint_progress_bar", :locals => { :team => @team } %>
+      <%= render 'menu/menu_analysis' if @team.id.present? %>
+      <%= render 'menu/menu_forecating' %>
+      <%= render 'menu/menu_kaizen' %>
     <% end %>
+    <%= render 'menu/menu_admin' if current_user.admin? %>
+    <%= render "layouts/sprint_progress_bar", :locals => { :team => @team } if @team.present? %>
   </ul>
 </div>

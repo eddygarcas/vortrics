@@ -1,0 +1,31 @@
+<%= activatable_li_tag root_path, class: "nav-item" do |root_url| %>
+  <%= link_to root_url, class: "nav-link" do %>
+    <i class="fa fa-fw fa-cubes fa-lg fa-fw"></i> Scrum <span class="fa arrow"></span>
+  <% end %>
+
+  <ul class="nav nav-second-level" aria-expanded="false">
+    <% if @team.present? %>
+      <%= activatable_li_tag root_path do |url| %>
+        <%= link_to fa_icon_tag("line-chart") << "Dashboard", url %>
+      <% end %>
+
+      <% if @team.sprint.present? %>
+        <%= activatable_li_tag sprint_path(@team.sprint) do |url| %>
+          <%= link_to fa_icon_tag("cogs") << "Sprints", url %>
+        <% end %>
+      <% else %>
+        <%= activatable_li_tag sprint_import_path do |url| %>
+          <%= link_to fa_icon_tag("cogs") << "Sprints", url %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if current_user.setting.present? %>
+      <%= activatable_li_tag teams_path do |url| %>
+        <%= link_to fa_icon_tag("users") << "Teams", url %>
+      <% end %>
+    <% end %>
+
+
+  </ul>
+<% end %>

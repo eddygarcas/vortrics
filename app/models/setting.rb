@@ -1,12 +1,14 @@
 class Setting < ApplicationRecord
 	has_many :configs
 	has_many :users, through: :configs
+	has_one :workflow
 
 
 	URL_REGEXP = /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/
 
 	PATH_REGEXP = /\A(\/)[a-z0-9]/
 
+	validates :name, presence: { message: "Better define a name for this connection." }
 	validates :key_file, presence: { message: "OAuth requires a certification file." }, if: :oauth?
 	validates :site, presence: { message: "Site cannot be blank" }
 	validates :base_path, presence: { message: "Base path cannot be blank" }

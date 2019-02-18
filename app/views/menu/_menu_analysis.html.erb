@@ -1,0 +1,13 @@
+<li class="nav-item">
+
+  <a class="nav-link"> <i class="icon ion-erlenmeyer-flask fa-lg fa-fw"></i> Agile spectral analysis
+    <span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level" aria-expanded="false">
+
+
+    <%= activatable_li_tag teams_key_results_path(@team.id) do |url| %>
+      <%= link_to "<i class='fa fa-signal fa-flip-horizontal'></i>Cycle time".html_safe, url %>
+    <% end %>
+
+  </ul>
+</li>

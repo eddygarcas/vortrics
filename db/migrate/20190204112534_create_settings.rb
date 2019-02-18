@@ -9,7 +9,6 @@ class CreateSettings < ActiveRecord::Migration[5.1]
 			t.string :key_file
 			t.string :consumer_key
 			t.boolean :oauth
-
 			t.timestamps
 		end
 	end

@@ -22,9 +22,9 @@
           <table class="table">
             <thead>
             <tr>
+              <th>Name</th>
               <th>Site</th>
               <th>Base path</th>
-              <th>Context</th>
               <th>Signature method</th>
               <th>Key file</th>
               <th>Consumer key</th>
@@ -35,9 +35,9 @@
             <tbody>
             <% @settings.each do |setting| %>
               <tr>
+                <td><%= setting.name %></td>
                 <td><%= setting.site %></td>
                 <td><%= setting.base_path %></td>
-                <td><%= setting.context %></td>
                 <td><%= setting.signature_method %></td>
                 <td><%= setting.key_file %></td>
                 <td><%= setting.consumer_key %></td>

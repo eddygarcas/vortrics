@@ -94,7 +94,7 @@ class SprintsController < ApplicationController
 
       issues_save = issues.select {|el| el.closed_in.include? import_params[:id] unless el.closed_in.blank?}
       team.store_sprint(import_params, issues) {Sprint.find_by_sprint_id(import_params[:id]).save_issues issues_save}
-
+      Rails.cache.clear
     end
     redirect_to sprint_import_url(import_params[:originBoardId]), notice: 'Sprint has successfully been imported.'
   end
@@ -111,7 +111,7 @@ class SprintsController < ApplicationController
 
       issues_save = issues.select {|el| el.closed_in.include? @sprint.sprint_id.to_s unless el.closed_in.blank?}
       team.update_sprint(@sprint, issues) {@sprint.save_issues issues_save}
-
+      Rails.cache.clear
     end
     redirect_to sprint_path(@sprint), notice: 'Sprint has successfully been updated.'
   end

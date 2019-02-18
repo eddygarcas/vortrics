@@ -26,7 +26,7 @@ class HomeController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_dashboard
     @team = dashboard_params.to_i.zero?() ? Team.find_by_name(dashboard_params.to_s) : Team.find(dashboard_params)
-    flash[:info] = ScrumMetrics.config[:messages][:no_teams_available] if Team.count.to_i.zero?
+    flash[:notice] = ScrumMetrics.config[:messages][:first_steps].html_safe if Team.count.to_i.zero?
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

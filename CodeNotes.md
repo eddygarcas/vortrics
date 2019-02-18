@@ -24,6 +24,10 @@ rails d migration MigrationNameOptions
 ```
 rake db:rollback STEP=1
 ```
+###### Drop and create DB all over again
+````
+ rake db:drop db:create db:migrate db:seed
+````
 
 ###Git
 ```

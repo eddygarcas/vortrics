@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190213105049) do
+ActiveRecord::Schema.define(version: 20190215132747) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -25,9 +25,9 @@ ActiveRecord::Schema.define(version: 20190213105049) do
     t.string "field_type"
     t.string "text"
     t.string "value"
+    t.integer "question_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "question_id"
     t.integer "assesment_id"
     t.index ["assesment_id"], name: "index_answers_on_assesment_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
@@ -68,12 +68,12 @@ ActiveRecord::Schema.define(version: 20190213105049) do
   end
 
   create_table "configs", force: :cascade do |t|
-	  t.integer "user_id"
-	  t.integer "setting_id"
-	  t.datetime "created_at", null: false
-	  t.datetime "updated_at", null: false
-	  t.index ["setting_id"], name: "index_configs_on_setting_id"
-	  t.index ["user_id"], name: "index_configs_on_user_id"
+    t.integer "user_id"
+    t.integer "setting_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["setting_id"], name: "index_configs_on_setting_id"
+    t.index ["user_id"], name: "index_configs_on_user_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -136,14 +136,6 @@ ActiveRecord::Schema.define(version: 20190213105049) do
     t.index ["level_id"], name: "index_q_stages_on_level_id"
   end
 
-  create_table "question_stages", force: :cascade do |t|
-    t.string "name"
-    t.integer "question_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["question_id"], name: "index_question_stages_on_question_id"
-  end
-
   create_table "questions", force: :cascade do |t|
     t.string "question"
     t.string "help_text"
@@ -168,6 +160,7 @@ ActiveRecord::Schema.define(version: 20190213105049) do
     t.binary "key_data"
     t.string "login"
     t.string "password"
+    t.string "name"
   end
 
   create_table "sprints", force: :cascade do |t|
@@ -185,14 +178,6 @@ ActiveRecord::Schema.define(version: 20190213105049) do
     t.date "start_date"
     t.integer "sprint_id"
     t.index ["team_id"], name: "index_sprints_on_team_id"
-  end
-
-  create_table "stages", force: :cascade do |t|
-    t.string "name"
-    t.integer "questions_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["questions_id"], name: "index_stages_on_questions_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -229,6 +214,21 @@ ActiveRecord::Schema.define(version: 20190213105049) do
     t.string "avatar", default: "/images/tmf_1.png"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "workflows", force: :cascade do |t|
+    t.string "open"
+    t.string "backlog"
+    t.string "wip"
+    t.string "testing"
+    t.string "done"
+    t.string "flagged"
+    t.integer "cycle_time"
+    t.integer "lead_time"
+    t.integer "setting_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["setting_id"], name: "index_workflows_on_setting_id"
   end
 
 end

@@ -29,6 +29,11 @@ defaults: &defaults
     :external_service_error: "Unable to retrieve external service information. Please try it later."
     :no_teams_available: "Before getting information from the external service, create a team."
     :variance_volatility: "<strong>Ups!</strong> Team's velocity seems highly spread out from its average value. Ideally, teams should display a fairly consistent velocity, ideally with a gradually increasing slope. Major gaps and spikes in velocity are not a good sign."
+    :first_steps: "<h4>Welcome to Voartrix</h4><strong>Hands up!</strong> These are the first steps to be followed before getting data from JIRA
+    <ul>
+    <li>Create an external service connection</li>
+    <li>Create new users and assign them a connection</li>
+    <li>Create team from the external service</li></ul>"
   :popover:
     :average_velocity: "Velocity is quite simple to calculate. At the end of a sprint, add up the total of all the story points that were moved to 'Done' (based on your Definition of Done) in that sprint."
     :average_stories: "At the end of a sprint, add up the total of all the user stories that were moved to 'Done' (based on your Definition of Done) in that sprint."
@@ -40,6 +45,7 @@ defaults: &defaults
     :time_blocked: "Simply, Adds up all the time that any story or task in the current sprint spent in a blocked state."
     :ratio_time_blocked: "It tells you how much time every story in the current sprint would spend blocked, distributing total blocked time per user story or task."
     :ratio_items_blocked: "Measures what proportion of user stories in a sprint are blocked by impediments."
+
 
 development:
   <<: *defaults

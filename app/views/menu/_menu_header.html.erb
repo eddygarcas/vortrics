@@ -1,0 +1,26 @@
+<div class="navbar-header">
+  <div class="profile">
+      <span class="profile-image">
+      <svg class="icon icon-voardtrix" style="font-size: 50px;margin-left: -10px;margin-right: -10px;margin-top: -4px;">
+        <use xlink:href="#icon-voardtrix"></use>
+      </svg>
+      </span>
+    <div class="profile-body">
+      <h4>
+        <a href="https://pages.github.schibsted.io/eduard-garcia/Voardtrix/"><img src="/images/voardtrix_name.png" style="height: 18px;"></a>
+      </h4>
+      <div class="user-links">
+        <a class="btn btn-link btn-flat btn-xs btn-borderless" href="#" data-placement="bottom" data-toggle="tooltip" data-original-title="Messages"><i class="fa fa-envelope"></i></a>
+        <%= link_to edit_user_registration_path, method: :get, class: "btn btn-link btn-flat btn-xs btn-borderless", data: { title: 'Profile', toggle: :tooltip } do %>
+          <i class="fa fa-user"></i>
+        <% end %>
+        <a class="btn btn-link btn-flat btn-xs btn-borderless" href="#" data-placement="bottom" data-toggle="tooltip" data-original-title="Settings"><i class="fa fa-cog"></i></a>
+        <%= link_to destroy_user_session_path, method: :delete, class: "btn btn-link btn-flat btn-xs btn-borderless", data: { title: 'Logout', toggle: :tooltip } do %>
+          <i class="fa fa-sign-out"></i>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+  <i class="navbar-toggle collapsed fa fa-bars" data-toggle="collapse" data-target="#menu-content"></i>
+</div>

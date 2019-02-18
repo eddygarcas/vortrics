@@ -84,6 +84,6 @@ class SettingsController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def setting_params
-		params.require(:setting).permit(:site, :base_path, :context, :debug, :signature_method, :key_file, :key_data, :consumer_key, :oauth, :login, :password)
+		params.require(:setting).permit(:name, :site, :base_path, :context, :debug, :signature_method, :key_file, :key_data, :consumer_key, :oauth, :login, :password)
 	end
 end

@@ -1,0 +1,39 @@
+<li class="nav-item">
+  <a class="nav-link"> <i class="fa fa-fw fa-cog fa-lg fa-fw"></i> Settings<span class="fa arrow"></span></a>
+  <ul class="nav nav-second-level" aria-expanded="false">
+    <%= activatable_li_tag devise_manage_users_path do |url| %>
+      <%= link_to fa_icon_tag("users") << "Users & Groups", url %>
+    <% end %>
+
+    <%= activatable_li_tag sprints_path do |url| %>
+      <%= link_to fa_icon_tag("heart") << "Clean up", url %>
+    <% end %>
+
+
+
+    <li class="nav-item">
+      <a class="nav-link"><i class="fa fa-fw fa-wrench fa-lg fa-fw"></i> Configuration
+        <span class="fa arrow"></span></a>
+      <ul class="nav nav-third-level" aria-expanded="false">
+
+        <%= activatable_li_tag settings_path do |url| %>
+          <%= link_to fa_icon_tag("server") << "External service", url %>
+        <% end %>
+
+        <%= activatable_li_tag workflows_path do |url| %>
+          <%= link_to fa_icon_tag("columns") << "Workflow status", url %>
+        <% end %>
+
+        <%= activatable_li_tag settings_path do |url| %>
+          <%= link_to fa_icon_tag("tasks") << "Issue map", url %>
+        <% end %>
+
+        <%= activatable_li_tag settings_path do |url| %>
+          <%= link_to fa_icon_tag("comment") << "Messages", url %>
+        <% end %>
+      </ul>
+    </li>
+
+
+  </ul>
+</li>
