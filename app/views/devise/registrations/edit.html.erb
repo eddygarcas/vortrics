@@ -27,13 +27,6 @@
                 </div>
             <% end %>
 
-            <%= f.form_group :extuser do |f| %>
-                <%= f.label 'JIRA user', class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
-                <div class="col-sm-10">
-                  <%= f.email_field :extuser, required: true, class: "form-control" %>
-                  <%= f.error_messages %>
-                </div>
-            <% end %>
 
             <%= f.form_group :password do |f| %>
                 <%= f.label :password, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>

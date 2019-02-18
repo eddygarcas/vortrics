@@ -26,11 +26,6 @@
               <%= f.error_messages %>
             <% end %>
 
-            <%= f.form_group :extuser do |f| %>
-                <%= f.label 'JIRA Username', class: "form-label" %>
-                <%= f.text_field :extuser, required: true, value: "" %>
-                  <%= f.error_messages %>
-            <% end %>
 
             <%= f.form_group :password do |f| %>
                 <%= f.label :password, class: "form-label" %>
