@@ -46,17 +46,17 @@ module JiraHelper
   end
 
   def issue_comments key
-    comments = Rails.cache.fetch("issue_comments_#{key}", expires_in: 30.minutes) {
-      @jira_client.Issue.find(key, fields: :comment)
-    }
-    comments.comments
+	  #comments = Rails.cache.fetch("issue_comments_#{key}", expires_in: 30.minutes) {
+	  @jira_client.Issue.find(key, fields: :comment).comments
+	  #}
+	  #comments.comments
   end
 
   def issue_attachments key
-    attachments = Rails.cache.fetch("issue_attachments_#{key}", expires_in: 30.minutes) {
-      @jira_client.Issue.find(key, fields: :attachment)
-    }
-    attachments.attachment
+	  #attachments = Rails.cache.fetch("issue_attachments_#{key}", expires_in: 30.minutes) {
+	  @jira_client.Issue.find(key, fields: :attachment).attachment
+		  #}
+		  #attachments.attachment
   end
 
   def current_project key, options = {}
