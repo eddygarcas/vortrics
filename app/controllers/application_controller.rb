@@ -55,6 +55,9 @@ class ApplicationController < ActionController::Base
 
   end
 
+  def set_current_user
+	  User.current = current_user
+  end
 
   def user_session
     return if @jira_client.nil?

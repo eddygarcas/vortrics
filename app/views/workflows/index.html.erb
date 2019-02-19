@@ -1,14 +1,12 @@
-<% @title = "Listing workflows" %>
+<% @title = "Workflow" %>
 
 <% content_for :description do %>
-  <p>Edit this template in <code>app/views/workflows/index.html.erb</code>.</p>
+  <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
+    Current workflow for <%= current_user.setting.name %></p>
+
 <% end %>
 
-<% content_for :actions do %>
-  <%= link_to new_workflow_path, class: 'btn btn-primary btn-large pull-right' do %>
-    <%= fa_icon_tag "plus" %> Add Workflow
-  <% end %>
-<% end %>
+<br/>
 
 <div class="container-fluid">
   <div class="row">
@@ -18,21 +16,32 @@
           <table class="table">
             <thead>
             <tr>
-              <th></th>
+              <th>Open</th>
+              <th>Backlog</th>
+              <th>Work in progress</th>
+              <th>Testing</th>
+              <th>Done</th>
+              <th>Flagged/Blocked</th>
+              <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <% @workflows.each do |workflow| %>
+            <% if @workflow.present? %>
               <tr>
+                <td><%= workflow_tag @workflow.open %></td>
+                <td><%= workflow_tag @workflow.backlog, :warning %></td>
+                <td><%= workflow_tag @workflow.wip, :primary %></td>
+                <td><%= workflow_tag @workflow.testing, :primary %></td>
+                <td><%= workflow_tag @workflow.done, :success %></td>
+                <td><%= workflow_tag @workflow.flagged, :danger %></td>
                 <td class="actions">
-                  <%= link_to fa_icon_tag("eye"), workflow, rel: 'tooltip', title: 'Show' %>
-                  <%= link_to fa_icon_tag("pencil"), edit_workflow_path(workflow), rel: 'tooltip', title: 'Edit' %>
-                  <%= link_to fa_icon_tag("trash-o"), workflow, rel: 'tooltip', title: 'Delete',
+                  <%= link_to fa_icon_tag("pencil"), edit_workflow_path(@workflow), rel: 'tooltip', title: 'Edit' %>
+                  <%= link_to fa_icon_tag("trash-o"), @workflow, rel: 'tooltip', title: 'Delete',
                               data: { confirm: 'Are you sure?' }, method: :delete %>
                 </td>
               </tr>
             <% end %>
-            <% if @workflows.length == 0 %>
+            <% if @workflow.blank? %>
               <tr>
                 <td colspan=42 class='text-center'>No workflows.</td>
               </tr>

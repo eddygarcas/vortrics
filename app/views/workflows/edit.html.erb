@@ -1,9 +1,11 @@
-<% @title = "Editing workflow" %>
+<% @title = "Workflow" %>
 
 <% content_for :description do %>
-  <p>Edit this template in <code>app/views/workflows/edit.html.erb</code>.</p>
-<% end %>
+  <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
+    Edit current workflow for <%= current_user.setting.name %></p>
 
+<% end %>
+<br/>
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

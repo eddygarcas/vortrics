@@ -8,12 +8,17 @@ class WorkflowsController < ApplicationController
 	# GET /workflows
 	# GET /workflows.json
 	def index
-		@workflows = Workflow.all
+		@workflow = current_user.setting.workflow
+		redirect_to new_workflow_path and return if current_user.setting.workflow.blank?
+
+
 	end
 
 	# GET /workflows/1
 	# GET /workflows/1.json
 	def show
+		@workflow = current_user.setting.workflow
+		redirect_to new_workflow_path and return if current_user.setting.workflow.blank?
 	end
 
 	# GET /workflows/new
@@ -31,7 +36,7 @@ class WorkflowsController < ApplicationController
 		@workflow = Workflow.new(workflow_params)
 		respond_to do |format|
 			if @workflow.save
-				format.html { redirect_to @workflow, notice: 'Workflow was successfully created.' }
+				format.html { redirect_to :workflows, notice: 'Workflow was successfully created.' }
 				format.json { render :show, status: :created, location: @workflow }
 			else
 				format.html { render :new }
@@ -45,7 +50,7 @@ class WorkflowsController < ApplicationController
 	def update
 		respond_to do |format|
 			if @workflow.update(workflow_params)
-				format.html { redirect_to @workflow, notice: 'Workflow was successfully updated.' }
+				format.html { redirect_to :workflows, notice: 'Workflow was successfully updated.' }
 				format.json { render :show, status: :ok, location: @workflow }
 			else
 				format.html { render :edit }
