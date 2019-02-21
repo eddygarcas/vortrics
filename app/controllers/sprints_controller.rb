@@ -30,6 +30,11 @@ class SprintsController < ApplicationController
   def edit
   end
 
+  def dashboards
+
+  end
+
+
   #GET /sprints/1/graph_closed_by_day
   #This method will be called by ajax from sprint_points_graph.js
   def graph_closed_by_day

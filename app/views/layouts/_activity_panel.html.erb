@@ -13,8 +13,8 @@
   <div class="tab-content">
     <div class="tab-pane fade active in" style='height: 470px; overflow: scroll;' id='dashboard-recent-comments'>
       <ul class="list-group list-group-flush">
-        <% sprint.issues.each do |issue|
-          if issue.in_progress? %>
+        <% sprint.issues.each do |issue| %>
+          <% if issue.in_progress? %>
                 <li class='list-group-item'>
                   <div class="media">
                     <a class="pull-left" href="#">
@@ -62,8 +62,8 @@
     </div>
     <div class="tab-pane fade" style='height: 470px; overflow: scroll;' id='dashboard-recent-threads'>
       <ul class="list-group list-group-flush">
-        <% sprint.issues.each do |issue|
-          if issue.done? %>
+        <% sprint.issues.each do |issue| %>
+          <% if issue.done? %>
 
                 <li class='list-group-item' id="recent-<%= issue.key %>">
                   <div class="media">

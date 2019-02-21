@@ -27,6 +27,4 @@ module AssesmentsHelper
     end
     class_name
   end
-
-
 end

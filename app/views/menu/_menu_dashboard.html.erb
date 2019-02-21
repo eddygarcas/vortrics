@@ -9,9 +9,13 @@
         <%= link_to fa_icon_tag("line-chart") << "Dashboard", url %>
       <% end %>
 
+
       <% if @team.sprint.present? %>
         <%= activatable_li_tag sprint_path(@team.sprint) do |url| %>
-          <%= link_to fa_icon_tag("cogs") << "Sprints", url %>
+          <%= link_to fa_icon_tag("cogs") << "Sprint", url %>
+        <% end %>
+        <%= activatable_li_tag sprints_dashboards_path(@team.project) do |url| %>
+          <%= link_to fa_icon_tag("align-left") << "Sprint Race", url %>
         <% end %>
       <% else %>
         <%= activatable_li_tag sprint_import_path do |url| %>

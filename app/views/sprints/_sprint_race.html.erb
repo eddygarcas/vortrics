@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="sheet sheet-condensed">
+      <div class="sheet-inner">
+        <table class="table" id="userlist">
+          <thead>
+          <tr>
+            <th></th>
+            <th width="250">Team</th>
+            <th width="600">Progress</th>
+            <th width="90"></th>
+            <th width="100"></th>
+            <th width="100">Left</th>
+            <th width="100">Pass Rate</th>
+            <th width="100">Blocked</th>
+            <th width="100">Ratio</th>
+            <th width="100">Cycle Time</th>
+            <th width="100">Lead Time</th>
+            <th width="25"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% Team.where("project = ?", @team.project.to_s).all.each do |team| %>
+            <tr class="small">
+              <td><%= image_tag team.avatar.to_s, class: "img-circle profile-image", height: '25', width: '25' %></td>
+              <td><%= team.name %></td>
+              <td><%= render partial: "layouts/sprint_progress_bar", :locals => { :team => team, :type => 'progress-striped', :show_percent => true } if team.present? %></td>
+              <td align="center"><%= tag_info_table team.sprint.total_stories.to_s, :black, :items %></td>
+              <td align="center"><%= tag_info_table team.sprint.bugs, :black, :bugs %></td>
+              <td align="center"><%= tag_info_table days_remain(team.sprint.enddate), :black, :days unless team.sprint.blank? %></td>
+              <td align="center"><%= tag_info_table team.sprint.first_time_pass, :deepskyblue, :percent %></td>
+              <td align="center"><%= tag_info_table team.sprint.ratio_items_flagged, :red, :percent %></td>
+              <td align="center"><%= tag_info_table team.sprint.ratio_time_flagged, :red, :hours %></td>
+              <td align="center"><%= tag_info_table team.sprint.sprint_cycle_time, :black, :days %></td>
+              <td align="center"><%= tag_info_table team.sprint.sprint_lead_time, :black, :days %></td>
+              <td align="center"><%= link_to fa_icon_tag("cogs"), team.sprint, rel: 'tooltip', data: { toggle: "tooltip", title: 'Show Sprint dashboard' } %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div><!-- /.sheet-inner -->
+    </div><!-- /.sheet -->
+  </div>
+</div>

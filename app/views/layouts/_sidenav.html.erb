@@ -30,6 +30,18 @@
       <%= render 'menu/menu_kaizen' %>
     <% end %>
     <%= render 'menu/menu_admin' if current_user.admin? %>
-    <%= render "layouts/sprint_progress_bar", :locals => { :team => @team } if @team.present? %>
+    <li class="nav-side-menu-footer">
+      <% if !@team.sprint.blank? %>
+        <div>
+          <strong><%= @team.name unless @team.blank? %></strong>
+        </div>
+        <%= render partial: "layouts/sprint_progress_bar", :locals => { :team => @team, :type => 'progress-mini' } if @team.present? %>
+        <div class='text-center'>
+          <%= " <strong>".html_safe << @team.sprint.issues.count.to_s << " </strong>".html_safe %> Items
+          and <%= "<strong>".html_safe << @team.sprint.sprint_commitment.to_s << " </strong>".html_safe %> Story
+          points
+        </div>
+      <% end %>
+    </li>
   </ul>
 </div>

@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
   get '/sprints/:id/graph_closed_by_day', to: 'sprints#graph_closed_by_day'
   get '/sprints/:id/graph_release_time', to: 'sprints#graph_release_time'
+	get '/sprints/:proj_id/dashboard', to: 'sprints#dashboards', as: 'sprints_dashboards'
 
   # Will make board_id optional
   get '/import/sprint(/:board_id)', to: 'sprints#import', as: 'sprint_import'

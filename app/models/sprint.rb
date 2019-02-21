@@ -84,6 +84,14 @@ class Sprint < ApplicationRecord
     issues.map {|elem| elem.customfield_11802.to_i}.inject(0) {|sum, x| sum + x}
   end
 
+  def sprint_cycle_time
+	  issues.map { |issue| (issue.lead_time({ toString: :wip }, { toString: :done })).abs }.average.ceil.to_i
+  end
+
+  def sprint_lead_time
+	  issues.map { |issue| (issue.lead_time({ toString: :first }, { toString: :done })).abs }.average.ceil.to_i
+
+  end
 
   protected
 
