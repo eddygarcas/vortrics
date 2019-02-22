@@ -3,19 +3,19 @@
   <div class="progress-bar progress-bar-info" style="width: <%= team.bar_percent_of(:new?) %>%">
     <span class="sr-only"><%= team.bar_percent_of(:new?) %> % Open</span>
     <i class="fa fa-thumb-tack" data-toggle="tooltip" data-title="Open <%= team.bar_percent_of(:new?) %>%" style="margin-top: 5px;"></i>
-    <%= "#{team.bar_percent_of(:new?)} %" if show_percent %>
+    <%= tag_info_table(team.bar_percent_of(:new?), :white, :percent) if show.eql? :percent %>
   </div>
 
   <div class="progress-bar progress-bar-warning active" style="width: <%= team.bar_percent_of(:in_progress?) %>%">
     <span class="sr-only"><%= team.bar_percent_of(:in_progress?) %> % In Progress</span>
     <i class="glyphicon glyphicon-wrench" data-toggle="tooltip" data-title="Work in progress <%= team.bar_percent_of(:in_progress?) %>%" style="margin-top: 5px;"></i>
-    <%= "#{team.bar_percent_of(:in_progress?)} %" if show_percent %>
+    <%= tag_info_table(team.bar_percent_of(:in_progress?), :white, :percent) if show.eql? :percent %>
   </div>
 
   <div class="progress-bar progress-bar-success" style="width: <%= team.bar_percent_of(:done?) %>%">
     <span class="sr-only"><%= team.bar_percent_of(:done?) %> % Done</span>
     <i class="fa fa-gift" data-toggle="tooltip" data-title="Closed <%= team.bar_percent_of(:done?) %>%" style="margin-top: 5px;"></i>
-    <%= "#{team.bar_percent_of(:done?)} %" if show_percent %>
+    <%= tag_info_table(team.bar_percent_of(:done?), :white, :percent) if show.eql? :percent %>
   </div>
 
 </div>

@@ -9,11 +9,11 @@
             <th width="250">Team</th>
             <th width="600">Progress</th>
             <th width="90"></th>
-            <th width="100"></th>
-            <th width="100">Left</th>
+            <th width="80"></th>
+            <th width="80">Left</th>
             <th width="100">Pass Rate</th>
-            <th width="100">Blocked</th>
-            <th width="100">Ratio</th>
+            <th width="80">Ratio Block</th>
+            <th width="80">Ratio Time</th>
             <th width="100">Cycle Time</th>
             <th width="100">Lead Time</th>
             <th width="25"></th>
@@ -24,7 +24,7 @@
             <tr class="small">
               <td><%= image_tag team.avatar.to_s, class: "img-circle profile-image", height: '25', width: '25' %></td>
               <td><%= team.name %></td>
-              <td><%= render partial: "layouts/sprint_progress_bar", :locals => { :team => team, :type => 'progress-striped', :show_percent => true } if team.present? %></td>
+              <td><%= render partial: "layouts/sprint_progress_bar", :locals => { :team => team, :type => 'progress-striped', :show => :percent } if team.present? %></td>
               <td align="center"><%= tag_info_table team.sprint.total_stories.to_s, :black, :items %></td>
               <td align="center"><%= tag_info_table team.sprint.bugs, :black, :bugs %></td>
               <td align="center"><%= tag_info_table days_remain(team.sprint.enddate), :black, :days unless team.sprint.blank? %></td>
