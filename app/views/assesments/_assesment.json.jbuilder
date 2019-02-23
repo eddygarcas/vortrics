@@ -1,5 +1,5 @@
-json.extract! assesment, :id, :date, :name, :team, :maturity_framework
-assesment.answers.each do |answer|
+json.extract! assesment, :id, :date, :name, :team, :answers, :maturity_framework
+assesment.answers do |answer|
 	json.level do
 		json.id answer.question.q_stage.level.id
 		json.name answer.question.q_stage.level.name
