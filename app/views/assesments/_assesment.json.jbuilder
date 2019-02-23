@@ -1,5 +1,6 @@
-json.extract! assesment, :id, :date, :name, :team, :answers, :maturity_framework
-assesment.answers do |answer|
+json.(@assesment, :id, :date, :name, :team, :maturity_framework)
+
+json.answers @assesment.answers do |answer|
 	json.level do
 		json.id answer.question.q_stage.level.id
 		json.name answer.question.q_stage.level.name
@@ -16,7 +17,6 @@ assesment.answers do |answer|
 			json.value answer.value
 			json.comment answer.text
 		end
+		end
 	end
-
-end
 json.url assesment_url(assesment, format: :json)
