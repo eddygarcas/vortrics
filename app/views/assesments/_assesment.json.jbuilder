@@ -1,4 +1,4 @@
-json.(@assesment, :id, :date, :name, :team, :maturity_framework)
+json.(@assesment, :id, :date, :name, :team, :maturity_framework, :created_at, :updated_at)
 
 json.answers @assesment.answers do |answer|
 	json.level do
