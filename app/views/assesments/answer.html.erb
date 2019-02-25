@@ -1,18 +1,16 @@
 <% @title = @assesment.maturity_framework.name %>
 
 <% content_for :description do %>
-    <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '20', width: '20' %>
-      <%= @assesment.team.name %></p>
+  <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '20', width: '20' %>
+    <%= @assesment.team.name %></p>
 <% end %>
 
 
-<div class="row">
 <% content_for :actions do %>
-      <%= link_to assesments_path, class: 'btn btn-primary btn-large pull-right' do %>
-          <%= fa_icon_tag "reply" %> Back to assesments
-      <% end %>
+  <%= link_to assesments_path, class: 'btn btn-primary btn-large pull-right' do %>
+    <%= fa_icon_tag "reply" %> Back to assesments
+  <% end %>
 <% end %>
-
-  <%= render "layouts/flashes" %>
+<br/>
+<%= render "layouts/flashes" %>
 <%= render "level_tabbar" %>
-</div>
