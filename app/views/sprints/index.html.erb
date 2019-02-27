@@ -4,17 +4,14 @@
 
   <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
     Sprints</p>
-
   <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
-    <li><%= link_to "Sprint(s)", sprints_path %></li>
-    <li><%= link_to "Issues", issues_path %></li>
-
+    <li><%= link_to "Manage Users", devise_manage_users_path %></li>
+    <li><%= link_to "Clean Up", sprints_path %></li>
+    <li><%= link_to "External Services", settings_path %></li>
+    <li><%= link_to "Workflow", workflows_path %></li>
   </ol>
 <% end %>
 
-<% content_for :actions do %>
-
-<% end %>
 
 <script>
     $(document).ready(function () {
@@ -40,16 +37,24 @@
   <ul class="nav nav-tabs">
 
     <li role="presentation" class='navbar-form search-form form-group'>
-
       <%= text_field_tag 'name', nil, class: 'form-control', id: 'filterProject', placeholder: "Filter by team's name", data: {toggle: "tooltip", title: 'Filter by team name'} %>
       <span class="search-button"><i class="fa fa-filter"></i></span>
       <div class="help-block"></div>
     </li>
+
     <li class='navbar-form pull-left'>
       <%= link_to sprint_import_path, class: 'pull-left', data: {toggle: "tooltip", title: 'Add sprints from external service'} do %>
           <%= fa_icon_tag "plus" %> Add Sprint
       <% end %>
     </li>
+
+    <li class='navbar-form pull-right'>
+      <%= link_to issues_path, class: 'pull-right', data: { toggle: "tooltip", title: 'Clean up issues' } do %>
+        <%= fa_icon_tag "trash" %> Clean Issues
+      <% end %>
+    </li>
+
+
   </ul>
 
 

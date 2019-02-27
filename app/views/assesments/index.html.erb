@@ -1,19 +1,19 @@
 <% @title = "Listing assessments" %>
 
 <% content_for :description do %>
-    <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '20', width: '20' %>
-      <%= @project_name.to_s %></p>
+  <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30' %>
+    <%= @project_name.to_s %></p>
 <% end %>
 
 <% content_for :actions do %>
-    <%= link_to new_assesment_path, class: 'btn btn-primary btn-large pull-right' do %>
-        <%= fa_icon_tag "plus" %> New Assesment
-    <% end %>
+  <%= link_to new_assesment_path, class: 'btn btn-primary btn-large pull-right' do %>
+    <%= fa_icon_tag "plus" %> New Assesment
+  <% end %>
 <% end %>
 
 <%= render "layouts/flashes" %>
 
-
+<br/>
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -31,22 +31,22 @@
             </thead>
             <tbody>
             <% @assesments.each do |assesment| %>
-                <tr>
-                  <td><%= assesment.name %></td>
-                  <td><%= assesment.date.strftime('%a, %d/%b/%Y') %></td>
-                  <td><%= assesment.team.name %></td>
-                  <td><%= assesment.maturity_framework.name %></td>
-                  <td class="actions">
-                    <%= link_to fa_icon_tag("bookmark"), assesment_answer_path(assesment.id), rel: 'tooltip', title: 'Results' %>
-                    <%= link_to fa_icon_tag("trash-o"), assesment, rel: 'tooltip', title: 'Delete',
-                                data: {confirm: 'Are you sure?'}, method: :delete %>
-                  </td>
-                </tr>
+              <tr>
+                <td><%= assesment.name %></td>
+                <td><%= assesment.date.strftime('%a, %d/%b/%Y') %></td>
+                <td><%= assesment.team.name %></td>
+                <td><%= assesment.maturity_framework.name %></td>
+                <td class="actions">
+                  <%= link_to fa_icon_tag("bookmark"), assesment_answer_path(assesment.id), rel: 'tooltip', title: 'Results' %>
+                  <%= link_to fa_icon_tag("trash-o"), assesment, rel: 'tooltip', title: 'Delete',
+                              data: { confirm: 'Are you sure?' }, method: :delete %>
+                </td>
+              </tr>
             <% end %>
             <% if @assesments.length == 0 %>
-                <tr>
-                  <td colspan=42 class='text-center'>No assesments.</td>
-                </tr>
+              <tr>
+                <td colspan=42 class='text-center'>No assesments.</td>
+              </tr>
             <% end %>
             </tbody>
           </table>
