@@ -20,7 +20,7 @@
           </tr>
           </thead>
           <tbody>
-          <% Team.where("project = ?", @team.project.to_s).all.each do |team| %>
+          <% @team.sprint_by_project.each do |team| %>
             <tr class="small">
               <td><%= image_tag team.avatar.to_s, class: "img-circle profile-image", height: '25', width: '25' %></td>
               <td><%= team.name %></td>
