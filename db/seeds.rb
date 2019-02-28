@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 Group.create([{ priority: 1, name: :admin }, { priority: 9, name: :standard }, { priority: 99, name: :guest }])
 user = User.new
-user.email = 'admin@voardtrix.com'
+user.email = 'admin@vortrics.com'
 user.name = 'Admin'
 user.password = 'admin1234'
 user.password_confirmation = 'admin1234'

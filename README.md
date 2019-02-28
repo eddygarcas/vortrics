@@ -2,9 +2,9 @@
 ![Travis](https://travis-ci.org/eddygarcas/AgentAgile.svg?branch=master)
 
 
-![Image of Voardtrix](public/images/voardtrix_left.png)
+![Image of Vortrics](public/images/vortrics_name.png)
 
-Voardtrix was conceived from the idea to have a customized Scrum Dashboards as well as a system to analyze every team sprints and propose improvements based on expertise.
+Vortrics was conceived from the idea to have a customized Scrum Dashboards as well as a system to analyze every team sprints and propose improvements based on expertise.
 
 Currently I use this app for my own experimentation, creating any kind of graphics that helps me on my daily work and also to coach teams and managment based on real data.
 

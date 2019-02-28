@@ -1,5 +1,5 @@
 defaults: &defaults
-  name: Voardtrix
+  name: Vortrics
   :performance:
     :graph_limit: 60
   :jira:
@@ -49,11 +49,11 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  name: Voardtrix Development
+  name: Vortrics Development
 
 production:
   <<: *defaults
-  name: Voardtrix Production
+  name: Vortrics Production
   :jira:
     :site: "https://jira.scmspain.com"
     :restbasepath: "/rest/api/2"
@@ -68,4 +68,4 @@ production:
 
 test: &test
   <<: *defaults
-  name: Voardtrix Testing
+  name: Vortrics Testing
