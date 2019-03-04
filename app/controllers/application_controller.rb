@@ -54,8 +54,8 @@ class ApplicationController < ActionController::Base
 	end
 
 	def user_session
-		return if @jira_client.nil?
 		user = user_information
+		return if user.nil?
 		current_user.displayName = user[:displayName.to_s]
 		current_user.active = user[:active.to_s]
 		current_user.avatar = user[:avatarUrls.to_s]['48x48']

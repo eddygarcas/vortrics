@@ -2,7 +2,6 @@
  * Created by eduard.garcia on 13/10/2018.
  */
 $(document).on('turbolinks:load', function () {
-
     $('select#team_project').on('change', function (event) {
         var selected_id = $(this).val();
         $.ajax({
@@ -12,8 +11,6 @@ $(document).on('turbolinks:load', function () {
                 document.getElementById("project_image").src = items['avatarUrls']['32x32']
             }
         })
-
-
         $.ajax({
             type: 'GET',
             url: '/teams/boards_by_team/' + selected_id,
@@ -24,7 +21,5 @@ $(document).on('turbolinks:load', function () {
                 })
             }
         })
-
     });
-
 });

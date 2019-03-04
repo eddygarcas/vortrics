@@ -4,7 +4,6 @@ require_relative '../../app/models/change_log'
 class HomeController < ApplicationController
   layout 'sidenav'
   before_action :set_dashboard, only: [:sidenav, :dashboard, :manage_users]
-  before_action :get_jira_client
   before_action :team_session, :user_session, :set_current_user
 
   def sidenav
@@ -20,12 +19,10 @@ class HomeController < ApplicationController
     advice_agent
   end
 
-
   private
-
   # Use callbacks to share common setup or constraints between actions.
   def set_dashboard
-    @team = dashboard_params.to_i.zero?() ? Team.find_by_name(dashboard_params.to_s) : Team.find(dashboard_params)
+    @team = dashboard_params.to_i.zero? ? Team.find_by_name(dashboard_params.to_s) : Team.find(dashboard_params)
     flash[:notice] = ScrumMetrics.config[:messages][:first_steps].html_safe if Team.count.to_i.zero?
   end
 
