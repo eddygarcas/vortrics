@@ -76,7 +76,7 @@
                   <td><%= issue.customfield_11802 %></td>
                   <td><%= issue.created.strftime("%d/%m") unless issue.created.nil? %></td>
                   <td><%= issue.resolutiondate.strftime("%d/%m") unless issue.resolutiondate.nil? %></td>
-                  <td><%= issue_status issue.status, issue.statusname %></td>
+                  <td><%= vt_issue_status_tag issue.status, issue.statusname %></td>
                   <td><%= issue.components %></td>
                   <td><%= issue.assignee %></td>
                   <td><%= fa_icon_tag("flag") if issue.flagged? %></td>

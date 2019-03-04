@@ -44,7 +44,7 @@
               <td><h6><%= issue.created.strftime("%d/%m") unless issue.created.nil? %></h6></td>
               <td><h6><%= issue.resolutiondate.strftime("%d/%m") unless issue.resolutiondate.nil? %></h6></td>
               <td><h6><%= issue.components %></h6></td>
-              <td><%= issue_status issue.status, issue.statusname %></td>
+              <td><%= vt_issue_status_tag issue.status, issue.statusname %></td>
               <td><h6><%= issue.time_in :wip, :done %></h6></td>
               <td>
                 <div class="btn-group btn-group-xs">

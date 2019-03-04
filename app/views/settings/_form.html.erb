@@ -1,11 +1,6 @@
 <%= form_for(@setting, html: { multipart: true, class: 'form-horizontal' }) do |f| %>
   <%= f.error_notification %>
-
-
-
-
   <div class="form-inputs">
-
     <%= f.form_group :site do |f| %>
       <%= f.label :name, class: 'control-label col-md-2' %>
       <div class='col-md-4'>

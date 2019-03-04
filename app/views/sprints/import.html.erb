@@ -16,8 +16,8 @@
 
   <ul class="nav nav-tabs">
     <li role="presentation" class="dropdown">
-      <%= dropdown_menu "Change board selection #{params[:board_id].blank? ? @project_name.to_s : @boards[params[:board_id].to_i]}" do %>
-          <% @boards.each do |board| %>
+      <%= dropdown_menu "Change board selection #{params[:board_id].blank? ? @project_name.to_s : board_by_team[params[:board_id].to_i]}" do %>
+        <% board_by_team.each do |board| %>
               <%= activatable_li_tag_with_link board[1], sprint_import_path(board[0]) %>
           <% end %>
 
@@ -51,7 +51,7 @@
                   <td><%= formatDate sprint['startDate'] %></td>
                   <td><%= formatDate sprint['endDate'] %></td>
                   <td><%= formatDate sprint['completeDate'] %></td>
-                  <td><%= issue_status sprint['state'], sprint['state'].upcase %></td>
+                  <td><%= vt_issue_status_tag sprint['state'], sprint['state'].upcase %></td>
 
                   <td class="actions">
 

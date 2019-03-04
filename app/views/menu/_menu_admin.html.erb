@@ -1,6 +1,7 @@
 <li class="nav-item">
   <a class="nav-link"> <i class="fa fa-fw fa-cog fa-lg fa-fw"></i> Settings<span class="fa arrow"></span></a>
   <ul class="nav nav-second-level" aria-expanded="false">
+
     <%= activatable_li_tag devise_manage_users_path do |url| %>
       <%= link_to fa_icon_tag("users") << "Users & Groups", url %>
     <% end %>

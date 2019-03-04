@@ -1,35 +1,33 @@
-
-
 <%= form_for(@team, html: { class: 'form-horizontal' }) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
     <%= f.form_group :project do |f| %>
-        <%= f.label :project, class: 'control-label col-md-2' %>
-        <div class='col-md-8'>
-          <%= @team.avatar.blank? ? image_tag('/images/voardtrix_logo.png', class: "img-rounded", height: '32', width: '32', id: 'project_image') : image_tag(@team.avatar, class: "img-rounded", height: '32', width: '32', id: 'project_image') %>
-          <%= f.select :project, @project_list, include_blank: true, prompt: 'Select project...', required: true, class: 'form-control form-control-lg' %>
-          <%= f.error_messages %>
-        </div>
+      <%= f.label :project, class: 'control-label col-md-2' %>
+      <div class='col-md-8'>
+        <%= @team.avatar.blank? ? image_tag('/images/voardtrix_logo.png', class: "img-rounded", height: '32', width: '32', id: 'project_image') : image_tag(@team.avatar, class: "img-rounded", height: '32', width: '32', id: 'project_image') %>
+
+        <%= f.select :project, project_list, prompt: 'Select project...', required: true, class: 'form-control form-control-lg' %>
+        <%= f.error_messages %>
+
+      </div>
     <% end %>
 
     <%= f.form_group :board_id do |f| %>
-        <%= f.label :board_id, class: 'control-label col-md-2' %>
-        <div class='col-md-8'>
-          <%= f.select :board_id, @boards.invert, include_blank: true, prompt: 'No defined', required: true, class: 'form-control form-control-lg' %>
-          <%= f.error_messages %>
-        </div>
-    <% end %>
-
-    <%= f.form_group :name do |f| %>
-      <%= f.label :name, class: 'control-label col-md-2' %>
-        <div class='col-md-4'>
-        <%= f.text_field :name, required: true, class: 'form-control' %>
+      <%= f.label :board_id, class: 'control-label col-md-2' %>
+      <div class='col-md-8'>
+        <%= f.select :board_id, board_by_team.invert, prompt: 'No defined', required: true, class: 'form-control form-control-lg' %>
         <%= f.error_messages %>
       </div>
     <% end %>
 
-
+    <%= f.form_group :name do |f| %>
+      <%= f.label :name, class: 'control-label col-md-2' %>
+      <div class='col-md-4'>
+        <%= f.text_field :name, required: true, class: 'form-control' %>
+        <%= f.error_messages %>
+      </div>
+    <% end %>
 
 
   </div>

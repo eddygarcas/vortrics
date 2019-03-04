@@ -43,7 +43,7 @@
             <ul class="nav navbar-nav">
               <li class="dropdown">
                 <%= dropdown_menu "<span style='font-size: 18px;'>Download</span>".html_safe do %>
-                  <% @boards.each do |board| %>
+                  <% board_by_team.each do |board| %>
                     <%= activatable_li_tag_with_link board[1], sprint_import_path(board[0]) %>
                   <% end %>
                 <% end %>

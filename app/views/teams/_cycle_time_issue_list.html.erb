@@ -69,7 +69,7 @@
             <td><h6><%= issue.created.strftime("%d/%m/%Y") unless issue.created.nil? %></h6></td>
             <td><h6><%= issue.resolutiondate.strftime("%d/%m/%Y") unless issue.resolutiondate.nil? %></h6></td>
             <td><h6><%= issue.components %></h6></td>
-            <td><%= issue_status issue.status, issue.statusname.humanize %></td>
+            <td><%= vt_issue_status_tag issue.status, issue.statusname.humanize %></td>
             <td><h6><%= issue.cycle_time.round %>d</h6></td>
             <td>
               <div class="btn-group btn-group-xs">

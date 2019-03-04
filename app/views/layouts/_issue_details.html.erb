@@ -41,7 +41,7 @@
         <div class="panel-heading">
           <p class="lead"><%= fa_icon_tag("columns") %>
             Status
-            <span class="pull-right"> <%= issue_status @issue.status, @issue.statusname %></span>
+            <span class="pull-right"> <%= vt_issue_status_tag @issue.status, @issue.statusname %></span>
           </p>
         </div>
       </div>

@@ -31,15 +31,13 @@
     <% end %>
     <%= render 'menu/menu_admin' if current_user.admin? %>
     <li class="nav-side-menu-footer">
-      <% if !@team.sprint.blank? %>
+      <% unless @team.blank? %>
         <div>
-          <strong><%= @team.name unless @team.blank? %></strong>
+          <strong><%= @team.name %></strong>
         </div>
-        <%= render partial: "layouts/sprint_progress_bar", :locals => { :team => @team, :type => 'progress-mini' } if @team.present? %>
+        <%= render partial: "layouts/sprint_progress_bar", :locals => { :team => @team, :type => 'progress-mini' } %>
         <div class='text-center'>
-          <%= " <strong>".html_safe << @team.sprint.issues.count.to_s << " </strong>".html_safe %> Items
-          and <%= "<strong>".html_safe << @team.sprint.sprint_commitment.to_s << " </strong>".html_safe %> Story
-          points
+          <%= vt_items_text_tag %>
         </div>
       <% end %>
     </li>

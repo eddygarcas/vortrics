@@ -1,5 +1,5 @@
+<% if team.sprint.present? %>
 <div class="progress <%= type %>" style="margin-bottom: 0px;">
-
   <div class="progress-bar progress-bar-info" style="width: <%= team.bar_percent_of(:new?) %>%">
     <span class="sr-only"><%= team.bar_percent_of(:new?) %> % Open</span>
     <i class="fa fa-thumb-tack" data-toggle="tooltip" data-title="Open <%= team.bar_percent_of(:new?) %>%" style="margin-top: 5px;"></i>
@@ -17,6 +17,5 @@
     <i class="fa fa-gift" data-toggle="tooltip" data-title="Closed <%= team.bar_percent_of(:done?) %>%" style="margin-top: 5px;"></i>
     <%= tag_info_table(team.bar_percent_of(:done?), :white, :percent) if show.eql? :percent %>
   </div>
-
 </div>
-
+<% end %>
