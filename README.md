@@ -2,7 +2,7 @@
 ![Travis](https://travis-ci.org/eddygarcas/AgentAgile.svg?branch=master)
 
 
-![Image of Vortrics](public/images/voardtrix_logo.png)
+![Image of Vortrics](public/images/voardtrix_logo.png) # Vortrics
 
 Vortrics was conceived from the idea to have a customized Scrum Dashboards as well as a system to analyze every team sprints and propose improvements based on expertise.
 
