@@ -1,6 +1,29 @@
 # Developer notes
-
 ##Ruby on Rails
+###Upgrade Ruby
+```
+$ curl -sSL https://get.rvm.io | bash -s stable
+$ rvm list known
+# MRI Rubies
+[ruby-]2.1[.10]
+[ruby-]2.2[.10]
+[ruby-]2.3[.8]
+[ruby-]2.4[.5]
+[ruby-]2.5[.3]
+[ruby-]2.6[.0]
+$ rvm install ruby-2.4.0
+$ rvm use ruby-2.4.0 --default
+```
+###Update Bundler
+```
+$ gem update --system
+$ update bundler
+$ gem install bundler
+```
+Update Gemfile.lock in your project
+``
+$ bundler update --bundler
+```
 
 ###Console
 #####Run on development mode
