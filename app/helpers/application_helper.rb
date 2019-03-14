@@ -42,7 +42,7 @@ module ApplicationHelper
 		}
 		options = value >= target ? (icon.eql?(:chevon) ? class_options[:possitive] : class_options[:success]) : (icon.eql?(:chevon) ? class_options[:negative] : class_options[:failure])
 
-		content_tag(:p, content_tag(:i, nil, class: options[:i]) << ' ' << value.abs.floor(2).to_s << '%', class: options[:p])
+		content_tag(:p, content_tag(:i, nil, class: options[:i]) << ' ' << value.abs.floor.to_s << '%', class: options[:p])
 	end
 
 
@@ -81,7 +81,7 @@ module ApplicationHelper
 		col = value > 0 ? pos_col : neg_col
 		i_col = value > 0 ? i_pos_col : i_neg_col
 
-		content_tag(:i, nil, class: options[:i], style: i_col) << col.html_safe << value.abs.floor(2).to_s << (percent ? '%' : '') << "</strong>".html_safe << text
+		content_tag(:i, nil, class: options[:i], style: i_col) << col.html_safe << value.abs.floor.to_s << (percent ? '%' : '') << "</strong>".html_safe << text
 	end
 
 	def vt_work_time_tag key, title = '', text = 'n/d'
