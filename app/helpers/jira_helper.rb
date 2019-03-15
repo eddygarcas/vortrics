@@ -67,7 +67,6 @@ module JiraHelper
 	end
 
 	def import_sprint sprintId, options = {}
-		return if current_user.setting.blank?
 		elems = Rails.cache.fetch("sprint_#{sprintId}", expires_in: 2.minutes) {
 			param_hash = {}
 			agile_query jira_instance(current_user.setting), "/sprint/#{sprintId}/issue", param_hash, options
