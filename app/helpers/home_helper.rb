@@ -1,5 +1,13 @@
 module HomeHelper
 
+  def vt_dynamic_link fullpath, id = nil
+    link = Rails.application.routes.recognize_path(fullpath)
+    logger.info "Link #{link}"
+    link[:id] = id
+    return link if link[:controller].eql? 'teams'
+    get_dashboard_path(id)
+  end
+
   def start_date_validation team
     return 'n/d' if team.blank? || team.sprint.blank? || team.sprint.start_date.blank?
     team.sprint.start_date.strftime("%d/%m/%y")

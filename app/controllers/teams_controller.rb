@@ -3,7 +3,7 @@ class TeamsController < ApplicationController
 	layout 'sidenav'
 	helper_method :sort_column, :sort_direction
 	before_action :set_team, only: [:show, :edit, :update, :key_results, :update_capacity, :destroy]
-	before_action :team_session, except: [:show, :update, :edit, :update_capacity, :destroy]
+	before_action :team_session, except: [:show, :update, :edit, :update_capacity, :destroy, :key_results]
 	before_action :user_session, :set_current_user
 
 	# GET /teams
@@ -166,6 +166,7 @@ class TeamsController < ApplicationController
 		@cycle_time_issues = @team.issues_selectable_for_graph
 		@cycle_time_issues.sort_by!(&sort_column.to_sym)
 		@cycle_time_issues.reverse! if sort_direction.eql? 'asc'
+
 	end
 
 	# GET /teams/1
