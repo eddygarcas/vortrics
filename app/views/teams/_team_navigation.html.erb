@@ -5,7 +5,7 @@
 
 
     <li role="presentation" class="dropdown pull-right">
-      <%= dropdown_menu "<i class='fa fa-fw fa fa-users'></i> Select team".html_safe do %>
+      <%= dropdown_menu "<i class='fa fa-fw fa fa-users'></i> Team #{@team.name}".html_safe do %>
         <% Team.all.each do |team| %>
           <%= activatable_li_tag_with_link (team.avatar.blank? ? '' : image_tag(team.avatar, class: "img-rounded", height: '20', width: '20')) << " #{team.name}", teams_key_results_path(team)%>
         <% end %>

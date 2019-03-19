@@ -5,7 +5,6 @@
       <%= f.label :name, class: 'control-label col-md-2' %>
       <div class='col-md-4'>
         <div class="input-group leading">
-          <span class="input-group-addon">https://</span>
           <%= f.text_field :name, class: 'form-control', placeholder: "Connection name" %>
         </div>
         <%= f.error_messages %>
@@ -18,8 +17,8 @@
       <%= f.label :site, class: 'control-label col-md-2' %>
       <div class='col-md-4'>
         <div class="input-group leading">
-          <span class="input-group-addon">https://</span>
-          <%= f.text_field :site, class: 'form-control', placeholder: "jira.yourrestserver.com" %>
+          <span class="input-group-addon">https</span>
+          <%= f.text_field :site, class: 'form-control', placeholder: "https://jira.yourrestserver.com" %>
         </div>
         <%= f.error_messages %>
 
@@ -57,6 +56,8 @@
         <%= f.error_messages %>
       </div>
     <% end %>
+
+
 
     <%= f.form_group :oauth do |f| %>
       <%= f.label :oauth, class: 'control-label col-md-2' %>

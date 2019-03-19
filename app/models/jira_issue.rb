@@ -19,7 +19,7 @@ class JiraIssue
   end
 
   def bug?
-    issuetype[:id.to_s] === '4'
+    (issuetype[:id.to_s].eql?('4') || issuetype['name'].downcase.eql?('bug'))
   end
 
   def task?
@@ -51,8 +51,8 @@ class JiraIssue
     issue.closed_in = parse_closed_sprints? ? parse_closed_sprints : sprint['self'] unless (sprint.blank? && closedSprints.blank?)
     issue.customfield_11382 = number_of_sprints
     issue.description = description
-    issue.priority = priority['name']
-    issue.priorityicon = priority['iconUrl']
+    issue.priority = priority['name'] unless priority.blank?
+    issue.priorityicon = priority['iconUrl'] unless priority.blank?
     issue.components = components.map {|elem| elem['name']}.join(",")
     issue.status = status['statusCategory']['key']
     issue.statusname = status['statusCategory']['name']

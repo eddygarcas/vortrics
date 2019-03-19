@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  issue_name: MyString
+  jira_name: MyString
+  setting: one
+
+two:
+  issue_name: MyString
+  jira_name: MyString
+  setting: two
