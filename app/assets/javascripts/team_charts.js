@@ -70,7 +70,7 @@ function InitializeReleaseTimeGraphTeam() {
             var clickinghandler = new Rickshaw.Graph.ClickDetail({
                 graph: graph,
                 clickHandler: function (value) {
-                    window.open('https://jira.scmspain.com/browse/' + $(".key_team_story").text())
+                    window.open($('#extsite')[0].value + '/browse/' + $(".key_team_story").text())
                 }
             });
 
@@ -341,7 +341,7 @@ function InitializeReleaseTimeBugsGraphTeam() {
             var clickinghandler = new Rickshaw.Graph.ClickDetail({
                 graph: graph,
                 clickHandler: function (value) {
-                    window.open('https://jira.scmspain.com/browse/' + $(".key_team_story").text())
+                    window.open($('#extsite')[0].value +'/browse/' + $(".key_team_story").text())
                 }
             });
 

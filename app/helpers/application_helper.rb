@@ -117,7 +117,7 @@ module ApplicationHelper
 	end
 
 	def link_to_ext key, name = fa_icon_tag("eye")
-		link_to name, "#{ScrumMetrics.config[:jira][:site]}/browse/#{key}", rel: 'tooltip', title: 'Show', target: :_blank
+		link_to name, "#{current_user.setting.site}/browse/#{key}", rel: 'tooltip', title: 'Show', target: :_blank
 	end
 
 end
