@@ -43,7 +43,7 @@ gem 'jira-ruby', '1.5.0', :require => 'jira-ruby'
 # gem 'capistrano-rails', group: :development
 gem 'bootstrap-datepicker-rails'
 
-gem 'devise', '4.3.0'
+gem "devise", ">= 4.6.0"
 
 gem 'jquery-rails'
 
