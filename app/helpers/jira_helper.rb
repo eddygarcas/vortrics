@@ -33,7 +33,7 @@ module JiraHelper
 	# Request GET: /rest/api/2/project
 	def project_list
 		return if current_user.setting.blank?
-		Rails.cache.fetch("projects", expires_in: 7.day) {
+		Rails.cache.fetch("projects_#{current_user.setting.site}", expires_in: 7.day) {
 			elems = Hash.new
 			projects_array = jira_instance(current_user.setting).Project.all
 			projects_array.each do |elem|
