@@ -7,7 +7,7 @@ module ApplicationHelper
 	end
 
 	def board_by_team
-		key = @team.blank? ? project_list.values[0] : @team.project
+		key = project_list.value?(@team.project) ? @team.project : project_list.values[0]
 		return { name: 'None' } if key.blank?
 		boards_by_project key
 	end
