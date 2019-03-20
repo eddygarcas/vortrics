@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def project_information
-		project = @team.blank? ? project_list.values[0] : @team.project
+		project = project_list.value?(@team.project) ? @team.project : project_list.values[0]
 		options = { fields: [:project], maxResults: 1 }
 		issue = JiraIssue.new(current_project(project, options).first)
 		@project_name = issue.project.blank? ? 'n/d' : issue.project[:name.to_s]
