@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190318103224) do
+ActiveRecord::Schema.define(version: 20190321154603) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -193,6 +193,8 @@ ActiveRecord::Schema.define(version: 20190318103224) do
     t.integer "board_id"
     t.string "avatar"
     t.string "estimated"
+    t.integer "setting_id"
+    t.index ["setting_id"], name: "index_teams_on_setting_id"
   end
 
   create_table "users", force: :cascade do |t|

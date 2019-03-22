@@ -34,7 +34,7 @@
             <ul class="nav navbar-nav" style="font-size: 18px;">
               <li class="dropdown navbar-brand">
                 <%= dropdown_menu @team.blank? ? "No team selected" : @team.name.to_s.upcase do %>
-                  <% Team.all.each do |team| %>
+                  <% Team.where(:setting_id => current_user.setting.id).each do |team| %>
                     <%= activatable_li_tag_with_link (team.avatar.blank? ? '' : image_tag(team.avatar, class: "img-rounded", height: '20', width: '20')) << " #{team.name}", get_dashboard_path(team.id) %>
                   <% end %>
                 <% end %>

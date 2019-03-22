@@ -19,6 +19,7 @@ class User < ApplicationRecord
 	end
 
 	def self.workflow
+		return nil if Thread.current[:user].setting.blank?
 		Thread.current[:user].setting.workflow
 	end
 

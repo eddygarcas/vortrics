@@ -254,7 +254,6 @@ class Team < ApplicationRecord
 		sum_colum.blank? ? 0 : sum_colum
 	end
 
-	#=> Sprint(id: integer, name: string, stories: integer, bugs: integer, closed_points: integer, remaining_points: integer, team_id: integer, created_at: datetime, updated_at: datetime)
 	def update_active_sprint p = {}
 		Sprint.find_or_initialize_by(name: p[:sprint][:name]).update(p[:sprint])
 	end

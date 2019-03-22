@@ -17,4 +17,8 @@ class Setting < ApplicationRecord
 	validates :login, presence: { message: "Login cannot be blank using a Basic authorisation." }, unless: :oauth?
 	validates :password, presence: { message: "Password cannot be blank using a Basic authorisation." }, unless: :oauth?
 
+	def teams?
+		Team.where(:setting_id => id).present?
+	end
+
 end

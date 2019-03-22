@@ -82,7 +82,6 @@ class TeamsController < ApplicationController
 	#this method will return an array of data, the first serio will contain Bugs lead time, the second Stories Release time and the third dates
 	def graph_release_time
 		data = Rails.cache.fetch("graph_release_time_team_#{@team.id}", expires_in: 30.minutes) {
-
 			data = Array.new { Array.new }
 			user_stories = @team.issues_selectable_for_graph.sort_by(&:resolutiondate)
 			stories_lead_time = user_stories.map { |issue| issue.cycle_time }
