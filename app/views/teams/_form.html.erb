@@ -37,6 +37,9 @@
       </div>
     <% end %>
 
+    <%= f.form_group :setting_id do |f| %>
+      <%= f.hidden_field :setting_id, value: current_user.setting.id %>
+    <% end %>
 
   </div>
 
