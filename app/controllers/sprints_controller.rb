@@ -35,7 +35,6 @@ class SprintsController < ApplicationController
 
 
   #GET /sprints/1/graph_closed_by_day
-  #This method will be called by ajax from sprint_points_graph.js
   def graph_closed_by_day
     data = Rails.cache.fetch("graph_closed_by_day_sprint_#{@sprint.id}", expires_in: 30.minutes) {
       data = Array.new {Array.new}

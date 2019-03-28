@@ -128,7 +128,6 @@ function InitializeReleaseTimeGraphTeam() {
 
 }
 
-
 function InitializeCycleTimeGraphTeam() {
 
     if ($('#teamid')[0] === undefined) {
@@ -266,10 +265,6 @@ function InitializeCycleTimeGraphTeam() {
     })
 
 }
-
-
-
-
 
 function InitializeReleaseTimeBugsGraphTeam() {
 
@@ -435,6 +430,96 @@ function InitializeOpenClosedBugsGraphTeam(id) {
                         renderer: 'stack',
                         color: '#ff9642',
                         data: data[0]
+                    }
+                ]
+            });
+            graph.render();
+
+            var format = function (n) {
+                if (data[2][n] === undefined) {
+                    return;
+                }
+                return data[2][n].y;
+
+            }
+            var x_ticks = new Rickshaw.Graph.Axis.X({
+                graph: graph,
+                orientation: 'bottom',
+                element: document.getElementById(_id + '-x_axis'),
+                pixelsPerTick: 100,
+                tickFormat: format
+            });
+            x_ticks.render();
+
+            var hoverDetail = new Rickshaw.Graph.HoverDetail({
+                onShow: function (event) {
+                    $('#key')[0].value = $(".key_team_bug").text();
+                },
+                graph: graph,
+                formatter: function (series, x, y) {
+                    var sprint = '<span class="date key_team_bug">' + data[2][x].y + '</span>';
+                    var content = series.name + ": " + parseInt(y) + ' Bugs<br>' + sprint;
+                    return content;
+                }
+            });
+
+            $(window).on('resize', function () {
+                graph.configure({
+                    width: $('#' + _id).parent('.panel-body').width(),
+                    height: 220
+                });
+                graph.render();
+            });
+
+
+        }
+    })
+
+}
+
+function InitializeComulativeFlowChart(id) {
+    var _id = ''
+    if (id === undefined) {
+        _id = 'team-comulative-flow'
+    }
+    console.log('team:' + $('#teamid')[0])
+    if ($('#teamid')[0] === undefined) {
+        return;
+    }
+    $.ajax({
+        type: 'GET',
+        url: '/teams/' + $('#teamid')[0].value + '/graph_comulative_flow_diagram',
+        success: function (data) {
+
+            if ($('#' + _id)[0] === undefined) {
+                return;
+            } else {
+                document.getElementById(_id).innerHTML = "";
+                document.getElementById(_id + '-x_axis').innerHTML = "";
+
+            }
+            graph = new Rickshaw.Graph({
+                element: document.getElementById(_id),
+                height: 220,
+                renderer: 'multi',
+                series: [
+                    {
+                        name: 'Closed',
+                        renderer: 'stack',
+                        color: '#0085f9',
+                        data: data[1]
+                    },
+                    {
+                        name: 'In Progress',
+                        renderer: 'stack',
+                        color: '#90caf9',
+                        data: data[0]
+                    },
+                    {
+                        name: 'Todo',
+                        renderer: 'stack',
+                        color: '#ff9642',
+                        data: data[3]
                     }
                 ]
             });

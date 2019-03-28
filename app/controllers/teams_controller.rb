@@ -13,7 +13,6 @@ class TeamsController < ApplicationController
 	end
 
 	# GET /teams/1/graph_points
-	#This method will be called by ajax from sprint_points_graph.js
 	def get_graph_data
 		data = Array.new { Array.new }
 		data[0] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :closed_points)
@@ -41,20 +40,17 @@ class TeamsController < ApplicationController
 	end
 
 	# GET /teams/1/graph_stories
-	#This method will be called by ajax from sprint_points_graph.js
 	def get_graph_stories
 		cycle_time_user_stories = @team.issues_selectable_for_graph.sort_by(&:resolutiondate).map { |issue| issue.cycle_time }
 		render json: cycle_time_user_stories.map.with_index { |issue, index| [index, cycle_time_user_stories.take(index).average] }
 	end
 
 	# GET /teams/1/graph_bugs
-	#This method will be called by ajax from sprint_points_graph.js
 	def get_graph_bugs
 		render json: Team.find(params[:id]).array_of_data_for_graph(:bugs)
 	end
 
 	#GET /teams/1/graph_closed_by_day
-	#This method will be called by ajax from sprint_points_graph.js
 	def graph_closed_by_day
 		data = Rails.cache.fetch("graph_closed_by_day_team_#{@team.id}", expires_in: 30.minutes) {
 
@@ -153,6 +149,22 @@ class TeamsController < ApplicationController
 		render json: data
 	end
 
+	def graph_comulative_flow_diagram
+		data = Rails.cache.fetch("graph_comulative_flow_diagram_#{@team.id}", expires_in: 30.minutes) {
+			data = Array.new { Array.new }
+			issues = @team.issues_selectable_for_graph.sort_by(&:resolutiondate)
+			sum_open = 0
+			sum_inprogress = 0
+			sum_closed = 0
+			data[2] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: day.strftime("%d/%m") } }
+			data[3] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: sum_open += GraphHelper.number_of(issues, day, :created) } }
+			data[0] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: sum_inprogress += (GraphHelper.number_of(issues, day, :created) - GraphHelper.number_of(issues, day, :resolutiondate)) } }
+			data[1] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: sum_closed += GraphHelper.number_of(issues, day, :resolutiondate) } }
+			data
+		}
+		render json: data
+	end
+
 	def full_project_details
 		render json: project_details(params['proj_id'])
 	end
@@ -165,6 +177,9 @@ class TeamsController < ApplicationController
 		@cycle_time_issues = @team.issues_selectable_for_graph
 		@cycle_time_issues.sort_by!(&sort_column.to_sym)
 		@cycle_time_issues.reverse! if sort_direction.eql? 'asc'
+	end
+
+	def comulative_flow_diagram
 
 	end
 

@@ -1,3 +1,38 @@
+<% content_for :javascript do %>
+  <script>
+      $(document).on('turbolinks:load', function () {
+          InitializePointsGraph();
+          InitializeClosedByDayGraph();
+          InitializeReleaseTimeGraphTeam();
+          InitializeReleaseTimeBugsGraphTeam();
+          InitializeOpenClosedBugsGraphTeam();
+          InitializeAverageStoriesGraph();
+
+          $("#sgraph_noestimate").on("click", function () {
+              if ($("#sgraph_noestimate")[0].checked) {
+                  InitializeNoEstimatesGraph();
+              }else{
+                  if ($("#sgraph")[0].checked) {
+                      InitializeGrpahStories();
+                  } else {
+                      InitializePointsGraph();
+                  }
+              }
+          });
+
+          $("#sgraph").on("click", function () {
+              $("#sgraph_noestimate")[0].checked = false
+              if ($("#sgraph")[0].checked) {
+                  InitializeGrpahStories();
+              } else {
+                  InitializePointsGraph();
+              }
+          });
+
+      });
+  </script>
+<% end %>
+
 <div class="container-fluid mt20">
   <%= hidden_field_tag 'teamid', @team.id, class: 'form-control', id: 'teamid' %>
   <%= hidden_field_tag 'extsite', current_user.setting.site, class: 'form-control', id: 'extsite' %>

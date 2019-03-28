@@ -1,10 +1,12 @@
-<script>
-    $(document).ready(function () {
+<% content_for :javascript do %>
+  <script>
+      $(document).on('turbolinks:load', function () {
         InitializeClosedByDayGraphSprint();
         InitializeReleaseTimeGraphSprint();
     });
 </script>
 
+<%end %>
 <% @title = "Sprint / #{@sprint.name}" %>
 
 <% content_for :description do %>

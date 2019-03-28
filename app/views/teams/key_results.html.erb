@@ -1,8 +1,11 @@
-<script>
-    $(document).ready(function () {
-        InitializeCycleTimeGraphTeam();
-    });
-</script>
+<% content_for :javascript do %>
+  <script>
+      $(document).ready(function () {
+          InitializeCycleTimeGraphTeam();
+          InitializeAverageStoriesGraph();
+      });
+  </script>
+<% end %>
 
 <% @title = "Cycle Time / #{@team.name}" %>
 

@@ -76,7 +76,7 @@ function InitializeNoEstimatesGraph() {
 
 }
 
-function InitializePointsGraph() {
+function InitializeAverageStoriesGraph() {
 
     if ($('#searchbox')[0] === undefined) {
         return;
@@ -90,6 +90,13 @@ function InitializePointsGraph() {
         }
 
     });
+}
+
+function InitializeAverageBugsGraph() {
+
+    if ($('#searchbox')[0] === undefined) {
+        return;
+    }
 
     // Will get data with total bugs per sprint
     $.ajax({
@@ -100,7 +107,13 @@ function InitializePointsGraph() {
         }
 
     })
+}
 
+function InitializePointsGraph() {
+
+    if ($('#searchbox')[0] === undefined) {
+        return;
+    }
 
     $.ajax({
         type: 'GET',

@@ -21,7 +21,6 @@
 //= require turbolinks
 //= require sweet-alert
 //= require sweet-alert-confirm
-//= require sprint_points_graph
 //= require lightbox
 //= require_tree .
 
