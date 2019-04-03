@@ -3,11 +3,11 @@
 one:
   created: 2018-10-03 15:06:53
   fromString: MyString
-  toString: MyString
+  toString: wip
   issue: one
 
 two:
   created: 2018-10-03 15:06:53
   fromString: MyString
-  toString: MyString
+  toString: done
   issue: two

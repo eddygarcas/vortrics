@@ -150,18 +150,18 @@ class TeamsController < ApplicationController
 	end
 
 	def graph_comulative_flow_diagram
-		data = Rails.cache.fetch("graph_comulative_flow_diagram_#{@team.id}", expires_in: 30.minutes) {
+		#data = Rails.cache.fetch("graph_comulative_flow_diagram_#{@team.id}", expires_in: 30.minutes) {
 			data = Array.new { Array.new }
 			issues = @team.issues_selectable_for_graph.sort_by(&:resolutiondate)
 			sum_open = 0
 			sum_inprogress = 0
 			sum_closed = 0
 			data[2] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: day.strftime("%d/%m") } }
-			data[3] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: sum_open += GraphHelper.number_of(issues, day, :created) } }
-			data[0] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: sum_inprogress += (GraphHelper.number_of(issues, day, :created) - GraphHelper.number_of(issues, day, :resolutiondate)) } }
+			data[3] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: sum_open += (GraphHelper.number_of(issues,day,:created) ) } }
+			data[0] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: sum_inprogress += (GraphHelper.number_of(issues,day,:created) - GraphHelper.number_of(issues, day, :resolutiondate)) }}
 			data[1] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: sum_closed += GraphHelper.number_of(issues, day, :resolutiondate) } }
 			data
-		}
+		#}
 		render json: data
 	end
 

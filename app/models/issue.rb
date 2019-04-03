@@ -83,6 +83,12 @@ class Issue < ApplicationRecord
 		(lead_time({ toString: :first }, { toString: :wip })).abs
 	end
 
+	def was_wip? date
+		wipdate = changelog_lapse(:toString, :wip, &:first)
+		return false if wipdate.blank?
+		date.yday.eql? wipdate.created.to_datetime.yday
+	end
+
 
 	def first_time_pass_rate?
 		change_logs.select(&:first_time_review?).count.eql? 1

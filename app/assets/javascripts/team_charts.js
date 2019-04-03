@@ -548,7 +548,7 @@ function InitializeComulativeFlowChart(id) {
                 graph: graph,
                 formatter: function (series, x, y) {
                     var sprint = '<span class="date key_team_bug">' + data[2][x].y + '</span>';
-                    var content = series.name + ": " + parseInt(y) + ' Bugs<br>' + sprint;
+                    var content = series.name + ": " + parseInt(y) + ' User Stories<br>' + sprint;
                     return content;
                 }
             });
