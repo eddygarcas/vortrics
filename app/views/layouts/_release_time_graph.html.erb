@@ -31,22 +31,25 @@
     color: #333
   }
 
-  #<%= locals[:graph_id] %>y_axis-1 {
+  #<%= locals[:graph_id] %>-y_axis1 {
     position: absolute;
-    left: 520px;
-    top: 0;
+    left: -25px;
+    top: 15px;
     bottom: 0;
     width: 40px;
   }
 
-  #<%= locals[:graph_id] %>y_axis2 {
+  #<%= locals[:graph_id] %>-y_axis2 {
     position: absolute;
-    left: 520px;
-    top: 0;
+    left: 96%;
+    top: 15px;
     bottom: 0;
     width: 40px;
   }
+
+
 </style>
+<%= hidden_field_tag 'teamid',@team.id, id: 'teamid' %>
 
 <div class="panel panel-default">
   <div class="panel-heading ">
@@ -57,6 +60,8 @@
   </div>
 
   <div class="panel-body" style="position: relative">
+    <div id="<%= locals[:graph_id] %>-y_axis1"></div>
+    <div id="<%= locals[:graph_id] %>-y_axis2"></div>
 
     <div id="<%= locals[:graph_id] %>" style="position: relative">
       <div id="<%= locals[:graph_id] %>-loader">
@@ -65,5 +70,6 @@
       <div id="<%= locals[:graph_id] %>-legend" class="pull-right"></div>
     </div>
     <div id="<%= locals[:graph_id] %>-x_axis"></div>
+    <div style="margin-left: 0px; width: 440px;" id="rangeSlider"></div>
   </div>
 </div>

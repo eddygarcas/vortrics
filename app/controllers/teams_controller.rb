@@ -2,7 +2,7 @@ class TeamsController < ApplicationController
 	helper_method :boards_by_team
 	layout 'sidenav'
 	helper_method :sort_column, :sort_direction
-	before_action :set_team, only: [:show, :edit, :update, :key_results, :update_capacity, :destroy]
+	before_action :set_team, only: [:show, :edit, :update, :key_results, :comulative_flow_diagram, :update_capacity, :destroy]
 	before_action :team_session, except: [:show, :update, :edit, :update_capacity, :destroy, :key_results]
 	before_action :user_session, :set_current_user
 
@@ -141,7 +141,7 @@ class TeamsController < ApplicationController
 			data[5] = bugs.map.with_index { |issue, index| { x: index, y: issue.more_than_sprint? } }
 			data[6] = bugs.map.with_index { |issue, index| { x: index, y: issue.time_flagged } }
 			data[7] = bugs.map.with_index { |issue, index| { x: index, y: issue.status.upcase } }
-			data[8] = bugs.map.with_index { |bug, index| { x: index, y: bugs.take(index).map { |issue| ((issue.life_time) / 1.day).abs }.average } }
+			data[8] = bugs.map.with_index { |issue, index| { x: index, y: bugs.take(index).map { |issue| ((issue.life_time) / 1.day).abs }.average } }
 			data[9] = bugs.map.with_index { |issue, index| { x: index, y: ((issue.time_in :wip, :last, false) / 1.day).abs } }
 
 			data
@@ -150,7 +150,7 @@ class TeamsController < ApplicationController
 	end
 
 	def graph_comulative_flow_diagram
-		#data = Rails.cache.fetch("graph_comulative_flow_diagram_#{@team.id}", expires_in: 30.minutes) {
+		data = Rails.cache.fetch("graph_comulative_flow_diagram_#{@team.id}", expires_in: 30.minutes) {
 			data = Array.new { Array.new }
 			issues = @team.issues_selectable_for_graph.sort_by(&:resolutiondate)
 			sum_open = 0
@@ -160,8 +160,9 @@ class TeamsController < ApplicationController
 			data[3] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: sum_open += (GraphHelper.number_of(issues,day,:created) ) } }
 			data[0] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: sum_inprogress += (GraphHelper.number_of(issues,day,:created) - GraphHelper.number_of(issues, day, :resolutiondate)) }}
 			data[1] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| { x: index, y: sum_closed += GraphHelper.number_of(issues, day, :resolutiondate) } }
+			data[4] = data[0].map.each_with_index { |wip,index| { x: index, y: wip[:y] + data[1][index][:y]} }
 			data
-		#}
+		}
 		render json: data
 	end
 

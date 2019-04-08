@@ -13,13 +13,14 @@
 
 <% content_for :actions do %>
 <% end %>
-<%= hidden_field_tag 'teamid',@team.id, id: 'teamid' %>
 
 
 <%#= render "layouts/sprint_navigation" %>
 <%= render "team_navigation" %>
 
 <div class="container-fluid">
+  <%= hidden_field_tag 'teamid', @team.id, class: 'form-control', id: 'teamid' %>
+
   <%= render "layouts/flashes" %>
 
   <div class="row">

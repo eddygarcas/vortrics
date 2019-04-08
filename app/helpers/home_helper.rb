@@ -2,7 +2,6 @@ module HomeHelper
 
   def vt_dynamic_link fullpath, id = nil
     link = Rails.application.routes.recognize_path(fullpath)
-    logger.info "Link #{link}"
     link[:id] = id
     return link if link[:controller].eql? 'teams'
     get_dashboard_path(id)

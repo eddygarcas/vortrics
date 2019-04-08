@@ -498,32 +498,40 @@ function InitializeComulativeFlowChart(id) {
                 document.getElementById(_id + '-x_axis').innerHTML = "";
 
             }
+
+            var axis_scale = d3.scale.linear().domain([0, 100]);
+
             graph = new Rickshaw.Graph({
                 element: document.getElementById(_id),
-                height: 220,
+                height: 440,
                 renderer: 'multi',
                 series: [
                     {
                         name: 'Closed',
                         renderer: 'stack',
                         color: '#0085f9',
-                        data: data[1]
+                        data: data[1],
+                        scale: axis_scale
+
                     },
                     {
                         name: 'In Progress',
                         renderer: 'stack',
                         color: '#90caf9',
-                        data: data[0]
+                        data: data[0],
+                        scale: axis_scale
+
                     },
                     {
                         name: 'Todo',
                         renderer: 'stack',
                         color: '#ff9642',
-                        data: data[3]
+                        data: data[3],
+                        scale: axis_scale
+
                     }
                 ]
             });
-            graph.render();
 
             var format = function (n) {
                 if (data[2][n] === undefined) {
@@ -532,23 +540,39 @@ function InitializeComulativeFlowChart(id) {
                 return data[2][n].y;
 
             }
-            var x_ticks = new Rickshaw.Graph.Axis.X({
+            new Rickshaw.Graph.Axis.X({
                 graph: graph,
                 orientation: 'bottom',
                 element: document.getElementById(_id + '-x_axis'),
-                pixelsPerTick: 100,
+                pixelsPerTick: 50,
                 tickFormat: format
             });
-            x_ticks.render();
+
+            new Rickshaw.Graph.Axis.Y.Scaled({
+                element: document.getElementById(_id + '-y_axis1'),
+                graph: graph,
+                orientation: 'left',
+                scale: axis_scale,
+                pixelsPerTick: 10,
+                tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+            });
+
+            new Rickshaw.Graph.RangeSlider.Preview({
+                graph: graph,
+                element: document.querySelector("#rangeSlider")
+            });
+
+            graph.render();
+
 
             var hoverDetail = new Rickshaw.Graph.HoverDetail({
                 onShow: function (event) {
-                    $('#key')[0].value = $(".key_team_bug").text();
                 },
                 graph: graph,
                 formatter: function (series, x, y) {
                     var sprint = '<span class="date key_team_bug">' + data[2][x].y + '</span>';
-                    var content = series.name + ": " + parseInt(y) + ' User Stories<br>' + sprint;
+                    var leadime = data[4][x].y
+                    var content = series.name + ": " + parseInt(y) + ' User Stories<br>Acumlated: ' + leadime + '<br>' + sprint;
                     return content;
                 }
             });
@@ -556,7 +580,7 @@ function InitializeComulativeFlowChart(id) {
             $(window).on('resize', function () {
                 graph.configure({
                     width: $('#' + _id).parent('.panel-body').width(),
-                    height: 220
+                    height: 440
                 });
                 graph.render();
             });
