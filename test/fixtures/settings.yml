@@ -19,3 +19,4 @@ two:
   key_file: MyString
   consumer_key: MyString
   oauth: false
+

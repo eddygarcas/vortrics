@@ -28,8 +28,8 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update question" do
-    patch question_url(@question), params: {question: {allow_comment: @question.allow_comment, help_text: @question.help_text, level_id: @question.level_id, question: @question.question}}
-    assert_redirected_to "http://www.example.com/users/sign_in"
+    patch question_url(@question), params: {question: {allow_comment: @question.allow_comment, help_text: @question.help_text,  question: @question.question}}
+    assert_redirected_to new_user_session_path
   end
 
 

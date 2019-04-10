@@ -4,7 +4,6 @@ class JiraIssue
   include DataBuilderHelper
 
   attr_accessor :key, :issuetype, :summary, :customfield_11802, :description, :priority, :components, :status, :project, :assignee, :created, :updated, :resolutiondate, :sprint_id, :closedSprints, :sprint, :histories
-
   def initialize elem = nil
     parse_issue elem unless elem.nil?
   end
@@ -47,6 +46,7 @@ class JiraIssue
     issue.issueicon = issuetype['iconUrl']
     issue.issuetypeid = issuetype['id'].to_i
     issue.summary = summary
+    #puts " Estimated value #{send(Team.find_by_board_id(@sprint['originBoardId']).estimated)}"
     issue.customfield_11802 = customfield_11802
     issue.closed_in = parse_closed_sprints? ? parse_closed_sprints : sprint['self'] unless (sprint.blank? && closedSprints.blank?)
     issue.customfield_11382 = number_of_sprints
@@ -93,7 +93,8 @@ class JiraIssue
   end
 
   def parse_issue elem
-    self.public_methods(false).select {|method| method unless method.to_s.include?("=") || method.to_s.include?("?")}.each {|key|
+    uniq_list = (self.public_methods(false).map {|method| method.to_s.delete('?=') } + elem['fields'].keys).uniq
+    uniq_list.each {|key|
       v = nested_hash_value(elem, key.to_s)
       accesor_builder key, v
     }

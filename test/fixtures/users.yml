@@ -10,7 +10,7 @@ one:
   extuser: eduard.garcia
   displayName: Eduard Garcia Castello
   active: true
-  avatar: Non
+  avatar: 'https://jira.schibsted.io/secure/useravatar?size=medium&ownerId=xavi.leon%40schibsted.com&avatarId=14437'
 
 two:
   email: test@test.com
@@ -18,4 +18,4 @@ two:
   extuser: test.test
   displayName: Mr Testing Test
   active: true
-  avatar: Non
+  avatar: 'https://jira.schibsted.io/secure/useravatar?size=medium&ownerId=xavi.leon%40schibsted.com&avatarId=14437'

@@ -5,11 +5,9 @@ one:
   max_capacity: 1
   current_capacity: 1
   project: MTR
-  component_id: 0
 
 two:
   name: MyString
   max_capacity: 1
   current_capacity: 1
   project: MTR
-  component_id: 1

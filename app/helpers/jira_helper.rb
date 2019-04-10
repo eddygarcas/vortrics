@@ -46,9 +46,9 @@ module JiraHelper
 	def field_list project, options = {}
 		elems = Rails.cache.fetch("field_list_#{project}", expires_in: 7.day) {
 			param_hash = {}
-			rest_query(jira_instance(current_user.setting), '/field', param_hash, options).map { |c| [c['name'].humanize, c['id']] }
+			rest_query(jira_instance(current_user.setting), '/field', param_hash, options).map { |c| [c['id'], "#{c['name'].humanize} - #{c['id']}"] }
 		}
-		elems.sort! { |a, b| a[0] <=> b[0] }.to_h
+		elems.sort! { |a, b| a[1] <=> b[1] }.to_h
 	end
 
 	def project_details key, options = {}

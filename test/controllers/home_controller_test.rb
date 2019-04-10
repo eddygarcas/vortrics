@@ -16,13 +16,6 @@ class HomeControllerTest < Test::Unit::TestCase
     # Do nothing
   end
 
-  def test_get_project
-    elems = Hash.new
-    @jira_client.Project.all.each do |elem|
-      elems[elem.attrs[:key.to_s]] = elem.attrs[:name.to_s]
-    end
-    assert_not_nil elems
-  end
 
 
 

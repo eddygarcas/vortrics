@@ -92,7 +92,7 @@ class SprintsController < ApplicationController
       team = Team.find_by_board_id(import_params[:originBoardId])
       redirect_to sprint_import_url(import_params[:originBoardId]), alert: "Selected sprint doens't match to any team created on your system" and return if team.blank?
 
-      options = {fields: ScrumMetrics.config[:jira][:fields], maxResults: 200, expand: :changelog}
+      options = {fields: ScrumMetrics.config[:jira][:fields] << ",#{team.estimated}", maxResults: 200, expand: :changelog}
       import_sprint(import_params[:id], options).each {|elem| issues << JiraIssue.new(elem).to_issue}
 
       issues_save = issues.select {|el| el.closed_in.include? import_params[:id] unless el.closed_in.blank?}
