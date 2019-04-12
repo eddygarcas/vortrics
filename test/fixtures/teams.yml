@@ -5,9 +5,13 @@ one:
   max_capacity: 1
   current_capacity: 1
   project: MTR
+  board_id: 1
+  estimated: customfield_11802
 
 two:
   name: MyString
   max_capacity: 1
   current_capacity: 1
   project: MTR
+  board_id: 2
+  estimated: customfield_10002

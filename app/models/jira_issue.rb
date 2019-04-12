@@ -3,7 +3,8 @@ require_relative '../../app/helpers/data_builder_helper'
 class JiraIssue
   include DataBuilderHelper
 
-  attr_accessor :key, :issuetype, :summary, :customfield_11802, :description, :priority, :components, :status, :project, :assignee, :created, :updated, :resolutiondate, :sprint_id, :closedSprints, :sprint, :histories
+  attr_accessor :key,:histories,:sprint,:closedSprints
+
   def initialize elem = nil
     parse_issue elem unless elem.nil?
   end
@@ -46,8 +47,7 @@ class JiraIssue
     issue.issueicon = issuetype['iconUrl']
     issue.issuetypeid = issuetype['id'].to_i
     issue.summary = summary
-    #puts " Estimated value #{send(Team.find_by_board_id(@sprint['originBoardId']).estimated)}"
-    issue.customfield_11802 = customfield_11802
+    issue.customfield_11802 = send(Team.find_by_board_id(sprint_board_id).estimated) unless sprint_board_id.blank?
     issue.closed_in = parse_closed_sprints? ? parse_closed_sprints : sprint['self'] unless (sprint.blank? && closedSprints.blank?)
     issue.customfield_11382 = number_of_sprints
     issue.description = description
@@ -92,10 +92,16 @@ class JiraIssue
     closedSprints.sort {|x, y| Time.parse(x['completeDate']) <=> Time.parse(y['completeDate'])}.last['self'] unless closedSprints.blank?
   end
 
+  def sprint_board_id
+    return sprint['originBoardId'] unless sprint.blank?
+    return closedSprints.first['originBoardId'] unless closedSprints.blank?
+  end
+
+  #Seems that once the jira issue is created all data is lost.
   def parse_issue elem
-    uniq_list = (self.public_methods(false).map {|method| method.to_s.delete('?=') } + elem['fields'].keys).uniq
+    uniq_list = (self.public_methods(false).grep(/=/) + elem['fields'].keys).uniq
     uniq_list.each {|key|
-      v = nested_hash_value(elem, key.to_s)
+      v = nested_hash_value(elem, key.to_s.chomp('='))
       accesor_builder key, v
     }
   end

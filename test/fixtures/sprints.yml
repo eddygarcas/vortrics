@@ -7,14 +7,14 @@ one:
   closed_points: 1
   remaining_points: 1
   team: one
-one:
+two:
   name: Sprint2
   stories: 22
   bugs: 1
   closed_points: 1
   remaining_points: 1
   team: one
-one:
+three:
   name: Sprint3
   stories: 22
   bugs: 1
@@ -22,7 +22,7 @@ one:
   remaining_points: 1
   team: one
 
-two:
+four:
   name: Sprint2
   stories: 21
   bugs: 1

@@ -10,7 +10,7 @@ defaults: &defaults
     :signaturemethod: "RSA-SHA1"
     :privatekeyfile: "rsakey.pem"
     :consumerkey: "7f60c1a9c6c79bc03071b41870c3e09d"
-    :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint
+    :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint,histories
     :oauth: true
   :changelog:
     :open: open,nil,to do
@@ -62,7 +62,7 @@ production:
     :signaturemethod: "RSA-SHA1"
     :privatekeyfile: "rsakey.pem"
     :consumerkey: "OauthKey"
-    :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint
+    :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint,histories
     :oauth: true
 
 
