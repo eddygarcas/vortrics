@@ -59,16 +59,7 @@ class JiraHelperTest < Test::Unit::TestCase
 
   private
   def get_jira_client
-    options = {
-        :username => 'eduard.garcia',
-        :password => 'Schibsted32',
-        :site => 'https://jira.scmspain.com',
-        :rest_base_path => '/rest/api/2',
-        :context_path => '',
-        :auth_type => :basic,
-        maxResults: 10,
-        startAt: 0
-    }
+    options = {}
 
     @jira_client = JIRA::Client.new(options)
 

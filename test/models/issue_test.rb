@@ -26,16 +26,12 @@ class IssueTest < Test::Unit::TestCase
   end
 
   def test_parse_element
-    puts "Element #{@elem_string['fields'].keys}"
     issue_methods = @jira_issue.public_methods(false).map {|method| method.to_s.delete('?=') }
     assert_not_empty issue_methods
     total_methods = issue_methods.count
-    puts "Total Methods: #{issue_methods} Nº #{issue_methods.count}"
     issue_methods.uniq!
-    puts "Uniq Methods: #{issue_methods} Nº #{issue_methods.count}"
     assert_not_equal total_methods, issue_methods.count
     elem_methods = (issue_methods + @elem_string['fields'].keys).uniq
-    puts "Elem Methods: #{elem_methods} Nº #{elem_methods.count}"
     assert_equal issue_methods.count, elem_methods.count
   end
 
