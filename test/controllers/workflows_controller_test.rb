@@ -1,7 +1,10 @@
 require 'test_helper'
 
 class WorkflowsControllerTest < ActionDispatch::IntegrationTest
+	include Devise::Test::IntegrationHelpers
+
 	setup do
+		sign_in FactoryBot.create(:user)
 		@workflow = workflows(:one)
 	end
 
@@ -28,7 +31,7 @@ class WorkflowsControllerTest < ActionDispatch::IntegrationTest
 
 	test "should update workflow" do
 		patch workflow_url(@workflow), params: { workflow: {} }
-		assert_redirected_to new_user_session_path
+		assert_response 302
 	end
 
 end

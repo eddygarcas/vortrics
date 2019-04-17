@@ -1,0 +1,26 @@
+{
+  "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+  "id": "403394",
+  "self": "https://jira.test.com/rest/api/2/issue/111111",
+  "key": "MTR-00000",
+  "fields": {
+    "project": {
+      "self": "https://jira.test.com/rest/api/2/project/66666",
+      "id": "1",
+      "key": "MTR",
+      "name": "Motor MTR",
+      "avatarUrls": {
+        "48x48": "https://jira.test.com/secure/projectavatar?pid=12812&avatarId=18955",
+        "24x24": "https://jira.test.com/secure/projectavatar?size=small&pid=12812&avatarId=18955",
+        "16x16": "https://jira.test.com/secure/projectavatar?size=xsmall&pid=12812&avatarId=18955",
+        "32x32": "https://jira.test.com/secure/projectavatar?size=medium&pid=12812&avatarId=18955"
+      },
+      "projectCategory": {
+        "self": "https://jira.test.com/rest/api/2/projectCategory/10216",
+        "id": "10216",
+        "description": "Projects",
+        "name": "Motor"
+      }
+    }
+  }
+}
