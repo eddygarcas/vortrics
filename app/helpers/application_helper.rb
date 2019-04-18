@@ -6,6 +6,16 @@ module ApplicationHelper
 		ScrumMetrics.config['name']
 	end
 
+	def vt_project_icon
+		return image_tag("/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30') if (@team.blank? || @team.project_info.blank?)
+		image_tag @team.project_info.icon, class: "img-circle profile-image", height: '30', width: '30'
+	end
+
+	def vt_project_name
+		return ScrumMetrics.config['name'].humanize if (@team.blank? || @team.project_info.blank?)
+		@team.project_info.name.humanize
+	end
+
 	def board_by_team
 		key = project_list.value?(@team.project) ? @team.project : project_list.values[0]
 		return { name: 'None' } if key.blank?

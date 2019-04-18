@@ -1,7 +1,7 @@
 <% @title = "Add new team" %>
 
 <% content_for :description do %>
-  <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
+  <p><%= vt_project_icon %>
 
     from
     <strong>JIRA</strong> <%= "#{current_user.setting.site}#{current_user.setting.base_path} #{(current_user.setting.oauth? ? :oauth : :basic).to_s.humanize} authentication" %>

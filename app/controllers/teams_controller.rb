@@ -202,7 +202,7 @@ class TeamsController < ApplicationController
 	# POST /teams.json
 	def create
 		@team = Team.new(team_params)
-		@team.avatar = project_details(@team.project)[:avatarUrls.to_s]['32x32']
+		@team.project_info_id =  ProjectInfo.create_data(project_details(@team.project)).id
 		respond_to do |format|
 			if @team.save
 				format.html { redirect_to teams_url, notice: 'Team was successfully created.' }
@@ -218,7 +218,9 @@ class TeamsController < ApplicationController
 	# PATCH/PUT /teams/1.json
 	def update
 		respond_to do |format|
-			@team.avatar = project_details(@team.project)[:avatarUrls.to_s]['32x32']
+      @team.project_info_id =  ProjectInfo.create_data(project_details(@team.project)).id if @team.project_info.blank?
+
+      #@team.avatar = project_details(@team.project)[:avatarUrls.to_s]['32x32']
 			if @team.update(team_params)
 				format.html { redirect_to teams_path, notice: 'Team was successfully updated.' }
 				format.json { render :show, status: :ok, location: @team }

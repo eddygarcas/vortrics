@@ -58,6 +58,16 @@ module JiraHelper
 		}
 	end
 
+	#This method will be a depretation candidate
+	def current_project key, options = {}
+		return if current_user.setting.blank?
+		elems = Rails.cache.fetch("get_current_project_#{key.to_s}", expires_in: 30.minutes) {
+			param_hash = { project: "='#{key}'" }
+			rest_query(jira_instance(current_user.setting), '/search', param_hash, options)
+		}
+		elems[:issues.to_s]
+	end
+
 	def user_information
 		return if current_user.setting.blank?
 		Rails.cache.fetch("user_jira_#{current_user.extuser}", expires_in: 7.day) {
@@ -84,14 +94,7 @@ module JiraHelper
 		jira_instance(current_user.setting).Issue.find(key, fields: :attachment).attachment
 	end
 
-	def current_project key, options = {}
-		return if current_user.setting.blank?
-		elems = Rails.cache.fetch("get_current_project_#{key.to_s}", expires_in: 30.minutes) {
-			param_hash = { project: "='#{key}'" }
-			rest_query(jira_instance(current_user.setting), '/search', param_hash, options)
-		}
-		elems[:issues.to_s]
-	end
+
 
 	def bug_for_board boardid, startdate, options = {}, status = nil
 		return if current_user.setting.blank?

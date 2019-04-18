@@ -2,8 +2,8 @@
 
 <% content_for :description do %>
 
-    <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30' %>
-      <%= @project_name.to_s %></p>
+    <p><%= vt_project_icon %>
+      <%= vt_project_name %></p>
     <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
       <li><%= link_to "Locally", new_sprint_path %></li>
       <li><%= link_to "External service", new_sprint_path %></li>
@@ -16,7 +16,7 @@
 
   <ul class="nav nav-tabs">
     <li role="presentation" class="dropdown">
-      <%= dropdown_menu "Change board selection #{params[:board_id].blank? ? @project_name.to_s : board_by_team[params[:board_id].to_i]}" do %>
+      <%= dropdown_menu "Change board selection #{params[:board_id].blank? ? vt_project_name : board_by_team[params[:board_id].to_i]}" do %>
         <% board_by_team.each do |board| %>
               <%= activatable_li_tag_with_link board[1], sprint_import_path(board[0]) %>
           <% end %>

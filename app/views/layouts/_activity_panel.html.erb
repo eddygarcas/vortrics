@@ -47,7 +47,7 @@
             <li class='list-group-item'>
               <div class="media">
                 <a class="pull-left" href="#">
-                  <%= image_tag @project_icon, data: {toggle: "tooltip", title: @project_name} %>
+                  <%= image_tag @team.project_info.icon, data: {toggle: "tooltip", title: @team.project_info.name} %>
                 </a>
                 <div class="media-body">
                   <h5 class="media-heading">
@@ -99,7 +99,7 @@
             <li class='list-group-item'>
               <div class="media">
                 <a class="pull-left" href="#">
-                  <%= image_tag @project_icon, data: {toggle: "tooltip", title: @project_name} %>
+                  <%= image_tag @team.project_info.icon, data: {toggle: "tooltip", title: @team.project_info.name} %>
                 </a>
                 <div class="media-body">
                   <h5 class="media-heading">

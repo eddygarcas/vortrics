@@ -29,9 +29,6 @@ class ApplicationController < ActionController::Base
 
 	def side_nav_info
 		@total_teams = Team.all.count
-		@project_name = ScrumMetrics.config['name']
-		@project_icon = '/images/voardtrix_logo.png'
-		project_information unless project_list.blank?
 	end
 
 	def sprint_by_board board_id, sort_column, sort_direction, options = {}
@@ -39,14 +36,6 @@ class ApplicationController < ActionController::Base
 		@board_sprint = boards_by_sprint board_id, 0, options
 		@board_sprint.sort_by! { |x| x[sort_column].blank? ? '' : x[sort_column] }
 		@board_sprint.reverse! if sort_direction.eql? 'desc'
-	end
-
-	def project_information
-		project = project_list.value?(@team.project) ? @team.project : project_list.values[0]
-		options = { fields: [:project], maxResults: 1 }
-		issue = JiraIssue.new(current_project(project, options).first)
-		@project_name = issue.project.blank? ? 'n/d' : issue.project[:name.to_s]
-		@project_icon = issue.project.blank? ? '' : issue.project[:avatarUrls.to_s]['32x32']
 	end
 
 	def set_current_user

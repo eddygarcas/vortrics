@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190321154603) do
+ActiveRecord::Schema.define(version: 20190417195901) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -127,6 +127,14 @@ ActiveRecord::Schema.define(version: 20190321154603) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "project_infos", force: :cascade do |t|
+    t.string "key"
+    t.string "name"
+    t.string "icon"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "q_stages", force: :cascade do |t|
     t.string "name"
     t.integer "value"
@@ -194,6 +202,8 @@ ActiveRecord::Schema.define(version: 20190321154603) do
     t.string "avatar"
     t.string "estimated"
     t.integer "setting_id"
+    t.integer "project_info_id"
+    t.index ["project_info_id"], name: "index_teams_on_project_info_id"
     t.index ["setting_id"], name: "index_teams_on_setting_id"
   end
 

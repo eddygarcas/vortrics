@@ -1,8 +1,8 @@
 <% @title = "Maturity Framework" %>
 
 <% content_for :description do %>
-  <p><%= image_tag @project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30' %>
-    <%= @project_name.to_s %></p>
+  <p><%= vt_project_icon %>
+    <%= vt_project_name %></p>
   <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
     <li><%= link_to "Frameworks", maturity_frameworks_path %></li>
     <li><%= link_to "Categories", levels_path %></li>

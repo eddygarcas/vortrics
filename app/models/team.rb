@@ -5,6 +5,8 @@ require_relative '../../app/helpers/numeric'
 
 class Team < ApplicationRecord
 	include JiraHelper
+
+	belongs_to :project_info
 	has_many :sprints, dependent: :destroy
 	has_many :assesments, dependent: :destroy
 	#has_one_attached :avatar
@@ -257,5 +259,4 @@ class Team < ApplicationRecord
 	def update_active_sprint p = {}
 		Sprint.find_or_initialize_by(name: p[:sprint][:name]).update(p[:sprint])
 	end
-
 end

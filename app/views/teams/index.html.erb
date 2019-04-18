@@ -4,10 +4,11 @@
 
 <% content_for :description do %>
 
-  <p><%= image_tag "/images/voardtrix_logo.png", class: "img-circle profile-image", height: '30', width: '30' %>
+  <p><%= vt_project_icon %>
     Team(s)</p>
 
 <% end %>
+<br>
 
 <div class="row">
   <% content_for :actions do %>
@@ -38,7 +39,7 @@
             <% @teams.each do |team| %>
 
                 <tr>
-                  <td><%= image_tag(team.avatar.blank? ? "/images/voardtrix_logo.png" : team.avatar, class: "img-rounded", height: '24', width: '24', id: 'project_image') %> <%= team.project %></td>
+                  <td><%= image_tag(team.project_info.icon.blank? ? "/images/voardtrix_logo.png" : team.project_info.icon, class: "img-rounded", height: '24', width: '24', id: 'project_image') %> <%= team.project_info.key %></td>
                   <td><%= team.name %></td>
                   <td><%= board_by_team[team.board_id] %></td>
                   <td>
