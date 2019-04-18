@@ -47,8 +47,8 @@ class JiraIssue
     issue.issueicon = issuetype['iconUrl']
     issue.issuetypeid = issuetype['id'].to_i
     issue.summary = summary
-    issue.customfield_11802 = send(Team.find_by_board_id(sprint_board_id).estimated) unless sprint_board_id.blank?
-    issue.closed_in = parse_closed_sprints? ? parse_closed_sprints : sprint['self'] unless (sprint.blank? && closedSprints.blank?)
+    issue.customfield_11802 = send(Team.find_by_board_id(sprint_info['originBoardId']).estimated) unless sprint_info.blank?
+    issue.closed_in = sprint_info['self'] unless sprint_info.blank?
     issue.customfield_11382 = number_of_sprints
     issue.description = description
     issue.priority = priority['name'] unless priority.blank?
@@ -66,10 +66,6 @@ class JiraIssue
   end
 
   protected
-
-  def parse_closed_sprints?
-    (sprint.blank? && closedSprints.present?)
-  end
 
   def number_of_sprints
     return 0 if closedSprints.blank?
@@ -89,12 +85,12 @@ class JiraIssue
   end
 
   def parse_closed_sprints
-    closedSprints.sort {|x, y| Time.parse(x['completeDate']) <=> Time.parse(y['completeDate'])}.last['self'] unless closedSprints.blank?
+    closedSprints.sort {|x, y| Time.parse(x['completeDate']) <=> Time.parse(y['completeDate'])}.last unless closedSprints.blank?
   end
 
-  def sprint_board_id
-    return sprint['originBoardId'] unless sprint.blank?
-    return closedSprints.first['originBoardId'] unless closedSprints.blank?
+  def sprint_info
+    return sprint unless sprint.blank?
+    return parse_closed_sprints unless closedSprints.blank?
   end
 
   #Seems that once the jira issue is created all data is lost.
