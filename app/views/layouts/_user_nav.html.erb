@@ -7,6 +7,8 @@
 
     <%= fa_icon_tag "user" %> Welcome, <strong><%= current_user.displayName %></strong>
     <span class="divider">|</span>
-    <%= link_to "Back to Home", root_path, method: :get %>
+    <%= link_to "Home", root_path, method: :get %>
+    <span class="divider">|</span>
+    <%= link_to "Logout", destroy_user_session_path, method: :delete %>
   </div>
 </nav>
