@@ -6,6 +6,10 @@ module ApplicationHelper
 		ScrumMetrics.config['name']
 	end
 
+	def vt_jira_issue_fields
+		ScrumMetrics.config[:jira][:fields] << ",#{@team.estimated}"
+	end
+
 	def vt_project_icon style = "img-circle profile-image"
 		return image_tag("/images/voardtrix_logo.png", class: style, height: '30', width: '30') if (@team.blank? || @team.project_info.blank?)
 		image_tag @team.project_info.icon, class: style, height: '30', width: '30'

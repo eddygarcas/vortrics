@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def team_session
-		@team = Team.first if @team.blank?
+		@team = current_user.teams.first if @team.blank?
 		if !@team.blank? && session[:team_id] != @team.id
 			id = session[:team_id].blank? ? @team.id : session[:team_id]
 			@team = Team.find(id)

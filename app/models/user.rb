@@ -32,6 +32,10 @@ class User < ApplicationRecord
 		false
 	end
 
+	def teams
+		Team.where(:setting_id => setting.id)
+	end
+
 	def admin?
 		return false if group.blank?
 		group.priority.eql? 1
@@ -44,4 +48,5 @@ class User < ApplicationRecord
 	def external_user?
 		extuser.present?
 	end
+
 end

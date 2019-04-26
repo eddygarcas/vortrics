@@ -1,4 +1,5 @@
 class SprintsController < ApplicationController
+  include ApplicationHelper
   layout 'sidenav'
   helper_method :sort_column, :sort_direction
   before_action :set_sprint, only: [:show, :edit, :update, :destroy, :graph_closed_by_day, :graph_release_time, :refresh_issues]
@@ -14,7 +15,7 @@ class SprintsController < ApplicationController
   # GET /sprints/1
   # GET /sprints/1.json
   def show
-    options = {fields: ScrumMetrics.config[:jira][:fields]}
+    options = {fields: vt_jira_issue_fields}
     @bugs = []
     bug_for_board(@sprint.team.board_id, @sprint.start_date, options).each {|elem| @bugs << JiraIssue.new(elem).to_issue}
     @sprint.changed_scope(sprint_report(@sprint.team.board_id, @sprint.sprint_id)['issueKeysAddedDuringSprint'].count) unless @sprint.sprint_id.blank?
@@ -39,7 +40,7 @@ class SprintsController < ApplicationController
     data = Rails.cache.fetch("graph_closed_by_day_sprint_#{@sprint.id}", expires_in: 30.minutes) {
       data = Array.new {Array.new}
 
-      options = {fields: ScrumMetrics.config[:jira][:fields]}
+      options = {fields: vt_jira_issue_fields}
       bugs = []
       bug_for_board(@sprint.team.board_id, @sprint.start_date, options).each {|elem| bugs << JiraIssue.new(elem).to_issue}
 
@@ -92,7 +93,7 @@ class SprintsController < ApplicationController
       team = Team.find_by_board_id(import_params[:originBoardId])
       redirect_to sprint_import_url(import_params[:originBoardId]), alert: "Selected sprint doens't match to any team created on your system" and return if team.blank?
 
-      options = {fields: ScrumMetrics.config[:jira][:fields] << ",#{team.estimated}", maxResults: 200, expand: :changelog}
+      options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
       import_sprint(import_params[:id], options).each {|elem| issues << JiraIssue.new(elem).to_issue}
 
       issues_save = issues.select {|el| el.closed_in.include? import_params[:id] unless el.closed_in.blank?}
@@ -109,7 +110,7 @@ class SprintsController < ApplicationController
       redirect_to sprint_import_url(@sprint.team_id), notice: 'Cannot find the related team.' and return if team.blank?
 
 
-      options = {fields: ScrumMetrics.config[:jira][:fields], maxResults: 200, expand: :changelog}
+      options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
       import_sprint(@sprint.sprint_id, options).each {|elem| issues << JiraIssue.new(elem).to_issue}
 
       issues_save = issues.select {|el| el.closed_in.include? @sprint.sprint_id.to_s unless el.closed_in.blank?}
