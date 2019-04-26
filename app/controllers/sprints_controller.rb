@@ -124,7 +124,6 @@ class SprintsController < ApplicationController
   # POST /sprints.json
   def create
     @sprint = Sprint.new(sprint_params)
-
     respond_to do |format|
       if @sprint.save
         format.html {redirect_to sprints_url, notice: 'Sprint was successfully created.'}

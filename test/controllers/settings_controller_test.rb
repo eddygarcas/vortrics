@@ -25,7 +25,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
 	test "should update setting" do
 		patch setting_url(@setting), params: { setting: { base_path: @setting.base_path, consumer_key: @setting.consumer_key, context: @setting.context, debug: @setting.debug, key_file: @setting.key_file, oauth: @setting.oauth, signature_method: @setting.signature_method, site: @setting.site } }
-		assert_response :success
+		assert_response 302
 	end
 
 end

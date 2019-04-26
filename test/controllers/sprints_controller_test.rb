@@ -23,10 +23,10 @@ class SprintsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create sprint" do
-    assert_difference('Sprint.count') do
+    assert_no_difference('Sprint.count') do
       post sprints_url, params: { sprint: { bugs: @sprint.bugs, closed_points: @sprint.closed_points, name: @sprint.name, remaining_points: @sprint.remaining_points, stories: @sprint.stories, team_id: @sprint.team_id } }
     end
-    assert_redirected_to sprints_url
+    assert_redirected_to signin_url
   end
 
   test "should retrieve project information" do
