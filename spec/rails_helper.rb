@@ -36,6 +36,7 @@ end
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :request
 
   config.extend ControllerMacros, :type => :controller
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
