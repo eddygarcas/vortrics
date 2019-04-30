@@ -108,6 +108,9 @@ class Team < ApplicationRecord
 		Math.sqrt(variance).round(0)
 	end
 
+	def variance_volatility?
+		stories_variance > 2
+	end
 
 	def trend_stories
 		begin
