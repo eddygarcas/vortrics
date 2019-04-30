@@ -9,7 +9,9 @@ class Team < ApplicationRecord
 	belongs_to :project_info
 	has_many :sprints, dependent: :destroy
 	has_many :assesments, dependent: :destroy
-	#has_one_attached :avatar
+
+	has_many :team_advices
+	has_many :advices, through: :team_advices
 
 	attr_writer :issues, :sprint, :changelog
 	# def grab_image avatar_url

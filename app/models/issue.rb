@@ -5,6 +5,10 @@ class Issue < ApplicationRecord
 	belongs_to :sprint
 	has_many :change_logs, dependent: :destroy
 
+	has_many :actions
+	has_many :advices, through: :actions
+
+
 	attr_accessor :closed_in, :histories, :active
 	alias :active? :active
 

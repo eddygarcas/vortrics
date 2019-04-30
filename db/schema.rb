@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190417195901) do
+ActiveRecord::Schema.define(version: 20190429151042) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -19,6 +19,25 @@ ActiveRecord::Schema.define(version: 20190417195901) do
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_accesses_on_group_id"
     t.index ["user_id"], name: "index_accesses_on_user_id"
+  end
+
+  create_table "actions", force: :cascade do |t|
+    t.integer "issue_id"
+    t.integer "advice_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["advice_id"], name: "index_actions_on_advice_id"
+    t.index ["issue_id"], name: "index_actions_on_issue_id"
+  end
+
+  create_table "advices", force: :cascade do |t|
+    t.string "subject"
+    t.string "description"
+    t.boolean "read"
+    t.boolean "completed"
+    t.string "advice_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "answers", force: :cascade do |t|
@@ -186,6 +205,15 @@ ActiveRecord::Schema.define(version: 20190417195901) do
     t.date "start_date"
     t.integer "sprint_id"
     t.index ["team_id"], name: "index_sprints_on_team_id"
+  end
+
+  create_table "team_advices", force: :cascade do |t|
+    t.integer "team_id"
+    t.integer "advice_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["advice_id"], name: "index_team_advices_on_advice_id"
+    t.index ["team_id"], name: "index_team_advices_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|

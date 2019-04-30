@@ -1,4 +1,4 @@
-# Developer notes
+#Developer notes
 ##Ruby on Rails
 ###Upgrade Ruby
 ```
@@ -21,23 +21,44 @@ $ update bundler
 $ gem install bundler
 ```
 Update Gemfile.lock in your project
-``
+```
 $ bundler update --bundler
 ```
 
-###Console
-#####Run on development mode
+### Console
+Run on development mode
 ```
 RAILS_ENV=development bundle exec rails c
 ```
-###Rails scaffold
+### Rails scaffold
+Diferent types of scaffold creation
 ```
 railg g scaffold team name:string max_capacity:integer current_capacity:integer 
 rails g scaffold sprint name:string stories:integer bugs:integer closed_points:integer ramaining:integer team:references
 rails g scaffold components name:string points:integer sprint:references
 ```
-
-###Rails migration
+Create a mono transitive assisiation
+````
+rails g model Student name:string
+rails g model Tutor name:string
+rails g model Klass subject:string student:references tutor:references
+````
+and the result should look like thus
+```
+class Student < ApplicationRecord
+  has_many :klasses
+  has_many :tutors, through: :klasses
+end
+class Tutor < ApplicationRecord
+  has_many :klasses
+  has_many :students, through: :klasses
+end
+class Klass < ApplicationRecord
+  belongs_to :student
+  belongs_to :tutor
+end
+```
+### Rake migration and database
 ##### Delete a migration file safely
 ```
 rails d migration MigrationNameOptions
@@ -47,7 +68,7 @@ rails d migration MigrationNameOptions
 ```
 rake db:rollback STEP=1
 ```
-###### Drop and create DB all over again
+Drop and create DB all over again
 ````
  rake db:drop db:create db:migrate db:seed
 ````

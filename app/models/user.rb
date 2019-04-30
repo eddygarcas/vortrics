@@ -33,6 +33,7 @@ class User < ApplicationRecord
 	end
 
 	def teams
+		return [] unless setting.present?
 		Team.where(:setting_id => setting.id)
 	end
 
