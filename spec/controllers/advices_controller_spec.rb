@@ -24,16 +24,16 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe AdvicesController, type: :controller do
-
+  login_user
   # This should return the minimal set of attributes required to create a valid
   # Advice. As you add validations to Advice, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {advice_type: "test",subject: "test",description: "test",read: false,completed: false}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {advice_hacking: "test",subject: "test",description: "test",read: false,completed: false}
   }
 
   # This should return the minimal set of values that should be in the session
@@ -43,7 +43,7 @@ RSpec.describe AdvicesController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      Advice.create! valid_attributes
+      advice = FactoryBot.create(:advice)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -51,7 +51,7 @@ RSpec.describe AdvicesController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      advice = Advice.create! valid_attributes
+      advice = FactoryBot.create(:advice)
       get :show, params: {id: advice.to_param}, session: valid_session
       expect(response).to be_successful
     end
@@ -59,7 +59,7 @@ RSpec.describe AdvicesController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      advice = Advice.create! valid_attributes
+      advice = FactoryBot.create(:advice)
       get :edit, params: {id: advice.to_param}, session: valid_session
       expect(response).to be_successful
     end
@@ -90,18 +90,18 @@ RSpec.describe AdvicesController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {advice_type: "test",subject: "test",description: "test",read: true,completed: false}
       }
 
       it "updates the requested advice" do
-        advice = Advice.create! valid_attributes
+        advice = FactoryBot.create(:advice)
         put :update, params: {id: advice.to_param, advice: new_attributes}, session: valid_session
         advice.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the advice" do
-        advice = Advice.create! valid_attributes
+        advice = FactoryBot.create(:advice)
         put :update, params: {id: advice.to_param, advice: valid_attributes}, session: valid_session
         expect(response).to redirect_to(advice)
       end
@@ -109,9 +109,10 @@ RSpec.describe AdvicesController, type: :controller do
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        advice = Advice.create! valid_attributes
+        advice = FactoryBot.create(:advice)
         put :update, params: {id: advice.to_param, advice: invalid_attributes}, session: valid_session
-        expect(response).to be_successful
+        puts response.to_s
+        expect(response).to have_http_status(302)
       end
     end
   end
@@ -125,8 +126,8 @@ RSpec.describe AdvicesController, type: :controller do
     end
 
     it "redirects to the advices list" do
-      advice = Advice.create! valid_attributes
-      delete :destroy, params: {id: advice.to_param}, session: valid_session
+      advice = FactoryBot.create(:advice)
+      delete :destroy, params: {id: advice.to_param}
       expect(response).to redirect_to(advices_url)
     end
   end
