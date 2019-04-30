@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :advice do
-    subject { "MyString" }
-    description { "MyString" }
+    subject {Faker::Dessert.variety }
+    description { Faker::Dessert.flavor }
     read { false }
     completed { false }
-    type { "" }
+    advice_type { Faker::Alphanumeric.alphanumeric }
   end
 end

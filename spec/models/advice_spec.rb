@@ -30,6 +30,6 @@ RSpec.describe Advice, type: :model do
   end
 
   describe '#team_advices' do
-    it { should validate_presence_of(:team_advices) }
+    it { should_not validate_presence_of(:team_advices) }
   end
 end

@@ -22,11 +22,36 @@ defaults: &defaults
   :baseline:
     :leadtime: 7
   :advices:
-    :more_than_one_sprint?: "<strong>Listen up!</strong> Sprint has stories that started <strong>sprints ago</strong>, bring them at the retrospective and seek for improvements to avoid this situation."
-    :estimation_over_average_closed_points?: "<strong>Ups!</strong> Sprint has stories which estimation is bigger than <strong>15%</strong> of team's capacity. Reduce either complexity by splitting or risk."
-    :overcommitment?: "<strong>Watch out!</strong> Sprint commitment is bigger than historical average, there is a strong possibility of leftovers at the end."
-    :has_service_types?: "<strong>Advice</strong> The Sprint has more than one service type, see if having different work-flows and policies may help improving the lead time."
-    :variance_volatility?: "<strong>Ups!</strong> Team's velocity seems highly spread out from its average value. Ideally, teams should display a fairly consistent velocity, ideally with a gradually increasing slope. Major gaps and spikes in velocity are not a good sign."
+    :more_than_one_sprint?:
+      :advice_type: :more_than_one_sprint?
+      :subject: Kaizen
+      :completed: false
+      :read: false
+      :description: "<strong>Listen up!</strong> Sprint has stories that started <strong>sprints ago</strong>, bring them at the retrospective and seek for improvements to avoid this situation."
+    :estimation_over_average_closed_points?:
+      :advice_type: :estimation_over_average_closed_points?
+      :subject: Kaizen
+      :completed: false
+      :read: false
+      :description: "<strong>Ups!</strong> Sprint has stories which estimation is bigger than <strong>15%</strong> of team's capacity. Reduce either complexity by splitting or risk."
+    :overcommitment?:
+      :advice_type: :overcommitment?
+      :subject: Kaizen
+      :completed: false
+      :read: false
+      :description: "<strong>Watch out!</strong> Sprint commitment is bigger than historical average, there is a strong possibility of leftovers at the end."
+    :has_service_types?:
+      :advice_type: :has_service_types?
+      :subject: Kaizen
+      :completed: false
+      :read: false
+      :description: "<strong>Advice</strong> The Sprint has more than one service type, see if having different work-flows and policies may help improving the lead time."
+    :variance_volatility?:
+      :advice_type: :variance_volatility?
+      :subject: Kaizen
+      :completed: false
+      :read: false
+      :description: "<strong>Ups!</strong> Team's velocity seems highly spread out from its average value. Ideally, teams should display a fairly consistent velocity, ideally with a gradually increasing slope. Major gaps and spikes in velocity are not a good sign."
   :messages:
     :external_service_error: "Unable to retrieve external service information. Please try it later."
     :no_teams_available: "Before getting information from the external service, create a team."

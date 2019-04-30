@@ -7,7 +7,6 @@ class Advice < ApplicationRecord
 
 
   #["id", "subject", "description", "read", "completed", "type", "created_at", "updated_at"]
-  validates_presence_of :team_advices
   validates :advice_type, presence: {message: "Every advice must contain a valid logic method."}
   validates :subject, presence: {message: "Subject field is mandatory"}
   validates :description, presence: {message: "Advice description helps team to create better improvement actions."}
