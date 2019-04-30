@@ -10,7 +10,6 @@ class UsersController < ApplicationController
 	def manage_users
 		@users = User.all - [@current_user]
 		@user = User.new
-		advice_agent
 	end
 
 	def new
@@ -64,9 +63,7 @@ class UsersController < ApplicationController
 		end
 	end
 
-
 	private
-
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def user_new_params
 		params.require(:user).permit(:email, :displayName, :oauth, :extuser, :password, :setting_id)

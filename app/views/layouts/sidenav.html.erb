@@ -68,7 +68,7 @@
               <%= yield :navbar %>
 
 
-              <%= render "layouts/scrum_agent_dropdown" unless session[:agent].blank? %>
+              <%= render "layouts/scrum_agent_dropdown" unless advice_messages.blank? %>
 
             <% end %>
 

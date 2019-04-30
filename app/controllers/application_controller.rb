@@ -65,17 +65,6 @@ class ApplicationController < ActionController::Base
 		side_nav_info
 	end
 
-	def advice_agent
-		return if @team.blank?
-		advices = []
-		advices << ScrumMetrics.config[:messages][:more_than_sprint] if @team.sprint.issues.any?(&:more_than_sprint?)
-		advices << ScrumMetrics.config[:messages][:estimation_over_average_closed_points] if @team.estimation_over_average_closed_points?
-		advices << ScrumMetrics.config[:messages][:overcommitment] if @team.overcommitment?
-		advices << ScrumMetrics.config[:messages][:has_service_types] if @team.has_service_types?
-		advices << ScrumMetrics.config[:messages][:variance_volatility] if @team.stories_variance > 2
-		session[:agent] = advices
-	end
-
 	private
 
 	def get_jira_client

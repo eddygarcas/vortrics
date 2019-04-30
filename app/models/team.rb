@@ -70,6 +70,10 @@ class Team < ApplicationRecord
 		sprint.sprint_commitment > average_closed_points
 	end
 
+	def more_than_one_sprint?
+		sprint.issues.any?(&:more_than_sprint?)
+	end
+
 	def has_service_types?
 		issues.any?(&:task?) && issues.any?(&:bug?)
 	end
