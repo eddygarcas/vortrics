@@ -1,14 +1,14 @@
 <% @title = "Listing advices" %>
 
 <% content_for :description do %>
-<p>Edit this template in <code>app/views/advices/index.html.erb</code>.</p>
+
+  <p><%= vt_project_icon %>
+    Advices</p>
+
 <% end %>
 
-<% content_for :actions do %>
-<%= link_to new_advice_path, class: 'btn btn-primary btn-large pull-right' do %>
-<%= fa_icon_tag "plus" %> Add Advice
-<% end %>
-<% end %>
+
+<br/>
 
 <div class="container-fluid">
   <div class="row">
@@ -17,14 +17,34 @@
         <div class="sheet-inner">
           <table class="table">
             <thead>
-              <tr>
-                                <th></th>
+              <tr class="false">
+                <th>Type</th>
+                <th>Completed</th>
+                <th>Description</th>
+
+                <th>Read</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               <% @advices.each do |advice| %>
               <tr>
-                                <td class="actions">
+                <td><%= advice.advice_type.humanize %></td>
+                <td><%= advice.description.html_safe %></td>
+
+                <td>
+                  <label class="switch switch-success">
+                    <%= check_box_tag "read", "", advice.read %>
+                    <span></span>
+                  </label>
+                </td>
+                <td>
+                  <label class="switch switch-success">
+                    <%= check_box_tag "completed", "", advice.completed %>
+                    <span></span>
+                  </label>
+                </td>
+                <td class="actions">
                   <%= link_to fa_icon_tag("eye"), advice, rel: 'tooltip', title: 'Show' %>
                   <%= link_to fa_icon_tag("pencil"), edit_advice_path(advice), rel: 'tooltip', title: 'Edit' %>
                   <%= link_to fa_icon_tag("trash-o"), advice, rel: 'tooltip', title: 'Delete',

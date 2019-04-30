@@ -1,4 +1,6 @@
 class AdvicesController < ApplicationController
+  layout 'sidenav'
+  before_action :team_session,:user_session
   before_action :set_advice, only: [:show, :edit, :update, :destroy]
 
   # GET /advices
