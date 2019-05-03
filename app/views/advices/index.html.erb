@@ -19,10 +19,9 @@
             <thead>
               <tr class="false">
                 <th>Type</th>
-                <th>Completed</th>
                 <th>Description</th>
-
                 <th>Read</th>
+                <th>Completed</th>
                 <th></th>
               </tr>
             </thead>
@@ -31,16 +30,15 @@
               <tr>
                 <td><%= advice.advice_type.humanize %></td>
                 <td><%= advice.description.html_safe %></td>
-
                 <td>
                   <label class="switch switch-success">
-                    <%= check_box_tag "read", "", advice.read %>
+                    <%= check_box_tag "completed", "", advice.completed %>
                     <span></span>
                   </label>
                 </td>
                 <td>
                   <label class="switch switch-success">
-                    <%= check_box_tag "completed", "", advice.completed %>
+                    <%= check_box_tag "read", "", advice.read %>
                     <span></span>
                   </label>
                 </td>

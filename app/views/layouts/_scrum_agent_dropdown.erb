@@ -3,7 +3,7 @@
     <svg class="icon fa fa-fw icon-voardtrix" style="font-size: 32px;margin-left: -5px;margin-right: -30px;" data-toggle="tooltip" title="Vortrics advisor" data-placement="bottom">
       <use xlink:href="#icon-voardtrix"></use>
     </svg>
-    <span class="badge badge-sm" style="font-size: 11px;"><%= advice_messages.length %></span>
+    <span class="badge badge-sm" style="font-size: 11px;"><%= @team.advices.length %></span>
     <span class="visible-xs-inline" style="font-size: 16px;">
       Kaizen system advice(s)
     </span>
@@ -14,24 +14,30 @@
     <li>
       <div class="panel">
         <div class="panel-heading text-center">
-          <small><strong><%= @team.name %> has <span><%= advice_messages.length %></span> advices</strong></small>
+          <small><strong><%= @team.name %> has <span><%= @team.advices.length %></span> advices</strong></small>
         </div>
         <div class="list-group">
-          <% advice_messages.each do |element| %>
-            <a href="#" class="media list-group-item">
+          <% @team.advices.each do |element| %>
+
+            <%= link_to element, controller: :advices, class: "media list-group-item" do%>
               <span class="pull-left">
                 <i class="fa fa-fw fa-eye"></i>
               </span>
               <span class="media-body">
                 <small class="text-muted"><%= element.description.html_safe %></small>
               </span>
-            </a>
+            <% end %>
+
+
+
           <% end %>
         </div>
 
         <div class="panel-footer">
-          <a href="#" class="pull-right"><i class="fa fa-cog"></i></a>
-          <a href="#">View all advices</a>
+          <%= link_to "advices", controller: :advices do%>
+            <i class="fa fa-cog"></i>
+            View all advices
+          <%end %>
         </div>
       </div>
     </li>

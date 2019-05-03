@@ -1,4 +1,4 @@
-<style>
+ <style>
   .project_image {
     margin-top: 10px;
     margin-left: 10px;
@@ -68,7 +68,7 @@
               <%= yield :navbar %>
 
 
-              <%= render "layouts/scrum_agent_dropdown" unless advice_messages.blank? %>
+              <%= render "layouts/scrum_agent_dropdown" unless @team.advices.blank? %>
 
             <% end %>
 
