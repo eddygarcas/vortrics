@@ -1,7 +1,7 @@
 class ComponentsController < ApplicationController
   layout 'sidenav'
   before_action :set_component, only: [:show, :edit, :update, :destroy]
-  before_action :team_session,:user_session
+  before_action :team_session
 
 
   # GET /components

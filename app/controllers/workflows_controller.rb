@@ -1,7 +1,7 @@
 class WorkflowsController < ApplicationController
 	layout 'sidenav'
 	before_action :set_workflow, only: [:show, :edit, :update, :destroy]
-	before_action :team_session, :user_session
+	before_action :team_session
 	before_action :admin_user?
 
 

@@ -68,12 +68,9 @@ module JiraHelper
 		elems[:issues.to_s]
 	end
 
-	def user_information
-		return if current_user.setting.blank?
-		Rails.cache.fetch("user_jira_#{current_user.extuser}", expires_in: 7.day) {
-			user = jira_instance(current_user.setting).User.singular_path(current_user.extuser)
-			JSON.parse(jira_instance(current_user.setting).get(user).body)
-		}
+	def user_profile user
+		usr = jira_instance(user.setting).User.singular_path(user.extuser)
+		yield JSON.parse(jira_instance(user.setting).get(usr).body)
 	end
 
 	def import_sprint sprintId, options = {}

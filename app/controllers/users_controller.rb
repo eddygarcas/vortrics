@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 	layout 'sidenav'
-	before_action :team_session, :user_session
+	before_action :team_session
 	before_action :admin_user?
 
 	def index
@@ -44,6 +44,9 @@ class UsersController < ApplicationController
 		@user = User.new(user_new_params)
 		respond_to do |format|
 			if @user.save_dependent params[:setting_id], user_params[:admin]
+				user_profile(@user) { |data|
+					@user.update(displayName: data[:displayName.to_s], active: data[:active.to_s], avatar: data[:avatarUrls.to_s]['48x48'])
+				}
 				format.html { redirect_to users_manage_users_url, notice: 'User was successfully created.' }
 				format.json { render :show, status: :created, location: @user }
 			else

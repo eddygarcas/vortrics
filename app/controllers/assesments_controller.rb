@@ -1,7 +1,7 @@
 class AssesmentsController < ApplicationController
   layout 'sidenav'
   before_action :set_assesment, only: [:show, :edit, :update, :destroy, :answer]
-  before_action :team_session, :user_session
+  before_action :team_session
 
 
   # GET /assesments

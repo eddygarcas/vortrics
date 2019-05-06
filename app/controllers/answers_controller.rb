@@ -2,7 +2,7 @@ class AnswersController < ApplicationController
 	layout 'sidenav'
 	before_action :set_answer, only: [:show, :edit, :update, :destroy]
 	before_action :set_assesment, only: [:results]
-	before_action :team_session, :user_session
+	before_action :team_session
 
 	# GET /answers
 	# GET /answers.json

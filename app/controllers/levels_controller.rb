@@ -1,7 +1,7 @@
 class LevelsController < ApplicationController
   layout 'sidenav'
   before_action :set_level, only: [:show, :edit, :update, :destroy]
-  before_action :team_session,:user_session
+  before_action :team_session
 
   # GET /levels
   # GET /levels.json

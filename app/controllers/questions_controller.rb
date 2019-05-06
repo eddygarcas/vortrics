@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   layout 'sidenav'
   before_action :set_question, only: [:show, :edit, :update, :destroy]
-  before_action :team_session,:user_session
+  before_action :team_session
 
   # GET /questions
   # GET /questions.json

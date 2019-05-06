@@ -1,7 +1,7 @@
 class MaturityFrameworksController < ApplicationController
   layout 'sidenav'
   before_action :set_maturity_framework, only: [:show, :edit, :update, :destroy]
-  before_action :team_session,:user_session
+  before_action :team_session
 
   # GET /maturity_frameworks
   # GET /maturity_frameworks.json

@@ -3,7 +3,7 @@ class IssuesController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_action :set_issue, only: [:show, :destroy]
   before_action :set_sprint, only: [:sprint_issues]
-  before_action :team_session, :user_session
+  before_action :team_session
 
   # GET /issues
   # GET /issues.json
