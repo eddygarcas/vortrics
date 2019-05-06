@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :project_info do
-    key { "MyString" }
-    name { "MyString" }
-    icon { "MyString" }
+    key { Faker::Alphanumeric.alpha 4 }
+    name { Faker::Name.suffix }
+    icon { Faker::Avatar.image }
   end
 end

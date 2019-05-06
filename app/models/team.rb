@@ -5,7 +5,6 @@ require_relative '../../app/helpers/numeric'
 
 class Team < ApplicationRecord
 	include JiraHelper
-
 	belongs_to :project_info
 	has_many :sprints, dependent: :destroy
 	has_many :assesments, dependent: :destroy

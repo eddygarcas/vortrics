@@ -36,7 +36,7 @@
             </tr>
             </thead>
             <tbody>
-            <% @teams.each do |team| %>
+            <% current_user.teams.each do |team| %>
 
                 <tr>
                   <td><%= image_tag(team.project_info.blank? ? "/images/voardtrix_logo.png" : team.project_info.icon, class: "img-rounded", height: '24', width: '24', id: 'project_image') %> <%= team.project %></td>
@@ -58,7 +58,7 @@
                   <%= radio_button_tag 'tmf_value', team.tmf_process, true %>
                 </div>
             <% end %>
-            <% if @teams.length == 0 %>
+            <% if current_user.teams.length == 0 %>
                 <tr>
                   <td colspan=42 class='text-center'>No teams.</td>
                 </tr>
@@ -66,7 +66,6 @@
             </tbody>
 
           </table>
-          <%= will_paginate @teams %>
         </div><!-- /.sheet-inner -->
       </div><!-- /.sheet -->
 

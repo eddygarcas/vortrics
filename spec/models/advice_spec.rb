@@ -4,7 +4,6 @@ RSpec.describe Advice, type: :model do
 
   describe '#validate instance of' do
     t = Advice.reflect_on_association(:team_advices)
-
     it "should have many team advices" do
       expect(t.macro).to eq(:has_many)
     end

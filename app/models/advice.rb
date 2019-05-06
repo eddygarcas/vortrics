@@ -1,9 +1,9 @@
 class Advice < ApplicationRecord
-  has_many :team_advices
-  has_many :teams, through: :team_advices
+  has_many :team_advices, dependent: :destroy
+  has_many :teams, through: :team_advices, dependent: :destroy
 
-  has_many :actions
-  has_many :issues, through: :actions
+  has_many :actions, dependent: :destroy
+  has_many :issues, through: :actions, dependent: :destroy
 
 
   #["id", "subject", "description", "read", "completed", "type", "created_at", "updated_at"]

@@ -1,14 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe "advices/index", type: :view do
+  let(:team) { FactoryBot.create(:team)}
+  let(:advices) { [
+      FactoryBot.create(:advice),
+      FactoryBot.create(:advice)
+  ] }
   before(:each) do
-    assign(:advices, [
-        FactoryBot.create(:advice),
-        FactoryBot.create(:advice)
-    ])
+    team.advices << advices
   end
 
   it "renders a list of advices" do
+    @team = team
     render
   end
 end

@@ -6,6 +6,7 @@
 
 
 <br/>
+<%= render "layouts/flashes" %>
 
 <div class="container-fluid">
   <div class="row">
@@ -17,7 +18,6 @@
             <tr class="false">
               <th>Type</th>
               <th>Description</th>
-              <th>Completed</th>
               <th></th>
             </tr>
             </thead>
@@ -26,15 +26,8 @@
               <tr>
                 <td><%= advice.advice_type.humanize %></td>
                 <td><%= advice.description.html_safe %></td>
-                <td>
-                  <label class="switch switch-success">
-                    <%= check_box_tag "completed", "", advice.completed %>
-                    <span></span>
-                  </label>
-                </td>
                 <td class="actions">
                   <%= link_to fa_icon_tag("eye"), advice, rel: 'tooltip', title: 'Show' %>
-                  <%= link_to fa_icon_tag("pencil"), edit_advice_path(advice), rel: 'tooltip', title: 'Edit' %>
                   <%= link_to fa_icon_tag("trash-o"), advice, rel: 'tooltip', title: 'Delete',
                               data: {confirm: 'Are you sure?'}, method: :delete %>
                 </td>

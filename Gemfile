@@ -71,6 +71,7 @@ group :development, :test do
   gem 'mocha'
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 3.8'
+  gem 'rails-controller-testing'
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
   gem 'shoulda-matchers', '~> 3.0', require: false
   gem 'database_cleaner', '~> 1.5'
