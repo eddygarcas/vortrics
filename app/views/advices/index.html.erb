@@ -1,10 +1,7 @@
 <% @title = "Listing advices" %>
 
 <% content_for :description do %>
-
-  <p><%= vt_project_icon %>
-    Advices</p>
-
+  <p><%= vt_project_icon %> Advices</p>
 <% end %>
 
 
@@ -17,16 +14,15 @@
         <div class="sheet-inner">
           <table class="table">
             <thead>
-              <tr class="false">
-                <th>Type</th>
-                <th>Description</th>
-                <th>Read</th>
-                <th>Completed</th>
-                <th></th>
-              </tr>
+            <tr class="false">
+              <th>Type</th>
+              <th>Description</th>
+              <th>Completed</th>
+              <th></th>
+            </tr>
             </thead>
             <tbody>
-              <% @advices.each do |advice| %>
+            <% @team.advices.each do |advice| %>
               <tr>
                 <td><%= advice.advice_type.humanize %></td>
                 <td><%= advice.description.html_safe %></td>
@@ -36,30 +32,26 @@
                     <span></span>
                   </label>
                 </td>
-                <td>
-                  <label class="switch switch-success">
-                    <%= check_box_tag "read", "", advice.read %>
-                    <span></span>
-                  </label>
-                </td>
                 <td class="actions">
                   <%= link_to fa_icon_tag("eye"), advice, rel: 'tooltip', title: 'Show' %>
                   <%= link_to fa_icon_tag("pencil"), edit_advice_path(advice), rel: 'tooltip', title: 'Edit' %>
                   <%= link_to fa_icon_tag("trash-o"), advice, rel: 'tooltip', title: 'Delete',
-                  data: { confirm: 'Are you sure?' }, method: :delete %>
+                              data: {confirm: 'Are you sure?'}, method: :delete %>
                 </td>
               </tr>
-              <% end %>
-              <% if @advices.length == 0 %>
-              <tr><td colspan=42 class='text-center'>No advices.</td></tr>
-              <% end %>
+            <% end %>
+            <% if @team.advices.length == 0 %>
+              <tr>
+                <td colspan=42 class='text-center'>No advices.</td>
+              </tr>
+            <% end %>
             </tbody>
           </table>
         </div><!-- /.sheet-inner -->
       </div><!-- /.sheet -->
 
-            <%# Remove the trailing if condition if you're using pagination. %>
-      <%= will_paginate @advices if @advices.respond_to?(:total_pages) %>
-                </div>
+      <%# Remove the trailing if condition if you're using pagination. %>
+      <%= will_paginate @team.advices if @team.advices.respond_to?(:total_pages) %>
+    </div>
   </div>
 </div>

@@ -1,2 +1,2 @@
-json.extract! advice, :id, :created_at, :updated_at
-json.url advice_url(advice, format: :json)
+json.extract! advice, :id,:subject,:description,:read,:completed
+json.url advice_url(advice)

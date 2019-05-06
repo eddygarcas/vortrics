@@ -6,7 +6,11 @@ class AdvicesController < ApplicationController
   # GET /advices
   # GET /advices.json
   def index
-    @advices = Advice.all
+    return if @team.blank?
+    ScrumMetrics.config[:advices].each_key do |key|
+      @team.advices.where(advice_type: key.to_s).first_or_create(ScrumMetrics.config[:advices][key]) if @team.send(key)
+    end
+    @advices = @team.advices.reject(&:read?)
   end
 
   # GET /advices/1
@@ -21,6 +25,13 @@ class AdvicesController < ApplicationController
 
   # GET /advices/1/edit
   def edit
+  end
+
+  #POST /advices/mark_as_read
+  def mark_as_read
+    @team.advices.update_all(read: true)
+    render json: { success: :true }
+
   end
 
   # POST /advices

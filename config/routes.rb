@@ -68,6 +68,8 @@ Rails.application.routes.draw do
 	get '/landing/info', to: 'landing#info', as: 'landing_info'
 	post '/register', to: 'landing#register', as: 'landing_register'
 
+  post '/advices/mark_as_read', to: 'advices#mark_as_read', as: 'advices_mark_as_read'
+
   root to: 'home#dashboard'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
