@@ -5,6 +5,7 @@ class Advice < ApplicationRecord
   has_many :actions, dependent: :destroy
   has_many :issues, through: :actions, dependent: :destroy
 
+  has_many :comments,dependent: :destroy
 
   #["id", "subject", "description", "read", "completed", "type", "created_at", "updated_at"]
   validates :advice_type, presence: {message: "Every advice must contain a valid logic method."}

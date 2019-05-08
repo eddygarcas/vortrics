@@ -6,9 +6,8 @@
 
 
 <br/>
-<%= render "layouts/flashes" %>
-
 <div class="container-fluid">
+  <%= render "layouts/flashes" %>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="sheet sheet-condensed">
@@ -27,7 +26,7 @@
                 <td><%= advice.advice_type.humanize %></td>
                 <td><%= advice.description.html_safe %></td>
                 <td class="actions">
-                  <%= link_to fa_icon_tag("eye"), advice, rel: 'tooltip', title: 'Show' %>
+                  <%= link_to fa_icon_tag("eye"), comment_path(advice.id), rel: 'tooltip', title: 'Show' %>
                   <%= link_to fa_icon_tag("trash-o"), advice, rel: 'tooltip', title: 'Delete',
                               data: {confirm: 'Are you sure?'}, method: :delete %>
                 </td>

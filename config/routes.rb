@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :issues
 	resources :workflows
   resources :advices
+  resources :comments
 
   devise_for :users, controllers: {registrations: 'registrations'}
   match 'users/:id', to: 'users#destroy', via: :delete, as: :admin_destroy_user
