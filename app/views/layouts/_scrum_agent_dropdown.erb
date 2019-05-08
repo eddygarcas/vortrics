@@ -1,9 +1,9 @@
 <li class="dropdown notifications">
-  <button class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 30px;" data-behaviour="advices-read">
+  <button class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 30px;" data-behaviour="notifications-read">
     <svg class="icon fa fa-fw icon-voardtrix" style="font-size: 32px;margin-left: -5px;margin-right: -30px;" data-toggle="tooltip" title="Vortrics advisor" data-placement="bottom">
       <use xlink:href="#icon-voardtrix"></use>
     </svg>
-    <span class="badge badge-sm" style="font-size: 11px;" data-behaviour="advices-count">0</span>
+    <span class="badge badge-sm" style="font-size: 11px;" data-behaviour="notifications-count">0</span>
     <span class="visible-xs-inline" style="font-size: 16px;">
       Kaizen system advice(s)
     </span>
@@ -13,10 +13,10 @@
   <ul class="dropdown-menu">
     <li>
       <div class="panel">
-        <div class="panel-heading text-center" data-behaviour="advices">
+        <div class="panel-heading text-center" data-behaviour="notifications">
           <small><strong><%= @team.name %> has advices</strong></small>
         </div>
-        <div class="list-group" data-behaviour="advices-items">
+        <div class="list-group" data-behaviour="notifications-items">
         </div>
 
         <div class="panel-footer">

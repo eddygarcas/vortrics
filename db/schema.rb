@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190507161108) do
+ActiveRecord::Schema.define(version: 20190508201723) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -152,6 +152,17 @@ ActiveRecord::Schema.define(version: 20190507161108) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer "recipient_id"
+    t.integer "actor_id"
+    t.datetime "read_at"
+    t.integer "notifiable_id"
+    t.string "notifiable_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "action"
   end
 
   create_table "project_infos", force: :cascade do |t|
