@@ -38,15 +38,20 @@ class UsersController < ApplicationController
 		end
 	end
 
+	def create_profile
+		@user = User.find(user_params[:id])
+		return @user.full_profile?
+		user_profile(@user) { |data|
+			@user.update(displayName: data[:displayName.to_s], active: data[:active.to_s], avatar: data[:avatarUrls.to_s]['48x48'])
+		}
+	end
+
 	# POST /teams
 	# POST /teams.json
 	def create
 		@user = User.new(user_new_params)
 		respond_to do |format|
 			if @user.save_dependent params[:setting_id], user_params[:admin]
-				user_profile(@user) { |data|
-					@user.update(displayName: data[:displayName.to_s], active: data[:active.to_s], avatar: data[:avatarUrls.to_s]['48x48'])
-				}
 				format.html { redirect_to users_manage_users_url, notice: 'User was successfully created.' }
 				format.json { render :show, status: :created, location: @user }
 			else
@@ -54,7 +59,6 @@ class UsersController < ApplicationController
 				format.json { render json: @user.errors, status: :unprocessable_entity }
 			end
 		end
-
 	end
 
 	def destroy

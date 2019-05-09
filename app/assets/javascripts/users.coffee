@@ -26,7 +26,6 @@ class Users
   handleChange: (e) ->
     @elems = $(this).val();
     @user = this.id;
-    console.log(@user)
     $.ajax(
       url: "/users/config"
       type: "JSON"

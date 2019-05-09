@@ -52,4 +52,8 @@ class User < ApplicationRecord
 		extuser.present?
 	end
 
+	def full_profile?
+		displayName.present? and avatar.present? and active.present?
+	end
+
 end

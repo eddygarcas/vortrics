@@ -36,6 +36,9 @@ class ApplicationController < ActionController::Base
 
 	def set_current_user
 		User.current = current_user
+		user_profile(current_user) { |data|
+			current_user.update(displayName: data[:displayName.to_s], active: data[:active.to_s], avatar: data[:avatarUrls.to_s]['48x48'])
+		} unless current_user.full_profile?
 	end
 
 	def admin_user?

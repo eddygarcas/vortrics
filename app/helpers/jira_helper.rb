@@ -18,8 +18,6 @@ module JiraHelper
 				consumer_key: setting.consumer_key,
 				username: setting.login,
 				password: setting.password
-				# username: ENV[:EXT_SERVICE_USERNAME.to_s],
-				# password: ENV[:EXT_SERVICE_PASSWORD.to_s],
 				#:ssl_verify_mode => 0,
 		}
 		instance = JIRA::Client.new(options)
@@ -69,6 +67,7 @@ module JiraHelper
 	end
 
 	def user_profile user
+		return if user.setting.blank?
 		usr = jira_instance(user.setting).User.singular_path(user.extuser)
 		yield JSON.parse(jira_instance(user.setting).get(usr).body)
 	end
