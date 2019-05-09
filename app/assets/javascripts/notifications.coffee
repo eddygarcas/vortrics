@@ -25,7 +25,6 @@ class Notifications
     )
 
   handleSuccess: (data) ->
-    console.log(data)
     items = data.map (notification) ->
       "<a href='#{notification.url}' class='media list-group-item'><span class='pull-left'><img src='#{notification.actor.avatar}' class='img-circle profile-image' height='35' width='35'></span><span class='media-body'><small class='text-muted'>#{notification.actor.name} #{notification.action} #{notification.notifiable.type} #{notification.advice.title}</small></span></a>"
 
