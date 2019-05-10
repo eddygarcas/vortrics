@@ -45,30 +45,27 @@
               <span><%=comment.created_at.day %></span>
               <small><%=comment.created_at.strftime('%b') %></small>
             </time>
-            <header>
-              <%= image_tag comment.actor.avatar.to_s, class: "img-rounded", height: '32', width: '32' %>
-              <h5 class="m0 mt15 mb15"> <%= comment.actor.displayName %> made a comment. </h5>
-            </header>
-            <p>
-              <%= comment.description %>
-            </p>
+            <div class="media">
+              <%= link_to comment, method: :delete, class: "btn btn-link btn-flat btn-xs btn-borderless pull-right" do %>
+                <i class="fa fa-trash"></i>
+              <%end if comment.actor.eql? current_user %>
+              <a class="pull-left" href="#">
+                <%= image_tag comment.actor.avatar.to_s, class: "img-rounded", height: '32', width: '32' %>
+              </a>
+              <div class="media-body">
+                <h5 class="media-heading">
+                  <h5 class="m0 mt15 mb15"><%= comment.actor.displayName %> made a comment.</h5>
+                </h5>
+                <p><%= comment.description %></p>
+              </div>
+              <ul class="small pull-right">
+                  <span class="small">
+                    <%= fa_icon_tag("clock-o") %><%= comment.created_at.strftime("%H:%M")%>
+                  </span>
+              </ul>
+            </div>
           </li>
         <% end %>
-
-
-
-<!--        <li class="join-to-previous">-->
-<!--          <header>-->
-<!--            <img alt="1" class="img-rounded" height="32" src="../assets/dresssed/stock/1.jpg" width="32">-->
-<!--            <h4 class="m0 mt15 mb15"> James uploaded a video. </h4>-->
-<!--          </header>-->
-<!--          <p>-->
-<!--            Closes #215 - Monster update of nothing in particular.-->
-<!--          </p>-->
-<!--        </li>-->
-<!--        <li class="period-marker">-->
-<!--          <p>Last Month</p>-->
-<!--        </li>-->
       </ul>
     </div>
     <div class="col-sm-6">

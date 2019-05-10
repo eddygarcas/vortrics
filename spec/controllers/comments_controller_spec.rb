@@ -136,7 +136,7 @@ RSpec.describe CommentsController, type: :controller do
     it "redirects to the comments list" do
       comment = FactoryBot.create(:comment)
       delete :destroy, params: {id: comment.to_param}, session: valid_session
-      expect(response).to redirect_to(comments_url)
+      expect(response).to redirect_to(comment_path(comment.advice_id))
     end
   end
 
