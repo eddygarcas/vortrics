@@ -8,7 +8,6 @@ class Users
 
   handleClick: (e) ->
     @elems = document.activeElement
-    console.log(@elems)
     $.ajax(
       url: "/users/group"
       type: "JSON"

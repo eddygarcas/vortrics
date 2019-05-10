@@ -27,8 +27,12 @@ class User < ApplicationRecord
 
 	def save_dependent setting_id = nil, is_admin = nil
 		save
+		puts "User saved #{to_s}"
+
 		Config.where(user_id: id).update_or_create(user_id: id, setting_id: setting_id.to_i) unless setting_id.blank?
 		Access.where(user_id: id).update_or_create(user_id: id, group_id: Group.find_by_priority((is_admin ? 1 : 99).to_i).id) unless is_admin.blank?
+		puts "User return true"
+
 		true
 	rescue ActiveRecordError
 		false

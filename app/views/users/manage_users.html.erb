@@ -1,6 +1,5 @@
 <div class="container-fluid mt20">
   <%= hidden_field_tag 'teamid', @team.blank? ? 0 : @team.id, class: 'form-control', id: 'teamid' %>
-
   <%= render "layouts/flashes" %>
   <%= render "user_group_list" %>
   <%= render "layouts/footer_agent" %>

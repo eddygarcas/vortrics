@@ -22,10 +22,11 @@
 
 
 <%= render "layouts/sprint_navigation" %>
+<%= render "layouts/flashes" %>
+
 <div class="container-fluid">
 
 
-  <%= render "layouts/flashes" %>
 
 
   <%= hidden_field_tag 'sprintid', @sprint.id, class: 'form-control', id: 'sprintid' %>

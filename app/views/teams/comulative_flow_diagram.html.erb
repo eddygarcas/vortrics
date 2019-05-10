@@ -17,11 +17,11 @@
 
 <%#= render "layouts/sprint_navigation" %>
 <%= render "team_navigation" %>
+<%= render "layouts/flashes" %>
 
 <div class="container-fluid">
   <%= hidden_field_tag 'teamid', @team.id, class: 'form-control', id: 'teamid' %>
 
-  <%= render "layouts/flashes" %>
 
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 animate-right-fade-1200">
