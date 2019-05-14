@@ -336,7 +336,7 @@ function InitializeReleaseTimeBugsGraphTeam() {
             var clickinghandler = new Rickshaw.Graph.ClickDetail({
                 graph: graph,
                 clickHandler: function (value) {
-                    window.open($('#extsite')[0].value +'/browse/' + $(".key_team_story").text())
+                    window.open($('#extsite')[0].value + '/browse/' + $(".key_team_story").text())
                 }
             });
 
@@ -410,8 +410,6 @@ function InitializeOpenClosedBugsGraphTeam(id) {
                 document.getElementById(_id + '-x_axis').innerHTML = "";
 
             }
-
-
 
 
             graph = new Rickshaw.Graph({

@@ -14,10 +14,13 @@
   </div>
 
   <div class="panel-body">
-    <div id="<%= locals[:graph_id] %>"></div>
-
-    <div id="legend_container">
-      <div id="legend"></div>
+    <div id="<%= locals[:graph_id] %>" style="position: relative">
+      <div id="<%= locals[:graph_id] %>-loader">
+        <i class="fa fa-fw fa-spinner fa-pulse" style="font-size: 18px;"></i>
+      </div>
+      <div id="legend_container">
+        <div id="legend"></div>
+      </div>
     </div>
     <div id="x_axis_stories"></div>
     <div id="y_axis_stories"></div>

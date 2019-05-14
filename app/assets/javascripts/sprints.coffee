@@ -1,5 +1,11 @@
 `
     function Sprintbyday(data) {
+        if ($('#rickshaw-bars-sprint')[0] === undefined) {
+            return
+        } else {
+            document.getElementById('rickshaw-bars-sprint-loader').innerHTML = "";
+        }
+
         var graph;
         graph = new Rickshaw.Graph({
             element: document.getElementById('rickshaw-bars-sprint'),
