@@ -3,6 +3,10 @@
   <ul class="nav nav-second-level" aria-expanded="false">
 
     <%= activatable_li_tag advices_path do |url| %>
+      <%= link_to fa_icon_tag("Commenting") << "Remote retrospective", url %>
+    <% end %>
+
+    <%= activatable_li_tag advices_path do |url| %>
       <%= link_to fa_icon_tag("compass") << "Actions", url %>
     <% end %>
 
@@ -20,7 +24,6 @@
             <%= link_to fa_icon_tag("pied-piper") << "Framework Setup", url %>
           <% end %>
         <% end %>
-
       </ul>
     </li>
   </ul>

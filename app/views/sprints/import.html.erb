@@ -1,14 +1,8 @@
 <% @title = "Import a sprint" %>
 
 <% content_for :description do %>
-
     <p><%= vt_project_icon %>
       <%= vt_project_name %></p>
-    <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
-      <li><%= link_to "Locally", new_sprint_path %></li>
-      <li><%= link_to "External service", new_sprint_path %></li>
-
-    </ol>
 <% end %>
 
 <%= render "layouts/flashes" %>

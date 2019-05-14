@@ -1,32 +1,20 @@
-<% content_for :javascript do %>
-  <script>
-      $(document).on('turbolinks:load', function () {
-        InitializeClosedByDayGraphSprint();
-        InitializeReleaseTimeGraphSprint();
-    });
-</script>
-
-<%end %>
 <% @title = "Sprint / #{@sprint.name}" %>
 
 <% content_for :description do %>
   <p><%= vt_project_tag @sprint.team.project %> / <%= @sprint.team.name %> -
-      from <%= @sprint.start_date.strftime('%d/%b/%Y') %> to <%= @sprint.enddate.strftime('%d/%b/%Y') %></p>
+    from <%= @sprint.start_date.strftime('%d/%b/%Y') %> to <%= @sprint.enddate.strftime('%d/%b/%Y') %></p>
 <% end %>
 
 <% content_for :actions do %>
-    <% if @sprint.enddate > Date.today %>
-        <%= render partial: "layouts/sprint_panel" %>
-    <% end %>
+  <% if @sprint.enddate > Date.today %>
+    <%= render partial: "layouts/sprint_panel" %>
+  <% end %>
 <% end %>
 
 
 <%= render "layouts/sprint_navigation" %>
 <%= render "layouts/flashes" %>
-
 <div class="container-fluid">
-
-
 
 
   <%= hidden_field_tag 'sprintid', @sprint.id, class: 'form-control', id: 'sprintid' %>

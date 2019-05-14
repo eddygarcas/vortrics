@@ -64,13 +64,14 @@ defaults: &defaults
     :average_velocity: "Velocity is quite simple to calculate. At the end of a sprint, add up the total of all the story points that were moved to 'Done' (based on your Definition of Done) in that sprint."
     :average_stories: "At the end of a sprint, add up the total of all the user stories that were moved to 'Done' (based on your Definition of Done) in that sprint."
     :varianza: "It measures how far a set of sprint story counting numbers are spread out from their average value."
-    :sprint_forecast: "Forecast team's velocity according to current team work-force. Ideally, you should not commit the same amount of work if less people working."
+    :sprint_forecast: "Forecast team's velocity according to current team work-force. Ideally, you should not commit the same amount of work if there are less people working."
     :pass_rate: "Quality metric, it is the percentage of 'Review' that pass the first time they are run. If it is below 90%, there is a quality problem, find out the part of the process that is a cause of problems."
     :bug_sprint: "This is a simple metric that lets you see how many defects you are raising each sprint. You calculate by adding the number of defects that were created at some point during the sprint."
     :ratio_bugs: "It is the ratio of the defects created during the sprint to the total number of user stories in the sprint."
     :time_blocked: "Simply, Adds up all the time that any story or task in the current sprint spent in a blocked state."
     :ratio_time_blocked: "It tells you how much time every story in the current sprint would spend blocked, distributing total blocked time per user story or task."
     :ratio_items_blocked: "Measures what proportion of user stories in a sprint are blocked by impediments."
+    :scope_change: "It shows how much changes has suffered the original sprint commitment. "
 
 
 development:

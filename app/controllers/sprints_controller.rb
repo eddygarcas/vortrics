@@ -4,7 +4,7 @@ class SprintsController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_action :set_sprint, only: [:show, :edit, :update, :destroy, :graph_closed_by_day, :graph_release_time, :refresh_issues]
   before_action :team_session, :set_current_user
-  before_action :admin_user?, only: [:index, :new, :edit, :destroy]
+  before_action :admin_user?, only: [:index, :edit, :destroy]
 
   # GET /sprints
   # GET /sprints.json
@@ -122,18 +122,18 @@ class SprintsController < ApplicationController
 
   # POST /sprints
   # POST /sprints.json
-  def create
-    @sprint = Sprint.new(sprint_params)
-    respond_to do |format|
-      if @sprint.save
-        format.html {redirect_to sprints_url, notice: 'Sprint was successfully created.'}
-        format.json {render :show, status: :created, location: @sprint}
-      else
-        format.html {render :new}
-        format.json {render json: @sprint.errors, status: :unprocessable_entity}
-      end
-    end
-  end
+  # def create
+  #   @sprint = Sprint.new(sprint_params)
+  #   respond_to do |format|
+  #     if @sprint.save
+  #       format.html {redirect_to sprints_url, notice: 'Sprint was successfully created.'}
+  #       format.json {render :show, status: :created, location: @sprint}
+  #     else
+  #       format.html {render :new}
+  #       format.json {render json: @sprint.errors, status: :unprocessable_entity}
+  #     end
+  #   end
+  # end
 
   # PATCH/PUT /sprints/1
   # PATCH/PUT /sprints/1.json
