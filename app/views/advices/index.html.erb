@@ -9,25 +9,32 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="sheet sheet-condensed">
-        <div class="sheet-inner">
-          <table class="table">
+      <div class="panel panel-default mt15">
+        <div class="panel-heading">
+          <h3 class="panel-title">Advice threads</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-hover table-striped">
             <thead>
-            <tr class="false">
+            <tr>
               <th>Type</th>
               <th>Description</th>
+              <th>Comments</th>
               <th></th>
             </tr>
             </thead>
             <tbody>
             <% @team.advices.each do |advice| %>
               <tr>
-                <td><%= advice.advice_type.humanize %></td>
+                <td style="min-width: 110px; max-width: 110px;"><%= advice.advice_type.humanize %></td>
                 <td><%= advice.description.html_safe %></td>
-                <td class="actions">
-                  <%= link_to fa_icon_tag("eye"), comment_path(advice.id), rel: 'tooltip', title: 'Show' %>
-                  <%= link_to fa_icon_tag("trash-o"), advice, rel: 'tooltip', title: 'Delete',
-                              data: {confirm: 'Are you sure?'}, method: :delete %>
+                <td style="min-width: 110px; max-width: 110px;"><span class="label label-success"><%= fa_icon_tag("Forumbee")%> New!</span></td>
+                <td style="min-width: 110px; max-width: 110px;">
+                  <div class="btn-group btn-group-sm">
+                    <%= link_to fa_icon_tag("eye"), comment_path(advice.id), rel: 'tooltip', title: 'Show', class: "btn btn-default" %>
+                    <%= link_to fa_icon_tag("trash-o"), advice, rel: 'tooltip', title: 'Delete',
+                                data: {confirm: 'Are you sure?'}, method: :delete, class: "btn btn-default" %>
+                  </div>
                 </td>
               </tr>
             <% end %>
@@ -38,8 +45,8 @@
             <% end %>
             </tbody>
           </table>
-        </div><!-- /.sheet-inner -->
-      </div><!-- /.sheet -->
+        </div>
+      </div>
 
       <%# Remove the trailing if condition if you're using pagination. %>
       <%= will_paginate @team.advices if @team.advices.respond_to?(:total_pages) %>

@@ -50,8 +50,6 @@ class UsersController < ApplicationController
 	# POST /teams.json
 	def create
 		@user = User.new(user_new_params)
-		puts "User #{@user.to_s}"
-
 		respond_to do |format|
 			if @user.save_dependent params[:setting_id], user_params[:admin]
 				format.html { redirect_to users_manage_users_url, notice: 'User was successfully created.' }

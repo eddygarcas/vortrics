@@ -120,20 +120,6 @@ class SprintsController < ApplicationController
     redirect_to sprint_path(@sprint), notice: 'Sprint has successfully been updated.'
   end
 
-  # POST /sprints
-  # POST /sprints.json
-  # def create
-  #   @sprint = Sprint.new(sprint_params)
-  #   respond_to do |format|
-  #     if @sprint.save
-  #       format.html {redirect_to sprints_url, notice: 'Sprint was successfully created.'}
-  #       format.json {render :show, status: :created, location: @sprint}
-  #     else
-  #       format.html {render :new}
-  #       format.json {render json: @sprint.errors, status: :unprocessable_entity}
-  #     end
-  #   end
-  # end
 
   # PATCH/PUT /sprints/1
   # PATCH/PUT /sprints/1.json

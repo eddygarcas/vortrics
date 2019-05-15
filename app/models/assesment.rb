@@ -8,8 +8,8 @@ class Assesment < ApplicationRecord
     level = maturity_framework.levels.find(level_id)
     stars = 0
     level.q_stages.each {|stage|
-      no_total = answers.joins(:question).where({questions: {q_stage_id: stage.id}}).count
-      no_right = answers.joins(:question).where({questions: {q_stage_id: stage.id}, answers: {value: 1}}).count
+      no_total = answers.total(stage.id)
+      no_right = answers.right(stage.id)
       stars += 1 if no_right.eql? no_total
       break unless no_right.eql? no_total
     }

@@ -9,7 +9,7 @@
 <%= render "layouts/flashes" %>
 <div class="container-fluid">
   <div class="row">
-    <div class="panel panel-default mt15 ml15 mr15" id="panels">
+    <div class="panel panel-primary mt15 ml15 mr15" id="panels">
       <div class="panel-heading">
         <%= @advice.advice_type.humanize %>
       </div>
@@ -21,10 +21,10 @@
   <div class="row">
     <div class="left-timeline col-sm-6">
 
-      <%= form_for(@comment, html: { class: 'timeline-update' }) do |f| %>
+      <%= form_for(@comment, html: {class: 'timeline-update'}) do |f| %>
         <%= f.error_notification %>
         <%= f.hidden_field :advice_id, value: @advice.id %>
-        <%= f.text_area :description, placeholder: "What's in your mind to improve that situation?", class: "form-control" %>
+        <%= f.text_area :description, placeholder: "What's in your mind to improve this situation?", class: "form-control" %>
         <div class="row">
           <div class="col-xs-6 col-sm-6">
             <a class="btn btn-sm btn-default"><i class="fa fa-fw fa-camera"></i></a>
@@ -37,16 +37,16 @@
         </div>
       <% end %>
       <ul>
-        <% @advice.comments.each do |comment| %>
+        <% @advice.comments.reverse.each do |comment| %>
           <li>
             <time>
-              <span><%=comment.created_at.day %></span>
-              <small><%=comment.created_at.strftime('%b') %></small>
+              <span><%= comment.created_at.day %></span>
+              <small><%= comment.created_at.strftime('%b') %></small>
             </time>
             <div class="media">
               <%= link_to comment, method: :delete, class: "btn btn-link btn-flat btn-xs btn-borderless pull-right" do %>
                 <i class="fa fa-trash"></i>
-              <%end if comment.actor.eql? current_user %>
+              <% end if comment.actor.eql? current_user %>
               <a class="pull-left" href="#">
                 <%= image_tag comment.actor.avatar.to_s, class: "img-rounded", height: '32', width: '32' %>
               </a>
@@ -58,7 +58,7 @@
               </div>
               <ul class="small pull-right">
                   <span class="small">
-                    <%= fa_icon_tag("clock-o") %><%= comment.created_at.strftime("%H:%M")%>
+                    <%= fa_icon_tag("clock-o") %><%= comment.created_at.strftime("%H:%M") %>
                   </span>
               </ul>
             </div>

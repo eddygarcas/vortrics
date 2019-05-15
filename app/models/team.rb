@@ -13,20 +13,20 @@ class Team < ApplicationRecord
 	has_many :advices, through: :team_advices
 
 	attr_writer :issues, :sprint, :changelog
-	# def grab_image avatar_url
-	#   downloaded_image = open(avatar_url)
-	#   avatar.attach(io: downloaded_image, filename: "team_#{id}.jpg")
-	# end
-	def sprint
-		sprints.order(enddate: :desc).first
-	end
 
-	def sprint_by_project
-		Team.where("project = ?", project.to_s).all.sort_by { |e| e.sprint.enddate }
+	scope :sprints,  -> {where("project = ?", project.to_s).all.sort_by { |e| e.sprint.enddate }}
+	scope :by_setting, -> (setting_id) {where(:setting_id => setting_id)}
+
+	def sprint
+		sprints.active
 	end
 
 	def issues
 		sprint.issues
+	end
+
+	def sprint_by_project
+		Team.where("project = ?", project.to_s).all.sort_by { |e| e.sprint.enddate }
 	end
 
 	def issues_selectable_for_graph
@@ -92,7 +92,7 @@ class Team < ApplicationRecord
 	def velocity_variance
 		closed_points = average_closed_points
 		variance = 0
-		sprints.where('enddate <= ?', Date.today).take(5).each { |spt|
+		sprints.recent.each { |spt|
 			variance += ((closed_points - spt.closed_points) ** 2)
 		}
 		Math.sqrt(variance).round(0)
@@ -101,7 +101,7 @@ class Team < ApplicationRecord
 	def stories_variance
 		closed_stories = average_stories
 		variance = 0
-		sprints.where('enddate <= ?', Date.today).take(5).each { |spt|
+		sprints.recent.each { |spt|
 			variance += ((closed_stories - spt.stories) ** 2)
 		}
 		Math.sqrt(variance).round(0)
@@ -173,7 +173,7 @@ class Team < ApplicationRecord
 
 
 	def all_sprint_names
-		sprints.select(:name).order(:enddate).to_json(except: :id).html_safe
+		sprints.names_safe
 	end
 
 	def avg_team_stories
