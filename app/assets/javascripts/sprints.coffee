@@ -173,8 +173,8 @@
 
 class Sprints
   constructor: ->
-    @sprintid = $('#sprintid')[0].value
-    @setup()
+    @sprintid = $('#sprintid')[0].value if $('#sprintid')[0]?
+    @setup() if @sprintid?
 
   setup: ->
     $.ajax(

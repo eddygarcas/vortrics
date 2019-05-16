@@ -133,7 +133,7 @@ function InitializeCycleTimeGraphTeam() {
     if ($('#teamid')[0] === undefined) {
         return;
     }
-
+console.log("Calling cycle time")
     $.ajax({
         type: 'GET',
         url: '/teams/' + $('#teamid')[0].value + '/cycle_time_chart',
@@ -144,7 +144,7 @@ function InitializeCycleTimeGraphTeam() {
                 document.getElementById('bars-cycle-time-loader').innerHTML = "";
 
             }
-
+            console.log(data)
             series = data[0];
             min = Number.MAX_VALUE;
             max = Number.MIN_VALUE;

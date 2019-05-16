@@ -22,7 +22,7 @@
       <%= f.form_group :team_id do |f| %>
           <%= f.label :team_id, class: 'control-label col-md-2' %>
           <div class='col-md-8'>
-            <%= f.collection_select :team_id, Team.order(:id), :id, :name, include_blank: false, required: true, class: 'form-control' %>
+            <%= f.collection_select :team_id, Team.order(:id), :id, :name,class: "form-control form-control-lg", include_blank: false, required: true %>
             <%= f.error_messages %>
           </div>
       <% end %>
@@ -30,9 +30,9 @@
       <%= f.form_group :maturity_framework_id do |f| %>
           <%= f.label :maturity_framework_id, class: 'control-label col-md-2' %>
           <div class='col-md-8'>
-            <%= f.collection_select :maturity_framework_id, MaturityFramework.order(:id), :id, :name, include_blank: false, required: true, class: 'form-control' %>
+            <%= f.collection_select :maturity_framework_id, MaturityFramework.order(:id), :id, :name, class: "form-control form-control-lg", include_blank: false, required: true %>
             <%= f.error_messages %>
-          </div>
+          </div>s
       <% end %>
 
     </div>
