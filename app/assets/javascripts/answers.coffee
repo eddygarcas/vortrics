@@ -42,5 +42,9 @@ class Answers
           $("[data-behavior='answer_response_" + data['message'] + "']")[0].className += ' has-error';
     )
 
-jQuery ->
-  new Answers
+ready = ->
+  jQuery ->
+    new Answers
+
+$(document).ready(ready)
+$(document).on('turbolinks:load', ready)
