@@ -11,9 +11,9 @@
 
   <ul class="nav nav-tabs">
     <li role="presentation" class="dropdown">
-      <%= dropdown_menu "Change board selection #{params[:board_id].blank? ? vt_project_name : board_by_team[params[:board_id].to_i]}" do %>
-        <% board_by_team.each do |board| %>
-              <%= activatable_li_tag_with_link board[1], sprint_import_path(board[0]) %>
+      <%= dropdown_menu "Change board selection #{vt_project_name}" do %>
+        <% board_by_team(@team.project_info).each do |board| %>
+              <%= activatable_li_tag_with_link board.name, sprint_import_path(board.id) %>
           <% end %>
 
       <% end %>

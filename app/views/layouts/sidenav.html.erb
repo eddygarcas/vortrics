@@ -35,7 +35,7 @@
               <li class="dropdown navbar-brand">
                 <%= dropdown_menu @team.blank? ? "No team selected" : @team.name.to_s.upcase do %>
                   <% Team.where(:setting_id => current_user.setting.id).each do |team| %>
-                    <%= activatable_li_tag_with_link (team.avatar.blank? ? '' : image_tag(team.avatar, class: "img-rounded", height: '20', width: '20')) << " #{team.name}", get_dashboard_path(team.id) %>
+                    <%= activatable_li_tag_with_link (team.project_info.blank? ? '' : image_tag(team.project_info.icon, class: "img-rounded", height: '20', width: '20')) << " #{team.name}", get_dashboard_path(team.id) %>
                   <% end %>
                 <% end %>
               </li>
@@ -43,8 +43,8 @@
             <ul class="nav navbar-nav">
               <li class="dropdown">
                 <%= dropdown_menu "<span style='font-size: 18px;'>Download</span>".html_safe do %>
-                  <% board_by_team.each do |board| %>
-                    <%= activatable_li_tag_with_link board[1], sprint_import_path(board[0]) %>
+                  <% board_by_team(@team.project_info).each do |board| %>
+                    <%= activatable_li_tag_with_link board.name, sprint_import_path(board.id) %>
                   <% end %>
                 <% end %>
               </li>

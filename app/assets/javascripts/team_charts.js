@@ -133,7 +133,6 @@ function InitializeCycleTimeGraphTeam() {
     if ($('#teamid')[0] === undefined) {
         return;
     }
-console.log("Calling cycle time")
     $.ajax({
         type: 'GET',
         url: '/teams/' + $('#teamid')[0].value + '/cycle_time_chart',
@@ -144,7 +143,6 @@ console.log("Calling cycle time")
                 document.getElementById('bars-cycle-time-loader').innerHTML = "";
 
             }
-            console.log(data)
             series = data[0];
             min = Number.MAX_VALUE;
             max = Number.MIN_VALUE;
@@ -480,7 +478,6 @@ function InitializeComulativeFlowChart(id) {
     if (id === undefined) {
         _id = 'team-comulative-flow'
     }
-    console.log('team:' + $('#teamid')[0])
     if ($('#teamid')[0] === undefined) {
         return;
     }

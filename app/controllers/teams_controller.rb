@@ -172,7 +172,7 @@ class TeamsController < ApplicationController
 	end
 
 	def boards_by_team
-		render json: boards_by_project(params['proj_id']).invert
+		render json: boards_by_project(params['proj_id'])['values'].map {|e| Board.new(e) }
 	end
 
 	def key_results
@@ -203,6 +203,8 @@ class TeamsController < ApplicationController
 	# POST /teams.json
 	def create
 		@team = Team.new(team_params)
+
+		dfñvkdfgodf
 		@team.project_info_id =  ProjectInfo.create_data(project_details(@team.project)).id
 		respond_to do |format|
 			if @team.save

@@ -15,7 +15,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require project_board_dropdown
 //= require dresssed
 //= require rails-ujs
 //= require turbolinks
