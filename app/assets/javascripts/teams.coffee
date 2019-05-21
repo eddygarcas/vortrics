@@ -33,4 +33,3 @@ class Teams
 
 jQuery ->
   new Teams
-['name']
