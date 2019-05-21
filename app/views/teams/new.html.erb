@@ -2,7 +2,6 @@
 
 <% content_for :description do %>
   <p><%= vt_project_icon %>
-
     from
     <strong>JIRA</strong> <%= "#{current_user.setting.site}#{current_user.setting.base_path} #{(current_user.setting.oauth? ? :oauth : :basic).to_s.humanize} authentication" %>
   </p>

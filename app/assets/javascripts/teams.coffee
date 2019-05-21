@@ -4,17 +4,21 @@ class Teams
     @setup()
 
   setup: ->
-    $("[id='team_project']").on "change", @handleChange
-    $("[id='team_board_id']").on "change", @handleBoardChange
+    $("[data-behaviour='team_project_change']").on "change", @handleChange
+    $("[data-behaviour='team_board_id_change']").on "change", @handleBoardChange
 
   handleChange: (e) ->
+    return if $('#team_project').val() == undefined
     $.ajax(
       url: "/teams/full_project_details/" + $('#team_project').val()
       type: "JSON"
       method: "GET"
       success: (data) ->
-        console.log(data)
-        $("#project_image")[0].src = data.avatarUrls["32x32"]
+        if (data != undefined)
+          $("#project_image")[0].src = data.avatarUrls["32x32"]
+        else
+          $("[data-behaviour='board_type']").html("Error")
+
     )
     $.ajax(
       url: "/teams/boards_by_team/" + $('#team_project').val()
@@ -28,8 +32,12 @@ class Teams
           $('#team_board_id').append($('<option>', {value: board['id'], text: board['name']}))
     )
   handleBoardChange: (e) ->
-    console.log(boards)
     $("[data-behaviour='board_type']").html(boards[$('select#team_board_id option:selected').index()].type)
 
-jQuery ->
-  new Teams
+
+ready = ->
+  jQuery ->
+    new Teams
+
+$(document).ready(ready)
+$(document).on('turbolinks:load', ready)

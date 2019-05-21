@@ -7,7 +7,7 @@
       <div class='col-md-8'>
         <%= @team.avatar.blank? ? image_tag('/images/voardtrix_logo.png', class: "img-rounded", height: '32', width: '32', id: 'project_image') : image_tag(@team.avatar, class: "img-rounded", height: '32', width: '32', id: 'project_image') %>
         <div class="btn-group">
-          <%= f.collection_select :project, project_list, :key, :name, {prompt: 'Select project...', required: true}, {class: 'form-control form-control-lg'} %>
+          <%= f.collection_select :project, project_list, :key, :name, {prompt: 'Select project...', required: true}, {class: 'form-control form-control-lg',data: {behaviour: :team_project_change}} %>
         </div>
         <%= f.error_messages %>
       </div>
@@ -16,7 +16,7 @@
     <%= f.form_group :board_id do |f| %>
       <%= f.label :board_id, class: 'control-label col-md-2' %>
       <div class='col-md-4'>
-        <%= f.select :board_id, 'Not defined', {prompt: 'Not defined', required: true, disabled: f.object.persisted?}, {class: 'form-control'} %>
+        <%= f.select :board_id, 'Not defined', {prompt: 'Not defined', required: true, disabled: f.object.persisted?}, {class: 'form-control',data: {behaviour: :team_board_id_change}} %>
         <%= f.error_messages %>
       </div>
       <%= content_tag(:h4, "", class: 'label label-info col-md-1 pull-left',style: "margin-top: 5px;", data: {behaviour: :board_type}).html_safe %>
