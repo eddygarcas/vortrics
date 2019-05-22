@@ -19,7 +19,6 @@
             <tr>
               <th>Type</th>
               <th>Description</th>
-              <th>Comments</th>
               <th></th>
             </tr>
             </thead>
@@ -28,7 +27,6 @@
               <tr>
                 <td style="min-width: 110px; max-width: 110px;"><%= advice.advice_type.humanize %></td>
                 <td><%= advice.description.html_safe %></td>
-                <td style="min-width: 110px; max-width: 110px;"><span class="label label-success"><%= fa_icon_tag("Forumbee")%> New!</span></td>
                 <td style="min-width: 110px; max-width: 110px;">
                   <div class="btn-group btn-group-sm">
                     <%= link_to fa_icon_tag("eye"), comment_path(advice.id), rel: 'tooltip', title: 'Show', class: "btn btn-default" %>
