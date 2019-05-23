@@ -38,9 +38,10 @@ class Team < ApplicationRecord
 
 
 	def average_time
-		Rails.cache.fetch("average_time_#{id}", expires_in: 1.day) {
+		average = Rails.cache.fetch("average_time_#{id}", expires_in: 1.day) {
 			issues_selectable_for_graph.map { |issue| (issue.lead_time({ toString: :wip }, { toString: :done })).abs }.average
 		}
+		average.nan? ? 0 : average
 	end
 
 	def percent_of_lead_time days = ScrumMetrics.config[:baseline][:leadtime]

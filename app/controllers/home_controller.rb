@@ -4,7 +4,8 @@ require_relative '../../app/models/change_log'
 class HomeController < ApplicationController
   layout 'sidenav'
   before_action :set_dashboard, only: [:sidenav, :dashboard, :manage_users]
-  before_action :team_session, :set_current_user
+  before_action :team_session
+  before_action :set_current_user
 
   def sidenav
   end

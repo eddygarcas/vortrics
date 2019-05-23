@@ -1,8 +1,8 @@
 class CommentsController < ApplicationController
   layout 'sidenav'
-  before_action :team_session
   before_action :set_advice, only: [:show, :edit]
   before_action :set_comment, only: [:destroy]
+  before_action :team_session, append_after_action: :set_advice
 
   # GET /comments
   # GET /comments.json
@@ -72,6 +72,7 @@ class CommentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_advice
       @advice = Advice.find(params[:id])
+      @team = @advice.teams.first
     end
 
     def set_comment

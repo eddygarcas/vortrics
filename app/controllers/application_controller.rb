@@ -46,12 +46,13 @@ class ApplicationController < ActionController::Base
 	end
 
 	def team_session
-		@team = current_user.teams.first if @team.blank?
-		if !@team.blank? && session[:team_id] != @team.id
-			id = session[:team_id].blank? ? @team.id : session[:team_id]
-			@team = Team.find(id)
+		begin
+			@team = current_user.teams.first if session[:team_id].blank?
+			session[:team_id] = @team.id unless @team.blank?
+			@team = Team.find(session[:team_id])
+		rescue
+			return
 		end
-		session[:team_id] = @team.id unless @team.blank?
 	end
 
 	private
