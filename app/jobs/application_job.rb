@@ -15,9 +15,9 @@ class ApplicationJob < ActiveJob::Base
 
     sprints.each {|sprint|
 
-      issues = []
+
       options = {fields: ScrumMetrics.config[:jira][:fields], maxResults: 200, expand: :changelog}
-      import_sprint(sprint.sprint_id, options).each {|elem| issues << JiraIssue.new(elem).to_issue}
+      issues = import_sprint(sprint.sprint_id, options).map {|elem| JiraIssue.to_issue(elem)}
 
       issues_save = issues.select {|el| el.closed_in.include? sprint.sprint_id.to_s unless el.closed_in.blank?}
       sprint.team.update_sprint(sprint, issues) {sprint.save_issues issues_save}

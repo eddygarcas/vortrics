@@ -261,8 +261,7 @@ class TeamsController < ApplicationController
 
   def bugs_selectable_for_graph
     options = {fields: vt_jira_issue_fields, maxResults: 200}
-    bugs = []
-    bug_for_board(@team.board_id, (DateTime.now - 3.months).strftime("%Y-%m-%d"), options).each {|elem| bugs << JiraIssue.new(elem).to_issue}
+    bugs = bug_for_board(@team.board_id, (DateTime.now - 3.months).strftime("%Y-%m-%d"), options).map {|elem| JiraIssue.to_issue(elem)}
     bugs.sort_by!(&:created)
   end
 

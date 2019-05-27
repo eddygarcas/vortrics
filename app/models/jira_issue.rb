@@ -9,6 +9,33 @@ class JiraIssue
     parse_issue elem unless elem.nil?
   end
 
+  #This operation will require to analize both closed and sprint due to once the sprint is finish both are comming as part of the get issues message
+  def self.to_issue elem
+    jissue = JiraIssue.new(elem)
+    issue = Issue.find_by_key(jissue.key)
+    issue = Issue.new if issue.nil?
+    issue.key = jissue.key
+    issue.issuetype = jissue.issuetype['name']
+    issue.issueicon = jissue.issuetype['iconUrl']
+    issue.issuetypeid = jissue.issuetype['id'].to_i
+    issue.summary = jissue.summary
+    issue.closed_in = jissue.sprint_info['self'] unless jissue.sprint_info.blank?
+    issue.customfield_11382 = jissue.number_of_sprints
+    issue.description = jissue.description
+    issue.priority = jissue.priority['name'] unless jissue.priority.blank?
+    issue.priorityicon = jissue.priority['iconUrl'] unless jissue.priority.blank?
+    issue.components = jissue.components.map {|elem| elem['name']}.join(",")
+    issue.status = jissue.status['statusCategory']['key']
+    issue.statusname = jissue.status['statusCategory']['name']
+    issue.assignee = jissue.assignee['displayName'] unless jissue.assignee.blank?
+    issue.assigneeavatar = jissue.assignee['avatarUrls']['32x32'] unless jissue.assignee.blank?
+    issue.created = jissue.created
+    issue.updated = jissue.updated
+    issue.resolutiondate = jissue.resolutiondate
+    issue.histories = jissue.parse_histories unless jissue.histories.blank?
+    issue.customfield_11802 = yield jissue if block_given?
+    issue
+  end
 
   def more_than_sprint? num = 2
     customfield_11382.count > num
@@ -38,41 +65,11 @@ class JiraIssue
     [:indeterminate].include? status[:statusCategory.to_s][:key.to_s].to_sym
   end
 
-  #This operation will require to analize both closed and sprint due to once the sprint is finish both are comming as part of the get issues message
-  def to_issue
-    issue = Issue.find_by_key(key)
-    issue = Issue.new if issue.nil?
-    issue.key = key
-    issue.issuetype = issuetype['name']
-    issue.issueicon = issuetype['iconUrl']
-    issue.issuetypeid = issuetype['id'].to_i
-    issue.summary = summary
-    issue.customfield_11802 = send(Team.find_by_board_id(sprint_info['originBoardId']).estimated) unless sprint_info.blank?
-    issue.closed_in = sprint_info['self'] unless sprint_info.blank?
-    issue.customfield_11382 = number_of_sprints
-    issue.description = description
-    issue.priority = priority['name'] unless priority.blank?
-    issue.priorityicon = priority['iconUrl'] unless priority.blank?
-    issue.components = components.map {|elem| elem['name']}.join(",")
-    issue.status = status['statusCategory']['key']
-    issue.statusname = status['statusCategory']['name']
-    issue.assignee = assignee['displayName'] unless assignee.blank?
-    issue.assigneeavatar = assignee['avatarUrls']['32x32'] unless assignee.blank?
-    issue.created = created
-    issue.updated = updated
-    issue.resolutiondate = resolutiondate
-    issue.histories = parse_histories unless histories.blank?
-    issue
-  end
-
-  protected
-
   def number_of_sprints
     return 0 if closedSprints.blank?
     closedSprints.count.to_i
   end
 
-  private
 
   def parse_histories
     items = []

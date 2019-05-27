@@ -17,7 +17,7 @@
           <table class="table">
             <thead>
             <tr>
-              <th>#Id</th>
+              <th>Board Id</th>
               <th><%= sort_link "name", "Name", {board_id: params[:board_id]} %></th>
               <th><%= sort_link "startDate", "Start Date", {board_id: params[:board_id]} %></th>
               <th><%= sort_link "endDate", "End Date", {board_id: params[:board_id]} %></th>
@@ -29,6 +29,7 @@
             <tbody>
             <% @board_sprint.each do |sprint| %>
                 <tr>
+                  <td><%= sprint['originBoardId'] %></td>
                   <td><%= sprint['id'] %></td>
                   <td><%= sprint['name'] %></td>
                   <td><%= formatDate sprint['startDate'] %></td>

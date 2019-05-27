@@ -17,8 +17,7 @@ class SprintsController < ApplicationController
   # GET /sprints/1.json
   def show
     options = {fields: vt_jira_issue_fields}
-    @bugs = []
-    bug_for_board(@sprint.team.board_id, @sprint.start_date, options).each {|elem| @bugs << JiraIssue.new(elem).to_issue}
+    @bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, options).map {|elem| JiraIssue.to_issue(elem)}
     @sprint.changed_scope(sprint_report(@sprint.team.board_id, @sprint.sprint_id)['issueKeysAddedDuringSprint'].count) unless @sprint.sprint_id.blank?
   end
 
@@ -42,17 +41,16 @@ class SprintsController < ApplicationController
       data = Array.new {Array.new}
 
       options = {fields: vt_jira_issue_fields}
-      bugs = []
-      bug_for_board(@sprint.team.board_id, @sprint.start_date, options).each {|elem| bugs << JiraIssue.new(elem).to_issue}
+      bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, options).map {|elem| JiraIssue.to_issue(elem)}
 
       burndown = @sprint.issues.select(&:task?).count
-      data[0] = (@sprint.start_date..@sprint.enddate+1).select {|day| !day.sunday? && !day.saturday?}
+      data[0] = (@sprint.start_date..@sprint.enddate + 1).select {|day| !day.sunday? && !day.saturday?}
                     .map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_by_date(@sprint.issues, date)}}
-      data[1] = (@sprint.start_date..@sprint.enddate+1).select {|day| !day.sunday? && !day.saturday?}
+      data[1] = (@sprint.start_date..@sprint.enddate + 1).select {|day| !day.sunday? && !day.saturday?}
                     .map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
-      data[2] = (@sprint.start_date..@sprint.enddate+1).select {|day| !day.sunday? && !day.saturday?}
+      data[2] = (@sprint.start_date..@sprint.enddate + 1).select {|day| !day.sunday? && !day.saturday?}
                     .map.with_index {|date, index| {x: index, y: GraphHelper.number_of(bugs, date, :created)}}
-      data[3] = (@sprint.start_date..@sprint.enddate+1).select {|day| !day.sunday? && !day.saturday?}
+      data[3] = (@sprint.start_date..@sprint.enddate + 1).select {|day| !day.sunday? && !day.saturday?}
                     .map.with_index {|date, index| {x: index, y: burndown = GraphHelper.number_stories_by_date(@sprint.issues, date, burndown)}}
       data
     }
@@ -74,7 +72,7 @@ class SprintsController < ApplicationController
       data[5] = user_stories.map.with_index {|issue, index| {x: index, y: issue.resolutiondate.strftime("%b %d")}}
       data[6] = user_stories.map.with_index {|issue, index| {x: index, y: issue.more_than_sprint?}}
       data[7] = user_stories.map.with_index {|issue, index| {x: index, y: issue.time_to_release}}
-      data[8] = user_stories.map.with_index { |issue, index| { x: index, y: flagged += issue.time_flagged } }
+      data[8] = user_stories.map.with_index {|issue, index| {x: index, y: flagged += issue.time_flagged}}
       data[9] = data[1].map.with_index {|elem, index| {x: index, y: @sprint.team.average_time}}
       data
     }
@@ -88,15 +86,13 @@ class SprintsController < ApplicationController
 
   def import_issues
     unless import_params[:id].blank?
-      issues = []
-      team = Team.find_by_board_id(import_params[:originBoardId])
-      #redirect_to sprint_import_url(import_params[:originBoardId]), alert: "Selected sprint doens't match to any team created on your system" and return if team.blank?
 
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
-      import_sprint(import_params[:id], options).each {|elem| issues << JiraIssue.new(elem).to_issue}
 
+      issues = import_sprint(import_params[:id], options).map {|elem| JiraIssue.to_issue(elem) {|i| i.send(@team.estimated)}}
       issues_save = issues.select {|el| el.closed_in.include? import_params[:id] unless el.closed_in.blank?}
-      team.store_sprint(import_params, issues) {Sprint.find_by_sprint_id(import_params[:id]).save_issues issues_save}
+
+      @team.store_sprint(import_params, issues) {Sprint.find_by_sprint_id(import_params[:id]).save_issues issues_save}
       Rails.cache.clear
     end
     redirect_to sprint_import_url(import_params[:originBoardId]), notice: 'Sprint has successfully been imported.'
@@ -104,16 +100,14 @@ class SprintsController < ApplicationController
 
   def refresh_issues
     unless @sprint.sprint_id.blank?
-      issues = []
-      team = Team.find(@sprint.team_id)
-      redirect_to sprint_import_url(@sprint.team_id), notice: 'Cannot find the related team.' and return if team.blank?
-
+      redirect_to sprint_import_url(@sprint.team_id), notice: 'Cannot find the related team.' and return if @team.blank?
 
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
-      import_sprint(@sprint.sprint_id, options).each {|elem| issues << JiraIssue.new(elem).to_issue}
 
+      issues = import_sprint(@sprint.sprint_id, options).map {|elem| JiraIssue.to_issue(elem) {|i| i.send(@team.estimated)}}
       issues_save = issues.select {|el| el.closed_in.include? @sprint.sprint_id.to_s unless el.closed_in.blank?}
-      team.update_sprint(@sprint, issues) {@sprint.save_issues issues_save}
+
+      @team.update_sprint(@sprint, issues) {@sprint.save_issues issues_save}
       Rails.cache.clear
     end
     redirect_to sprint_path(@sprint), notice: 'Sprint has successfully been updated.'
