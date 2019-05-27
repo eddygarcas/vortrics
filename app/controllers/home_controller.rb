@@ -15,7 +15,8 @@ class HomeController < ApplicationController
   def dashboard
     redirect_to new_setting_url and return if current_user.setting.blank?
     redirect_to teams_url and return unless current_user.setting.teams?
-    redirect_to sprint_import_url(@team.board_id) and return if @team.sprint.blank?
+    redirect_to sprint_import_url(@team.board_id) and return if @team.no_sprint?
+    redirect_to kanban_import_issues_url(@team.board_id) and return if @team.no_kanban?
   end
 
   private

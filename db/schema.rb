@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190508201723) do
+ActiveRecord::Schema.define(version: 20190523142642) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -250,6 +250,7 @@ ActiveRecord::Schema.define(version: 20190508201723) do
     t.string "estimated"
     t.integer "setting_id"
     t.integer "project_info_id"
+    t.string "board_type"
     t.index ["project_info_id"], name: "index_teams_on_project_info_id"
     t.index ["setting_id"], name: "index_teams_on_setting_id"
   end

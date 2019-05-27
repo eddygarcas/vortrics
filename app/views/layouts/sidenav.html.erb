@@ -40,13 +40,9 @@
                 <% end %>
               </li>
             </ul>
-            <ul class="nav navbar-nav">
-              <li class="dropdown">
-                <%= dropdown_menu "<span style='font-size: 18px;'>Download</span>".html_safe do %>
-                  <% board_by_team(@team.project_info).each do |board| %>
-                    <%= activatable_li_tag_with_link board.name, sprint_import_path(board.id) %>
-                  <% end %>
-                <% end %>
+            <ul class="nav navbar-nav" style="font-size: 18px;">
+              <li>
+                <%= link_to "Get data", sprint_import_path(@team.board_id)  %>
               </li>
             </ul>
           <% end %>

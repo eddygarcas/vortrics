@@ -24,7 +24,6 @@ module ApplicationHelper
 		key =  info.present? ? info.key : project_list.first.key
 		return { name: 'None' } if key.blank?
 		boards_by_project(key)['values'].map{ |c| Board.new(c) }
-
 	end
 
 	def board_name team

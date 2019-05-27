@@ -7,18 +7,9 @@
 
 <%= render "layouts/flashes" %>
 
-<div class="container-fluid">
+<div class="container-fluid mt15">
 
-  <ul class="nav nav-tabs">
-    <li role="presentation" class="dropdown">
-      <%= dropdown_menu "Change board selection #{vt_project_name}" do %>
-        <% board_by_team(@team.project_info).each do |board| %>
-              <%= activatable_li_tag_with_link board.name, sprint_import_path(board.id) %>
-          <% end %>
 
-      <% end %>
-    </li>
-  </ul>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="sheet sheet-condensed">

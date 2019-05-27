@@ -5,13 +5,7 @@ defaults: &defaults
   :jira:
     :site: "https://jira.scmspain.com"
     :restbasepath: "/rest/api/2"
-    :contextpath: ""
-    :httpdebug: true
-    :signaturemethod: "RSA-SHA1"
-    :privatekeyfile: "rsakey.pem"
-    :consumerkey: "7f60c1a9c6c79bc03071b41870c3e09d"
     :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint,histories
-    :oauth: true
   :changelog:
     :open: open,nil,to do
     :backlog: backlog,ready
@@ -20,7 +14,7 @@ defaults: &defaults
     :done: closed,done,production
     :flagged: impediment
   :baseline:
-    :leadtime: 7
+    :leadtime: 5
   :advices:
     :more_than_one_sprint?:
       :advice_type: :more_than_one_sprint?
@@ -80,17 +74,11 @@ development:
 
 production:
   <<: *defaults
-  name: Vortrics Production
+  name: Vortrics
   :jira:
     :site: "https://jira.scmspain.com"
     :restbasepath: "/rest/api/2"
-    :contextpath: ""
-    :httpdebug: true
-    :signaturemethod: "RSA-SHA1"
-    :privatekeyfile: "rsakey.pem"
-    :consumerkey: "OauthKey"
     :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint,histories
-    :oauth: true
 
 
 test: &test

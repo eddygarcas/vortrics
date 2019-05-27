@@ -2,6 +2,7 @@ class SprintsController < ApplicationController
   include ApplicationHelper
   layout 'sidenav'
   helper_method :sort_column, :sort_direction
+  before_action :set_board, only: [:import]
   before_action :set_sprint, only: [:show, :edit, :update, :destroy, :graph_closed_by_day, :graph_release_time, :refresh_issues]
   before_action :team_session, :set_current_user
   before_action :admin_user?, only: [:index, :edit, :destroy]
@@ -82,16 +83,14 @@ class SprintsController < ApplicationController
 
   #GET /sprints/import
   def import
-    boardid = params[:board_id].blank? ? Team.first.board_id : params[:board_id]
-    @board_sprint = []
-    @board_sprint = sprint_by_board boardid, sort_column_import, sort_direction
+    @board_sprint = sprint_by_board @team.board_id, sort_column_import, sort_direction
   end
 
   def import_issues
     unless import_params[:id].blank?
       issues = []
       team = Team.find_by_board_id(import_params[:originBoardId])
-      redirect_to sprint_import_url(import_params[:originBoardId]), alert: "Selected sprint doens't match to any team created on your system" and return if team.blank?
+      #redirect_to sprint_import_url(import_params[:originBoardId]), alert: "Selected sprint doens't match to any team created on your system" and return if team.blank?
 
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
       import_sprint(import_params[:id], options).each {|elem| issues << JiraIssue.new(elem).to_issue}
@@ -166,6 +165,11 @@ class SprintsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_sprint
     @sprint = Sprint.joins(:team).select('sprints.*,teams.name as team_name').find(params[:id])
+  end
+
+  def set_board
+    boardid = params[:board_id].blank? ? Team.first.board_id : params[:board_id]
+    @team = Team.find_by_board_id(boardid)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

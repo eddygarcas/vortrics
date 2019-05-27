@@ -5,7 +5,7 @@ class Teams
 
   setup: ->
     $("[data-behaviour='team_project_change']").on "change", @handleChange
-    $("[data-behaviour='team_board_id_change']").on "change", @handleBoardChange
+    $("[data-behaviour='team_board_id_change']").on "click", @handleBoardChange
 
   handleChange: (e) ->
     return if $('#team_project').val() == undefined
@@ -32,7 +32,7 @@ class Teams
           $('#team_board_id').append($('<option>', {value: board['id'], text: board['name']}))
     )
   handleBoardChange: (e) ->
-    $("[data-behaviour='board_type']").html(boards[$('select#team_board_id option:selected').index()].type)
+    $("[data-behaviour='board_type']").val(boards[$('select#team_board_id option:selected').index()].type)
 
 
 ready = ->

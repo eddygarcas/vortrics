@@ -38,7 +38,7 @@ class ApplicationJob < ActiveJob::Base
         :ssl_verify_mode => 0,
         context_path: '',
         :auth_type => :basic,
-        :http_debug => ScrumMetrics.config[:jira][:httpdebug]
+        :http_debug => true
     }
     JIRA::Client.new(options)
   end

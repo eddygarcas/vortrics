@@ -20,9 +20,9 @@
           </tr>
           </thead>
           <tbody>
-          <% @team.sprint_by_project.each do |team| %>
+          <% Team.progress_by_project(@team.project_info.key).each do |team| %>
             <tr class="small">
-              <td><%= image_tag team.avatar.to_s, class: "img-circle profile-image", height: '25', width: '25' %></td>
+              <td><%= image_tag team.project_info.icon.to_s, class: "img-circle profile-image", height: '25', width: '25' %></td>
               <td><%= team.name %></td>
               <td><%= render partial: "layouts/sprint_progress_bar", :locals => { :team => team, :type => 'progress-striped', :show => :percent } if team.present? %></td>
               <td align="center"><%= tag_info_table team.sprint.total_stories.to_s, :black, :items %></td>

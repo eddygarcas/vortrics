@@ -5,9 +5,9 @@
     <%= f.form_group :project do |f| %>
       <%= f.label :project, class: 'control-label col-md-2' %>
       <div class='col-md-8'>
-        <%= @team.avatar.blank? ? image_tag('/images/voardtrix_logo.png', class: "img-rounded", height: '32', width: '32', id: 'project_image') : image_tag(@team.avatar, class: "img-rounded", height: '32', width: '32', id: 'project_image') %>
+        <%= @team.project_info.blank? ? image_tag('/images/voardtrix_logo.png', class: "img-rounded", height: '32', width: '32', id: 'project_image') : image_tag(@team.project_info.icon, class: "img-rounded", height: '32', width: '32', id: 'project_image') %>
         <div class="btn-group">
-          <%= f.collection_select :project, project_list, :key, :name, {prompt: 'Select project...', required: true}, {class: 'form-control form-control-lg',data: {behaviour: :team_project_change}} %>
+          <%= f.collection_select :project, project_list, :key, :name, {prompt: 'Select project...', required: true}, {class: 'form-control form-control-lg', data: {behaviour: :team_project_change}, disabled: f.object.persisted?} %>
         </div>
         <%= f.error_messages %>
       </div>
@@ -16,19 +16,25 @@
     <%= f.form_group :board_id do |f| %>
       <%= f.label :board_id, class: 'control-label col-md-2' %>
       <div class='col-md-4'>
-        <%= f.select :board_id, 'Not defined', {prompt: 'Not defined', required: true, disabled: f.object.persisted?}, {class: 'form-control',data: {behaviour: :team_board_id_change}} %>
+        <% if (f.object.persisted?) %>
+          <%= f.label board_name(@team), {class: 'form-control form-control-lg'} %>
+        <% else %>
+          <%= f.select :board_id, "Not defined", {prompt: 'Not defined', required: true}, {class: 'form-control', data: {behaviour: :team_board_id_change}} %>
+        <% end %>
         <%= f.error_messages %>
       </div>
-      <%= content_tag(:h4, "", class: 'label label-info col-md-1 pull-left',style: "margin-top: 5px;", data: {behaviour: :board_type}).html_safe %>
-
+      <div class='col-md-3 pull-left'>
+        <div class="input-group">
+          <div class="input-group-addon">Type</div>
+          <%= f.text_field :board_type, {class: 'form-control form-control-lg', data: {behaviour: :board_type}, disabled: f.object.persisted?} %>
+        </div>
+      </div>
     <% end %>
-
-
 
     <%= f.form_group :estimated do |f| %>
       <%= f.label :estimated, class: 'control-label col-md-2' %>
       <div class='col-md-8'>
-        <%= f.select :estimated, jira_field_list(@team.project), {required: true, disabled: f.object.persisted?}, {class: 'form-control form-control-lg'} %>
+        <%= f.select :estimated, jira_field_list(@team.project), {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?} %>
         <%= f.error_messages %>
       </div>
     <% end %>

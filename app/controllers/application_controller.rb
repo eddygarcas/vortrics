@@ -29,9 +29,9 @@ class ApplicationController < ActionController::Base
 
 	def sprint_by_board board_id, sort_column, sort_direction, options = {}
 		return if board_id.blank?
-		@board_sprint = boards_by_sprint board_id, 0, options
-		@board_sprint.sort_by! { |x| x[sort_column].blank? ? '' : x[sort_column] }
-		@board_sprint.reverse! if sort_direction.eql? 'desc'
+		board_sprint = boards_by_sprint board_id, 0, options
+		board_sprint.sort_by! { |x| x[sort_column].blank? ? '' : x[sort_column] }
+		return board_sprint.reverse! if sort_direction.eql? 'desc'
 	end
 
 	def set_current_user

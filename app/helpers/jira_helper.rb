@@ -75,6 +75,14 @@ module JiraHelper
     elems[:issues.to_s]
   end
 
+  def import_kanban boardId, options = {}
+    elems = Rails.cache.fetch("kanban_board#{boardId}", expires_in: 15.minutes) {
+      param_hash = {}
+      agile_query jira_instance(current_user.setting), "/board/#{boardId}/issue", param_hash, options
+    }
+    elems[:issues.to_s]
+  end
+
   def issue_comments key
     return if current_user.setting.blank?
     jira_instance(current_user.setting).Issue.find(key, fields: :comment).comments
