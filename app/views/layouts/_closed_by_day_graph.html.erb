@@ -1,8 +1,47 @@
 <style>
-  .rickshaw_graph .detail .x_label { display: none }
-  .rickshaw_graph .detail .item { line-height: 1.4; padding: 0.5em }
-  .detail_swatch { float: right; display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 0 }
-  .rickshaw_graph .detail .date { color: #a0a0a0 }
+  .rickshaw_graph .detail .x_label {
+    display: none
+  }
+
+  .rickshaw_graph .detail .item {
+    line-height: 1.4;
+    padding: 0.5em
+  }
+
+  .detail_swatch {
+    float: right;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 4px 0 0
+  }
+
+  .rickshaw_graph .detail .date {
+    color: #a0a0a0
+  }
+
+  #<%= locals[:graph_id] %>-x_axis {
+    margin-left: 10px;
+  }
+  #<%= locals[:graph_id] %>-y_axis1 {
+    position: absolute;
+    left: -25px;
+    top: 15px;
+    bottom: 0;
+    width: 40px;
+    margin-left: 10px;
+
+  }
+
+  #<%= locals[:graph_id] %>-y_axis2 {
+    position: absolute;
+    left: 96%;
+    top: 15px;
+    bottom: 0;
+    width: 40px;
+    margin-left: 10px;
+
+  }
 </style>
 
 <div class="panel panel-default">
@@ -12,18 +51,18 @@
       <i class="fa fa-fire"></i><span id="graphtitle">Burndown chart / <%= @sprint.blank? ? " Stories closed by day" : @sprint.name %></span>
     </p>
   </div>
+  <div class="panel-body" style="position: relative">
+    <div id="<%= locals[:graph_id] %>-y_axis1"></div>
+    <div id="<%= locals[:graph_id] %>-y_axis2"></div>
 
-  <div class="panel-body">
-    <div id="<%= locals[:graph_id] %>" style="position: relative">
+    <div id="<%= locals[:graph_id] %>" style="position: relative;margin-left: 10px;">
       <div id="<%= locals[:graph_id] %>-loader">
         <i class="fa fa-fw fa-spinner fa-pulse" style="font-size: 18px;"></i>
       </div>
-      <div id="legend_container">
-        <div id="legend"></div>
-      </div>
+      <div id="<%= locals[:graph_id] %>-legend" class="pull-right"></div>
     </div>
-    <div id="x_axis_stories"></div>
-    <div id="y_axis_stories"></div>
-
+    <div id="<%= locals[:graph_id] %>-x_axis"></div>
+    <div style="margin-left: 0px; width: 440px;" id="rangeSlider"></div>
   </div>
+
 </div>

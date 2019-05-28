@@ -6,7 +6,6 @@
             document.getElementById('rickshaw-bars-sprint-loader').innerHTML = "";
         }
 
-        var graph;
         graph = new Rickshaw.Graph({
             element: document.getElementById('rickshaw-bars-sprint'),
             height: 220,
@@ -26,14 +25,40 @@
                 },
                 {
                     name: 'Burndown - Story',
-                    data: data[3],
                     renderer: 'line',
-                    color: '#d13b47'
+                    color: '#d13b47',
+                    data: data[3]
                 }
             ]
         });
 
+        var format = function (n) {
+            if (data[1][n] === undefined) {
+                return;
+            }
+            return data[1][n].y;
+        }
+
+        new Rickshaw.Graph.Axis.X({
+            graph: graph,
+            orientation: 'bottom',
+            element: document.getElementById('rickshaw-bars-sprint-x_axis'),
+            pixelsPerTick: 100,
+            tickFormat: format
+        });
+
+        new Rickshaw.Graph.Axis.Y({
+            element: document.getElementById('rickshaw-bars-sprint-y_axis1'),
+            graph: graph,
+            orientation: 'left',
+            scale: d3.scale.linear().domain([0, 100]),
+            pixelsPerTick: 20,
+            tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+        });
+
         graph.render();
+
+        var hoverDetail = new Rickshaw.Graph.HoverDetail({graph: graph});
 
         $(window).on('resize', function () {
             graph.configure({
@@ -43,24 +68,6 @@
             graph.render();
         });
 
-        var hoverDetail = new Rickshaw.Graph.HoverDetail({graph: graph});
-
-
-        var format = function (n) {
-            if (data[1][n] === undefined) {
-                return;
-            }
-            return data[1][n].y;
-
-        }
-        var x_ticks = new Rickshaw.Graph.Axis.X({
-            graph: graph,
-            orientation: 'bottom',
-            element: document.getElementById('x_axis_stories'),
-            pixelsPerTick: 100,
-            tickFormat: format
-        });
-        x_ticks.render();
     }
 
     function ReleaseTime(data) {
@@ -69,7 +76,7 @@
         } else {
             document.getElementById('bars-release-loader').innerHTML = "";
         }
-        var graph;
+
         graph = new Rickshaw.Graph({
             element: document.getElementById('bars-release'),
             height: 220,
@@ -101,7 +108,6 @@
                 }
             ]
         });
-        graph.render();
 
         var format = function (n) {
             if (data[0][n] === undefined) {
@@ -110,14 +116,6 @@
             return data[0][n].y;
 
         }
-        var x_ticks = new Rickshaw.Graph.Axis.X({
-            graph: graph,
-            orientation: 'bottom',
-            element: document.getElementById('bars-release-x_axis'),
-            pixelsPerTick: 100,
-            tickFormat: format
-        });
-        x_ticks.render();
 
         var legend = new Rickshaw.Graph.Legend({
             graph: graph,
@@ -138,6 +136,24 @@
             legend: legend
         });
 
+        new Rickshaw.Graph.Axis.X({
+            graph: graph,
+            orientation: 'bottom',
+            element: document.getElementById('bars-release-x_axis'),
+            pixelsPerTick: 100,
+            tickFormat: format
+        });
+
+        new Rickshaw.Graph.Axis.Y({
+            element: document.getElementById('bars-release-y_axis1'),
+            graph: graph,
+            orientation: 'left',
+            scale: d3.scale.linear().domain([0, 100]),
+            pixelsPerTick: 20,
+            tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+        });
+
+        graph.render();
 
         var hoverDetail = new Rickshaw.Graph.HoverDetail({
             onShow: function (event) {

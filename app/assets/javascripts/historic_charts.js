@@ -9,11 +9,12 @@ function InitializeNoEstimatesGraph() {
                 return;
             } else {
                 document.getElementById('rickshaw-bars').innerHTML = "";
-                document.getElementById('x_axis').innerHTML = "";
+                document.getElementById('rickshaw-bars-x_axis').innerHTML = "";
+                document.getElementById('rickshaw-bars-y_axis1').innerHTML = "";
                 document.getElementById('graphtitle').innerText = "No Estimate VS Closed Story Points"
-                //document.getElementById('sgraph').dataset.title = "Closed VS Leftover - User Stories"
             }
             var graph;
+
             graph = new Rickshaw.Graph({
                 element: document.getElementById('rickshaw-bars'),
                 height: 220,
@@ -32,16 +33,33 @@ function InitializeNoEstimatesGraph() {
                     }
                 ]
             });
-            graph.render();
 
+            var format = function (n) {
+                if (data[2][n] === undefined) {
+                    return;
+                }
+                return data[2][n].name;
 
-            $(window).on('resize', function () {
-                graph.configure({
-                    width: $('#rickshaw-bars').parent('.panel-body').width(),
-                    height: 220
-                });
-                graph.render();
+            }
+
+            new Rickshaw.Graph.Axis.X({
+                graph: graph,
+                orientation: 'bottom',
+                element: document.getElementById('rickshaw-bars-x_axis'),
+                pixelsPerTick: 200,
+                tickFormat: format
             });
+
+            new Rickshaw.Graph.Axis.Y({
+                element: document.getElementById('rickshaw-bars-y_axis1'),
+                graph: graph,
+                orientation: 'left',
+                scale: d3.scale.linear().domain([0, 100]),
+                pixelsPerTick: 20,
+                tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+            });
+
+            graph.render();
 
             var hoverDetail = new Rickshaw.Graph.HoverDetail({
                 graph: graph,
@@ -53,23 +71,13 @@ function InitializeNoEstimatesGraph() {
                 }
             });
 
-
-            var format = function (n) {
-                if (data[2][n] === undefined) {
-                    return;
-                }
-                return data[2][n].name;
-
-            }
-            var x_ticks = new Rickshaw.Graph.Axis.X({
-                graph: graph,
-                orientation: 'bottom',
-                element: document.getElementById('x_axis'),
-                pixelsPerTick: 200,
-                tickFormat: format
+            $(window).on('resize', function () {
+                graph.configure({
+                    width: $('#rickshaw-bars').parent('.panel-body').width(),
+                    height: 220
+                });
+                graph.render();
             });
-            x_ticks.render();
-
 
         }
     })
@@ -124,14 +132,14 @@ function InitializePointsGraph() {
                 return;
             } else {
                 document.getElementById('rickshaw-bars').innerHTML = "";
-                document.getElementById('x_axis').innerHTML = "";
+                document.getElementById('rickshaw-bars-x_axis').innerHTML = "";
+                document.getElementById('rickshaw-bars-y_axis1').innerHTML = "";
+
                 document.getElementById('graphtitle').innerText = "Closed VS Remaining - Story Points"
                 document.getElementById('sgraph').dataset.title = "Closed VS Leftover - User Stories"
 
             }
             var graph;
-
-
             graph = new Rickshaw.Graph({
                 element: document.getElementById('rickshaw-bars'),
                 height: 220,
@@ -159,16 +167,31 @@ function InitializePointsGraph() {
                 ]
             });
 
-            graph.render();
+            var format = function (n) {
+                if (data[3][n] === undefined) {
+                    return;
+                }
+                return data[3][n].name;
+            }
 
-
-            $(window).on('resize', function () {
-                graph.configure({
-                    width: $('#rickshaw-bars').parent('.panel-body').width(),
-                    height: 220
-                });
-                graph.render();
+            new Rickshaw.Graph.Axis.X({
+                graph: graph,
+                orientation: 'bottom',
+                element: document.getElementById('rickshaw-bars-x_axis'),
+                pixelsPerTick: 200,
+                tickFormat: format
             });
+
+            new Rickshaw.Graph.Axis.Y({
+                element: document.getElementById('rickshaw-bars-y_axis1'),
+                graph: graph,
+                orientation: 'left',
+                scale: d3.scale.linear().domain([0, 100]),
+                pixelsPerTick: 20,
+                tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+            });
+
+            graph.render();
 
             var hoverDetail = new Rickshaw.Graph.HoverDetail({
                 graph: graph,
@@ -180,23 +203,13 @@ function InitializePointsGraph() {
                 }
             });
 
-            var format = function (n) {
-                if (data[3][n] === undefined) {
-                    return;
-                }
-                return data[3][n].name;
-
-            }
-
-
-            var x_ticks = new Rickshaw.Graph.Axis.X({
-                graph: graph,
-                orientation: 'bottom',
-                element: document.getElementById('x_axis'),
-                pixelsPerTick: 200,
-                tickFormat: format
+            $(window).on('resize', function () {
+                graph.configure({
+                    width: $('#rickshaw-bars').parent('.panel-body').width(),
+                    height: 220
+                });
+                graph.render();
             });
-            x_ticks.render();
         }
     })
 }
@@ -211,10 +224,14 @@ function InitializeGrpahStories() {
                 return;
             } else {
                 document.getElementById('rickshaw-bars').innerHTML = "";
-                document.getElementById('x_axis').innerHTML = "";
+                document.getElementById('rickshaw-bars-x_axis').innerHTML = "";
+                document.getElementById('rickshaw-bars-y_axis1').innerHTML = "";
+
                 document.getElementById('graphtitle').innerText = "Closed VS Leftovers - User Stories"
                 document.getElementById('sgraph').dataset.title = "Closed VS Remaining - Story Points"
             }
+            var graph_s;
+
             graph_s = new Rickshaw.Graph({
                 element: document.getElementById('rickshaw-bars'),
                 height: 220,
@@ -241,15 +258,33 @@ function InitializeGrpahStories() {
                     }
                 ]
             });
-            graph_s.render();
 
-            $(window).on('resize', function () {
-                graph_s.configure({
-                    width: $('#rickshaw-bars').parent('.panel-body').width(),
-                    height: 220
-                });
-                graph_s.render();
+            var format = function (n) {
+                if (data[3][n] === undefined) {
+                    return;
+                }
+                return data[3][n].name;
+
+            }
+
+            new Rickshaw.Graph.Axis.X({
+                graph: graph_s,
+                orientation: 'bottom',
+                element: document.getElementById('rickshaw-bars-x_axis'),
+                pixelsPerTick: 200,
+                tickFormat: format
             });
+
+            new Rickshaw.Graph.Axis.Y({
+                element: document.getElementById('rickshaw-bars-y_axis1'),
+                graph: graph_s,
+                orientation: 'left',
+                scale: d3.scale.linear().domain([0, 100]),
+                pixelsPerTick: 20,
+                tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+            });
+
+            graph_s.render();
 
             var hoverDetail = new Rickshaw.Graph.HoverDetail({
                 graph: graph_s,
@@ -261,22 +296,13 @@ function InitializeGrpahStories() {
                 }
             });
 
-
-            var format = function (n) {
-                if (data[3][n] === undefined) {
-                    return;
-                }
-                return data[3][n].name;
-
-            }
-            var x_ticks = new Rickshaw.Graph.Axis.X({
-                graph: graph_s,
-                orientation: 'bottom',
-                element: document.getElementById('x_axis'),
-                pixelsPerTick: 200,
-                tickFormat: format
+            $(window).on('resize', function () {
+                graph_s.configure({
+                    width: $('#rickshaw-bars').parent('.panel-body').width(),
+                    height: 220
+                });
+                graph_s.render();
             });
-            x_ticks.render();
 
         }
     })

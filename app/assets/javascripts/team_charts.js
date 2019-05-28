@@ -1,13 +1,10 @@
 function InitializeReleaseTimeGraphTeam() {
-
     if ($('#searchbox')[0] === undefined) {
         return;
     }
-
     if ($('#teamid')[0] === undefined) {
         return;
     }
-
     $.ajax({
         type: 'GET',
         url: '/teams/' + $('#teamid')[0].value + '/graph_release_time',
@@ -19,8 +16,7 @@ function InitializeReleaseTimeGraphTeam() {
                 document.getElementById('bars-team-release-loader').innerHTML = "";
 
             }
-
-
+            var graph;
             graph = new Rickshaw.Graph({
                 element: document.getElementById('bars-team-release'),
                 height: 220,
@@ -46,7 +42,6 @@ function InitializeReleaseTimeGraphTeam() {
                     }
                 ]
             });
-            graph.render();
 
             var legend = new Rickshaw.Graph.Legend({
                 graph: graph,
@@ -81,14 +76,25 @@ function InitializeReleaseTimeGraphTeam() {
                 return data[0][n].y;
 
             }
-            var x_ticks = new Rickshaw.Graph.Axis.X({
+
+            new Rickshaw.Graph.Axis.X({
                 graph: graph,
                 orientation: 'bottom',
                 element: document.getElementById('bars-team-release-x_axis'),
                 pixelsPerTick: 100,
                 tickFormat: format
             });
-            x_ticks.render();
+
+            new Rickshaw.Graph.Axis.Y({
+                element: document.getElementById('bars-team-release-y_axis1'),
+                graph: graph,
+                orientation: 'left',
+                scale: d3.scale.linear().domain([0, 100]),
+                pixelsPerTick: 20,
+                tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+            });
+
+            graph.render();
 
             var hoverDetail = new Rickshaw.Graph.HoverDetail({
                 onShow: function (event) {
@@ -227,7 +233,7 @@ function InitializeCycleTimeGraphTeam() {
                 element: document.getElementById('bars-cycle-time-y_axis2'),
                 graph: graph,
                 grid: false,
-                orientation: 'right',
+                orientation: 'left',
                 scale: axis_scale2,
                 pixelsPerTick: 20,
                 tickFormat: function (x) {
@@ -284,7 +290,7 @@ function InitializeReleaseTimeBugsGraphTeam() {
 
             }
 
-
+            var graph;
             graph = new Rickshaw.Graph({
                 element: document.getElementById('bars-team-release-bugs'),
                 height: 220,
@@ -310,7 +316,6 @@ function InitializeReleaseTimeBugsGraphTeam() {
                     }
                 ]
             });
-            graph.render();
 
             var legend = new Rickshaw.Graph.Legend({
                 graph: graph,
@@ -345,14 +350,25 @@ function InitializeReleaseTimeBugsGraphTeam() {
                 return data[0][n].y;
 
             }
-            var x_ticks = new Rickshaw.Graph.Axis.X({
+
+            new Rickshaw.Graph.Axis.X({
                 graph: graph,
                 orientation: 'bottom',
                 element: document.getElementById('bars-team-release-bugs-x_axis'),
                 pixelsPerTick: 100,
                 tickFormat: format
             });
-            x_ticks.render();
+
+            new Rickshaw.Graph.Axis.Y({
+                element: document.getElementById('bars-team-release-bugs-y_axis1'),
+                graph: graph,
+                orientation: 'left',
+                scale: d3.scale.linear().domain([0, 100]),
+                pixelsPerTick: 20,
+                tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+            });
+
+            graph.render();
 
             var hoverDetail = new Rickshaw.Graph.HoverDetail({
                 onShow: function (event) {
@@ -381,11 +397,8 @@ function InitializeReleaseTimeBugsGraphTeam() {
                 });
                 graph.render();
             });
-
-
         }
     })
-
 }
 
 function InitializeOpenClosedBugsGraphTeam(id) {
@@ -409,7 +422,7 @@ function InitializeOpenClosedBugsGraphTeam(id) {
 
             }
 
-
+            var graph;
             graph = new Rickshaw.Graph({
                 element: document.getElementById(_id),
                 height: 220,
@@ -429,7 +442,6 @@ function InitializeOpenClosedBugsGraphTeam(id) {
                     }
                 ]
             });
-            graph.render();
 
             var format = function (n) {
                 if (data[2][n] === undefined) {
@@ -438,14 +450,25 @@ function InitializeOpenClosedBugsGraphTeam(id) {
                 return data[2][n].y;
 
             }
-            var x_ticks = new Rickshaw.Graph.Axis.X({
+
+            new Rickshaw.Graph.Axis.X({
                 graph: graph,
                 orientation: 'bottom',
                 element: document.getElementById(_id + '-x_axis'),
                 pixelsPerTick: 100,
                 tickFormat: format
             });
-            x_ticks.render();
+
+            new Rickshaw.Graph.Axis.Y({
+                element: document.getElementById(_id + '-y_axis1'),
+                graph: graph,
+                orientation: 'left',
+                scale: d3.scale.linear().domain([0, 100]),
+                pixelsPerTick: 20,
+                tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+            });
+
+            graph.render();
 
             var hoverDetail = new Rickshaw.Graph.HoverDetail({
                 onShow: function (event) {

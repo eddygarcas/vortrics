@@ -25,10 +25,17 @@
   #<%= locals[:graph_id] %>-legend {
     background: transparent;
     position: absolute;
+    margin-left: 10px;
+
   }
 
   #<%= locals[:graph_id] %>-legend .line {
-    color: #333
+    color: #333;
+    margin-left: 10px;
+  }
+
+  #<%= locals[:graph_id] %>-x_axis {
+    margin-left: 10px;
   }
 
   #<%= locals[:graph_id] %>-y_axis1 {
@@ -37,6 +44,7 @@
     top: 15px;
     bottom: 0;
     width: 40px;
+    margin-left: 10px;
   }
 
   #<%= locals[:graph_id] %>-y_axis2 {
@@ -45,6 +53,8 @@
     top: 15px;
     bottom: 0;
     width: 40px;
+    margin-left: 10px;
+
   }
 
 
@@ -63,7 +73,7 @@
     <div id="<%= locals[:graph_id] %>-y_axis1"></div>
     <div id="<%= locals[:graph_id] %>-y_axis2"></div>
 
-    <div id="<%= locals[:graph_id] %>" style="position: relative">
+    <div id="<%= locals[:graph_id] %>" style="position: relative;margin-left: 10px;">
       <div id="<%= locals[:graph_id] %>-loader">
         <i class="fa fa-fw fa-spinner fa-pulse" style="font-size: 18px;"></i>
       </div>
@@ -72,4 +82,5 @@
     <div id="<%= locals[:graph_id] %>-x_axis"></div>
     <div style="margin-left: 0px; width: 440px;" id="rangeSlider"></div>
   </div>
+
 </div>

@@ -3,6 +3,41 @@
   .rickshaw_graph .detail .item { line-height: 1.4; padding: 0.5em }
   .detail_swatch { float: right; display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 0 }
   .rickshaw_graph .detail .date { color: #a0a0a0 }
+
+  #rickshaw-bars-legend {
+    background: transparent;
+    position: absolute;
+    margin-left: 10px;
+
+  }
+
+  #rickshaw-bars-legend .line {
+    color: #333;
+    margin-left: 10px;
+  }
+
+  #rickshaw-bars-x_axis {
+    margin-left: 10px;
+  }
+
+  #rickshaw-bars-y_axis1 {
+    position: absolute;
+    left: -25px;
+    top: 15px;
+    bottom: 0;
+    width: 40px;
+    margin-left: 10px;
+  }
+
+  #rickshaw-bars-y_axis2 {
+    position: absolute;
+    left: 96%;
+    top: 15px;
+    bottom: 0;
+    width: 40px;
+    margin-left: 10px;
+
+  }
 </style>
 
 <div class="panel panel-default">
@@ -22,11 +57,17 @@
 
     </p>
   </div>
-  <div class="panel-body">
-    <div id="rickshaw-bars"></div>
+  <div class="panel-body" style="position: relative">
+    <div id="rickshaw-bars-y_axis1"></div>
+    <div id="rickshaw-bars-y_axis2"></div>
+    <div id="rickshaw-bars" style="position: relative;margin-left: 10px;"></div>
     <div id="legend_container">
-      <div id="legend"></div>
+      <div id="rickshaw-bars-legend"></div>
     </div>
-    <div id="x_axis"></div>
+    <div id="rickshaw-bars-x_axis"></div>
   </div>
+
+
+
+
 </div>
