@@ -6,6 +6,12 @@
       <%= link_to fa_icon_tag("users") << "Users & Groups", url %>
     <% end %>
 
+    <% if current_user.setting.present? %>
+      <%= activatable_li_tag teams_path do |url| %>
+        <%= link_to fa_icon_tag("users") << "Teams", url %>
+      <% end %>
+    <% end %>
+
     <%= activatable_li_tag sprints_path do |url| %>
       <%= link_to fa_icon_tag("heart") << "Clean up", url %>
     <% end %>

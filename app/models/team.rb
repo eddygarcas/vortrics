@@ -215,7 +215,7 @@ class Team < ApplicationRecord
   end
 
   def update_sprint sprint, issues
-    data = sprint_data sprint.sprint_id.to_s, issues
+    data = sprint_data issues, sprint.sprint_id.to_s
     sprint.closed_points = data[:closed_points]
     sprint.stories = data[:stories]
     sprint.bugs = data[:bugs]
@@ -226,16 +226,27 @@ class Team < ApplicationRecord
     end
   end
 
-  def store_sprint sprint_params, issues
+  def store_sprint issues, params = nil
+    store_scrum_sprint issues do
+      params.blank? ? {id: nil, name: "#{name} Kanban", endDate: Time.zone.now.to_date, startDate: issues.first.created} :
+          {id: params[:id], name: params['name'], endDate: params['endDate'], startDate: params['startDate']}
+    end
+    yield
 
-    sprint_name = sprint_params.blank? ? 'Ups! no sprint yet?' : sprint_params[:name.to_s]
-    enddate = sprint_params[:endDate.to_s].blank? ? Time.new.to_date : sprint_params[:endDate.to_s].to_date
-    startdate = sprint_params[:startDate.to_s].blank? ? Time.new.to_date : sprint_params[:startDate.to_s].to_date
+  end
 
-    data = sprint_data sprint_params[:id], issues
+  protected
+
+  def store_scrum_sprint issues
+
+    sprint_params = yield
+    enddate = sprint_params[:endDate].blank? ? Time.new.to_date : sprint_params[:endDate].to_date
+    startdate = sprint_params[:startDate].blank? ? Time.new.to_date : sprint_params[:startDate].to_date
+
+    data = sprint_data issues, sprint_params[:id]
 
     update_active_sprint sprint: {
-        name: sprint_name,
+        name: sprint_params[:name],
         stories: data[:stories],
         remainingstories: data[:openstories],
         bugs: data[:bugs],
@@ -244,20 +255,16 @@ class Team < ApplicationRecord
         enddate: enddate,
         start_date: startdate,
         team_id: id,
-        sprint_id: sprint_params[:id]
+        sprint_id: sprint_params[:id].blank? ? board_id : sprint_params[:id]
     }
-    yield
   end
 
-  protected
-
-
-  def sprint_data sprintid, issues
+  def sprint_data issues, sprintid = nil
     #At this point issue has all closed in this sprint and the future ones.
     sprintData = {}
 
-    current_issues = issues.select {|el| el.closed_in.include? sprintid unless el.closed_in.blank?}
-    exclude_issue = issues.select {|el| el.closed_in.exclude? sprintid unless el.closed_in.blank?}
+    current_issues = sprintid.present? ? issues.select {|el| el.closed_in.include? sprintid unless el.closed_in.blank?} : issues
+    exclude_issue =  sprintid.present? ? issues.select {|el| el.closed_in.exclude? sprintid unless el.closed_in.blank?} : []
 
 
     sprintData[:closed_points] = current_issues.each_sum_done {|elem| elem.customfield_11802.to_i}

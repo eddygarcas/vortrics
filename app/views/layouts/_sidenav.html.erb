@@ -23,7 +23,11 @@
 <div class="nav-side-menu">
   <%= render 'menu/menu_header' %>
   <ul id="menu-content" class="nav collapse navbar-collapse">
-    <%= render 'menu/menu_dashboard' %>
+    <% if @team.scrum? %>
+      <%= render 'menu/menu_dashboard' %>
+    <%else %>
+      <%= render 'menu/menu_kanban'%>
+    <%end %>
     <% if @team.present? %>
       <%= render 'menu/menu_analysis' if @team.id.present? %>
       <%= render 'menu/menu_forecating' %>

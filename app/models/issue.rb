@@ -59,6 +59,10 @@ class Issue < ApplicationRecord
 		done? && !subtask? && any_log?
 	end
 
+	def selectable_for_kanban?
+		done? && !subtask?
+	end
+
 	def save_logs?
 		done? && change_logs.blank?
 	end

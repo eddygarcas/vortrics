@@ -571,7 +571,7 @@ function InitializeComulativeFlowChart(id) {
                 graph: graph,
                 orientation: 'left',
                 scale: axis_scale,
-                pixelsPerTick: 10,
+                pixelsPerTick: 15,
                 tickFormat: Rickshaw.Fixtures.Number.formatKMBT
             });
 

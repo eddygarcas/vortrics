@@ -5,7 +5,7 @@
         } else {
             document.getElementById('rickshaw-bars-sprint-loader').innerHTML = "";
         }
-
+        var graph;
         graph = new Rickshaw.Graph({
             element: document.getElementById('rickshaw-bars-sprint'),
             height: 220,

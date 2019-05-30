@@ -92,7 +92,7 @@ class SprintsController < ApplicationController
       issues = import_sprint(import_params[:id], options).map {|elem| JiraIssue.to_issue(elem) {|i| i.send(@team.estimated)}}
       issues_save = issues.select {|el| el.closed_in.include? import_params[:id] unless el.closed_in.blank?}
 
-      @team.store_sprint(import_params, issues) {Sprint.find_by_sprint_id(import_params[:id]).save_issues issues_save}
+      @team.store_sprint(issues,import_params) {Sprint.find_by_sprint_id(import_params[:id]).save_issues issues_save}
       Rails.cache.clear
     end
     redirect_to sprint_import_url(import_params[:originBoardId]), notice: 'Sprint has successfully been imported.'

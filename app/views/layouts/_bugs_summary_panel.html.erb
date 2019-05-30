@@ -10,13 +10,12 @@
 
 <div class="row match-my-cols">
 
-
   <div class="col-lg-6 col-md-6 col-sm-12 animate-drop-fade">
     <%= render partial: "layouts/panel_first_time_rate", :locals => {:sprint => @sprint} %>
-
   </div>
+
   <div class="col-lg-6 col-md-6 col-sm-12 animate-drop-fade">
-    <%= render partial: "layouts/panel_scope_change", :locals => {:sprint => @sprint} %>
-
+    <%= render partial: "layouts/panel_scope_change", :locals => {:sprint => @sprint} unless @team.kanban? %>
   </div>
+
 </div>

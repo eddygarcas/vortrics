@@ -2,16 +2,16 @@
   <div class="panel-heading">
     <p class='lead'><%= ionicon_icon_tag 'flame' %> ACTIVITY</p>
     <ul class="nav nav-tabs nav-tabs-xs">
-      <li class="active">
+      <li class="<%= 'active' if @team.scrum? %>">
         <a href="#dashboard-recent-comments" data-toggle="tab">In Progress</a>
       </li>
-      <li class="">
+      <li class="<%= 'active' if @team.kanban? %>">
         <a href="#dashboard-recent-threads" data-toggle="tab">Done</a>
       </li>
     </ul>
   </div>
   <div class="tab-content">
-    <div class="tab-pane fade active in" style='height: 470px; overflow: scroll;' id='dashboard-recent-comments'>
+    <div class="tab-pane fade <%= 'active in' if @team.scrum? %>" style='height: 470px; overflow: scroll;' id='dashboard-recent-comments'>
       <ul class="list-group list-group-flush">
         <% sprint.issues.each do |issue| %>
           <% if issue.in_progress? %>
@@ -53,14 +53,15 @@
                   <h5 class="media-heading">
                     <%= sprint.blank? ? "No sprint" : sprint.name %>
                   </h5>
-                  <p class='small'>This sprint has completed all user stories and tasks.</p>
+                  <p class='small'>All user stories and tasks have been completed.</p>
                 </div>
               </div>
             </li>
         <% end %>
       </ul>
     </div>
-    <div class="tab-pane fade" style='height: 470px; overflow: scroll;' id='dashboard-recent-threads'>
+
+    <div class="tab-pane fade <%= 'active in' if @team.kanban? %>" style='height: 470px; overflow: scroll;' id='dashboard-recent-threads'>
       <ul class="list-group list-group-flush">
         <% sprint.issues.each do |issue| %>
           <% if issue.done? %>
@@ -105,7 +106,7 @@
                   <h5 class="media-heading">
                     <%= sprint.blank? ? "No sprint" : sprint.name %>
                   </h5>
-                  <p class='small'>This sprint has not completed any user story or task yet</p>
+                  <p class='small'>Has no completed either stories or tasks yet</p>
                 </div>
               </div>
             </li>

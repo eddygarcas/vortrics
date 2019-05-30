@@ -4,7 +4,7 @@
     <!--<ul class="nav navbar-nav navbar-right">-->
     <li role="presentation" class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-        <i class="fa fa-fw fa-folder-open"></i>Sprint Archive
+        <i class="fa fa-fw fa-folder-open"></i> Archive
         <span class="caret caret-light"></span>
       </a>
       <ul class="dropdown-menu" role="menu">
@@ -16,7 +16,7 @@
     </li>
 
     <li role="presentation" class="dropdown pull-right">
-      <%= dropdown_menu "<i class='fa fa-fw fa fa-bolt'></i>Active Sprints".html_safe do %>
+      <%= dropdown_menu "<i class='fa fa-fw fa fa-bolt'></i> Active".html_safe do %>
           <% @sprint.active_sprints(@team.project).each do |sprint| %>
               <%= activatable_li_tag_with_link "#{sprint.team.name} - #{sprint.name}", sprint %>
           <% end %>

@@ -13,16 +13,12 @@ class KanbanController < ApplicationController
 
   #GET /kanban/import
   def import_issues
-    redirect_to get_dashboard_path(Team.find_by_board_type(nil)), alert: "Kanban boards are no supported yet."
-    #
-    # options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
-    # import_sprint(import_params[:id], options).each {|elem| issues << JiraIssue.new(elem).to_issue}
-    #
-    # issues_save = issues.select {|el| el.closed_in.include? import_params[:id] unless el.closed_in.blank?}
-    # team.store_sprint(import_params, issues) {Sprint.find_by_sprint_id(import_params[:id]).save_issues issues_save}
-    # Rails.cache.clear
-    #
-    # redirect_to sprint_import_url(import_params[:originBoardId]), notice: 'Sprint has successfully been imported.'
+    options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
+    issues = import_kanban(@team.board_id, options).map {|elem| JiraIssue.to_issue(elem) {|i| i.send(@team.estimated)}}.select!(&:selectable_for_kanban?).sort_by!(&:created).reverse!
+
+    @team.store_sprint(issues) { Sprint.find_by_sprint_id(@team.board_id).save_issues issues}
+    Rails.cache.clear
+    redirect_to sprint_path(@team.sprint), notice: "Kanban board has been updated"
   end
 
   protected
