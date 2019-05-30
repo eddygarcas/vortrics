@@ -6,6 +6,7 @@ one:
   current_capacity: 1
   project: MTR
   board_id: 1
+  board_type: scrum
   estimated: customfield_11802
 
 two:
@@ -14,4 +15,5 @@ two:
   current_capacity: 1
   project: MTR
   board_id: 2
+  board_type: kanban
   estimated: customfield_10002

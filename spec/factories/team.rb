@@ -4,6 +4,7 @@ FactoryBot.define do
     name {Faker::Name::first_name_men}
     project { "MTR"}
     board_id { Faker::Number.between(1,9999)}
+    board_type {"scrum"}
     avatar { ""}
     estimated { "Story Points"}
     project_info {FactoryBot.create(:project_info)}

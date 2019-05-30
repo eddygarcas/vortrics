@@ -2,12 +2,18 @@
 FactoryBot.define do
 
   factory :user do
+    trait :with_team do
+      after(:create) do |user|
+        create(:team, setting_id: user.setting.id)
+      end
+    end
     email { Faker::Internet.email }
     password { "password"}
     password_confirmation { "password" }
     extuser { "head.hunter" }
     setting
   end
+
 
   factory :setting do
     id {Faker::Number.between(1,5000)}
@@ -23,8 +29,8 @@ FactoryBot.define do
     consumer_key {"OAuth"}
     login {Faker::Name.name}
     password {Faker::Alphanumeric.alphanumeric.to_s}
-
   end
+
 end
 
 
