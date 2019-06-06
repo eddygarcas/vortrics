@@ -25,7 +25,6 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="main-content-nav">
 
-          <% if navbar_visible? %>
             <div class="navbar-header">
               <div class="visible-lg-inline">
                 <%= vt_project_icon "avatar img-rounded project_image" %>
@@ -33,19 +32,19 @@
             </div>
             <ul class="nav navbar-nav" style="font-size: 18px;">
               <li class="dropdown navbar-brand">
-                <%= dropdown_menu @team.blank? ? "No team selected" : @team.name.to_s.upcase do %>
-                  <% Team.where(:setting_id => current_user.setting.id).each do |team| %>
-                    <%= activatable_li_tag_with_link (team.project_info.blank? ? '' : image_tag(team.project_info.icon, class: "img-rounded", height: '20', width: '20')) << " #{team.name}", get_dashboard_path(team.id) %>
+                <%= dropdown_menu @team.blank? ? "Select team" : @team.name.to_s.upcase do %>
+                  <% current_user.teams.each do |team| %>
+                    <%= activatable_li_tag_with_link (team.project_info.blank? ? '' : image_tag(team.project_info.icon, class: "img-rounded", height: '20', width: '20')) << " #{team.name}", sprint_path(team.sprint.id) unless team.scrum?%>
+                    <%= activatable_li_tag_with_link (team.project_info.blank? ? '' : image_tag(team.project_info.icon, class: "img-rounded", height: '20', width: '20')) << " #{team.name}", get_dashboard_path(team.id) unless team.kanban?%>
                   <% end %>
                 <% end %>
               </li>
             </ul>
             <ul class="nav navbar-nav" style="font-size: 18px;">
               <li>
-                <%= link_to "Get data", sprint_import_path(@team.board_id)  %>
+                <%= link_to "Get data", sprint_import_path(@team.board_id) unless @team.blank? %>
               </li>
             </ul>
-          <% end %>
 
           <ul class="nav navbar-nav navbar-right">
             <%= hidden_field_tag 'id', session[:team_id], class: 'form-control', id: 'searchbox' %>

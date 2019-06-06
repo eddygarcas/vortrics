@@ -103,7 +103,7 @@ module ApplicationHelper
 	end
 
 	def vt_work_time_tag key, title = '', text = 'n/d'
-		content_tag(:i, nil, class: "fa fa-trophy", style: "color:goldenrod;font-size: 14px;") << title << " shortest " << content_tag(:strong, key) << text
+		content_tag(:i, nil, class: "fa fa-trophy", style: "color:goldenrod;font-size: 14px;") << title << " shortest " << content_tag(:strong, key) << ' ' << text
 	end
 
 	def vt_project_tag project

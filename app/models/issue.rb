@@ -23,6 +23,10 @@ class Issue < ApplicationRecord
 		read_attribute(:cycle_time)
 	end
 
+	def lead_time
+		(time_transitions({ toString: :first }, { toString: :done })).abs
+	end
+
 	def new?
 		status.eql? 'new'
 	end
@@ -47,9 +51,14 @@ class Issue < ApplicationRecord
 		(issuetypeid.eql?(4) || issuetype.downcase.eql?('bug'))
 	end
 
-	def task?
-		true unless subtask? || bug?
+	def epic?
+		issuetype.downcase.eql?('epic')
 	end
+
+	def task?
+		!subtask? && !bug? && !epic?
+	end
+
 
 	def selectable_for_graph?
 		done? && task? && any_log?
@@ -60,7 +69,7 @@ class Issue < ApplicationRecord
 	end
 
 	def selectable_for_kanban?
-		done? && !subtask?
+		!epic? && !subtask?
 	end
 
 	def save_logs?
@@ -76,27 +85,39 @@ class Issue < ApplicationRecord
 	end
 
 	def time_flagged
-		(lead_time({ fromString: :flagged }, { toString: :flagged })).abs
+		(time_transitions({ fromString: :flagged }, { toString: :flagged })).abs
 	end
 
 	def time_in_wip
-		(lead_time({ toString: :wip }, { toString: :testing })).abs
+		(time_transitions({ toString: :wip }, { toString: :testing })).abs
 	end
 
 	def time_to_release
-		(lead_time({ toString: :testing }, { toString: :done })).abs
+		(time_transitions({ toString: :testing }, { toString: :done })).abs
 	end
 
 	def time_in_backlog
-		(lead_time({ toString: :first }, { toString: :wip })).abs
+		(time_transitions({ toString: :first }, { toString: :wip })).abs
 	end
 
 	def was_wip? date
-		wipdate = changelog_lapse(:toString, :wip, &:first)
-		return false if wipdate.blank?
-		date.yday.eql? wipdate.created.to_datetime.yday
+		return false if wip_date.blank?
+		return (wip_date.created.to_date..Time.zone.now).cover? date if done_date.blank?
+		(wip_date.created.to_date..done_date.created.to_date).cover? date
 	end
 
+	def was_done? date
+		return false if done_date.blank?
+		date.yday.eql? done_date.created.to_datetime.yday
+	end
+
+	def wip_date
+		changelog_lapse(:toString, :wip, &:first)
+	end
+
+	def done_date
+		changelog_lapse(:toString, :done, &:last)
+	end
 
 	def first_time_pass_rate?
 		change_logs.select(&:first_time_review?).count.eql? 1
@@ -119,16 +140,7 @@ class Issue < ApplicationRecord
 		resolutiondate - created
 	end
 
-	def lead_time finish = {}, start = {}
-		return 0 if change_logs.blank?
-		lead_times = []
-		finish.each_pair { |method, tag| lead_times << changelog_lapse(method, tag, &:first) }
-		start.each_pair { |method, tag| lead_times << changelog_lapse(method, tag, &:first) }
-		#Next call will avoid the chance of no testing state, so will get the WIP time towards the last record
-		start.each_pair { |method, tag| lead_times[1] = changelog_lapse(method, :done, &:last) } if lead_times[1].blank?
-		return 0 if lead_times[0].blank? || lead_times[1].blank?
-		lead_times[0].created.to_date.business_days_until(lead_times[1].created.to_date).to_f
-	end
+
 
 	def save_changelog
 		return if histories.blank?
@@ -144,12 +156,19 @@ class Issue < ApplicationRecord
 	protected
 
 	def save_cycle_time
-		write_attribute(:cycle_time, task_lead_time)
+		write_attribute(:cycle_time, (time_transitions({ toString: :wip }, { toString: :done })).abs)
 		save!
 	end
 
-	def task_lead_time
-		(lead_time({ toString: :wip }, { toString: :done })).abs
+	def time_transitions finish = {}, start = {}
+		return 0 if change_logs.blank?
+		lead_times = []
+		finish.each_pair { |method, tag| lead_times << changelog_lapse(method, tag, &:first) }
+		start.each_pair { |method, tag| lead_times << changelog_lapse(method, tag, &:first) }
+		#Next call will avoid the chance of no testing state, so will get the WIP time towards the last record
+		start.each_pair { |method, tag| lead_times[1] = changelog_lapse(method, :done, &:last) } if lead_times[1].blank?
+		return 0 if lead_times[0].blank? || lead_times[1].blank?
+		lead_times[0].created.to_date.business_days_until(lead_times[1].created.to_date).to_f
 	end
 
 	def changelog_lapse column, tag

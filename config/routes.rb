@@ -65,6 +65,7 @@ Rails.application.routes.draw do
   get '/import/kanban(/:board_id)', to: 'kanban#import_issues', as: 'kanban_import_issues'
 
 
+
   get '/:id', to: 'home#dashboard', as: 'get_dashboard'
   get '/:id/refresh', to: 'home#refresh', as: 'refresh_path'
 

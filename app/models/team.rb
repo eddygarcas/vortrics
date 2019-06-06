@@ -58,13 +58,13 @@ class Team < ApplicationRecord
   def issues_selectable_for_graph
     Rails.cache.fetch("issues_selectable_for_graph_#{id}", expires_in: 1.day) {
       limit = ScrumMetrics.config[:performance][:graph_limit].to_i
-      Issue.joins(:sprint).where('team_id = ?', id).select('issues.*').select(&:selectable_for_cycle_time?).sort_by!(&:cycle_time) #.last(limit)
+      Issue.joins(:sprint).where('team_id = ?', id).select('issues.*').select(&:selectable_for_cycle_time?).sort_by!(&:cycle_time)
     }
   end
 
   def average_time
     average = Rails.cache.fetch("average_time_#{id}", expires_in: 1.day) {
-      issues_selectable_for_graph.map {|issue| (issue.lead_time({toString: :wip}, {toString: :done})).abs}.average
+      issues_selectable_for_graph.map {|issue| issue.cycle_time.abs}.average
     }
     average.nan? ? 0 : average
   end
@@ -228,7 +228,7 @@ class Team < ApplicationRecord
 
   def store_sprint issues, params = nil
     store_scrum_sprint issues do
-      params.blank? ? {id: nil, name: "#{name} Kanban", endDate: Time.zone.now.to_date, startDate: issues.first.created} :
+      params.blank? ? {id: nil, name: "#{name} Kanban", endDate: Time.zone.now.to_date, startDate: issues.last.created} :
           {id: params[:id], name: params['name'], endDate: params['endDate'], startDate: params['startDate']}
     end
     yield

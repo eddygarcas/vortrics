@@ -1,0 +1,18 @@
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <p class="lead"><i class="fa fa-gift"></i> <b>Items</b></p>
+  </div>
+  <div class='panel-body text-green-400 text-center'>
+    <h2 class='page-hits m0'><%= sprint.stories %></h2>
+    <small>Completed Items
+      <strong><%= sprint.stories %> of <%= (sprint.stories + sprint.remainingstories) %></strong></small>
+  </div>
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-sm-12">
+        <Strong><%= percent_num sprint.stories, (sprint.stories + sprint.remainingstories) %>%</Strong> items completed against backlog
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>

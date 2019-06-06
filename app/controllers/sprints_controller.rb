@@ -73,7 +73,7 @@ class SprintsController < ApplicationController
       data[6] = user_stories.map.with_index {|issue, index| {x: index, y: issue.more_than_sprint?}}
       data[7] = user_stories.map.with_index {|issue, index| {x: index, y: issue.time_to_release}}
       data[8] = user_stories.map.with_index {|issue, index| {x: index, y: flagged += issue.time_flagged}}
-      data[9] = data[1].map.with_index {|elem, index| {x: index, y: @sprint.team.average_time}}
+      data[9] = data[1].map.with_index {|elem, index| {x: index, y: @sprint.sprint_cycle_time}}
       data
     }
     render json: data

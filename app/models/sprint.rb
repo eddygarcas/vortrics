@@ -80,6 +80,7 @@ class Sprint < ApplicationRecord
     stories + remainingstories
   end
 
+
   def changed_scope added
     @scope = added.to_f.percent_of(total_stories.to_f).round
   end
@@ -90,19 +91,31 @@ class Sprint < ApplicationRecord
   end
 
   def sprint_cycle_time
-	  issues.map { |issue| (issue.lead_time({ toString: :wip }, { toString: :done })).abs }.average.ceil.to_i
+	  issues.map(&:cycle_time).average.ceil.to_i
   end
 
   def sprint_lead_time
-	  issues.map { |issue| (issue.lead_time({ toString: :first }, { toString: :done })).abs }.average.ceil.to_i
+	  issues.map(&:lead_time).average.ceil.to_i
+  end
 
+  def wip_limit
+    (sprint_cycle_time * throughput).round(0)
+  end
+
+  def days
+    (start_date..enddate).count
+  end
+
+  def throughput
+    ((stories + bugs).to_f / days).round(2)
   end
 
   protected
 
+
   def time_in_log
     timein = 0
-    items_flagged.each {|elem| timein += elem.lead_time({fromString: :flagged}, {toString: :flagged}).to_i}
+    items_flagged.each {|elem| timein += elem.time_flagged.to_i}
     timein
   end
 

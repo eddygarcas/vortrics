@@ -16,19 +16,16 @@
 <div class="container-fluid">
 
   <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-md-12 animate-left-fade-1000">
+      <%= render "layouts/issue_summary_transition", :locals => {:issue => @issue} %>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 col-md-12  animate-left-fade-1000">
       <%= render "layouts/issue_details", :locals => {:issue => @issue} %>
     </div>
   </div>
-
-
-  <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12 col-md-12 animate-left-fade-1000">
-      <%= render "layouts/issue_summary_transition", :locals => {:issue => @issue} %>
-
-    </div>
-  </div>
-
 
   <div class="row">
     <div class="col-sm-12 col-md-12 col-md-12 col-lg-4 animate-rise-fade-1200">
