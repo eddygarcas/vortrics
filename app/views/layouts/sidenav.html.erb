@@ -41,7 +41,10 @@
             </ul>
             <ul class="nav navbar-nav" style="font-size: 18px;">
               <li>
-                <%= link_to "Get data", sprint_import_path(@team.board_id) unless @team.blank? %>
+                <% if @team.present? %>
+                  <%= link_to "Add sprints", sprint_import_path(@team.board_id) unless @team.kanban? %>
+                  <%= link_to "Update data", kanban_import_issues_path(@team.board_id) unless @team.scrum? %>
+              <%end %>
               </li>
             </ul>
 
