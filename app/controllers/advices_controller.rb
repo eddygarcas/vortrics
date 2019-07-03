@@ -11,6 +11,7 @@ class AdvicesController < ApplicationController
       @team.advices.create_by_key(key) if @team.send(key)
     end
     @advices = @team.advices.reject(&:read?)
+    @advice = Advice.new
   end
 
   # GET /advices/1
@@ -37,10 +38,8 @@ class AdvicesController < ApplicationController
   # POST /advices
   # POST /advices.json
   def create
-    @advice = Advice.new(advice_params)
-
     respond_to do |format|
-      if @advice.save
+      if @team.advices.create_from_params(advice_params)
         format.html { redirect_to advices_path, notice: 'Advice was successfully created.' }
         format.json { render :show, status: :created, location: @advice }
       else

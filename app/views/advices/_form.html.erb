@@ -1,18 +1,21 @@
-
-<%= form_for(@advice, html: { class: 'form-horizontal' }) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-  </div>
-
-  <div class="form-actions">
-    <div class="form-group">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <%= f.submit class: 'btn btn-primary' %>
-        <%= link_to "Cancel", advices_path, class: 'btn' %>
-      </div>
-    </div>
-  </div>
+<%= form_for(@advice, url: advices_path, method: :post, html: { class: 'form-horizontal form-control-lg' }) do |f| %>
+  <%= f.hidden_field :subject, value: "custom_#{current_user.id}_#{Time.zone.now.hash}" %>
+  <%= f.hidden_field :read, value: false %>
+  <%= f.hidden_field :completed, value: false %>
+  <table class="table table-hover table-striped">
+    <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tr>
+      <td style="min-width: 190px; max-width: 190px;"><%= f.text_field :advice_type, required: true, autofocus: true, placeholder: "What's in your mind..." %></td>
+      <td style="width: 100%;"><%= f.text_field :description, required: true, value: "", placeholder: 'Briefly give a little bit of context...',style: "width: 100%;" %></td>
+      <td style="min-width: 100px; max-width: 100px;">
+        <%= f.submit("Add",class: "btn btn-circle btn-sm btn-link") %>
+      </td>
+    </tr>
+  </table>
 <% end %>
-

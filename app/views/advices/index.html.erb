@@ -17,7 +17,8 @@
           <table class="table table-hover table-striped">
             <thead>
             <tr>
-              <th>Type</th>
+              <th>Subject</th>
+              <th></th>
               <th>Description</th>
               <th></th>
             </tr>
@@ -25,7 +26,8 @@
             <tbody>
             <% @team.advices.each do |advice| %>
               <tr>
-                <td style="min-width: 110px; max-width: 110px;"><%= advice.advice_type.humanize %></td>
+                <td style="min-width: 190px; max-width: 190px;"><%= advice.advice_type.humanize %></td>
+                <td><span class="badge" data-toggle="tooltip" title="Number of comments made" data-placement="top"><%= advice.comments.count %></span></td>
                 <td><%= advice.description.html_safe %></td>
                 <td style="min-width: 110px; max-width: 110px;">
                   <div class="btn-group btn-group-sm">
@@ -43,6 +45,8 @@
             <% end %>
             </tbody>
           </table>
+          <%= render 'form' %>
+
         </div>
       </div>
 
