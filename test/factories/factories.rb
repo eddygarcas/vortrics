@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :user do
     trait :with_team do
       after(:create) do |user|
-        create(:team, setting_id: user.setting.id)
+        create(:team_with_advice, setting_id: user.setting.id)
       end
     end
     email { Faker::Internet.email }

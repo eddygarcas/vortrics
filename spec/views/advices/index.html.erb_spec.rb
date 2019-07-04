@@ -11,6 +11,7 @@ RSpec.describe "advices/index", type: :view do
   end
 
   it "renders a list of advices" do
+    @advice = Advice.new
     @team = team
     render
   end

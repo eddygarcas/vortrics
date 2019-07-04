@@ -8,7 +8,7 @@ class AdvicesController < ApplicationController
   def index
     return if @team.blank?
     ScrumMetrics.config[:advices].each_key do |key|
-      @team.advices.create_by_key(key) if @team.send(key)
+      @team.advices.create_by_key(key) if (@team.respond_to?(key) && @team.send(key))
     end
     @advices = @team.advices.reject(&:read?)
     @advice = Advice.new

@@ -10,11 +10,11 @@ FactoryBot.define do
     project_info {FactoryBot.create(:project_info)}
   end
 
-  factory :team_with_advice, parent: :advice do
-    ignore do
+  factory :team_with_advice, parent: :team do
+    transient  do
       advice {FactoryBot.create(:advice)}
     end
-    after_create do |team,evaluator|
+    after(:create) do |team,evaluator|
       team.advices << evaluator.advice
     end
   end

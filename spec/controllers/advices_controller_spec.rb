@@ -25,6 +25,7 @@ require 'rails_helper'
 
 RSpec.describe AdvicesController, type: :controller do
   login_user
+
   # This should return the minimal set of attributes required to create a valid
   # Advice. As you add validations to Advice, be sure to
   # adjust the attributes here as well.
@@ -36,6 +37,7 @@ RSpec.describe AdvicesController, type: :controller do
     {advice_hacking: "test",subject: "test",description: "test",read: false,completed: false}
   }
 
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # AdvicesController. Be sure to keep this updated too.
@@ -43,6 +45,7 @@ RSpec.describe AdvicesController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
+      allow(ScrumMetrics).to receive(:config).and_return({:advices => {:no_key => nil}})
       advice = FactoryBot.create(:advice)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
@@ -68,12 +71,13 @@ RSpec.describe AdvicesController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Advice" do
+        allow(ScrumMetrics).to receive(:config).and_return(nil)
         expect {
           post :create, params: {advice: valid_attributes}, session: valid_session
         }.to change(Advice, :count).by(1)
       end
 
-      it "redirects to the created advice" do
+      it "redirects to the cresated advice" do
         post :create, params: {advice: valid_attributes}, session: valid_session
         expect(response).to redirect_to advices_path
       end

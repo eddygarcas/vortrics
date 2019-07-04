@@ -1,5 +1,5 @@
 <%= form_for(@advice, url: advices_path, method: :post, html: { class: 'form-horizontal form-control-lg' }) do |f| %>
-  <%= f.hidden_field :subject, value: "custom_#{current_user.id}_#{Time.zone.now.hash}" %>
+  <%= f.hidden_field :subject, value: "custom_#{Time.zone.now.hash}" %>
   <%= f.hidden_field :read, value: false %>
   <%= f.hidden_field :completed, value: false %>
   <table class="table table-hover table-striped">
