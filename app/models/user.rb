@@ -22,7 +22,7 @@ class User < ApplicationRecord
 
 	def self.workflow type = :open
 		return nil if Thread.current[:user].setting.blank?
-		column = type.eql? :wip ? 'in progress' : type.to_s.humanize
+		column = type.eql?(:wip) ? 'in_progress' : type.to_s.downcase
 		Thread.current[:user].setting.workflow.where(name: column).first.cards.pluck(:name)
 	end
 

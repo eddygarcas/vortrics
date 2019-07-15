@@ -8,12 +8,12 @@ class ChangeLog < ApplicationRecord
 
   def flagged?
     return ScrumMetrics.config[:changelog][:flagged].include? toString.to_s.downcase unless User.workflow.present?
-    User.workflow(:flagged) { |e| e.include? toString.to_s.downcase }
+    User.workflow(:flagged).include? toString.to_s.downcase
   end
 
   def first_time_review?
     return ScrumMetrics.config[:changelog][:testing].include? toString.to_s.downcase unless User.workflow.present?
-    User.workflow(:testing) { |e| e.include? toString.to_s.downcase }
+    User.workflow(:testing).include? toString.to_s.downcase
   end
 
 

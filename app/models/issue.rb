@@ -183,7 +183,7 @@ class Issue < ApplicationRecord
 	def workflow_stats tag, column
 		pp "Tag #{tag}"
 		return ScrumMetrics.config[:changelog][tag].include? column.to_s.downcase unless User.workflow(tag).present?
-		User.workflow(tag) { |e| e.include? column.to_s.downcase }
+		User.workflow(tag).include? column.to_s.downcase
 	end
 
 end

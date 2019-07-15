@@ -4,7 +4,7 @@
             <div class="sheet-inner">
             <div class="row">
                 <div v-for="(workflow,index) in workflows" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <h5>{{workflow.name}}</h5>
+                    <h5>{{workflow.name.toUpperCase()}}</h5>
                     <hr/>
                     <div v-for="(card,index) in workflow.cards" class="well well-lg">
                         <button v-on:click="deleteCard(card.id,index,workflow.id)"
