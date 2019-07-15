@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :advices
   resources :comments
   resources :kanban
+  resources :cards
   resources :notifications do
     collection do
       post :mark_as_read

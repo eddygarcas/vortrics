@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190523142642) do
+ActiveRecord::Schema.define(version: 20190711081922) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 20190523142642) do
     t.integer "maturity_framework_id"
     t.index ["maturity_framework_id"], name: "index_assesments_on_maturity_framework_id"
     t.index ["team_id"], name: "index_assesments_on_team_id"
+  end
+
+  create_table "cards", force: :cascade do |t|
+    t.integer "workflow_id"
+    t.string "name"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["workflow_id"], name: "index_cards_on_workflow_id"
   end
 
   create_table "change_logs", force: :cascade do |t|
@@ -289,6 +298,8 @@ ActiveRecord::Schema.define(version: 20190523142642) do
     t.integer "setting_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.integer "position"
     t.index ["setting_id"], name: "index_workflows_on_setting_id"
   end
 

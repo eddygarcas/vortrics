@@ -1,21 +1,18 @@
 source 'https://rubygems.org'
-ruby "2.4.0"
-
+ruby "2.6.3"
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
 
-
+source "https://gems.rapidrailsthemes.com/gems" do
+  gem "dresssed-ives", "~> 1.0.67"
+end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>= 5.1.6.2'
-
+gem 'rails', '~> 6.0.0.rc1'
 gem "rack", ">= 2.0.6"
-
 gem "loofah", ">= 2.2.3"
-
 gem "rubyzip", ">= 1.2.2"
-
 gem "ffi", ">= 1.9.24"
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', group: :development
@@ -42,24 +39,20 @@ gem 'jira-ruby', '1.5.0', :require => 'jira-ruby'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'bootstrap-datepicker-rails'
-
 gem "devise", ">= 4.6.0"
 
-gem 'jquery-rails'
-
-gem 'jquery-ui-rails'
+gem 'jquery-rails', '~> 4.3.1'
+gem 'jquery-ui-rails','~> 6.0.1'
+gem 'rails-ujs'
 
 gem 'resque'
-
 gem 'business_time'
-
 gem "sweet-alert", git: "https://github.com/frank184/sweet-alert-rails"
 gem "sweet-alert-confirm", git: "https://github.com/humancopy/sweet-alert-rails-confirm"
+gem 'webpacker', '~> 4.x'
 
 
-source "https://gems.rapidrailsthemes.com/gems" do
-  gem "dresssed-ives", "~> 1.0.67"
-end
+gem 'acts_as_list'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

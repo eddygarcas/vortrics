@@ -181,8 +181,9 @@ class Issue < ApplicationRecord
 	private
 
 	def workflow_stats tag, column
-		return ScrumMetrics.config[:changelog][tag].include? column.to_s.downcase unless User.workflow.present?
-		User.workflow.status(tag) { |e| e.include? column.to_s.downcase }
+		pp "Tag #{tag}"
+		return ScrumMetrics.config[:changelog][tag].include? column.to_s.downcase unless User.workflow(tag).present?
+		User.workflow(tag) { |e| e.include? column.to_s.downcase }
 	end
 
 end

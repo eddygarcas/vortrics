@@ -9,6 +9,7 @@ class WorkflowsController < ApplicationController
 	# GET /workflows.json
 	def index
 		@workflow = current_user.setting.workflow
+		@workflows = Workflow.sorted
 		redirect_to new_workflow_path and return if current_user.setting.workflow.blank?
 
 

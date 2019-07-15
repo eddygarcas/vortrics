@@ -1,7 +1,7 @@
 class Setting < ApplicationRecord
   has_many :configs
   has_many :users, through: :configs
-  has_one :workflow
+  has_many :workflow
   has_one :fieldmap
 
   URL_REGEXP = /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/
