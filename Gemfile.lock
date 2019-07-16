@@ -11,6 +11,14 @@ GIT
     sweet-alert-confirm (0.4.1)
 
 GIT
+  remote: https://github.com/rails/jbuilder.git
+  revision: 821f514741a3e9102082a6e98eb59a08671f75d0
+  branch: master
+  specs:
+    jbuilder (2.9.1)
+      activesupport (>= 4.2.0)
+
+GIT
   remote: https://github.com/stympy/faker.git
   revision: 7683fc681649972a0bc6413accd8b1c78b17588f
   branch: master
@@ -100,9 +108,9 @@ GEM
       xpath (>= 2.0, < 4.0)
     childprocess (1.0.1)
       rake (< 13.0)
-    coffee-rails (4.2.2)
+    coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
-      railties (>= 4.0.0)
+      railties (>= 5.2.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -133,8 +141,6 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.9.1)
-      activesupport (>= 4.2.0)
     jira-ruby (1.5.0)
       activesupport
       multipart-post
@@ -332,14 +338,14 @@ DEPENDENCIES
   business_time
   byebug
   capybara (~> 2.13)
-  coffee-rails (~> 4.2)
+  coffee-rails (>= 5.0.0)
   database_cleaner (~> 1.5)
   devise (>= 4.6.0)
   dresssed-ives (~> 1.0.67)!
   factory_bot_rails
   faker!
   ffi (>= 1.9.24)
-  jbuilder (~> 2.5)
+  jbuilder!
   jira-ruby (= 1.5.0)
   jquery-rails (~> 4.3.1)
   jquery-ui-rails (~> 6.0.1)
@@ -348,7 +354,7 @@ DEPENDENCIES
   mocha
   pg
   puma (~> 3.7)
-  rack (>= 2.0.6)
+  rack (>= 2.0.7)
   rails (~> 6.0.0.rc1)
   rails-controller-testing
   rails-ujs

@@ -7,12 +7,12 @@ defaults: &defaults
     :restbasepath: "/rest/api/2"
     :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint,histories
   :changelog:
+    :flagged: impediment
     :open: open,nil,to do
     :backlog: backlog,ready
     :wip: in progress,analysis
     :testing: review,in review,testing
     :done: closed,done,production
-    :flagged: impediment
   :baseline:
     :leadtime: 5
   :advices:

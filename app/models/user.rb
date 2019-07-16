@@ -22,8 +22,7 @@ class User < ApplicationRecord
 
 	def self.workflow type = :open
 		return nil if Thread.current[:user].setting.blank?
-		column = type.eql?(:wip) ? 'in_progress' : type.to_s.downcase
-		Thread.current[:user].setting.workflow.where(name: column).first.cards.pluck(:name)
+		Thread.current[:user].setting.workflow.where(name: type).first.cards.pluck(:name)
 	end
 
 	def save_dependent setting_id = nil, is_admin = nil

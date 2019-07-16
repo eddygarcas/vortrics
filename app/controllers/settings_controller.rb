@@ -35,6 +35,7 @@ class SettingsController < ApplicationController
 
 		respond_to do |format|
 			if @setting.save
+				Workflow.create_by_setting(@setting.id)
 				format.html { redirect_to settings_url, notice: 'Setting was successfully created.' }
 				format.json { render :show, status: :created, location: @setting }
 			else

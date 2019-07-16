@@ -5,8 +5,10 @@ class Workflow < ApplicationRecord
 	has_many :cards, -> {order(position: :asc)}, dependent: :destroy
 	scope :sorted, -> {where.not(position: nil).order(position: :asc)}
 
-	def status type = :open
-		cards.by_list_name(type.to_s.humanize).pluck(:name).to_a
-		#yield send(type).split(',')
+	def self.create_by_setting setting_id
+		ScrumMetrics.config[:changelog].each_with_index do |status,index|
+			Workflow.create({name: status[0],position: index,setting_id: setting_id})
+		end
 	end
+
 end
