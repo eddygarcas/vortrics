@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "cards/show", type: :view do
   before(:each) do
-    @card = assign(:card, Card.create!())
+    @card = assign(:card, FactoryBot.create(:card))
   end
 
   it "renders attributes in <p>" do

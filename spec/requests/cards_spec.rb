@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "Cards", type: :request do
+  before do
+    sign_in FactoryBot.create(:user)
+  end
   describe "GET /cards" do
     it "works! (now write some real specs)" do
       get cards_path

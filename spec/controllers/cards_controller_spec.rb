@@ -24,7 +24,7 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe CardsController, type: :controller do
-
+  login_user
   # This should return the minimal set of attributes required to create a valid
   # Card. As you add validations to Card, be sure to
   # adjust the attributes here as well.
@@ -43,7 +43,7 @@ RSpec.describe CardsController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      Card.create! valid_attributes
+      card = FactoryBot.create(:card)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end

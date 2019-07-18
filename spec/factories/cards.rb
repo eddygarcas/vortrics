@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :card do
-    list { nil }
-    name { "MyString" }
-    position { 1 }
+    id {Faker::Number.between(1,10)}
+    workflow
+    name { Faker::FunnyName.name }
+    position { Faker::Number.between(1,10) }
   end
 end
