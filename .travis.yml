@@ -3,11 +3,11 @@ rvm:
  - 2.6.3
 before_script:
    - bundle exec rake db:drop
-   - RAILS_ENV=test bundle exec webpacker:compile
-   - bundle exec rake rake db:migrate --trace
-   - bundle exec rake rake db:test:prepare
+   - RAILS_ENV=test bundle exec db:migrate --trace
+   - bundle exec rake db:test:prepare
 script:
    - bin/rails test
+   - ./bin/webpack
 before_install:
     - gem update --system
     - gem install bundler
