@@ -23,7 +23,7 @@
         <% end %>
         <%= f.error_messages %>
       </div>
-      <div class='col-md-3 pull-left'>
+      <div class='col-md-2 pull-left'>
         <div class="input-group">
           <div class="input-group-addon">Type</div>
           <%= f.text_field :board_type, {class: 'form-control form-control-lg', data: {behaviour: :board_type}, disabled: f.object.persisted?} %>

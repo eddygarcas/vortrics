@@ -14,7 +14,7 @@ class Advice < ApplicationRecord
   validates_inclusion_of :completed, :in => [true, false]
   validates_inclusion_of :read, :in => [true, false]
 
-  scope :create_by_key, -> (key) {where(advice_type: key.to_s).first_or_create(ScrumMetrics.config[:advices][key])}
+  scope :create_by_key, -> (key) {where(advice_type: key.to_s).first_or_create(ScrumMetrics.config[:advices][key].to_h)}
   scope :create_from_params, -> (params) {where(advice_type: params['advice_type'].to_s).first_or_create(params)}
 
 end

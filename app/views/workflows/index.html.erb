@@ -11,5 +11,5 @@
   </ol>
 <% end %>
 <%= tag.div id: :boards,data: {
-    workflows: current_user.setting.workflow.sorted.to_json(only: [:id,:name,:position,:workflow_id],include: :cards)
+    workflows: @workflow.sorted.to_json(only: [:id,:name,:position,:workflow_id],include: :cards)
 }, class: "container-fluid"  %>
