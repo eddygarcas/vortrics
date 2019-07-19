@@ -18,9 +18,13 @@ class Setting < ApplicationRecord
   validates :password, presence: {message: "Password cannot be blank using a Basic authorisation."}, unless: :oauth?
 
   def workflow_tags_for column_name
-    Rails.cache.fetch("column_status_#{id}_#{column_name}", expires_in: 1.minutes) {
-      workflow.where(name: column_name).first.cards.pluck(:name)
-    }
+    begin
+      Rails.cache.fetch("column_status_#{id}_#{column_name}", expires_in: 1.minutes) {
+        workflow.where(name: column_name).first.cards.pluck(:name)
+      }
+    rescue NoMethodError => error
+      nil
+    end
   end
 
   def teams?
