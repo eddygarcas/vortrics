@@ -2,10 +2,12 @@
     <div id="app">
         <div class="sheet sheet-condensed">
             <div class="sheet-inner">
-            <div class="row">
+            <draggable v-model="workflows" :options="{group: 'workflows'}" class="row dragArea" @end="listMoved">
                 <div v-for="(workflow,index) in workflows" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                     <h5>{{workflow.name.toUpperCase()}}</h5>
                     <hr/>
+
+                    <draggable v-model="workflow.cards" :options="{group: 'cards'}" @change="cardMoved" class="dragArea">
                     <div v-for="(card,index) in workflow.cards" class="well well-lg">
                         <button v-on:click="deleteCard(card.id,index,workflow.id)"
                                 class="btn btn-link btn-flat btn-xs btn-borderless pull-right" rel="nofollow">
@@ -13,11 +15,13 @@
                         </button>
                         <span v-bind:class="[workflow.name]" class="label" style="font-size:12px;">{{card.name.toUpperCase()}}</span>
                     </div>
+                    </draggable>
+
                     <div class="well">
                         <input type="text" v-model="messages[workflow.id]" v-on:change="submitMessages(workflow.id)" style="width: 100%;" placeholder="Add status..." />
                     </div>
                 </div>
-            </div>
+            </draggable>
             </div>
         </div>
     </div>
@@ -25,7 +29,9 @@
 
 
 <script>
+    import draggable from 'vuedraggable'
     export default {
+        components: { draggable },
         props: ["original_lists"],
         data: function () {
             return {
@@ -34,6 +40,43 @@
             }
         },
         methods: {
+            cardMoved: function (event) {
+                const evt = event.added || event.moved
+                if (evt == undefined) {return}
+
+                const element = evt.element
+                const workflow_index = this.workflows.findIndex((workflow) => {
+                    return workflow.cards.find((card) => {
+                        return card.id === element.id
+                    })
+                })
+
+                var data = new FormData
+                data.append("card[workflow_id]", this.workflows[workflow_index].id)
+                data.append("card[position]", evt.newIndex + 1)
+                $.ajax({
+                    url: `/cards/${element.id}/move`,
+                    type: "PATCH",
+                    data: data,
+                    dataType: "JSON",
+                    processData: false,
+                    contentType: false
+                })
+            },
+            listMoved: function(event) {
+                var data = new FormData
+                data.append("workflow[position]",event.newIndex + 1)
+
+                $.ajax({
+                    url: `/workflows/${this.workflows[event.newIndex].id}/move`,
+                    type: "PATCH",
+                    data: data,
+                    dataType: "JSON",
+                    processData: false,
+                    contentType: false
+                })
+
+            },
             submitMessages: function (workflow_id) {
                 var data = new FormData
                 data.append("card[workflow_id]", workflow_id)
@@ -72,6 +115,9 @@
 </script>
 
 <style scoped>
+    .dragArea {
+        min-height: 10px;
+    }
     p {
         font-size: 2em;
         text-align: center;

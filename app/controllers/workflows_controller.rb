@@ -1,6 +1,6 @@
 class WorkflowsController < ApplicationController
 	layout 'sidenav'
-	before_action :set_workflow, only: [:destroy]
+	before_action :set_workflow, only: [:destroy,:move]
 	before_action :team_session
 	before_action :admin_user?
 
@@ -15,6 +15,11 @@ class WorkflowsController < ApplicationController
 	# GET /workflows/new
 	def new
 		@workflow = Workflow.new
+	end
+
+	def move
+		@workflow.insert_at(workflow_params[:position].to_i)
+		render action: :show
 	end
 
 	# DELETE /workflows/1
@@ -36,6 +41,6 @@ class WorkflowsController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def workflow_params
-		params.require(:workflow).permit(:setting_id, :open, :backlog, :wip, :testing, :done, :flagged)
+		params.require(:workflow).permit(:setting_id,:name,:position)
 	end
 end
