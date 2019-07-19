@@ -1,7 +1,7 @@
 class Setting < ApplicationRecord
   has_many :configs
   has_many :users, through: :configs
-  has_one :workflow
+  has_many :workflow, dependent: :destroy
   has_one :fieldmap
 
   URL_REGEXP = /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/
@@ -16,6 +16,16 @@ class Setting < ApplicationRecord
   validates :base_path, format: {with: PATH_REGEXP, message: "You provided invalid base path"}
   validates :login, presence: {message: "Login cannot be blank using a Basic authorisation."}, unless: :oauth?
   validates :password, presence: {message: "Password cannot be blank using a Basic authorisation."}, unless: :oauth?
+
+  def workflow_tags_for column_name
+    begin
+      Rails.cache.fetch("column_status_#{id}_#{column_name}", expires_in: 1.minutes) {
+        workflow.where(name: column_name).first.cards.pluck(:name)
+      }
+    rescue NoMethodError => error
+      nil
+    end
+  end
 
   def teams?
     Team.by_setting(id).present?

@@ -10,52 +10,6 @@
     <li><%= link_to "Workflow", workflows_path %></li>
   </ol>
 <% end %>
-
-<br/>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="sheet sheet-condensed">
-        <div class="sheet-inner">
-          <table class="table">
-            <thead>
-            <tr>
-              <th>Open</th>
-              <th>Backlog</th>
-              <th>Work in progress</th>
-              <th>Testing</th>
-              <th>Done</th>
-              <th>Flagged/Blocked</th>
-              <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% if @workflow.present? %>
-              <tr>
-                <td><%= workflow_tag @workflow.open %></td>
-                <td><%= workflow_tag @workflow.backlog, :warning %></td>
-                <td><%= workflow_tag @workflow.wip, :primary %></td>
-                <td><%= workflow_tag @workflow.testing, :primary %></td>
-                <td><%= workflow_tag @workflow.done, :success %></td>
-                <td><%= workflow_tag @workflow.flagged, :danger %></td>
-                <td class="actions">
-                  <%= link_to fa_icon_tag("pencil"), edit_workflow_path(@workflow), rel: 'tooltip', title: 'Edit' %>
-                  <%= link_to fa_icon_tag("trash-o"), @workflow, rel: 'tooltip', title: 'Delete',
-                              data: { confirm: 'Are you sure?' }, method: :delete %>
-                </td>
-              </tr>
-            <% end %>
-            <% if @workflow.blank? %>
-              <tr>
-                <td colspan=42 class='text-center'>No workflows.</td>
-              </tr>
-            <% end %>
-            </tbody>
-          </table>
-        </div><!-- /.sheet-inner -->
-      </div><!-- /.sheet -->
-      <%# Remove the trailing if condition if you're using pagination. %>
-      <%= will_paginate @workflows if @workflows.respond_to?(:total_pages) %>
-    </div>
-  </div>
-</div>
+<%= tag.div id: :boards,data: {
+    workflows: @workflow.sorted.to_json(only: [:id,:name,:position,:workflow_id],include: :cards)
+}, class: "container-fluid"  %>

@@ -24,14 +24,7 @@ class WorkflowsControllerTest < ActionDispatch::IntegrationTest
 		assert_response 302
 	end
 
-	test "should get edit" do
-		get edit_workflow_url(@workflow)
-		assert_response 302
-	end
 
-	test "should update workflow" do
-		patch workflow_url(@workflow), params: { workflow: {} }
-		assert_response 302
-	end
+
 
 end

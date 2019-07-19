@@ -4,7 +4,6 @@ class CreateComments < ActiveRecord::Migration[5.1]
       t.integer :team_advice_id
       t.integer :actor_id
       t.string :description
-
       t.timestamps
     end
   end

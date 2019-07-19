@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `rails
+# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190523142642) do
+ActiveRecord::Schema.define(version: 2019_07_11_081922) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 20190523142642) do
     t.integer "maturity_framework_id"
     t.index ["maturity_framework_id"], name: "index_assesments_on_maturity_framework_id"
     t.index ["team_id"], name: "index_assesments_on_team_id"
+  end
+
+  create_table "cards", force: :cascade do |t|
+    t.integer "workflow_id"
+    t.string "name"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["workflow_id"], name: "index_cards_on_workflow_id"
   end
 
   create_table "change_logs", force: :cascade do |t|
@@ -289,7 +298,33 @@ ActiveRecord::Schema.define(version: 20190523142642) do
     t.integer "setting_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.integer "position"
     t.index ["setting_id"], name: "index_workflows_on_setting_id"
   end
 
+  add_foreign_key "accesses", "groups"
+  add_foreign_key "accesses", "users"
+  add_foreign_key "actions", "advices"
+  add_foreign_key "actions", "issues"
+  add_foreign_key "answers", "assesments"
+  add_foreign_key "answers", "questions"
+  add_foreign_key "assesments", "maturity_frameworks"
+  add_foreign_key "assesments", "teams"
+  add_foreign_key "cards", "workflows"
+  add_foreign_key "change_logs", "issues"
+  add_foreign_key "components_sprints", "components"
+  add_foreign_key "components_sprints", "sprints"
+  add_foreign_key "configs", "settings"
+  add_foreign_key "configs", "users"
+  add_foreign_key "issues", "sprints"
+  add_foreign_key "levels", "maturity_frameworks"
+  add_foreign_key "q_stages", "levels"
+  add_foreign_key "questions", "q_stages"
+  add_foreign_key "sprints", "teams"
+  add_foreign_key "team_advices", "advices"
+  add_foreign_key "team_advices", "teams"
+  add_foreign_key "teams", "project_infos"
+  add_foreign_key "teams", "settings"
+  add_foreign_key "workflows", "settings"
 end

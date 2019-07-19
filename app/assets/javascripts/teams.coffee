@@ -5,7 +5,7 @@ class Teams
 
   setup: ->
     $("[data-behaviour='team_project_change']").on "change", @handleChange
-    $("[data-behaviour='team_board_id_change']").on "change", @handleBoardChange
+    $("[data-behaviour='team_board_id_change']").on "focusin", @handleBoardChange
 
   handleChange: (e) ->
     return if $('#team_project').val() == undefined

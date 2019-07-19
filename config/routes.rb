@@ -10,10 +10,19 @@ Rails.application.routes.draw do
   resources :sprints
   resources :teams
   resources :issues
-	resources :workflows
-  resources :advices
+	  resources :advices
   resources :comments
   resources :kanban
+  resources :cards do
+    member do
+      patch :move
+    end
+  end
+  resources :workflows do
+    member do
+      patch :move
+    end
+  end
   resources :notifications do
     collection do
       post :mark_as_read

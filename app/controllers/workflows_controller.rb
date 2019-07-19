@@ -1,6 +1,6 @@
 class WorkflowsController < ApplicationController
 	layout 'sidenav'
-	before_action :set_workflow, only: [:show, :edit, :update, :destroy]
+	before_action :set_workflow, only: [:destroy,:move]
 	before_action :team_session
 	before_action :admin_user?
 
@@ -10,15 +10,6 @@ class WorkflowsController < ApplicationController
 	def index
 		@workflow = current_user.setting.workflow
 		redirect_to new_workflow_path and return if current_user.setting.workflow.blank?
-
-
-	end
-
-	# GET /workflows/1
-	# GET /workflows/1.json
-	def show
-		@workflow = current_user.setting.workflow
-		redirect_to new_workflow_path and return if current_user.setting.workflow.blank?
 	end
 
 	# GET /workflows/new
@@ -26,37 +17,9 @@ class WorkflowsController < ApplicationController
 		@workflow = Workflow.new
 	end
 
-	# GET /workflows/1/edit
-	def edit
-	end
-
-	# POST /workflows
-	# POST /workflows.json
-	def create
-		@workflow = Workflow.new(workflow_params)
-		respond_to do |format|
-			if @workflow.save
-				format.html { redirect_to :workflows, notice: 'Workflow was successfully created.' }
-				format.json { render :show, status: :created, location: @workflow }
-			else
-				format.html { render :new }
-				format.json { render json: @workflow.errors, status: :unprocessable_entity }
-			end
-		end
-	end
-
-	# PATCH/PUT /workflows/1
-	# PATCH/PUT /workflows/1.json
-	def update
-		respond_to do |format|
-			if @workflow.update(workflow_params)
-				format.html { redirect_to :workflows, notice: 'Workflow was successfully updated.' }
-				format.json { render :show, status: :ok, location: @workflow }
-			else
-				format.html { render :edit }
-				format.json { render json: @workflow.errors, status: :unprocessable_entity }
-			end
-		end
+	def move
+		@workflow.insert_at(workflow_params[:position].to_i)
+		render action: :show
 	end
 
 	# DELETE /workflows/1
@@ -78,6 +41,6 @@ class WorkflowsController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def workflow_params
-		params.require(:workflow).permit(:setting_id, :open, :backlog, :wip, :testing, :done, :flagged)
+		params.require(:workflow).permit(:setting_id,:name,:position)
 	end
 end

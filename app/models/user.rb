@@ -20,9 +20,9 @@ class User < ApplicationRecord
 		Thread.current[:user] = user
 	end
 
-	def self.workflow
+	def self.workflow type = :open
 		return nil if Thread.current[:user].setting.blank?
-		Thread.current[:user].setting.workflow
+		Thread.current[:user].setting.workflow_tags_for(type)
 	end
 
 	def save_dependent setting_id = nil, is_admin = nil

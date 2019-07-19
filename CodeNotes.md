@@ -73,7 +73,7 @@ Drop and create DB all over again
  rake db:drop db:create db:migrate db:seed
 ````
 
-###Git
+##Git
 ```
 $ git show-ref 
 #will display a list of branches
@@ -115,11 +115,42 @@ $ git commit --amend -CHEAD
 $ git push
 # Push our rewritten, smaller commit
 ````
-###Heroku
+##Heroku
 Run heroku commands locally, i.e. rails db:migrate
 ```
 $ heroku run rails db:migrate
 ```
 ```
 $ heroku logs -t
+```
+## Vue.js
+### Install (macos)
+````
+$ brew search nodejs
+==> Formulae
+node.js                                                              nodejs
+$ brew install nodejs
+````
+Check out node.js version
+```
+$ node -v
+```
+Update node.js
+```
+$ brew update
+$ brew upgrade nodejs
+```
+Install yarn
+```
+$ brew install yarn
+```
+Install webpacker
+```
+# Gemfile
+gem 'webpacker', '~> 4.x'
+```
+```
+$ bundle
+$ bundle exec rails webpacker:install
+$ rails webpacker:install:vue
 ```
