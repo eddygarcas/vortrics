@@ -2,8 +2,9 @@ language: ruby
 rvm:
  - 2.6.3
 before_script:
+   - RAILS_ENV=test bundle exec rails webpacker:compile
    - bundle exec rake db:drop
-   - RAILS_ENV=test bundle exec rake db:migrate --trace
+   - bundle exec rake db:migrate --trace
    - bundle exec rake db:test:prepare
 script:
    - bin/rails test
