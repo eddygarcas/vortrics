@@ -13,7 +13,3 @@ user.password = 'admin1234'
 user.password_confirmation = 'admin1234'
 user.save!
 Access.create ([{ user_id: User.find_by_name('Admin').id, group_id: Group.find_by_priority(1).id }])
-
-
-#Setting.create([{name: 'Jira Prod', site: 'https://jira.scmspain.com', base_path: '/rest/api/2', login: 'eduard.garcia', password: 'Schibsted34', oauth: false, context: '' }])
-
