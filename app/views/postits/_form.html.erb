@@ -1,0 +1,58 @@
+
+<%= form_for(@postit, html: { class: 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.form_group :text do |f| %>
+      <%= f.label :text, class: 'control-label col-md-2' %>
+      <div class='col-md-8'>
+        <%= f.text_field :text, class: 'form-control' %>
+        <%= f.error_messages %>
+      </div>
+    <% end %>
+
+    <%= f.form_group :position do |f| %>
+      <%= f.label :position, class: 'control-label col-md-2' %>
+      <div class='col-md-8'>
+        <%= f.number_field :position, class: 'form-control' %>
+        <%= f.error_messages %>
+      </div>
+    <% end %>
+
+    <%= f.form_group :dots do |f| %>
+      <%= f.label :dots, class: 'control-label col-md-2' %>
+      <div class='col-md-8'>
+        <%= f.number_field :dots, class: 'form-control' %>
+        <%= f.error_messages %>
+      </div>
+    <% end %>
+
+    <%= f.form_group :comments do |f| %>
+      <%= f.label :comments, class: 'control-label col-md-2' %>
+      <div class='col-md-8'>
+        <%= f.number_field :comments, class: 'form-control' %>
+        <%= f.error_messages %>
+      </div>
+    <% end %>
+
+    <%= f.form_group :Retrospective do |f| %>
+      <%= f.label :Retrospective, class: 'control-label col-md-2' %>
+      <div class='col-md-8'>
+        <%= f.text_field :Retrospective, class: 'form-control' %>
+        <%= f.error_messages %>
+      </div>
+    <% end %>
+
+  </div>
+
+  <div class="form-actions">
+    <div class="form-group">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <%= f.submit class: 'btn btn-primary' %>
+        <%= link_to "Cancel", postits_path, class: 'btn' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+

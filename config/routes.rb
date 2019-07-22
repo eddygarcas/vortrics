@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :postits
+  resources :retrospectives
 	resources :settings, except: :show
   resources :assesments
   resources :q_stages
@@ -10,7 +12,7 @@ Rails.application.routes.draw do
   resources :sprints
   resources :teams
   resources :issues
-	  resources :advices
+  resources :advices
   resources :comments
   resources :kanban
   resources :cards do

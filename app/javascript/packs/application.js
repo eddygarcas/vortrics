@@ -16,6 +16,7 @@
 // const imagePath = (name) => images(name, true)
 import Vue from 'vue/dist/vue.esm'
 import App from '../app.vue'
+import Retrospective from '../retrospective'
 import TurbolinksAdapter from 'vue-turbolinks'
 
 Vue.use(TurbolinksAdapter)
@@ -41,15 +42,26 @@ Vue.use(TurbolinksAdapter)
 // });
 
 document.addEventListener('turbolinks:load', () => {
-  var element = document.querySelector("#boards")
-  if (element != undefined) {
-    const app = new Vue({
-      el: element,
-      data: {
-        workflows: JSON.parse(element.dataset.workflows)
-      },
-      template: "<App :original_lists='workflows'/>",
-      components: {App}
-    })
-  }
+    var element = document.querySelector("#boards")
+    if (element != undefined) {
+        const app = new Vue({
+            el: element,
+            data: {
+                workflows: JSON.parse(element.dataset.workflows)
+            },
+            template: "<App :original_lists='workflows'/>",
+            components: {App}
+        })
+    }
+    element = document.querySelector('#retrospective')
+    if (element != undefined) {
+        const retrospective = new Vue({
+            el: element,
+            data: {
+                retrospectives: JSON.parse(element.dataset.retrospectives)
+            },
+            template: "<Retrospective :column_list='retrospectives'/>",
+            components: {Retrospective}
+        })
+    }
 });

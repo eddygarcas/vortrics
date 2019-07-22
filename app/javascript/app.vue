@@ -2,12 +2,12 @@
     <div id="app">
         <div class="sheet sheet-condensed">
             <div class="sheet-inner">
-            <draggable v-model="workflows" :options="{group: 'workflows'}" class="row dragArea" @end="listMoved">
+            <draggable v-model="workflows" group="workflows" class="row dragArea" @end="listMoved">
                 <div v-for="(workflow,index) in workflows" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                     <h5>{{workflow.name.toUpperCase()}}</h5>
                     <hr/>
 
-                    <draggable v-model="workflow.cards" :options="{group: 'cards'}" @change="cardMoved" class="dragArea">
+                    <draggable v-model="workflow.cards" group="cards" @change="cardMoved" class="dragArea">
                     <div v-for="(card,index) in workflow.cards" class="well well-lg">
                         <button v-on:click="deleteCard(card.id,index,workflow.id)"
                                 class="btn btn-link btn-flat btn-xs btn-borderless pull-right" rel="nofollow">
