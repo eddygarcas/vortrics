@@ -1,6 +1,6 @@
 class RetrospectivesController < ApplicationController
   layout 'sidenav'
-  before_action :set_retrospective, only: [:show, :destroy]
+  before_action :set_retrospective, only: [:show, :destroy, :move]
   before_action :team_session
 
 
@@ -24,6 +24,10 @@ class RetrospectivesController < ApplicationController
   def edit
   end
 
+  def move
+    @retrospective.insert_at(retrospective_params[:position].to_i)
+    render action: :show
+  end
   # POST /retrospectives
   # POST /retrospectives.json
   def create

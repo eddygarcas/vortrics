@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   resources :postits
-  resources :retrospectives
 	resources :settings, except: :show
   resources :assesments
   resources :q_stages
@@ -28,6 +27,11 @@ Rails.application.routes.draw do
   resources :notifications do
     collection do
       post :mark_as_read
+    end
+  end
+  resources :retrospectives do
+    member do
+      patch :move
     end
   end
 
