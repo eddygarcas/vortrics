@@ -55,12 +55,14 @@ document.addEventListener('turbolinks:load', () => {
     }
     element = document.querySelector('#retrospective')
     if (element != undefined) {
+        console.log(element)
         const retrospective = new Vue({
             el: element,
             data: {
-                retrospectives: JSON.parse(element.dataset.retrospectives)
+                retrospectives: JSON.parse(element.dataset.retrospectives),
+                team: JSON.parse(element.dataset.team)
             },
-            template: "<Retrospective :column_list='retrospectives'/>",
+            template: "<Retrospective :column_list='retrospectives' :team_list='team'/>",
             components: {Retrospective}
         })
     }

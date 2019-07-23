@@ -32,7 +32,6 @@ class RetrospectivesController < ApplicationController
   # POST /retrospectives.json
   def create
     @retrospective = Retrospective.new(retrospective_params)
-
     respond_to do |format|
       if @retrospective.save
         format.html { redirect_to @retrospective, notice: 'Retrospective was successfully created.' }

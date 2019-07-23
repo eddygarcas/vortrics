@@ -69,6 +69,6 @@ class PostitsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def postit_params
-      params.require(:postit).permit(:text, :position, :dots, :comments, :Retrospective_id)
+      params.require(:postit).permit(:text, :position, :dots, :comments, :retrospective_id)
     end
 end

@@ -2,8 +2,8 @@
 
 <% content_for :description do %>
   <p><%= vt_project_icon %>
-    Retrospecive for <%= @team.name %></p>
+    Retrospective for <%= @team.name %></p>
 <% end %>
-<%= tag.div id: :retrospective,data: {
-    retrospectives: @retrospectives.sorted.to_json(only: [:id,:name,:position,:team_id],include: :postits)
+<%= tag.div id: :retrospective, data: {
+    retrospectives: @retrospectives.sorted.to_json(only: [:id,:name,:position,:team_id],include: :postits),team: @team.to_json(only: [:id])
 }, class: "container-fluid"  %>
