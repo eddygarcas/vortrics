@@ -1,17 +1,25 @@
 <template>
-        <div v-for="postit" class="well well-lg">
-            <button v-on:click="deleteCard(postit.id,retrospective.id)"
-                    class="btn btn-link btn-flat btn-xs btn-borderless pull-right" rel="nofollow">
-                <i class="fa fa-trash"></i>
-            </button>
-            <span v-bind:class="[retrospective.name]" class="label" style="font-size:12px;">{{postit.name.toUpperCase()}}</span>
-        </div>
+    <div class="well well-lg">
+        {{postit.name.toUpperCase()}}
+        <input type="text" v-model="name" v-on:change="submitMessages" style="width: 100%;" placeholder="Add status..." />
+    </div>
 </template>
 
 <script>
     export default {
-        name: "postit"
+        props: ['postit','retrospective'],
+        data: function(){
+            return {
+                name: this.postit.name,
+            }
+        },
+        methods:{
+            submitMessages: function (){
+
+            }
+        }
     }
+
 </script>
 
 <style scoped>

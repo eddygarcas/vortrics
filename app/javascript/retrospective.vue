@@ -3,16 +3,9 @@
         <div class="sheet sheet-condensed">
             <div class="sheet-inner">
 
+                <draggable v-model="retrospectives" group="retrospectives" class="row dragArea" @end="columnMoved">
 
-
-                <draggable v-model="retrospectives" group="retrospectives" class="row dragArea"
-                           @end="columnMoved">
-
-
-
-
-
-                    <div v-for="(retrospective,index) in retrospectives" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <div v-for="(retrospective,index) in retrospectives" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 
                         <h5>{{retrospective.name.toUpperCase()}}</h5>
                         <button v-on:click="deleteColumn(retrospective.id,index)"
@@ -21,7 +14,6 @@
                         </button>
                         <hr/>
 
-
                         <draggable v-model="retrospective.postits" group="postits" @change="postitMoved"
                                    class="dragArea">
                             <div v-for="(postit,index) in retrospective.postits" class="well well-lg">
@@ -29,7 +21,7 @@
                                         class="btn btn-link btn-flat btn-xs btn-borderless pull-right" rel="nofollow">
                                     <i class="fa fa-trash"></i>
                                 </button>
-                                <span v-bind:class="[retrospective.name]" class="label" style="font-size:12px;">{{postit.name.toUpperCase()}}</span>
+                                <span class="label" style="font-size:12px;">{{postit.text.toUpperCase()}}</span>
                             </div>
                         </draggable>
 
@@ -40,15 +32,10 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                         <input type="text" v-if="!editing" ref="message" v-model="message" class="form-control form-control-lg" v-on:change="createColumn(team_list.id)" placeholder="Add column..." />
                     </div>
-
-
-
                 </draggable>
-
-
             </div>
         </div>
     </div>
@@ -64,11 +51,68 @@
             return {
                 editing: false,
                 messages: {},
+                message: "",
                 retrospectives: this.column_list,
                 team: this.team_list
             }
         },
         methods: {
+            submitPostit: function (retrospective_id){
+                var data = new FormData
+                data.append("postit[retrospective_id]",retrospective_id)
+                data.append("postit[text]",this.messages[retrospective_id])
+
+                $.ajax({
+                    url: "/postits",
+                    dataType: "JSON",
+                    type: "POST",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    success: (data) => {
+                        const index = this.retrospectives.findIndex(item => item.id == retrospective_id)
+                        this.retrospectives[index].postits.push(data)
+                        this.messages[retrospective_id] = undefined
+                    }
+                })
+            },
+            deletePostit: function (postit_id,postit_index,retrospective_id) {
+                $.ajax({
+                    url: `/postits/${postit_id}`,
+                    dataType: "JSON",
+                    type: "DELETE",
+                    processData: false,
+                    contentType: false,
+                    success: (data) => {
+                        const index = this.retrospectives.findIndex(item => item.id == retrospective_id)
+                        this.retrospectives[index].postits.splice(postit_index, 1)
+                        this.messages[retrospective_id] = undefined
+                    }
+                })
+            },
+            postitMoved: function (event) {
+                const evt = event.added || event.moved
+                if (evt == undefined) {return}
+
+                const element = evt.element
+                const retrospective_index = this.retrospectives.findIndex((retrospective) => {
+                    return retrospective.postits.find((postit) => {
+                        return postit.id === element.id
+                    })
+                })
+
+                var data = new FormData
+                data.append("postit[retrospective_id]", this.retrospectives[retrospective_index].id)
+                data.append("postit[position]", evt.newIndex + 1)
+                $.ajax({
+                    url: `/postits/${element.id}/move`,
+                    type: "PATCH",
+                    data: data,
+                    dataType: "JSON",
+                    processData: false,
+                    contentType: false
+                })
+            },
             createColumn: function (team_id) {
                 var data = new FormData
                 data.append("retrospective[name]",this.message)

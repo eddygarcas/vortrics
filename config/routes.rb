@@ -34,6 +34,11 @@ Rails.application.routes.draw do
       patch :move
     end
   end
+  resources :postits do
+    member do
+      patch :move
+    end
+  end
 
   devise_for :users, controllers: {registrations: 'registrations'}
   match 'users/:id', to: 'users#destroy', via: :delete, as: :admin_destroy_user

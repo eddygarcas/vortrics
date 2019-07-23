@@ -179,10 +179,10 @@ ActiveRecord::Schema.define(version: 2019_07_22_124130) do
     t.integer "position"
     t.integer "dots"
     t.integer "comments"
-    t.integer "Retrospective_id", null: false
+    t.integer "retrospective_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["Retrospective_id"], name: "index_postits_on_Retrospective_id"
+    t.index ["retrospective_id"], name: "index_postits_on_retrospective_id"
   end
 
   create_table "project_infos", force: :cascade do |t|
@@ -339,7 +339,7 @@ ActiveRecord::Schema.define(version: 2019_07_22_124130) do
   add_foreign_key "configs", "users"
   add_foreign_key "issues", "sprints"
   add_foreign_key "levels", "maturity_frameworks"
-  add_foreign_key "postits", "Retrospectives"
+  add_foreign_key "postits", "retrospectives"
   add_foreign_key "q_stages", "levels"
   add_foreign_key "questions", "q_stages"
   add_foreign_key "retrospectives", "teams"

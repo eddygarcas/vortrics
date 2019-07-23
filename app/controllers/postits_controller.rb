@@ -1,5 +1,5 @@
 class PostitsController < ApplicationController
-  before_action :set_postit, only: [:show, :edit, :update, :destroy]
+  before_action :set_postit, only: [:show, :edit, :update, :destroy,:move]
 
   # GET /postits
   # GET /postits.json
@@ -19,6 +19,11 @@ class PostitsController < ApplicationController
 
   # GET /postits/1/edit
   def edit
+  end
+
+  def move
+    @postit.update(postit_params)
+    render action: :show
   end
 
   # POST /postits

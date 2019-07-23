@@ -5,7 +5,7 @@ class CreatePostits < ActiveRecord::Migration[6.0]
       t.integer :position
       t.integer :dots
       t.integer :comments
-      t.references :Retrospective, null: false, foreign_key: true
+      t.references :retrospective, null: false, foreign_key: true
 
       t.timestamps
     end
