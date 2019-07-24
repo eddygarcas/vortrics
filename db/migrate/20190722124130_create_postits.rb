@@ -1,6 +1,7 @@
 class CreatePostits < ActiveRecord::Migration[6.0]
   def change
     create_table :postits do |t|
+      t.integer :user_id
       t.string :text
       t.integer :position
       t.integer :dots

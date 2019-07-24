@@ -30,11 +30,12 @@ class PostitsController < ApplicationController
   # POST /postits.json
   def create
     @postit = Postit.new(postit_params)
+    @postit.user = current_user
 
     respond_to do |format|
       if @postit.save
         format.html { redirect_to @postit, notice: 'Postit was successfully created.' }
-        format.json { render :show, status: :created, location: @postit }
+        format.json { render json: @postit.to_json(include: :user) }
       else
         format.html { render :new }
         format.json { render json: @postit.errors, status: :unprocessable_entity }

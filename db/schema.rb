@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 2019_07_22_124130) do
   end
 
   create_table "postits", force: :cascade do |t|
+    t.integer "user_id"
     t.string "text"
     t.integer "position"
     t.integer "dots"

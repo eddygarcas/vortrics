@@ -16,16 +16,34 @@
 
                         <draggable v-model="retrospective.postits" group="postits" @change="postitMoved"
                                    class="dragArea">
-                            <div v-for="(postit,index) in retrospective.postits" class="well well-lg">
+
+                            <div v-for="(postit,index) in retrospective.postits" class="media well-retro">
                                 <button v-on:click="deletePostit(postit.id,index,retrospective.id)"
-                                        class="btn btn-link btn-flat btn-xs btn-borderless pull-right" rel="nofollow">
+                                        class="btn btn-link btn-flat btn-xs  btn-borderless pull-right" rel="nofollow">
                                     <i class="fa fa-trash"></i>
                                 </button>
-                                <span class="label" style="font-size:12px;">{{postit.text.toUpperCase()}}</span>
+                                <a class="pull-left" href="#">
+                                    <img class="img-rounded" height="32" width="32" v-bind:src="postit.user.avatar">
+                                </a>
+                                <div class="media-body">
+                                    <p class="media-heading m0 mt5 mb15">
+                                        <strong>{{postit.user.displayName}}</strong>
+                                    </p>
+                                    <p class="small">{{postit.text}}</p>
+                                </div>
+                                <ul class="small pull-right">
+                                      <i class="fa fa-thumbs-o-up" style="margin-right: 2px;"></i><strong>0</strong>
+                                        <i class="fa fa-comment-o" style="margin-right: 2px;"></i><strong>0</strong>
+                                </ul>
                             </div>
+
+
+
+
+
                         </draggable>
 
-                        <div class="well">
+                        <div class="well" style="margin-top: 15px;">
                             <input type="text" v-model="messages[retrospective.id]"
                                    v-on:change="submitPostit(retrospective.id)" style="width: 100%;"
                                    placeholder="Add insight..."/>
@@ -33,7 +51,9 @@
                     </div>
 
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                        <input type="text" v-if="!editing" ref="message" v-model="message" class="form-control form-control-lg" v-on:change="createColumn(team_list.id)" placeholder="Add column..." />
+                        <input type="text" v-if="!editing" ref="message" v-model="message"
+                               class="form-control form-control-lg" v-on:change="createColumn(team_list.id)"
+                               placeholder="Add column..."/>
                     </div>
                 </draggable>
             </div>
@@ -46,7 +66,7 @@
 
     export default {
         components: {draggable},
-        props: ["column_list","team_list"],
+        props: ["column_list", "team_list"],
         data: function () {
             return {
                 editing: false,
@@ -57,10 +77,10 @@
             }
         },
         methods: {
-            submitPostit: function (retrospective_id){
+            submitPostit: function (retrospective_id) {
                 var data = new FormData
-                data.append("postit[retrospective_id]",retrospective_id)
-                data.append("postit[text]",this.messages[retrospective_id])
+                data.append("postit[retrospective_id]", retrospective_id)
+                data.append("postit[text]", this.messages[retrospective_id])
 
                 $.ajax({
                     url: "/postits",
@@ -71,12 +91,14 @@
                     contentType: false,
                     success: (data) => {
                         const index = this.retrospectives.findIndex(item => item.id == retrospective_id)
+                        console.log(this.retrospectives[index])
+
                         this.retrospectives[index].postits.push(data)
                         this.messages[retrospective_id] = undefined
                     }
                 })
             },
-            deletePostit: function (postit_id,postit_index,retrospective_id) {
+            deletePostit: function (postit_id, postit_index, retrospective_id) {
                 $.ajax({
                     url: `/postits/${postit_id}`,
                     dataType: "JSON",
@@ -92,7 +114,9 @@
             },
             postitMoved: function (event) {
                 const evt = event.added || event.moved
-                if (evt == undefined) {return}
+                if (evt == undefined) {
+                    return
+                }
 
                 const element = evt.element
                 const retrospective_index = this.retrospectives.findIndex((retrospective) => {
@@ -115,8 +139,8 @@
             },
             createColumn: function (team_id) {
                 var data = new FormData
-                data.append("retrospective[name]",this.message)
-                data.append("retrospective[team_id",team_id)
+                data.append("retrospective[name]", this.message)
+                data.append("retrospective[team_id", team_id)
 
                 $.ajax({
                     url: `/retrospectives`,
@@ -163,5 +187,13 @@
 <style scoped>
     .dragArea {
         min-height: 10px;
+    }
+    .well-retro {
+        background: #FFFF99;
+        border: solid 1px #FFFF00;
+        border-radius: 10px;
+        box-shadow: 0 1px 0 #c9b044;
+        padding: 5px;
+        margin-bottom: 1.6153846154;
     }
 </style>

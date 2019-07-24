@@ -11,6 +11,7 @@ class User < ApplicationRecord
 	has_one :setting, through: :config, dependent: :destroy
 
 	has_many :notifications, foreign_key: :recipient_id
+	has_many :postits, dependent: :destroy
 
 	def self.current
 		Thread.current[:user]
