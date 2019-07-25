@@ -14,8 +14,7 @@
                         </button>
                         <hr/>
 
-                        <draggable v-model="retrospective.postits" group="postits" @change="postitMoved"
-                                   class="dragArea">
+                        <draggable v-model="retrospective.postits" group="postits" @change="postitMoved" class="dragArea">
 
                             <div v-for="(postit,index) in retrospective.postits" class="media well-retro">
                                 <button v-on:click="deletePostit(postit.id,index,retrospective.id)"
@@ -37,24 +36,18 @@
                                 </ul>
                             </div>
 
-
-
-
-
                         </draggable>
 
                         <div class="well" style="margin-top: 15px;">
-                            <input type="text" v-model="messages[retrospective.id]"
-                                   v-on:change="submitPostit(retrospective.id)" style="width: 100%;"
-                                   placeholder="Add insight..."/>
+                            <input type="text" v-model="messages[retrospective.id]" v-on:change="submitPostit(retrospective.id)" style="width: 100%;" placeholder="Add insight..."/>
                         </div>
                     </div>
 
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                        <input type="text" v-if="!editing" ref="message" v-model="message"
-                               class="form-control form-control-lg" v-on:change="createColumn(team_list.id)"
-                               placeholder="Add column..."/>
+                        <input type="text" v-if="!editing" ref="message" v-model="message" class="form-control form-control-lg" v-on:change="createColumn(team_list.id)" placeholder="Add column..."/>
                     </div>
+
+
                 </draggable>
             </div>
         </div>

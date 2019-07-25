@@ -6,4 +6,8 @@ class Postit < ApplicationRecord
 
   validates :text, presence: true
 
+  def advice
+    self
+  end
+
 end

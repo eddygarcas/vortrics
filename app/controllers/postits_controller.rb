@@ -34,6 +34,7 @@ class PostitsController < ApplicationController
 
     respond_to do |format|
       if @postit.save
+        broadcast_notification @postit
         format.html { redirect_to @postit, notice: 'Postit was successfully created.' }
         format.json { render json: @postit.to_json(include: :user) }
       else

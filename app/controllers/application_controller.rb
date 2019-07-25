@@ -27,6 +27,12 @@ class ApplicationController < ActionController::Base
 
 	protected
 
+	def broadcast_notification element
+		(current_user.setting.users.uniq - [current_user]).each do |user|
+			Notification.create(recipient: user, actor: current_user, action: "added", notifiable: element)
+		end
+	end
+
 	def sprint_by_board board_id, sort_column, sort_direction, options = {}
 		return if board_id.blank?
 		board_sprint = boards_by_sprint board_id, 0, options
