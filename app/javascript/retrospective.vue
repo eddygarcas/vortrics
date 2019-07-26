@@ -1,11 +1,10 @@
 <template>
     <div id="retrospective">
-        <div class="sheet sheet-condensed">
             <div class="sheet-inner">
 
-                <draggable v-model="retrospectives" group="retrospectives" class="row dragArea" @end="columnMoved">
+                <draggable v-model="retrospectives" group="retrospectives" class="board dragArea" @end="columnMoved">
 
-                    <div v-for="(retrospective,index) in retrospectives" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <div v-for="(retrospective,index) in retrospectives" class="list">
 
                         <h5>{{retrospective.name.toUpperCase()}}</h5>
                         <button v-on:click="deleteColumn(retrospective.id,index)"
@@ -14,7 +13,8 @@
                         </button>
                         <hr/>
 
-                        <draggable v-model="retrospective.postits" group="postits" @change="postitMoved" class="dragArea">
+                        <draggable v-model="retrospective.postits" group="postits" @change="postitMoved"
+                                   class="dragArea">
 
                             <div v-for="(postit,index) in retrospective.postits" class="media well-retro">
                                 <button v-on:click="deletePostit(postit.id,index,retrospective.id)"
@@ -22,7 +22,7 @@
                                     <i class="fa fa-trash"></i>
                                 </button>
                                 <a class="pull-left" href="#">
-                                    <img class="img-rounded" height="32" width="32" v-bind:src="postit.user.avatar">
+                                    <img class="img-circle" height="32" width="32" v-bind:src="postit.user.avatar">
                                 </a>
                                 <div class="media-body">
                                     <p class="media-heading m0 mt5 mb15">
@@ -31,26 +31,26 @@
                                     <p class="small">{{postit.text}}</p>
                                 </div>
                                 <ul class="small pull-right">
-                                      <i class="fa fa-thumbs-o-up" style="margin-right: 2px;"></i><strong>0</strong>
-                                        <i class="fa fa-comment-o" style="margin-right: 2px;"></i><strong>0</strong>
+                                    <i class="fa fa-thumbs-o-up" style="margin-right: 2px;"></i><strong>0</strong>
+                                    <i class="fa fa-comment-o" style="margin-right: 2px;"></i><strong>0</strong>
                                 </ul>
                             </div>
-
                         </draggable>
+                        <input type="text" v-model="messages[retrospective.id]"
+                               v-on:change="submitPostit(retrospective.id)" class="insight"
+                               placeholder="Add insight..."/>
 
-                        <div class="well" style="margin-top: 15px;">
-                            <input type="text" v-model="messages[retrospective.id]" v-on:change="submitPostit(retrospective.id)" style="width: 100%;" placeholder="Add insight..."/>
-                        </div>
                     </div>
 
-                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                        <input type="text" v-if="!editing" ref="message" v-model="message" class="form-control form-control-lg" v-on:change="createColumn(team_list.id)" placeholder="Add column..."/>
+                    <div class="list">
+                        <input type="text" v-if="!editing" ref="message" v-model="message"
+                               class="column-name" v-on:change="createColumn(team_list.id)"
+                               placeholder="Add column..."/>
                     </div>
 
 
                 </draggable>
             </div>
-        </div>
     </div>
 </template>
 
@@ -181,6 +181,7 @@
     .dragArea {
         min-height: 10px;
     }
+
     .well-retro {
         background: #FFFF99;
         border: solid 1px #FFFF00;
@@ -188,5 +189,31 @@
         box-shadow: 0 1px 0 #c9b044;
         padding: 5px;
         margin-bottom: 1.6153846154;
+    }
+
+    .board {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .list {
+        background: whitesmoke;
+        border-radius: 10px;
+        display: inline-block;
+        margin-right: 10px;
+        padding: 10px;
+        vertical-align: top;
+        width: 320px;
+    }
+    .insight {
+        background: white;
+        width: 100%;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+    .column-name {
+        background: white;
+        width: 100%;
+        border-radius: 5px;
     }
 </style>
