@@ -183,7 +183,7 @@
     }
 
     .well-retro {
-        background: #FFFF99;
+        background: lightyellow;
         border: solid 1px #FFFF00;
         border-radius: 10px;
         box-shadow: 0 1px 0 #c9b044;
