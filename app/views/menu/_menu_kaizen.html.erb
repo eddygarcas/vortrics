@@ -1,7 +1,7 @@
 <li class="nav-item">
   <a class="nav-link"> <i class="fa fa-fw fa-magic fa-lg fa-fw"></i> Kaizen <span class="fa arrow"></span></a>
   <ul class="nav nav-second-level" aria-expanded="false">
-
+    <% unless current_user.guest? %>
     <%= activatable_li_tag retrospectives_path do |url| %>
       <%= link_to fa_icon_tag("Commenting") << "Remote Retrospective", url %>
     <% end %>
@@ -26,5 +26,6 @@
         <% end %>
       </ul>
     </li>
+    <% end %>
   </ul>
 </li>

@@ -55,7 +55,6 @@ document.addEventListener('turbolinks:load', () => {
     }
     element = document.querySelector('#retrospective')
     if (element != undefined) {
-        console.log(element)
         const retrospective = new Vue({
             el: element,
             data: {
