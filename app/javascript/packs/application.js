@@ -40,6 +40,7 @@ Vue.use(TurbolinksAdapter)
 //     components: { App }
 //   });
 // });
+window.store = {}
 
 document.addEventListener('turbolinks:load', () => {
     var element = document.querySelector("#boards")
@@ -55,13 +56,12 @@ document.addEventListener('turbolinks:load', () => {
     }
     element = document.querySelector('#retrospective')
     if (element != undefined) {
+        window.store.lists = JSON.parse(element.dataset.retrospectives)
+        window.store.team = JSON.parse(element.dataset.team)
         const retrospective = new Vue({
             el: element,
-            data: {
-                retrospectives: JSON.parse(element.dataset.retrospectives),
-                team: JSON.parse(element.dataset.team)
-            },
-            template: "<Retrospective :column_list='retrospectives' :team_list='team'/>",
+            data: window.store,
+            template: "<Retrospective/>",
             components: {Retrospective}
         })
     }
