@@ -53,16 +53,44 @@ window.store = new Vuex.Store({
         createColumn(state, data) {
             state.lists.push(data)
         },
+        columnMoved(state,data) {
+            const index = state.lists.findIndex(item => item.id == data.id)
+            state.lists.splice(index, 1)
+            state.lists.splice(data.position - 1, 0, data)
+        },
         createPostit(state,data){
             const index = state.lists.findIndex(item => item.id == data.retrospective_id)
             state.lists[index].postits.push(data)
         },
-        deletePostit(state,data) {
+        postitMoved(state,data) {
+            const old_list_index = state.lists.findIndex((list) => {
+                return list.postits.find((postit) => {
+                    return postit.id === data.id
+                })
+            })
+            const old_card_index = state.lists[old_list_index].postits.findIndex((item) => item.id == data.id)
+            const new_list_index = state.lists.findIndex((item) => item.id == data.retrospective_id)
 
+            if (old_list_index != new_list_index) {
+                // Remove card from old list, add to new one
+                state.lists[old_list_index].postits.splice(old_card_index, 1)
+                state.lists[new_list_index].postits.splice(data.position - 1, 0, data)
+            } else {
+                state.lists[new_list_index].postits.splice(old_card_index, 1)
+                state.lists[new_list_index].postits.splice(data.position - 1, 0, data)
+            }
+        },
+        deleteColumn(state,list_id) {
+            const index = state.lists.findIndex(item => item.id == list_id)
+            state.lists.splice(index, 1)
+        },
+        deletePostit(state,list_id) {
+            const index = state.lists.findIndex(item => item.id == list_id)
+            state.lists[index].postits.splice(this.postit_index, 1)
         }
 
     }
-})
+});
 
 document.addEventListener('turbolinks:load', () => {
     var element = document.querySelector("#boards")
@@ -76,6 +104,7 @@ document.addEventListener('turbolinks:load', () => {
             components: {App}
         })
     }
+
     element = document.querySelector('#retrospective')
     if (element != undefined) {
         window.store.state.lists = JSON.parse(element.dataset.retrospectives)

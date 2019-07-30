@@ -57,12 +57,6 @@
                 }
 
                 const element = evt.element
-                const retrospective_index = window.store.lists.findIndex((retrospective) => {
-                    return this.list.postits.find((postit) => {
-                        return postit.id === element.id
-                    })
-                })
-
                 var data = new FormData
                 data.append("postit[retrospective_id]", this.list.id)
                 data.append("postit[position]", evt.newIndex + 1)
@@ -82,9 +76,8 @@
                     dataType: "JSON",
                     processData: false,
                     contentType: false,
-                    success: (data) => {
-                        const index = window.store.lists.findIndex(item => item.id == this.list.id)
-                        window.store.lists.splice(index, 1)
+                    success: () => {
+                        this.$store.commit('deleteColumn',this.list.id)
                         this.message = ""
                     }
                 })

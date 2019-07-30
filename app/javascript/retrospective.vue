@@ -32,11 +32,18 @@
         },
 
         computed: {
-            lists() {
-                return this.$store.state.lists;
+            lists: {
+                get(){
+                    return this.$store.state.lists;
+                },
+                set(value) {
+                    this.$store.state.lists = value
+                },
             },
-            team() {
-                return this.$store.state.team;
+            team: {
+                get() {
+                    return this.$store.state.team;
+                },
             }
         },
         methods: {
