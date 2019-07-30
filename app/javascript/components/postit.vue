@@ -33,8 +33,8 @@
                     processData: false,
                     contentType: false,
                     success: (data) => {
-                        const index = window.store.lists.findIndex(item => item.id == this.list_id)
-                        window.store.lists[index].postits.splice(this.postit_index, 1)
+                        const index = this.$store.state.lists.findIndex(item => item.id == this.list_id)
+                        this.$store.state.lists[index].postits.splice(this.postit_index, 1)
                     }
                 })
             }

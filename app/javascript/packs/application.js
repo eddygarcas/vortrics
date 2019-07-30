@@ -15,10 +15,12 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 import Vue from 'vue/dist/vue.esm'
+import Vuex from 'vuex'
 import App from '../app.vue'
 import Retrospective from '../retrospective'
 import TurbolinksAdapter from 'vue-turbolinks'
 
+Vue.use(Vuex)
 Vue.use(TurbolinksAdapter)
 
 
@@ -40,7 +42,27 @@ Vue.use(TurbolinksAdapter)
 //     components: { App }
 //   });
 // });
-window.store = {}
+
+
+window.store = new Vuex.Store({
+    state: {
+        lists: [],
+        team: {}
+    },
+    mutations: {
+        createColumn(state, data) {
+            state.lists.push(data)
+        },
+        createPostit(state,data){
+            const index = state.lists.findIndex(item => item.id == data.retrospective_id)
+            state.lists[index].postits.push(data)
+        },
+        deletePostit(state,data) {
+
+        }
+
+    }
+})
 
 document.addEventListener('turbolinks:load', () => {
     var element = document.querySelector("#boards")
@@ -56,11 +78,11 @@ document.addEventListener('turbolinks:load', () => {
     }
     element = document.querySelector('#retrospective')
     if (element != undefined) {
-        window.store.lists = JSON.parse(element.dataset.retrospectives)
-        window.store.team = JSON.parse(element.dataset.team)
+        window.store.state.lists = JSON.parse(element.dataset.retrospectives)
+        window.store.state.team = JSON.parse(element.dataset.team)
         const retrospective = new Vue({
             el: element,
-            data: window.store,
+            store: window.store,
             template: "<Retrospective/>",
             components: {Retrospective}
         })

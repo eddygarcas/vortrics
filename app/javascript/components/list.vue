@@ -12,7 +12,7 @@
                     :list_id="list.id"></postit>
         </draggable>
         <input type="text" v-model="message"
-               v-on:change="submitPostit" class="insight"
+               v-on:change="createPostit" class="insight"
                placeholder="Add insight..."/>
 
     </div>
@@ -32,7 +32,7 @@
             }
         },
         methods: {
-            submitPostit: function () {
+            createPostit: function () {
                 var data = new FormData
                 data.append("postit[retrospective_id]", this.list.id)
                 data.append("postit[text]", this.message)
@@ -45,8 +45,7 @@
                     processData: false,
                     contentType: false,
                     success: (data) => {
-                        const index = window.store.lists.findIndex(item => item.id == this.list.id)
-                        window.store.lists[index].postits.push(data)
+                        this.$store.commit('createPostit', data)
                         this.message = ""
                     }
                 })

@@ -3,7 +3,7 @@
         <div class="sheet-inner">
             <div class="list">
                 <input type="text" v-if="!editing" ref="message" v-model="message"
-                       class="add-column-name pull-right" v-on:change="createColumn(team_list.id)"
+                       class="add-column-name pull-right" v-on:change="createColumn"
                        placeholder="Add column..."/>
             </div>
             <draggable v-model="lists" group="lists" class="board dragArea" @end="columnMoved">
@@ -28,15 +28,22 @@
             return {
                 editing: false,
                 message: "",
-                lists: window.store.lists,
-                team: window.store.team
+            }
+        },
+
+        computed: {
+            lists() {
+                return this.$store.state.lists;
+            },
+            team() {
+                return this.$store.state.team;
             }
         },
         methods: {
-            createColumn: function (team_id) {
+            createColumn: function () {
                 var data = new FormData
                 data.append("retrospective[name]", this.message)
-                data.append("retrospective[team_id", team_id)
+                data.append("retrospective[team_id", this.$store.state.team.id)
 
                 $.ajax({
                     url: `/retrospectives`,
@@ -46,7 +53,7 @@
                     processData: false,
                     contentType: false,
                     success: (data) => {
-                        this.lists.push(data)
+                        this.$store.commit('createColumn',data)
                         this.message = ""
                     }
                 })
