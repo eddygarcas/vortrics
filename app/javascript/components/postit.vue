@@ -1,6 +1,7 @@
 <template>
     <div class="media well-retro">
-        <button v-on:click="deletePostit" class="btn btn-link btn-flat btn-xs  btn-borderless pull-right" rel="nofollow">
+        <button v-on:click="deletePostit" class="btn btn-link btn-flat btn-xs  btn-borderless pull-right"
+                rel="nofollow">
             <i class="fa fa-trash"></i>
         </button>
         <a class="pull-left" href="#">
@@ -19,11 +20,11 @@
 
 <script>
     export default {
-        props: ['postit','list_id','postit_index'],
-        data: function(){
+        props: ['postit', 'list_id', 'postit_index'],
+        data: function () {
             return {}
         },
-        methods:{
+        methods: {
             deletePostit: function () {
                 $.ajax({
                     url: `/postits/${this.postit.id}`,
@@ -48,6 +49,5 @@
         border-radius: 10px;
         box-shadow: 0 1px 0 #c9b044;
         padding: 5px;
-        margin-bottom: 1.6153846154;
     }
 </style>

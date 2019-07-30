@@ -1,19 +1,19 @@
 <template>
     <div id="retrospective">
-            <div class="sheet-inner">
-                <div class="list">
-                    <input type="text" v-if="!editing" ref="message" v-model="message"
-                           class="add-column-name pull-right" v-on:change="createColumn(team_list.id)"
-                           placeholder="Add column..."/>
-                </div>
-                <draggable v-model="lists" group="lists" class="board dragArea" @end="columnMoved">
-                    <list v-for="(list, index) in lists" :list="list" :list_index="index">
-
-                    </list>
-
-                </draggable>
-
+        <div class="sheet-inner">
+            <div class="list">
+                <input type="text" v-if="!editing" ref="message" v-model="message"
+                       class="add-column-name pull-right" v-on:change="createColumn(team_list.id)"
+                       placeholder="Add column..."/>
             </div>
+            <draggable v-model="lists" group="lists" class="board dragArea" @end="columnMoved">
+                <list v-for="(list, index) in lists" :list="list" :list_index="index">
+
+                </list>
+
+            </draggable>
+
+        </div>
     </div>
 </template>
 
@@ -76,6 +76,7 @@
         overflow-x: auto;
         white-space: normal;
     }
+
     .list {
         background: whitesmoke;
         border-radius: 10px;
@@ -86,6 +87,7 @@
         width: 320px;
         margin-bottom: 10px;
     }
+
     .add-column-name {
         background: white;
         width: 100%;

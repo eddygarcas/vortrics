@@ -8,7 +8,8 @@
         <hr/>
 
         <draggable v-model="list.postits" group="postits" @change="postitMoved" class="dragArea">
-            <postit v-for="(postit, index) in list.postits" :postit="postit" :postit_index="index" :list_id="list.id"></postit>
+            <postit v-for="(postit, index) in list.postits" :postit="postit" :postit_index="index"
+                    :list_id="list.id"></postit>
         </draggable>
         <input type="text" v-model="message"
                v-on:change="submitPostit" class="insight"
@@ -24,8 +25,8 @@
 
     export default {
         components: {postit, draggable},
-        props: ["list","list_index"],
-        data: function() {
+        props: ["list", "list_index"],
+        data: function () {
             return {
                 message: ""
             }
