@@ -34,6 +34,7 @@ class RetrospectivesController < ApplicationController
     @retrospective = Retrospective.new(retrospective_params)
     respond_to do |format|
       if @retrospective.save
+        ActionCable.server.broadcast "retrospective", { commit: 'createColumn', payload: render_to_string(:show, format: :json) }
         format.html { redirect_to @retrospective, notice: 'Retrospective was successfully created.' }
         format.json { render :show, status: :created, location: @retrospective }
       else
@@ -62,6 +63,7 @@ class RetrospectivesController < ApplicationController
   def destroy
     @retrospective.destroy
     respond_to do |format|
+      ActionCable.server.broadcast "retrospective", { commit: 'deleteColumn', payload: @retrospective.to_json }
       format.html { redirect_to retrospectives_url, notice: 'Retrospective was successfully destroyed.' }
       format.json { head :no_content }
     end

@@ -33,8 +33,9 @@
                     processData: false,
                     contentType: false,
                     success: (data) => {
-                        const index = this.$store.state.lists.findIndex(item => item.id == this.list_id)
-                        this.$store.state.lists[index].postits.splice(this.postit_index, 1)
+                        // Don't need next line due to ActionCable is going to take care of calling createColumn. see. retrospective.coffee that calls retrospective.vue
+                        // const index = this.$store.state.lists.findIndex(item => item.id == this.list_id)
+                        // this.$store.state.lists[index].postits.splice(this.postit_index, 1)
                     }
                 })
             }

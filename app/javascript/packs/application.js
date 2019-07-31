@@ -80,13 +80,14 @@ window.store = new Vuex.Store({
                 state.lists[new_list_index].postits.splice(data.position - 1, 0, data)
             }
         },
-        deleteColumn(state,list_id) {
-            const index = state.lists.findIndex(item => item.id == list_id)
+        deleteColumn(state,data) {
+            const index = state.lists.findIndex(item => item.id == data.id)
             state.lists.splice(index, 1)
         },
-        deletePostit(state,list_id) {
-            const index = state.lists.findIndex(item => item.id == list_id)
-            state.lists[index].postits.splice(this.postit_index, 1)
+        deletePostit(state,data) {
+            const index = state.lists.findIndex(item => item.id == data.retrospective_id)
+            const card_index = state.lists[index].postits.findIndex((item) => item.id == data.id)
+            state.lists[index].postits.splice(card_index, 1)
         }
 
     }

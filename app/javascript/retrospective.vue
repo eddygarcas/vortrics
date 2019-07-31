@@ -60,7 +60,8 @@
                     processData: false,
                     contentType: false,
                     success: (data) => {
-                        this.$store.commit('createColumn',data)
+                        // Don't need next line due to ActionCable is going to take care of calling createColumn. see. retrospective.coffee that calls retrospective.vue
+                        // this.$store.commit('createColumn',data)
                         this.message = ""
                     }
                 })

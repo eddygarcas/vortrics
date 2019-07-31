@@ -23,6 +23,7 @@ class PostitsController < ApplicationController
 
   def move
     @postit.update(postit_params)
+    ActionCable.server.broadcast "retrospective", { commit: 'postitMoved', payload: @postit.to_json(include: :user) }
     render action: :show
   end
 
@@ -35,6 +36,7 @@ class PostitsController < ApplicationController
     respond_to do |format|
       if @postit.save
         broadcast_notification @postit
+        ActionCable.server.broadcast "retrospective", { commit: 'createPostit', payload: @postit.to_json(include: :user) }
         format.html { redirect_to @postit, notice: 'Postit was successfully created.' }
         format.json { render json: @postit.to_json(include: :user) }
       else
@@ -63,6 +65,7 @@ class PostitsController < ApplicationController
   def destroy
     @postit.destroy
     respond_to do |format|
+      ActionCable.server.broadcast "retrospective", { commit: 'deletePostit', payload: @postit.to_json }
       format.html { redirect_to postits_url, notice: 'Postit was successfully destroyed.' }
       format.json { head :no_content }
     end
