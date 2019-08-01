@@ -26,6 +26,8 @@ class RetrospectivesController < ApplicationController
 
   def move
     @retrospective.insert_at(retrospective_params[:position].to_i)
+    #move method aggregates user information as part of the payload to broadcast to everyone listeing the avatar image.
+    ActionCable.server.broadcast "retrospective", {commit: 'columnMoved', payload: @retrospective.to_json(:include => {:postits => {include: :user}})}
     render action: :show
   end
   # POST /retrospectives
