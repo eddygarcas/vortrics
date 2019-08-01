@@ -88,6 +88,11 @@ window.store = new Vuex.Store({
             const index = state.lists.findIndex(item => item.id == data.retrospective_id)
             const card_index = state.lists[index].postits.findIndex((item) => item.id == data.id)
             state.lists[index].postits.splice(card_index, 1)
+        },
+        postitVote(state,data) {
+            const index = state.lists.findIndex(item => item.id == data.retrospective_id)
+            const card_index = state.lists[index].postits.findIndex((item) => item.id == data.id)
+            state.lists[index].postits[card_index].dots = data.dots
         }
 
     }

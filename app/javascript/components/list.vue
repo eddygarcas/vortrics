@@ -1,11 +1,10 @@
 <template>
     <div class="list">
-        <h5>{{list.name.toUpperCase()}}</h5>
-        <button v-on:click="deleteColumn"
-                class="btn btn-link btn-flat btn-xs btn-borderless pull-right" rel="nofollow">
+        <a v-on:click="deleteColumn"
+           class="btn btn-link btn-flat btn-xs btn-borderless pull-right" rel="nofollow">
             <i class="fa fa-trash"></i>
-        </button>
-        <hr/>
+        </a>
+        <h5>{{list.name.toUpperCase()}}</h5>
 
         <draggable v-model="list.postits" group="postits" @change="postitMoved" class="dragArea">
             <postit v-for="(postit, index) in list.postits" :postit="postit" :postit_index="index"

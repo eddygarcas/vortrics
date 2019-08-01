@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   resources :postits do
     member do
       patch :move
+      post :vote
     end
   end
 

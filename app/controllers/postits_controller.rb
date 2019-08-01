@@ -1,5 +1,5 @@
 class PostitsController < ApplicationController
-  before_action :set_postit, only: [:show, :edit, :update, :destroy,:move]
+  before_action :set_postit, only: [:show, :edit, :update, :destroy,:move,:vote]
 
   # GET /postits
   # GET /postits.json
@@ -27,6 +27,11 @@ class PostitsController < ApplicationController
     render action: :show
   end
 
+  def vote
+    @postit.update(dots: @postit.dots.nil? ? 1 : @postit.dots+1)
+    ActionCable.server.broadcast "retrospective", { commit: 'postitVote', payload: @postit.to_json(include: :user) }
+    render json: :success
+  end
   # POST /postits
   # POST /postits.json
   def create
