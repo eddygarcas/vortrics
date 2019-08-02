@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: redis://localhost:6379/1
-  channel_prefix: ScrumMetrics_production
+  url: <%= ENV['REDIS_PROVIDER'] %>
+  channel_prefix: vortrics_in_production
