@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_11_081922) do
+ActiveRecord::Schema.define(version: 2019_07_22_124130) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -174,6 +174,18 @@ ActiveRecord::Schema.define(version: 2019_07_11_081922) do
     t.string "action"
   end
 
+  create_table "postits", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "text"
+    t.integer "position"
+    t.integer "dots"
+    t.integer "comments"
+    t.integer "retrospective_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["retrospective_id"], name: "index_postits_on_retrospective_id"
+  end
+
   create_table "project_infos", force: :cascade do |t|
     t.string "key"
     t.string "name"
@@ -199,6 +211,15 @@ ActiveRecord::Schema.define(version: 2019_07_11_081922) do
     t.datetime "updated_at", null: false
     t.integer "q_stage_id"
     t.index ["q_stage_id"], name: "index_questions_on_q_stage_id"
+  end
+
+  create_table "retrospectives", force: :cascade do |t|
+    t.string "name"
+    t.integer "position"
+    t.integer "team_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["team_id"], name: "index_retrospectives_on_team_id"
   end
 
   create_table "settings", force: :cascade do |t|
@@ -319,8 +340,10 @@ ActiveRecord::Schema.define(version: 2019_07_11_081922) do
   add_foreign_key "configs", "users"
   add_foreign_key "issues", "sprints"
   add_foreign_key "levels", "maturity_frameworks"
+  add_foreign_key "postits", "retrospectives"
   add_foreign_key "q_stages", "levels"
   add_foreign_key "questions", "q_stages"
+  add_foreign_key "retrospectives", "teams"
   add_foreign_key "sprints", "teams"
   add_foreign_key "team_advices", "advices"
   add_foreign_key "team_advices", "teams"

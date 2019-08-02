@@ -32,9 +32,7 @@ class CommentsController < ApplicationController
     @comment.actor = current_user
     respond_to do |format|
       if @comment.save
-        (current_user.setting.users.uniq - [current_user]).each do |user|
-          Notification.create(recipient: user, actor: current_user, action: "posted", notifiable: @comment)
-        end
+        broadcast_notification @comment
         format.html { redirect_to comment_path(@comment.advice_id), notice: 'Your comment will be notified to your colleagues.' }
         format.json { render :show, status: :created, location: @comment }
       else

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :postits
 	resources :settings, except: :show
   resources :assesments
   resources :q_stages
@@ -10,7 +11,7 @@ Rails.application.routes.draw do
   resources :sprints
   resources :teams
   resources :issues
-	  resources :advices
+  resources :advices
   resources :comments
   resources :kanban
   resources :cards do
@@ -26,6 +27,17 @@ Rails.application.routes.draw do
   resources :notifications do
     collection do
       post :mark_as_read
+    end
+  end
+  resources :retrospectives do
+    member do
+      patch :move
+    end
+  end
+  resources :postits do
+    member do
+      patch :move
+      post :vote
     end
   end
 

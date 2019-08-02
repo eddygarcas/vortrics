@@ -3,7 +3,7 @@ class SettingsController < ApplicationController
 
 	before_action :set_setting, only: [:edit, :update, :destroy]
 	before_action :team_session
-	before_action :admin_user?, only: [:index, :new, :edit, :destroy]
+	before_action :admin_user?, only: [:index, :edit, :destroy]
 	# GET /settings
 	# GET /settings.json
 	def index
@@ -32,11 +32,12 @@ class SettingsController < ApplicationController
 			@setting.key_file = setting_params[:key_data].original_filename
 			@setting.key_data = setting_params[:key_data].tempfile.read
 		end
-
 		respond_to do |format|
 			if @setting.save
+				current_user.save_dependent(@setting.id) if current_user.guest?
 				Workflow.create_by_setting(@setting.id)
-				format.html { redirect_to settings_url, notice: 'Setting was successfully created.' }
+				format.html { redirect_to settings_url, notice: 'Setting was successfully created.' } unless current_user.guest?
+				format.html { redirect_to edit_user_registration_path, notice: 'Setting was successfully created. Please update now your JIRA login.' } if current_user.guest?
 				format.json { render :show, status: :created, location: @setting }
 			else
 				format.html { render :new }

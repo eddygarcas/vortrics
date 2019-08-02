@@ -115,6 +115,14 @@ $ git commit --amend -CHEAD
 $ git push
 # Push our rewritten, smaller commit
 ````
+Delete a remote branch
+````
+#Remote:
+$ git push origin --delete <branch> # Git version 1.7.0 or newer
+#Local:
+$ git branch --delete <branch>
+````
+
 ##Heroku
 Run heroku commands locally, i.e. rails db:migrate
 ```
