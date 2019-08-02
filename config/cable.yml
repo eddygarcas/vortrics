@@ -6,5 +6,4 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV['REDIS_PROVIDER'] %>
-  channel_prefix: vortrics_in_production
+  url: redis://redistogo:09841651218832376af799fa1ee8b45b@hammerjaw.redistogo.com:10736/
