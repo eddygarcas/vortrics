@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  mount ActionCable.server => '/cable'
+
   resources :postits
 	resources :settings, except: :show
   resources :assesments
