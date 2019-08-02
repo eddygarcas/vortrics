@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :retrospective do
-    name { "MyString" }
-    position { 1 }
-    team { nil }
+    name { Faker::FunnyName.name }
+    position { Faker::Number.between(1,200) }
+    team { FactoryBot.create(:team) }
   end
 end

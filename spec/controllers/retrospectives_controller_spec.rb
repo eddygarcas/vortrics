@@ -24,7 +24,7 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe RetrospectivesController, type: :controller do
-
+  login_user
   # This should return the minimal set of attributes required to create a valid
   # Retrospective. As you add validations to Retrospective, be sure to
   # adjust the attributes here as well.
@@ -53,13 +53,6 @@ RSpec.describe RetrospectivesController, type: :controller do
     it "returns a success response" do
       retrospective = Retrospective.create! valid_attributes
       get :show, params: {id: retrospective.to_param}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET #new" do
-    it "returns a success response" do
-      get :new, params: {}, session: valid_session
       expect(response).to be_successful
     end
   end

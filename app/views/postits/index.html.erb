@@ -1,13 +1,13 @@
 <% @title = "Listing postits" %>
 
 <% content_for :description do %>
-<p>Edit this template in <code>app/views/postits/index.html.erb</code>.</p>
+  <p>Edit this template in <code>app/views/postits/index.html.erb</code>.</p>
 <% end %>
 
 <% content_for :actions do %>
-<%= link_to new_postit_path, class: 'btn btn-primary btn-large pull-right' do %>
-<%= fa_icon_tag "plus" %> Add Postit
-<% end %>
+  <%= link_to new_postit_path, class: 'btn btn-primary btn-large pull-right' do %>
+    <%= fa_icon_tag "plus" %> Add Postit
+  <% end %>
 <% end %>
 
 <div class="container-fluid">
@@ -17,41 +17,43 @@
         <div class="sheet-inner">
           <table class="table">
             <thead>
-              <tr>
-                                <th>Text</th>
-                                <th>Position</th>
-                                <th>Dots</th>
-                                <th>Comments</th>
-                                <th>Retrospective</th>
-                                <th></th>
-              </tr>
+            <tr>
+              <th>Text</th>
+              <th>Position</th>
+              <th>Dots</th>
+              <th>Comments</th>
+              <th>Retrospective</th>
+              <th></th>
+            </tr>
             </thead>
             <tbody>
-              <% @postits.each do |postit| %>
+            <% @postits.each do |postit| %>
               <tr>
-                                <td><%= postit.text %></td>
-                                <td><%= postit.position %></td>
-                                <td><%= postit.dots %></td>
-                                <td><%= postit.comments %></td>
-                                <td><%= postit.Retrospective %></td>
-                                <td class="actions">
+                <td><%= postit.text %></td>
+                <td><%= postit.position %></td>
+                <td><%= postit.dots %></td>
+                <td><%= postit.comments %></td>
+                <td><%= postit.retrospective %></td>
+                <td class="actions">
                   <%= link_to fa_icon_tag("eye"), postit, rel: 'tooltip', title: 'Show' %>
                   <%= link_to fa_icon_tag("pencil"), edit_postit_path(postit), rel: 'tooltip', title: 'Edit' %>
                   <%= link_to fa_icon_tag("trash-o"), postit, rel: 'tooltip', title: 'Delete',
-                  data: { confirm: 'Are you sure?' }, method: :delete %>
+                              data: {confirm: 'Are you sure?'}, method: :delete %>
                 </td>
               </tr>
-              <% end %>
-              <% if @postits.length == 0 %>
-              <tr><td colspan=42 class='text-center'>No postits.</td></tr>
-              <% end %>
+            <% end %>
+            <% if @postits.length == 0 %>
+              <tr>
+                <td colspan=42 class='text-center'>No postits.</td>
+              </tr>
+            <% end %>
             </tbody>
           </table>
         </div><!-- /.sheet-inner -->
       </div><!-- /.sheet -->
 
-            <%# Remove the trailing if condition if you're using pagination. %>
+      <%# Remove the trailing if condition if you're using pagination. %>
       <%= will_paginate @postits if @postits.respond_to?(:total_pages) %>
-                </div>
+    </div>
   </div>
 </div>

@@ -2,13 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "postits/edit", type: :view do
   before(:each) do
-    @postit = assign(:postit, Postit.create!(
-      :text => "MyString",
-      :position => 1,
-      :dots => 1,
-      :comments => 1,
-      :Retrospective => nil
-    ))
+    @postit = assign(:postit, FactoryBot.create(:postit))
   end
 
   it "renders the edit postit form" do
@@ -24,7 +18,7 @@ RSpec.describe "postits/edit", type: :view do
 
       assert_select "input[name=?]", "postit[comments]"
 
-      assert_select "input[name=?]", "postit[Retrospective_id]"
+      assert_select "input[name=?]", "postit[retrospective]"
     end
   end
 end
