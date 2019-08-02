@@ -14,8 +14,7 @@
         </div>
 
         <ul class="small pull-right">
-            <a v-if="!voting" v-on:click=""><i class="fa fa-thumbs-up" style="margin-right: 2px;"></i></a>
-            <a v-if="voting" v-on:click="votePostit"><i class="fa fa-thumbs-o-up" style="margin-right: 2px;"></i></a><strong>{{postit.dots}}</strong>
+            <a v-on:click="votePostit"><i class="fa fa-thumbs-o-up" style="margin-right: 2px;"></i></a><strong>{{postit.dots}}</strong>
             <a><i class="fa fa-comment-o" style="margin-right: 2px;"></i></a><strong>0</strong>
         </ul>
 
