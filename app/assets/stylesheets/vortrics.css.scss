@@ -1,0 +1,22 @@
+video {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 110px;
+    left: 0;
+}
+.viewport-header {
+    position: relative;
+    height: 50%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+main {
+    background: rgba(black, 0.66);
+    color: white;
+    position: relative;
+    padding: 1rem;
+}

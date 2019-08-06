@@ -1,5 +1,5 @@
 class LandingController < ApplicationController
-	layout 'home'
+	layout 'landing'
 	before_action :set_request, only: [:register]
 
 	def info
