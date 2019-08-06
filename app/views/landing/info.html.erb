@@ -1,197 +1,210 @@
 <% content_for :body_class, "landing" %>
 
 <% content_for :header do %>
-  <header xmlns="http://www.w3.org/1999/html">
-    <div class="bg"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 col-xs-12">
-          <div class="text">
-            <h1>Vortrics - Agile Metrics Boards</h1>
-            <p class='lead'>Supports software product teams, Agile coaches and Scrum Masters, handling and visualise
-              performance agile metrics
-              in an Agile transformation.</p>
-            <a href="#screenshots" class='btn btn-outline-default btn-lg'>Learn More &rarr;</a>
-          </div>
-        </div>
-      </div>
-    </div>
+  <header class="video-header">
+    <video playsinline autoplay muted loop>
+      <source src="/images/vortrics_cover.mp4" type="video/mp4">
+    </video>
   </header>
 <% end %>
-<section class="features">
-  <div class="container">
-    <p class="lead">
-      <strong>Vortrics</strong> offers tools as well as support in an Agile transformation. Based on our on expertise we can
-      help organizations to set up a 'Coach with data' system and boost product teams performance, coaching them on how
-      to use these tools on their own benefit and for the sake of the organization they are working for.
-      <br/>
-      We are are currently working on offering free access but so far see what we would offer you.</p>
 
+<main>
 
-    <div class="row">
-      <div class="col-xs-12 col-md-4">
-        <section>
-          <i class='fa fa-line-chart'></i>
-          <h4>Overview</h4>
-          <p>On this board you will Have a clear overview about team's performance trends, average story points and
-            stories closed, variance, commitment vs. closed, story points vs. stories, comulative flow diagram,...</p>
-        </section>
-      </div>
-      <div class="col-xs-12 col-md-4">
-        <section>
-          <i class='fa fa-cogs'></i>
-          <h4>On-Going Sprint </h4>
-          <p>On this board you will be able to check out the sprint health on a daily basis, burndown chart, blocked
-            time, velocity variance,...</p>
-        </section>
-      </div>
-      <div class="col-xs-12 col-md-4">
-        <section>
-          <i class='fa fa-signal fa-flip-horizontal'></i>
-          <h4>Measure Cycle Time</h4>
-          <p>Discover any workflow dysfunction by keeping an eye on the Cycle Time, discover blockers,
-            roadblocks,...</p>
-        </section>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12 col-md-4">
-        <section>
-          <i class='fa fa-pied-piper'></i>
-          <h4>Maturity Framework</h4>
-          <p>Create your own maturity framework setting up questions in order to support teams to assimilate their
-            continuos improvement.</p>
-        </section>
-      </div>
-      <div class="col-xs-12 col-md-4">
-        <section>
-          <i class='fa fa-map-o'></i>
-          <h4>Forecasting</h4>
-          <p>Set of forecasting tools that would help product owners to provide accurate estimations.</p>
-        </section>
-      </div>
-      <div class="col-xs-12 col-md-4">
-        <section>
-          <i class='fa fa-certificate'></i>
-          <h4>Agile Coach</h4>
-          <p>Advise your teams based on your experience! by automatically analysing teams data to provide continiuos
-            improvement actions.</p>
-        </section>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="getting-started">
-
-  <div class="container">
-
-    <div class="row">
-
-
-      <div class="col-md-10 col-md-offset-1">
-        <% flash.each do |type, message| %>
-          <div class="alert alert-dismissable alert-bottom-border fade in" style="color:white;">
-            <h4>Thank you!</h4>
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <%= fa_icon_tag "info-sign" %> <%= message.html_safe %>
+  <section class="getting-started">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="text">
+            <h1>Vortrics - Agile Metrics Board</h1>
+            <p class="lead" style="color: lightgray;">Supports software product teams, Agile coaches and Scrum Masters, handling and visualise
+              performance agile metrics
+              in an Agile transformation.</p>
           </div>
-        <% end %>
-
-        <div class="col-md-5 text-xs-center text-md-left">
-          <h1>Interested?</h1>
-          <p>Just know what we could do for you.</p>
         </div>
-        <div class="col-md-7 text-xs-center text-right ctas">
+      </div>
+    </div>
+  </section>
 
-          <%= form_for @user, url: landing_register_path,
-                       html: { class: "form-inline", novalidate: false } do |f| %>
-            <%= f.error_notification %>
-            <div class="text-center">
+  <section class="features">
 
-              <%= f.form_group :email do |f| %>
-                <%= f.email_field :email, autofocus: true, required: true, placeholder: 'Your email', class: 'form-control col-xs-12 mr10 mb10', pattern: '[^@]+@[^@]+\.[a-zA-Z]{2,6}' %>
-                <%= f.submit value: 'Want to know more →', class: 'btn btn-outline-default', style: 'padding:8px;' %>
-                <%= f.error_messages %>
-              <% end %>
+
+    <div class="container">
+      <p class="lead">
+        <strong>Vortrics</strong> offers tools as well as support in an Agile transformation. Based on our on expertise
+        we can
+        help organizations to set up a 'Coach with data' system and boost product teams performance, coaching them on
+        how
+        to use these tools on their own benefit and for the sake of the organization they are working for.
+        <br/>
+        We are are currently working on offering free access but so far see what we would offer you.</p>
+
+
+      <div class="row">
+        <div class="col-xs-12 col-md-4">
+          <section>
+            <i class='fa fa-line-chart'></i>
+            <h4>Overview</h4>
+            <p>On this board you will Have a clear overview about team's performance trends, average story points and
+              stories closed, variance, commitment vs. closed, story points vs. stories, comulative flow diagram,...</p>
+          </section>
+        </div>
+        <div class="col-xs-12 col-md-4">
+          <section>
+            <i class='fa fa-cogs'></i>
+            <h4>On-Going Sprint </h4>
+            <p>On this board you will be able to check out the sprint health on a daily basis, burndown chart, blocked
+              time, velocity variance,...</p>
+          </section>
+        </div>
+        <div class="col-xs-12 col-md-4">
+          <section>
+            <i class='fa fa-signal fa-flip-horizontal'></i>
+            <h4>Measure Cycle Time</h4>
+            <p>Discover any workflow dysfunction by keeping an eye on the Cycle Time, discover blockers,
+              roadblocks,...</p>
+          </section>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-md-4">
+          <section>
+            <i class='fa fa-pied-piper'></i>
+            <h4>Maturity Framework</h4>
+            <p>Create your own maturity framework setting up questions in order to support teams to assimilate their
+              continuos improvement.</p>
+          </section>
+        </div>
+        <div class="col-xs-12 col-md-4">
+          <section>
+            <i class='fa fa-map-o'></i>
+            <h4>Forecasting</h4>
+            <p>Set of forecasting tools that would help product owners to provide accurate estimations.</p>
+          </section>
+        </div>
+        <div class="col-xs-12 col-md-4">
+          <section>
+            <i class='fa fa-certificate'></i>
+            <h4>Agile Coach</h4>
+            <p>Advise your teams based on your experience! by automatically analysing teams data to provide continiuos
+              improvement actions.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="getting-started">
+
+    <div class="container">
+
+      <div class="row">
+
+
+        <div class="col-md-10 col-md-offset-1">
+          <% flash.each do |type, message| %>
+            <div class="alert alert-dismissable alert-bottom-border fade in" style="color:white;">
+              <h4>Thank you!</h4>
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <%= fa_icon_tag "info-sign" %> <%= message.html_safe %>
             </div>
           <% end %>
-        </div>
-      </div>
-    </div>
 
-  </div>
-</section>
-
-
-
-
-<section class='product-images'>
-  <div class='container'>
-    <div class='row'>
-      <div class='col-sm-12'>
-        <h2 class='h1 text-center'>Screenshots</h2>
-        <p class="lead text-center">Look at <strong>Vortrics</strong> current features and boards. Feel free to contact
-          us to know what
-          we could do to support your Agile transformation.</p>
-
-        <div class="panel-body" id="screenshots">
-          <div id="carousel-example-generic" class="carousel slide">
-            <!-- Indicators //-->
-            <ol class="carousel-indicators">
-              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="4"></li>
-            </ol>
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-              <div class="item active">
-                <img alt="Overview" class="" src="/images/voardtrix_overview.png" width="100%">
-              </div>
-              <div class="item">
-                <img alt="Sprint board" class="" src="/images/voardtrix_sprint.png" width="100%">
-              </div>
-              <div class="item">
-                <img alt="Cycle Time analysis" class="" src="/images/voardtrix_cycletime.png" width="100%">
-              </div>
-              <div class="item">
-                <img alt="Maturity Framework" class="" src="/images/voardtrix_maturity.png" width="100%">
-              </div>
-              <div class="item">
-                <img alt="JIRA integration" class="" src="/images/voardtrix_jira.png" width="100%">
-              </div>
-            </div>
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-              <span class="icon-prev"></span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-              <span class="icon-next"></span>
-            </a>
+          <div class="col-md-5 text-xs-center text-md-left">
+            <h1>Interested?</h1>
+            <p style="color: lightgray">Just know what we could do for you.</p>
           </div>
-          <!-- carousel end //-->
+          <div class="col-md-7 text-xs-center text-right ctas">
+
+            <%= form_for @user, url: landing_register_path,
+                         html: {class: "form-inline", novalidate: false} do |f| %>
+              <%= f.error_notification %>
+              <div class="text-center">
+
+                <%= f.form_group :email do |f| %>
+                  <%= f.email_field :email, autofocus: true, required: true, placeholder: 'Your email', class: 'form-control col-xs-12 mr10 mb10', pattern: '[^@]+@[^@]+\.[a-zA-Z]{2,6}' %>
+                  <%= f.submit value: 'Want to know more →', class: 'btn btn-outline-default', style: 'padding:8px;' %>
+                  <%= f.error_messages %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
         </div>
+      </div>
+
+    </div>
+  </section>
 
 
-      </div>
-    </div>
-  </div>
-</section>
-<section class='cta'>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12 col-md-12">
-        <h2 class="text-xs-center">“If you don't know where you are going any road can take you there”</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <p class="lead text-xs-center">― Lewis Carroll, Alice in Wonderland</p>
-      </div>
-    </div>
-  </div>
+  <section class='product-images'>
+    <div class='container'>
+      <div class='row'>
+        <div class='col-sm-12' style="color: black;">
+          <h2 class='h1 text-center'>Screenshots</h2>
+          <p class="lead text-center">Look at <strong>Vortrics</strong> current features and boards. Feel free to
+            contact
+            us to know what
+            we could do to support your Agile transformation.</p>
 
-</section>
+          <div class="panel-body" id="screenshots">
+            <div id="carousel-example-generic" class="carousel slide">
+              <!-- Indicators //-->
+              <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+              </ol>
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner">
+                <div class="item active">
+                  <img alt="Overview" class="" src="/images/voardtrix_overview.png" width="100%">
+                </div>
+                <div class="item">
+                  <img alt="Sprint board" class="" src="/images/voardtrix_sprint.png" width="100%">
+                </div>
+                <div class="item">
+                  <img alt="Cycle Time analysis" class="" src="/images/voardtrix_cycletime.png" width="100%">
+                </div>
+                <div class="item">
+                  <img alt="Maturity Framework" class="" src="/images/voardtrix_maturity.png" width="100%">
+                </div>
+                <div class="item">
+                  <img alt="JIRA integration" class="" src="/images/voardtrix_jira.png" width="100%">
+                </div>
+              </div>
+              <!-- Controls -->
+              <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                <span class="icon-prev"></span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                <span class="icon-next"></span>
+              </a>
+            </div>
+            <!-- carousel end //-->
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class='cta'>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <h2 class="text-xs-center">“If you don't know where you are going any road can take you there”</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <p class="lead text-xs-center">― Lewis Carroll, Alice in Wonderland</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%= render "layouts/footer_agent" %>
+
+</main>
