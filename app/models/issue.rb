@@ -160,15 +160,17 @@ class Issue < ApplicationRecord
 		save!
 	end
 
-	def time_transitions finish = {}, start = {}
+	def time_transitions start = {}, finish = {}
 		return 0 if change_logs.blank?
-		lead_times = []
-		finish.each_pair { |method, tag| lead_times << changelog_lapse(method, tag, &:first) }
-		start.each_pair { |method, tag| lead_times << changelog_lapse(method, tag, &:first) }
-		#Next call will avoid the chance of no testing state, so will get the WIP time towards the last record
-		start.each_pair { |method, tag| lead_times[1] = changelog_lapse(method, :done, &:last) } if lead_times[1].blank?
-		return 0 if lead_times[0].blank? || lead_times[1].blank?
-		lead_times[0].created.to_date.business_days_until(lead_times[1].created.to_date).to_f
+		time_stamps = []
+		start.each_pair { |method, tag| time_stamps << changelog_lapse(method, tag, &:first) }
+		finish.each_pair { |method, tag| time_stamps << changelog_lapse(method, tag, &:first) }
+		#Next call will avoid the chance of no testing state, so will get the WIP time towards the last recor
+		finish.each_pair { |method,tag| time_stamps[1] = changelog_lapse(method, :done, &:last) } if time_stamps[1].blank?
+
+		return 0 if time_stamps[0].blank? || time_stamps[1].blank?
+		time_stamps.sort_by!(&:created)
+		time_stamps[0].created.to_date.business_days_until(time_stamps[1].created.to_date).to_f
 	end
 
 	def changelog_lapse column, tag
