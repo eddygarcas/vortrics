@@ -122,6 +122,10 @@ $ git push origin --delete <branch> # Git version 1.7.0 or newer
 #Local:
 $ git branch --delete <branch>
 ````
+Get changes from master into a branch
+```
+$ git rebase master
+```
 
 ##Heroku
 Run heroku commands locally, i.e. rails db:migrate
