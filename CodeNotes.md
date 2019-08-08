@@ -126,6 +126,10 @@ Get changes from master into a branch
 ```
 $ git rebase master
 ```
+Git push a branch into remote master
+```
+$ git push <remote> <local branch name>:<remote branch to push into>
+```
 
 ##Heroku
 Run heroku commands locally, i.e. rails db:migrate
