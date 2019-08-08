@@ -74,7 +74,7 @@ class JiraIssue
   def parse_histories
     items = []
     histories.each_with_index.map {|elem, index|
-      if index.zero? || (['status', 'Flagged', 'Component'].include? elem['items'].first['field'])
+      if index.zero? || (ScrumMetrics.config[:jira][:changelogfields].include? elem['items'].first['field'].to_s.downcase)
         items << elem
       end
     }.compact

@@ -6,6 +6,7 @@ defaults: &defaults
     :site: "https://jira.scmspain.com"
     :restbasepath: "/rest/api/2"
     :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint,histories
+    :changelogfields: status,flagged,component
   :changelog:
     :flagged: impediment
     :open: open,nil,to do
@@ -49,11 +50,11 @@ defaults: &defaults
   :messages:
     :external_service_error: "Unable to retrieve external service information. Please try it later."
     :no_teams_available: "Before getting information from the external service, create a team."
-    :first_steps: "<h4>Welcome to Voartrix</h4><strong>Hands up!</strong> These are the first steps to be followed before getting data from JIRA
+    :first_steps: "<h4>Welcome to Vortrics</h4><strong>Hands up!</strong> These are the first steps to be followed before getting data from JIRA
     <ul>
     <li>Create an external service connection</li>
     <li>Create new users and assign them a connection</li>
-    <li>Create team from the external service</li></ul>"
+    <li>Create team(s) from the external service</li></ul>"
   :popover:
     :average_velocity: "Velocity is quite simple to calculate. At the end of a sprint, add up the total of all the story points that were moved to 'Done' (based on your Definition of Done) in that sprint."
     :average_stories: "At the end of a sprint, add up the total of all the user stories that were moved to 'Done' (based on your Definition of Done) in that sprint."

@@ -33,7 +33,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         broadcast_notification @comment
-        format.html { redirect_to comment_path(@comment.advice_id), notice: 'Your comment will be notified to your colleagues.' }
+        format.html { redirect_to comment_path(@comment.advice_id) }
         format.json { render :show, status: :created, location: @comment }
       else
         format.html { redirect_to advices_path, error: 'Unable to store the comment, please try later.' }
@@ -47,7 +47,7 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: 'Your update will be notified to your colleagues.' }
+        format.html { redirect_to @comment }
         format.json { render :show, status: :ok, location: @comment }
       else
         format.html { render :edit }
@@ -61,7 +61,7 @@ class CommentsController < ApplicationController
   def destroy
     @comment.destroy
     respond_to do |format|
-      format.html { redirect_to comment_path(@comment.advice_id), notice: 'Comment was successfully destroyed.' }
+      format.html { redirect_to comment_path(@comment.advice_id) }
       format.json { head :no_content }
     end
   end
