@@ -1,0 +1,36 @@
+<div class="tab-pane fade" style='height: 250px; overflow: scroll;' id='story-attach-historial'>
+  <ul class="list-group list-group-flush">
+    <% @issue.change_logs.each do |log| %>
+      <li class='list-group-item'>
+        <div class="media">
+          <a class="pull-left" href="#">
+            <%= image_tag log.avatar,class: "img-rounded", height: '24', width: '24', data: {toggle: "tooltip", title: log.displayName} unless log.displayName.nil? %>
+            <%= random_avatar 40, "media-object" if log.displayName.nil? %>
+          </a>
+          <div class="media-body">
+            <h5 class="media-heading">
+              <a href="#" title=""><%= log.displayName %></a> transition made at
+              <a href="#" title=""><%= log.created.to_datetime.strftime("%d/%m/%Y %H:%M") %> </a>
+            </h5>
+            <p class='small'>From <strong><%= log.fromString %></strong> to <strong><%= log.toString %></strong></p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+    <% if @issue.change_logs.empty? %>
+      <li class='list-group-item'>
+        <div class="media">
+          <a class="pull-left" href="#">
+            <%= image_tag @issue.assigneeavatar.blank? ? "/images/voardtrix_logo.png" : @issue.assigneeavatar,class: "img-rounded", height: '24', width: '24', data: { toggle: "tooltip", title: @issue.assignee } %>
+          </a>
+          <div class="media-body">
+            <h5 class="media-heading">
+              <%= @issue.key %>
+            </h5>
+            <p class='small'> Has no historial</p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

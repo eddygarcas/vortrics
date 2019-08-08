@@ -22,8 +22,12 @@ class ChangeLog < ApplicationRecord
     return if issue_id.blank?
     send("issue_id=", issue_id)
     ChangeLog.column_names.each {|key|
-      v = nested_hash_value(jira_log, key.to_s)
-      send("#{key}=", v) unless v.blank?
+      if (key.eql? 'avatar')
+        send("avatar=",jira_log['author']['avatarUrls']['48x48'].to_s)
+      else
+        v = nested_hash_value(jira_log, key.to_s)
+        send("#{key}=", v) unless v.blank?
+      end
     }
   end
 
@@ -42,7 +46,7 @@ class ChangeLog < ApplicationRecord
   end
 
   def to_hash
-    {toString: toString, fromString: fromString, created: created, issue_id: issue_id}
+    {toString: toString, fromString: fromString, created: created, issue_id: issue_id, avatar: avatar, displayName: displayName, fieldtype: fieldtype}
   end
 
 end

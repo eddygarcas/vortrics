@@ -1,7 +1,6 @@
 <div class="col-lg-3 col-md-6 col-sm-12">
   <div class="container-fluid">
 
-
     <div class="row">
       <div class="panel panel-info mt15" id="panels">
         <div class="panel-heading">
@@ -27,7 +26,7 @@
           <p class="lead"><%= fa_icon_tag("ticket") %>
             Type
             <span class="pull-right">
-              <%= image_tag @issue.issueicon, data: { toggle: "tooltip", title: @issue.issuetype.to_s } %> <%= @issue.issuetype %>
+              <%= image_tag @issue.issueicon, data: {toggle: "tooltip", title: @issue.issuetype.to_s} %> <%= @issue.issuetype %>
             </span>
           </p>
         </div>
@@ -52,7 +51,7 @@
         <div class="panel-heading">
           <p class="lead"><%= fa_icon_tag("bolt") %>
             Priority
-            <span class="pull-right">   <%= image_tag @issue.priorityicon, data: { toggle: "tooltip", title: @issue.priority }, height: '20', width: '20' %> <%= @issue.priority %>
+            <span class="pull-right">   <%= image_tag @issue.priorityicon, data: {toggle: "tooltip", title: @issue.priority}, height: '20', width: '20' %> <%= @issue.priority %>
 </span>
           </p>
         </div>
@@ -74,33 +73,11 @@
   </div>
 </div>
 
-<div class="col-lg-5 col-md-6 col-sm-12">
 
-  <div class="container-fluid">
-
-    <div class="row">
-
-      <div class="panel panel-info mt15" id="panels_desc" style="height: 310px;overflow: scroll;">
-        <div class="panel-heading">
-          <p class="lead"><%= fa_icon_tag("bookmark") %>
-            <b>Description</b>
-          </p>
-        </div>
-        <p class="panel-body text-justify">
-          <%= @issue.description %>
-        </p>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 <div class="col-lg-2 col-md-6 col-sm-12">
-
   <div class="container-fluid">
-
     <div class="row">
-
       <div class="panel panel-info mt15">
         <div class="panel-heading">
           <p class="lead"><%= fa_icon_tag("fire") %>  <b>Estimation</b></p>
@@ -112,10 +89,17 @@
       </div>
     </div>
     <div class="row">
-      <%= render "layouts/issue_report", :locals => { :issue => @issue } %>
+      <%= render "layouts/issue_report", :locals => {:issue => @issue} %>
     </div>
   </div>
+</div>
 
+<div class="col-lg-5 col-md-6 col-sm-12">
+  <div class="container-fluid">
+    <div class="row">
+      <%= render "issue_comments" %>
+    </div>
+  </div>
 </div>
 
 <div class="col-lg-2 col-md-6 col-sm-12">
