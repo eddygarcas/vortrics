@@ -95,6 +95,8 @@ class TeamsController < ApplicationController
       data[8] = user_stories.map.with_index {|issue, index| {x: index, y: issue.time_to_release}}
       data[9] = user_stories.map.with_index {|issue, index| {x: index, y: stories_lead_time.take(index).average}}
       data[10] = user_stories.map.with_index {|issue, index| {x: index, y: index.percent_of(user_stories.count).round(0)}}
+      data[11] = user_stories.map.with_index {|issue, index| {x: index, y: issue.id}}
+
 
       data
     }
@@ -144,7 +146,6 @@ class TeamsController < ApplicationController
       data[7] = bugs.map.with_index {|issue, index| {x: index, y: issue.status.upcase}}
       data[8] = bugs.map.with_index {|issue, index| {x: index, y: bugs.take(index).map {|issue| ((issue.life_time) / 1.day).abs}.average}}
       data[9] = bugs.map.with_index {|issue, index| {x: index, y: ((issue.time_in :wip, :last, false) / 1.day).abs}}
-
       data
     }
     render json: data

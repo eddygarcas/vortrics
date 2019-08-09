@@ -65,7 +65,9 @@ function InitializeReleaseTimeGraphTeam() {
             var clickinghandler = new Rickshaw.Graph.ClickDetail({
                 graph: graph,
                 clickHandler: function (value) {
-                    window.open($('#extsite')[0].value + '/browse/' + $(".key_team_story").text())
+                    //window.open($('#extsite')[0].value + '/browse/' + $(".key_team_story").text())
+                    window.open('/issues/' + $(".id_team_story").text(), "_self")
+
                 }
             });
 
@@ -116,6 +118,8 @@ function InitializeReleaseTimeGraphTeam() {
                     if (data[2][x].y) content += flagged;
                     if (data[3][x].y) content += firsttime;
                     if (data[6][x].y) content += moreonesprint;
+                    content += '<span class="id_team_story" style="visibility: hidden;">' + data[11][x].y + '</span>';
+
                     return content;
                 }
             });
@@ -339,7 +343,9 @@ function InitializeReleaseTimeBugsGraphTeam() {
             var clickinghandler = new Rickshaw.Graph.ClickDetail({
                 graph: graph,
                 clickHandler: function (value) {
-                    window.open($('#extsite')[0].value + '/browse/' + $(".key_team_story").text())
+                    //window.open('/issues/' + $(".id_team_bug").text())
+                    window.open($('#extsite')[0].value + '/browse/' + $(".key_team_bug").text())
+
                 }
             });
 
@@ -377,15 +383,15 @@ function InitializeReleaseTimeBugsGraphTeam() {
                 graph: graph,
                 formatter: function (series, x, y) {
                     var sprint = '<span class="date key_team_bug">' + data[0][x].y + '</span><span class="date"> ' + data[7][x].y + ' ' + data[4][x].y + '</span>';
-                    var flagged = ' <i class="fa fa-flag"></i>'
-                    var bug = ' <i class="fa fa-bug"></i>'
-                    var firsttime = ' <i class="fa fa-bolt"></i>'
-                    var moreonesprint = '    <i class="fa fa-exclamation-triangle"></i>'
+                    var flagged = ' <i class="fa fa-flag"></i>';
+                    var bug = ' <i class="fa fa-bug"></i>';
+                    var firsttime = ' <i class="fa fa-bolt"></i>';
+                    var moreonesprint = '    <i class="fa fa-exclamation-triangle"></i>';
 
                     var content = series.name + ": " + parseInt(y) + ' days<br>' + sprint;
-                    if (data[2][x].y) content += flagged
-                    if (data[3][x].y) content += firsttime
-                    if (data[5][x].y) content += moreonesprint
+                    if (data[2][x].y) content += flagged;
+                    if (data[3][x].y) content += firsttime;
+                    if (data[5][x].y) content += moreonesprint;
                     return content;
                 }
             });
