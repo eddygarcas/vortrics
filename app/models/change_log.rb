@@ -19,9 +19,9 @@ class ChangeLog < ApplicationRecord
 
   # Regardless of the jira_log value, this method will match log value within a ChangeLog record.
   def parse_and_initialize jira_log, issue_id
-    return if issue_id.blank?
+    return if issue_id.blank? || jira_log.blank?
     send("issue_id=", issue_id)
-    ChangeLog.column_names.each {|key|
+    ChangeLog.column_names.each { |key|
       if (key.eql? 'avatar')
         send("avatar=",jira_log['author']['avatarUrls']['48x48'].to_s)
       else
