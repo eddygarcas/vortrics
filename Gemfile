@@ -15,7 +15,7 @@ gem "loofah", ">= 2.2.3"
 gem "rubyzip", ">= 1.2.2"
 gem "ffi", ">= 1.9.24"
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', group: :development
+gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
