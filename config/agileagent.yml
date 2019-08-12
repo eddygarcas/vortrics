@@ -3,8 +3,8 @@ defaults: &defaults
   :performance:
     :graph_limit: 60
   :jira:
-    :site: "https://jira.scmspain.com"
-    :restbasepath: "/rest/api/2"
+    :site: ""
+    :restbasepath: ""
     :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint,histories
     :changelogfields: status,flagged,component
   :changelog:
@@ -77,9 +77,11 @@ production:
   <<: *defaults
   name: Vortrics
   :jira:
-    :site: "https://jira.scmspain.com"
-    :restbasepath: "/rest/api/2"
+    :site: ""
+    :restbasepath: ""
     :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint,histories
+    :changelogfields: status,flagged,component
+
 
 
 test: &test
