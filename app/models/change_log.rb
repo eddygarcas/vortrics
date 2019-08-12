@@ -19,15 +19,11 @@ class ChangeLog < ApplicationRecord
 
   # Regardless of the jira_log value, this method will match log value within a ChangeLog record.
   def parse_and_initialize jira_log, issue_id
-    return if issue_id.blank? || jira_log.blank?
+    return if issue_id.blank?
     send("issue_id=", issue_id)
+    send_attribute('avatar',jira_log,'48x48')
     ChangeLog.column_names.each { |key|
-      if (key.eql? 'avatar')
-        send("avatar=",jira_log['author']['avatarUrls']['48x48'].to_s)
-      else
-        v = nested_hash_value(jira_log, key.to_s)
-        send("#{key}=", v) unless v.blank?
-      end
+      send_attribute(key,jira_log)
     }
   end
 
@@ -35,7 +31,6 @@ class ChangeLog < ApplicationRecord
     return 'n/d' if toDate.blank?
     intervals = [["d", 1], ["h", 24], ["m", 60]]
     elapsed = toDate.created.to_datetime - created.to_datetime
-
     interval = 1.0
     parts = intervals.collect do |name, new_interval|
       interval /= new_interval
@@ -48,5 +43,16 @@ class ChangeLog < ApplicationRecord
   def to_hash
     {toString: toString, fromString: fromString, created: created, issue_id: issue_id, avatar: avatar, displayName: displayName, fieldtype: fieldtype}
   end
+
+  private
+
+  def send_attribute key, log, aka = nil
+    v = nested_hash_value(log, aka.present? ? aka : key.to_s)
+    send("#{key}=", v) unless v.blank?
+  end
+
+
+
+
 
 end
