@@ -3,7 +3,7 @@ class WorkflowsController < ApplicationController
 	before_action :set_workflow, only: [:destroy,:move]
 	before_action :team_session
 	before_action :admin_user?
-
+	before_action :redirect_unless_user_has_settings
 
 	# GET /workflows
 	# GET /workflows.json

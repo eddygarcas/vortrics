@@ -50,9 +50,4 @@ class ChangeLog < ApplicationRecord
     v = nested_hash_value(log, aka.present? ? aka : key.to_s)
     send("#{key}=", v) unless v.blank?
   end
-
-
-
-
-
 end
