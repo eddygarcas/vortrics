@@ -9,6 +9,15 @@ class JiraIssue
     parse_issue elem unless elem.nil?
   end
 
+  #Seems that once the jira issue is created all data is lost.
+  def parse_issue elem
+    uniq_list = (self.public_methods(false).grep(/=/) + elem['fields'].keys).uniq
+    uniq_list.each {|key|
+      v = nested_hash_value(elem, key.to_s.chomp('='))
+      accesor_builder key, v
+    }
+  end
+
   #This operation will require to analize both closed and sprint due to once the sprint is finish both are comming as part of the get issues message
   def self.to_issue elem
     jissue                  = JiraIssue.new(elem)
@@ -91,12 +100,5 @@ class JiraIssue
     return parse_closed_sprints unless closedSprints.blank?
   end
 
-  #Seems that once the jira issue is created all data is lost.
-  def parse_issue elem
-    uniq_list = (self.public_methods(false).grep(/=/) + elem['fields'].keys).uniq
-    uniq_list.each {|key|
-      v = nested_hash_value(elem, key.to_s.chomp('='))
-      accesor_builder key, v
-    }
-  end
+
 end
