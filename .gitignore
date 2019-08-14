@@ -32,7 +32,6 @@ tags
 /public/.DS_Store
 /public/packs
 /public/packs-test
-/public/images/*.mp4
 /node_modules
 /yarn-error.log
 yarn-debug.log*
