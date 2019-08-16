@@ -33,11 +33,11 @@ class JiraHelperTest < Test::Unit::TestCase
   # Fake test
   def test_url_with_query_params
     search_url = '/rest/agile/1.0/board/2441/issue?jql=test'
-    assert_equal 'jql=test&fields=key%2Cpriority%2Cissuetype%2Cstatus%2Ccomponentes%2Ccustomfield_11382%2Csummary%2Ccustomfield_11802%2Ctimeoriginalestimate%2Ccomponents%2Cdescription%2Cassignee%2Ccreated%2Cupdated%2Cresolutiondate',
+    assert_equal '/rest/agile/1.0/board/2441/issue?jql=test&fields=key%2Cpriority%2Cissuetype%2Cstatus%2Ccomponentes%2Ccustomfield_11382%2Csummary%2Ccustomfield_11802%2Ctimeoriginalestimate%2Ccomponents%2Cdescription%2Cassignee%2Ccreated%2Cupdated%2Cresolutiondate',
                  url_with_query_params(search_url, @options)
 
     search_url = '/rest/agile/1.0/board/2441/issue'
-    assert_equal 'fields=key%2Cpriority%2Cissuetype%2Cstatus%2Ccomponentes%2Ccustomfield_11382%2Csummary%2Ccustomfield_11802%2Ctimeoriginalestimate%2Ccomponents%2Cdescription%2Cassignee%2Ccreated%2Cupdated%2Cresolutiondate',
+    assert_equal '/rest/agile/1.0/board/2441/issue?fields=key%2Cpriority%2Cissuetype%2Cstatus%2Ccomponentes%2Ccustomfield_11382%2Csummary%2Ccustomfield_11802%2Ctimeoriginalestimate%2Ccomponents%2Cdescription%2Cassignee%2Ccreated%2Cupdated%2Cresolutiondate',
                  url_with_query_params(search_url, @options)
 
     puts url_with_query_params('/rest/agile/1.0/board/2441/issue?jql=test')
