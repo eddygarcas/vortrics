@@ -44,14 +44,10 @@ class SprintsController < ApplicationController
       bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, options).map {|elem| JiraIssue.to_issue(elem)}
 
       burndown = @sprint.issues.select(&:task?).count
-      data[0] = (@sprint.start_date..@sprint.enddate + 1).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_by_date(@sprint.issues, date)}}
-      data[1] = (@sprint.start_date..@sprint.enddate + 1).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
-      data[2] = (@sprint.start_date..@sprint.enddate + 1).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: GraphHelper.number_of(bugs, date, :created)}}
-      data[3] = (@sprint.start_date..@sprint.enddate + 1).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: burndown = GraphHelper.number_stories_by_date(@sprint.issues, date, burndown)}}
+      data[0] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_by_date(@sprint.issues, date)}}
+      data[1] = @sprint.week_days.map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
+      data[2] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of(bugs, date, :created)}}
+      data[3] = @sprint.week_days.map.with_index {|date, index| {x: index, y: burndown = GraphHelper.number_stories_by_date(@sprint.issues, date, burndown)}}
       data
     }
 
@@ -63,7 +59,6 @@ class SprintsController < ApplicationController
     data = Rails.cache.fetch("graph_release_time_sprint_#{@sprint.id}", expires_in: 30.minutes) {
       data = Array.new {Array.new}
       user_stories = @sprint.issues.select(&:done?).sort_by(&:resolutiondate)
-      flagged = 0
       data[0] = user_stories.map.with_index {|issue, index| {x: index, y: issue.key}}
       data[1] = user_stories.map.with_index {|issue, index| {x: index, y: issue.time_in_wip}}
       data[2] = user_stories.map.with_index {|issue, index| {x: index, y: issue.flagged?}}
@@ -73,9 +68,6 @@ class SprintsController < ApplicationController
       data[6] = user_stories.map.with_index {|issue, index| {x: index, y: issue.more_than_sprint?}}
       data[7] = user_stories.map.with_index {|issue, index| {x: index, y: issue.time_to_release}}
       data[8] = user_stories.map.with_index {|issue, index| {x: index, y: issue.id}}
-
-      # data[8] = user_stories.map.with_index {|issue, index| {x: index, y: flagged += issue.time_flagged}}
-      # data[9] = data[1].map.with_index {|elem, index| {x: index, y: @sprint.sprint_cycle_time}}
       data
     }
     render json: data

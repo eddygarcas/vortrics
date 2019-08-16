@@ -110,6 +110,11 @@ class Sprint < ApplicationRecord
     ((stories + bugs).to_f / days).round(2)
   end
 
+  def week_days
+    (start_date..enddate + 1).select { |day| !day.sunday? && !day.saturday? }
+  end
+
+
   protected
 
 

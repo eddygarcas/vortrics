@@ -16,27 +16,30 @@ class TeamsController < ApplicationController
   # GET /teams/1/graph_points
   def get_graph_data
     data = Array.new {Array.new}
-    data[0] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :closed_points)
-    data[1] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :remaining_points)
-    data[2] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :remaining_points, :closed_points)
-    data[3] = JSON.parse(Team.find(params[:id]).all_sprint_names)
+    team = Team.find(params[:id])
+    data[0] = JSON.parse(team.axis_graph_by_column :closed_points)
+    data[1] = JSON.parse(team.axis_graph_by_column :remaining_points)
+    data[2] = JSON.parse(team.axis_graph_by_column :remaining_points, :closed_points)
+    data[3] = JSON.parse(team.all_sprint_names)
     render json: data
   end
 
   def stories_graph_data
     data = Array.new {Array.new}
-    data[0] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :stories)
-    data[1] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :remainingstories)
-    data[2] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :stories, :remainingstories)
-    data[3] = JSON.parse(Team.find(params[:id]).all_sprint_names)
+    team = Team.find(params[:id])
+    data[0] = JSON.parse(team.axis_graph_by_column :stories)
+    data[1] = JSON.parse(team.axis_graph_by_column :remainingstories)
+    data[2] = JSON.parse(team.axis_graph_by_column :stories, :remainingstories)
+    data[3] = JSON.parse(team.all_sprint_names)
     render json: data
   end
 
   def stories_points_graph_data
     data = Array.new {Array.new}
-    data[0] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :stories)
-    data[1] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :closed_points)
-    data[2] = JSON.parse(Team.find(params[:id]).all_sprint_names)
+    team = Team.find(params[:id])
+    data[0] = JSON.parse(team.axis_graph_by_column :stories)
+    data[1] = JSON.parse(team.axis_graph_by_column :closed_points)
+    data[2] = JSON.parse(team.all_sprint_names)
     render json: data
   end
 
@@ -61,16 +64,11 @@ class TeamsController < ApplicationController
       points = issues.map {|elem| elem.customfield_11802.to_i}.inject(0) {|sum, x| sum + x}
 
       #To get the amount of stories closed by an specific day, will map the whole issues array counting items chechking whether its resolutiondate matches a specific date.
-      data[0] = (@team.sprint.start_date..@team.sprint.enddate).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_by_date(issues, date)}}
-      data[1] = (@team.sprint.start_date..@team.sprint.enddate).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
-      data[2] = (@team.sprint.start_date..@team.sprint.enddate).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_in_progress(date, issues)}}
-      data[3] = (@team.sprint.start_date..@team.sprint.enddate).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: burndown = GraphHelper.number_stories_by_date(issues, date, burndown)}}
-      data[4] = (@team.sprint.start_date..@team.sprint.enddate).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: points = GraphHelper.number_points_by_date(issues, date, points)}}
+      data[0] = @team.sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_by_date(issues, date)}}
+      data[1] = @team.sprint.week_days.map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
+      data[2] = @team.sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_in_progress(issues,date)}}
+      data[3] = @team.sprint.week_days.map.with_index {|date, index| {x: index, y: burndown = GraphHelper.number_stories_by_date(issues, date, burndown)}}
+      data[4] = @team.sprint.week_days.map.with_index {|date, index| {x: index, y: points = GraphHelper.number_points_by_date(issues, date, points)}}
       data
     }
     render json: data
