@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
 	private
 
 	def redirect_unless_user_has_settings
-		redirect_to settings_path and return unless current_user.setting?
+		redirect_to new_setting_path and return unless current_user.setting?
 	end
 
 	def get_jira_client

@@ -1,39 +1,37 @@
-<%= form_for(@user, url: devise_manage_users_path, method: :post, html: { class: 'form-inline form-control-lg' }) do |f| %>
+<%= form_for(@user, url: devise_manage_users_path, method: :post, html: {class: 'form-inline form-control-lg'}) do |f| %>
   <table class="table">
-  <thead>
-  <tr>
-    <th>Avatar</th>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Login</th>
-    <th>Password</th>
-    <th>Admin</th>
-    <th>Jira</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tr>
-    <td><%= image_tag '/images/voardtrix_logo.png', class: "img-circle profile-image", height: '35', width: '35' %></td>
-    <td><%= f.text_field :displayName, required: true, autofocus: true, placeholder: 'User name' %></td>
-    <td><%= f.email_field :email, required: true, placeholder: 'Email' %></td>
-    <td><%= f.text_field :extuser, required: true, value: "", placeholder: 'External login' %></td>
-    <td><%= f.password_field :password, required: true, placeholder: 'Password' %></td>
-    <td>
-      <label class="switch switch-success">
-        <%= check_box_tag 'admin' %>
-        <span></span>
-      </label>
-    </td>
-    <td>
-      <div class="btn-group">
-        <%= select_tag "setting_id", options_from_collection_for_select(Setting.all, "id", "name"), class: 'form-control form-control-lg' %>
-      </div>
-    </td>
-    <td>
-      <%= f.submit("Add",class: "btn btn-circle btn-sm btn-link") %>
-    </td>
-
-
-  </tr>
+    <thead>
+    <tr>
+      <th>Avatar</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Login</th>
+      <th>Password</th>
+      <th>Admin</th>
+      <th>Jira</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tr>
+      <td><%= image_tag '/images/voardtrix_logo.png', class: "img-circle profile-image", height: '35', width: '35' %></td>
+      <td><%= f.text_field :displayName, required: true, autofocus: true, placeholder: 'User name' %></td>
+      <td><%= f.email_field :email, required: true, placeholder: 'Email' %></td>
+      <td><%= f.text_field :extuser, required: true, value: "", placeholder: 'External login' %></td>
+      <td><%= f.password_field :password, required: true, placeholder: 'Password' %></td>
+      <td>
+        <label class="switch switch-success">
+          <%= check_box_tag 'admin' %>
+          <span></span>
+        </label>
+      </td>
+      <td>
+        <div class="btn-group">
+          <%= select_tag "setting_id", options_from_collection_for_select(Setting.all, "id", "name"), class: 'form-control form-control-lg', include_blank: "Defined by user" %>
+        </div>
+      </td>
+      <td>
+        <%= f.submit("Add", class: "btn btn-circle btn-sm btn-link") %>
+      </td>
+    </tr>
   </table>
 <% end %>
