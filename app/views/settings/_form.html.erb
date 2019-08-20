@@ -1,11 +1,26 @@
-<%= form_for(@setting, html: { multipart: true, class: 'form-horizontal' }) do |f| %>
+<script type="text/javascript">
+
+    function yesnoCheck() {
+        if (document.getElementById('oauthCheck').checked) {
+            document.getElementById('basic').style.display = 'none';
+            document.getElementById('oauth').style.display = 'block';
+        } else {
+            document.getElementById('basic').style.display = 'block';
+            document.getElementById('oauth').style.display = 'none';
+
+        }
+    }
+
+</script>
+
+<%= form_for(@setting, html: { multipart: true, class: 'form-horizontal form-control-lg' }) do |f| %>
   <%= f.error_notification %>
   <div class="form-inputs">
     <%= f.form_group :site do |f| %>
       <%= f.label :name, class: 'control-label col-md-2' %>
       <div class='col-md-4'>
         <div class="input-group leading">
-          <%= f.text_field :name, class: 'form-control', placeholder: "Connection name" %>
+          <%= f.text_field :name, class: 'form-control form-control-lg', placeholder: "Connection name" %>
         </div>
         <%= f.error_messages %>
 
@@ -18,7 +33,7 @@
       <div class='col-md-4'>
         <div class="input-group leading">
           <span class="input-group-addon">https</span>
-          <%= f.text_field :site, class: 'form-control', placeholder: "https://jira.yourrestserver.com" %>
+          <%= f.text_field :site, class: 'form-control form-control-lg', placeholder: "https://jira.yourrestserver.com" %>
         </div>
         <%= f.error_messages %>
 
@@ -28,7 +43,7 @@
     <%= f.form_group :base_path do |f| %>
       <%= f.label :base_path, class: 'control-label col-md-2' %>
       <div class='col-md-4'>
-        <%= f.text_field :base_path, class: 'form-control', placeholder: "/rest/api/2" %>
+        <%= f.text_field :base_path, class: 'form-control form-control-lg', placeholder: "/rest/api/2" %>
         <%= f.error_messages %>
       </div>
     <% end %>
@@ -36,34 +51,16 @@
     <%= f.form_group :context do |f| %>
       <%= f.label :context, class: 'control-label col-md-2' %>
       <div class='col-md-2'>
-        <%= f.text_field :context, class: 'form-control' %>
+        <%= f.text_field :context, class: 'form-control form-control-lg' %>
         <%= f.error_messages %>
       </div>
     <% end %>
-
-    <%#= f.form_group :login do |f| %>
-      <%#= f.label :login, class: 'control-label col-md-2' %>
-<!--      <div class='col-md-2'>-->
-        <%#= f.text_field :login, class: 'form-control' %>
-        <%#= f.error_messages %>
-<!--      </div>-->
-    <%# end %>
-
-    <%#= f.form_group :password do |f| %>
-      <%#= f.label :password, class: 'control-label col-md-2' %>
-<!--      <div class='col-md-2'>-->
-        <%#= f.password_field :password, class: 'form-control' %>
-        <%#= f.error_messages %>
-<!--      </div>-->
-    <%# end %>
-
-
 
     <%= f.form_group :oauth do |f| %>
       <%= f.label :oauth, class: 'control-label col-md-2' %>
       <div class='col-md-6'>
         <label class="switch switch-success small">
-          <%= f.check_box :oauth, class: 'form-control', checked: true %>
+          <%= f.check_box :oauth, class: 'form-control form-control-lg', checked: true, id: 'oauthCheck', onChange: "javascript:yesnoCheck();" %>
           <span></span>
         </label>
         <p class="small">We strongly recommend setting up a OAuth authentication, will approve interacting with JIRA
@@ -72,10 +69,30 @@
       <%= f.error_messages %>
     <% end %>
 
+    <div style="display:none;"  class="animate-fade-in-500" id="basic">
+      <%= f.form_group :login do |f| %>
+        <%= f.label :login, class: 'control-label col-md-2' %>
+        <div class='col-md-2'>
+          <%= f.text_field :login, class: 'form-control form-control-lg' %>
+          <%= f.error_messages %>
+        </div>
+      <% end %>
+
+      <%= f.form_group :password do |f| %>
+        <%= f.label :password, class: 'control-label col-md-2' %>
+        <div class='col-md-2'>
+          <%= f.password_field :password, class: 'form-control form-control-lg' %>
+          <%= f.error_messages %>
+        </div>
+      <% end %>
+    </div>
+
+    <div style="display:block;" id="oauth" class="animate-fade-in-500">
+
     <%= f.form_group :signature_method do |f| %>
       <%= f.label :signature_method, class: 'control-label col-md-2' %>
       <div class='col-md-2'>
-        <%= f.text_field :signature_method, class: 'form-control', placeholder: "RSA-SHA1" %>
+        <%= f.text_field :signature_method, class: 'form-control form-control-lg', placeholder: "RSA-SHA1" %>
         <%= f.error_messages %>
       </div>
     <% end %>
@@ -84,7 +101,7 @@
       <%= f.label :key_file, class: 'control-label col-md-2' %>
       <div class='col-md-4'>
         <div class="input-group leading">
-          <%= f.file_field :key_data, class: 'form-control', accept: 'text/pem' %>
+          <%= f.file_field :key_data, class: 'form-control form-control-lg', accept: 'text/pem' %>
           <span class="input-group-addon">.pem</span>
         </div>
         <p class="small">OAuth authentication requires generate an RSA public/private key pair. Upload here the private
@@ -92,10 +109,7 @@
           public in JIRA.</p>
         <%= f.error_messages %>
       </div>
-
-
     <% end %>
-
 
     <%= f.form_group :key_data do |f| %>
       <%= f.label ' ', class: 'control-label col-md-2' %>
@@ -104,28 +118,27 @@
           <%= content_tag :p, @setting.key_data, class: 'small' %>
         </div>
       </div>
-    <% end %>
-
+    <% end if @setting.key_data.present? %>
 
 
     <%= f.form_group :consumer_key do |f| %>
       <%= f.label :consumer_key, class: 'control-label col-md-2' %>
       <div class='col-md-6'>
-        <%= f.text_field :consumer_key, class: 'form-control' %>
+        <%= f.text_field :consumer_key, class: 'form-control form-control-lg' %>
         <p class="small">Unique Hash value required to setup OAuth authentication in JIRA. Has to be the same in both
           sides.</p>
         <%= f.error_messages %>
       </div>
-
     <% end %>
 
+    </div>
 
 
     <%= f.form_group :debug do |f| %>
       <%= f.label :debug, class: 'control-label col-md-2' %>
       <div class='col-md-2'>
         <label class="switch switch-success small">
-          <%= f.check_box :debug, class: 'form-control' %>
+          <%= f.check_box :debug, class: 'form-control form-control-lg' %>
           <span></span>
         </label>
         <%= f.error_messages %>
