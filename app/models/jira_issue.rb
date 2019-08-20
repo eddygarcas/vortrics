@@ -74,11 +74,16 @@ class JiraIssue
     [:indeterminate].include? status[:statusCategory.to_s][:key.to_s].to_sym
   end
 
+
   def number_of_sprints
     return 0 if closedSprints.blank?
     closedSprints.count.to_i
   end
 
+  def sprint_info
+    return sprint unless sprint.blank?
+    return parse_closed_sprints unless closedSprints.blank?
+  end
 
   def parse_histories
     return [] if histories.blank?
@@ -94,11 +99,5 @@ class JiraIssue
   def parse_closed_sprints
     closedSprints.sort {|x, y| Time.parse(x['completeDate']) <=> Time.parse(y['completeDate'])}.last unless closedSprints.blank?
   end
-
-  def sprint_info
-    return sprint unless sprint.blank?
-    return parse_closed_sprints unless closedSprints.blank?
-  end
-
 
 end

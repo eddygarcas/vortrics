@@ -13,18 +13,7 @@ module AssesmentsHelper
     response
   end
 
-  def each_level index
-    class_name = ""
-    case index
-      when 0
-        class_name ="info"
-      when 1
-        class_name ="success"
-      when 2
-        class_name = "danger"
-      else
-        class_name = "default"
-    end
-    class_name
+  def each_level index = 3
+    ['info','success','danger','default'].at(index)
   end
 end

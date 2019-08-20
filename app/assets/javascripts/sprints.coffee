@@ -192,11 +192,13 @@ class Sprints
       type: 'GET'
       url: '/sprints/' + @sprintid + '/graph_closed_by_day'
       success: @handleSuccess
+      timeout: 5000
     )
     $.ajax(
       type: 'GET'
       url: '/sprints/' + @sprintid + '/graph_release_time'
       success: @handleReleaseSuccess
+      timeout: 5000
     )
 
   handleSuccess: (data) ->

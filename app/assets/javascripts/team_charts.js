@@ -133,7 +133,8 @@ function InitializeReleaseTimeGraphTeam() {
             });
 
 
-        }
+        },
+        timeout: 10000
     })
 
 }
@@ -269,7 +270,8 @@ function InitializeCycleTimeGraphTeam() {
             });
 
 
-        }
+        },
+        timeout: 5000
     })
 
 }
@@ -403,7 +405,8 @@ function InitializeReleaseTimeBugsGraphTeam() {
                 });
                 graph.render();
             });
-        }
+        },
+        timeout: 5000
     })
 }
 
