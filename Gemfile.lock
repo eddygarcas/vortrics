@@ -59,7 +59,7 @@ GEM
       activerecord (= 6.0.0.rc1)
       activestorage (= 6.0.0.rc1)
       activesupport (= 6.0.0.rc1)
-      nokogiri (>= 1.8.5)
+      nokogiri (>= 1.10.4)
     actionview (6.0.0.rc1)
       activesupport (= 6.0.0.rc1)
       builder (~> 3.1)
