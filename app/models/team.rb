@@ -5,6 +5,7 @@ require_relative '../../app/helpers/numeric'
 
 class Team < ApplicationRecord
   include JiraHelper
+
   belongs_to :project_info
   has_many :sprints, dependent: :destroy
   has_many :assesments, dependent: :destroy
@@ -23,7 +24,7 @@ class Team < ApplicationRecord
   end
 
   def issues
-    sprint.issues unless sprint.blank?
+    sprint&.issues
   end
 
   def scrum?
@@ -65,7 +66,21 @@ class Team < ApplicationRecord
     average = Rails.cache.fetch("average_time_#{id}", expires_in: 1.day) {
       issues_selectable_for_graph.map {|issue| issue.cycle_time.abs}.average
     }
-    average.nan? ? 0 : average
+    average.nan? ? 0 : average.ceil.to_i
+  end
+
+  def wip_limit
+    (average_time * throughput).round(0)
+  end
+
+  def throughput
+    issues_loc = issues_selectable_for_graph
+    ((issues_loc.count).to_f / days).round(2)
+  end
+
+  def days
+    sorted_sprints = sprints.sort_by(&:enddate)
+    (sorted_sprints.first.start_date..sorted_sprints.last.enddate).select { |day| !day.sunday? && !day.saturday? }.count
   end
 
   def average_closed_points
@@ -89,18 +104,18 @@ class Team < ApplicationRecord
     current_capacity.percent_of(max_capacity).round(0)
   end
 
-  def estimation_over_average_closed_points?
-    begin
-      bigger_estimation = issues.sort {|x, y| x.customfield_11802.to_i <=> y.customfield_11802.to_i}.select {|elem| !elem.customfield_11802.blank?}.last
-      bigger_estimation.blank? ? false : bigger_estimation.customfield_11802.percent_of(average_closed_points).round(0) > 15
-    rescue FloatDomainError
-      false
-    end
-  end
+  # def estimation_over_average_closed_points?
+  #   begin
+  #     bigger_estimation = issues.sort {|x, y| x.customfield_11802.to_i <=> y.customfield_11802.to_i}.select {|elem| !elem.customfield_11802.blank?}.last
+  #     bigger_estimation.blank? ? false : bigger_estimation.customfield_11802.percent_of(average_closed_points).round(0) > 15
+  #   rescue FloatDomainError
+  #     false
+  #   end
+  # end
 
-  def sprint_forecast_points
-    (average_closed_points * (percent_of_capacity / 100.to_f)).round
-  end
+  # def sprint_forecast_points
+  #   (average_closed_points * (percent_of_capacity / 100.to_f)).round
+  # end
 
   def velocity_variance
     closed_points = average_closed_points
@@ -120,9 +135,9 @@ class Team < ApplicationRecord
     Math.sqrt(variance).round(0)
   end
 
-  def variance_volatility?
-    stories_variance > 2
-  end
+  # def variance_volatility?
+  #   stories_variance > 2
+  # end
 
   def trend_stories
     begin
@@ -147,13 +162,13 @@ class Team < ApplicationRecord
     (sprint.closed_points - average_closed_points).round
   end
 
-  def trend_forecast
-    (sprint_forecast_points - average_closed_points).round
-  end
+  # def trend_forecast
+  #   (sprint_forecast_points - average_closed_points).round
+  # end
 
-  def trend_capacity
-    (percent_of_capacity - 100).floor(2)
-  end
+  # def trend_capacity
+  #   (percent_of_capacity - 100).floor(2)
+  # end
 
   def bar_percent_of tag = :new?
     return 0 if sprint.blank? || sprint.issues.blank?
@@ -189,17 +204,17 @@ class Team < ApplicationRecord
     sprints.names_safe
   end
 
-  def avg_team_stories
-    sprints.select(:stories)
-  end
+  # def avg_team_stories
+  #   sprints.select(:stories)
+  # end
 
-  def avg_closed_points
-    sprints.select(:closed_points)
-  end
+  # def avg_closed_points
+  #   sprints.select(:closed_points)
+  # end
 
-  def avg_remaining_points
-    sprints.select(:remaining_points)
-  end
+  # def avg_remaining_points
+  #   sprints.select(:remaining_points)
+  # end
 
   def longer_issue
     issue = issues_selectable_for_graph.last

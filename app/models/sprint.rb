@@ -98,17 +98,17 @@ class Sprint < ApplicationRecord
 	  issues.map(&:lead_time).average.ceil.to_i
   end
 
-  def wip_limit
-    (sprint_cycle_time * throughput).round(0)
-  end
+  # def wip_limit
+  #   (sprint_cycle_time * throughput).round(0)
+  # end
 
   def days
     (start_date..enddate).count
   end
 
-  def throughput
-    ((stories + bugs).to_f / days).round(2)
-  end
+  # def throughput
+  #   ((stories + bugs).to_f / days).round(2)
+  # end
 
   def week_days
     (start_date..enddate + 1).select { |day| !day.sunday? && !day.saturday? }
