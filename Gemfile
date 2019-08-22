@@ -9,7 +9,7 @@ source "https://gems.rapidrailsthemes.com/gems" do
   gem "dresssed-ives", "~> 1.0.67"
 end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.0.rc1'
+gem 'rails', '~> 6.0.0'
 gem "rack", ">= 2.0.7"
 gem "loofah", ">= 2.2.3"
 gem "rubyzip", ">= 1.2.2"
@@ -37,7 +37,7 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'jira-ruby', '1.5.0', :require => 'jira-ruby'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
 gem "devise", ">= 4.6.0"
 
 gem 'jquery-rails', '~> 4.3.1'
