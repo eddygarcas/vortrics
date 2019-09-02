@@ -50,6 +50,7 @@ gem "sweet-alert", git: "https://github.com/frank184/sweet-alert-rails"
 gem "sweet-alert-confirm", git: "https://github.com/humancopy/sweet-alert-rails-confirm"
 gem 'webpacker', '~> 4.x'
 
+gem 'montecasting'
 
 gem 'acts_as_list'
 

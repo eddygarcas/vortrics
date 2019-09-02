@@ -19,18 +19,18 @@ GIT
 
 GIT
   remote: https://github.com/rails/jbuilder.git
-  revision: 821f514741a3e9102082a6e98eb59a08671f75d0
+  revision: 44bc207ff15fb9f0c1a58138b90122c0d300dff3
   branch: master
   specs:
     jbuilder (2.9.1)
-      activesupport (>= 4.2.0)
+      activesupport (>= 5.0.0)
 
 GIT
   remote: https://github.com/stympy/faker.git
-  revision: 840cf10c8f2d42d8348a874d2500a617ae635a9c
+  revision: 9365f60abdcdfa4b8990ff14b6c4518c2610e68b
   branch: master
   specs:
-    faker (2.1.2)
+    faker (2.2.1)
       i18n (>= 0.8)
 
 GEM
@@ -94,8 +94,8 @@ GEM
       zeitwerk (~> 2.1, >= 2.1.8)
     acts_as_list (0.9.19)
       activerecord (>= 3.0)
-    addressable (2.6.0)
-      public_suffix (>= 2.0.2, < 4.0)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
     awesome_print (1.8.0)
     bcrypt (3.1.13)
     bindex (0.8.1)
@@ -111,7 +111,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
-    childprocess (1.0.1)
+    childprocess (2.0.0)
       rake (< 13.0)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
@@ -176,17 +176,18 @@ GEM
     mocha (1.9.0)
       metaclass (~> 0.0.1)
     mono_logger (1.1.0)
+    montecasting (0.3.0)
     multi_json (1.13.1)
     multipart-post (2.1.1)
     mustermann (1.0.3)
-    nio4r (2.4.0)
+    nio4r (2.5.1)
     nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     oauth (0.5.4)
     orm_adapter (0.5.0)
     pg (1.1.4)
     power_assert (1.1.5)
-    public_suffix (3.1.1)
+    public_suffix (4.0.1)
     puma (3.12.1)
     rack (2.0.7)
     rack-protection (2.0.7)
@@ -278,8 +279,8 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.142.3)
-      childprocess (>= 0.5, < 2.0)
+    selenium-webdriver (3.142.4)
+      childprocess (>= 0.5, < 3.0)
       rubyzip (~> 1.2, >= 1.2.2)
     shoulda-matchers (3.1.3)
       activesupport (>= 4.0.0)
@@ -357,6 +358,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   loofah (>= 2.2.3)
   mocha
+  montecasting
   pg
   puma (~> 3.7)
   rack (>= 2.0.7)

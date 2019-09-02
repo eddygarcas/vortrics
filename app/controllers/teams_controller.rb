@@ -103,14 +103,9 @@ class TeamsController < ApplicationController
 
   def cycle_time_chart
     data = Rails.cache.fetch("cycle_time_chart_#{@team.id}", expires_in: 30.minutes) {
-      data = Array.new {Array.new}
       user_stories = @team.issues_selectable_for_graph
-      max_index = user_stories.last.cycle_time.round(0).to_i
       lead_times = user_stories.map {|elem| elem.cycle_time.ceil}
-      data[0] = [*0..max_index].map {|index| {x: index, y: lead_times.count {|elem| elem.eql? index}}}
-      data[1] = [*0..max_index].map {|index| {x: index, y: index}}
-      data[2] = data[0].map.with_index {|storycount, index| {x: index, y: data[0].take(index).inject(0) {|acc, elem| acc + elem[:y]}.percent_of(user_stories.count).round(1)}}
-      data
+      Montecasting::Charts.chart_cycle_time lead_times
     }
     render json: data
   end

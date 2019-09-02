@@ -154,7 +154,7 @@ function InitializeCycleTimeGraphTeam() {
                 document.getElementById('bars-cycle-time-loader').innerHTML = "";
 
             }
-            series = data[0];
+            series = data[1];
             min = Number.MAX_VALUE;
             max = Number.MIN_VALUE;
             for (_l = 0, _len2 = series.length; _l < _len2; _l++) {
@@ -176,7 +176,7 @@ function InitializeCycleTimeGraphTeam() {
                         name: 'Tickets',
                         renderer: 'bar',
                         color: '#90caf9',
-                        data: data[0],
+                        data: data[1],
                         scale: axis_scale1
                     },
                     {
@@ -210,10 +210,10 @@ function InitializeCycleTimeGraphTeam() {
             });
 
             var format = function (n) {
-                if (data[1][n] === undefined) {
+                if (data[0][n] === undefined) {
                     return;
                 }
-                return data[1][n].y + ' Days';
+                return data[0][n].y + ' Days';
 
             }
 
@@ -254,8 +254,8 @@ function InitializeCycleTimeGraphTeam() {
                 graph: graph,
                 formatter: function (series, x, y) {
                     var content = '';
-                    if (data[1][x].y) content += 'Days: ' + data[1][x].y + '<br>';
-                    if (data[0][x].y) content += '#Tickets: ' + data[0][x].y + '<br>';
+                    if (data[0][x].y) content += 'Days: ' + data[0][x].y + '<br>';
+                    if (data[1][x].y) content += '#Tickets: ' + data[1][x].y + '<br>';
                     if (data[2][x].y) content += 'Percent: ' + data[2][x].y + '%';
                     return content;
                 }
