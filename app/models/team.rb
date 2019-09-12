@@ -73,13 +73,13 @@ class Team < ApplicationRecord
   def wip_limit
     Montecasting::Metrics.wip_limit(
         issues_selectable_for_graph.map(&:cycle_time),
-        sprints.first.start_date).round(0)
+        sprints.last.start_date).round(0)
   end
 
   def throughput
     Montecasting::Metrics.throughput(
         issues_selectable_for_graph.count,
-        sprints.first.start_date).round(2)
+        sprints.last.start_date).round(2)
   end
 
   def days
