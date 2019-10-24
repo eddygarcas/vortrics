@@ -12,7 +12,7 @@ end
 gem 'rails', '~> 6.0.0'
 gem "rack", ">= 2.0.7"
 gem "loofah", ">= 2.2.3"
-gem "rubyzip", ">= 1.2.2"
+gem "rubyzip", ">= 1.3.0"
 gem "ffi", ">= 1.9.24"
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', group: :development
