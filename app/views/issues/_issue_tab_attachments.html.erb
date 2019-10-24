@@ -1,0 +1,44 @@
+<div class="tab-pane fade" style='height: 250px; overflow: scroll;' id='story-attach-data'>
+  <ul class="list-group list-group-flush">
+    <% @attachments.each do |attach| %>
+      <li class='list-group-item'>
+        <div class="media">
+          <a class="pull-left" href="#">
+            <%= image_tag attach['author']['avatarUrls']["48x48"],class: "img-rounded", height: '24', width: '24', data: {toggle: "tooltip", title: attach['author']['displayName']} unless attach['author'].nil? %>
+            <%= random_avatar 40, "media-object" if attach['author'].nil? %>
+          </a>
+          <div class="media-body">
+            <h5 class="media-heading">
+              <a href="#" title=""><%= attach['author']['displayName'] %></a> attached at
+              <a href="#" title=""><%= attach['created'].to_datetime.strftime("%d/%m/%Y %H:%M") %> </a>
+            </h5>
+            <p class='small'>
+              <% if attach['thumbnail'].blank? %>
+                <%= link_to attach['content'], data: {toggle: "tooltip", title: attach['author']['displayName']} unless attach['author'].nil? %>
+              <% else %>
+                <%= link_to image_tag(attach['thumbnail']), attach['content'], data: {lightbox: "#{attach['author']['displayName']}", title: "#{@issue.key} Attachment"} %>
+              <% end %>
+            </p>
+
+          </div>
+        </div>
+      </li>
+    <% end %>
+
+    <% if @attachments.empty? %>
+      <li class='list-group-item'>
+        <div class="media">
+          <a class="pull-left" href="#">
+            <%= image_tag @issue.assigneeavatar.blank? ? "/images/voardtrix_logo.png" : @issue.assigneeavatar,class: "img-rounded", height: '24', width: '24', data: { toggle: "tooltip", title: @issue.assignee } %>
+          </a>
+          <div class="media-body">
+            <h5 class="media-heading">
+              <%= @issue.key %>
+            </h5>
+            <p class='small'> Has no attachments</p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

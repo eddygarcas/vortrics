@@ -5,8 +5,10 @@ require_relative '../../app/helpers/numeric'
 
 class Team < ApplicationRecord
   include JiraHelper
+
   belongs_to :project_info
-  has_many :sprints, dependent: :destroy
+
+  has_many :sprints, -> {order(enddate: :desc)}, dependent: :destroy
   has_many :assesments, dependent: :destroy
   has_many :team_advices
   has_many :advices, through: :team_advices
@@ -23,7 +25,7 @@ class Team < ApplicationRecord
   end
 
   def issues
-    sprint.issues unless sprint.blank?
+    sprint&.issues
   end
 
   def scrum?
@@ -56,7 +58,7 @@ class Team < ApplicationRecord
 
   def issues_selectable_for_graph
     Rails.cache.fetch("issues_selectable_for_graph_#{id}", expires_in: 1.day) {
-      limit = ScrumMetrics.config[:performance][:graph_limit].to_i
+      #limit = ScrumMetrics.config[:performance][:graph_limit].to_i
       Issue.joins(:sprint).where('team_id = ?', id).select('issues.*').select(&:selectable_for_cycle_time?).sort_by!(&:cycle_time)
     }
   end
@@ -65,7 +67,24 @@ class Team < ApplicationRecord
     average = Rails.cache.fetch("average_time_#{id}", expires_in: 1.day) {
       issues_selectable_for_graph.map {|issue| issue.cycle_time.abs}.average
     }
-    average.nan? ? 0 : average
+    average.nan? ? 0 : average.round(2)
+  end
+
+  def wip_limit
+    Montecasting::Metrics.wip_limit(
+        issues_selectable_for_graph.map(&:cycle_time),
+        sprints.last.start_date).round(0)
+  end
+
+  def throughput
+    Montecasting::Metrics.throughput(
+        issues_selectable_for_graph.count,
+        sprints.last.start_date).round(2)
+  end
+
+  def days
+    sorted_sprints = sprints.sort_by(&:enddate)
+    (sorted_sprints.first.start_date..sorted_sprints.last.enddate).select { |day| !day.sunday? && !day.saturday? }.count
   end
 
   def average_closed_points
@@ -81,47 +100,19 @@ class Team < ApplicationRecord
   end
 
   def percent_of_lead_time days = ScrumMetrics.config[:baseline][:leadtime]
-    items_with_baseline = issues_selectable_for_graph.select {|item| item.cycle_time < days.to_i}.count
-    items_with_baseline.percent_of(issues_selectable_for_graph.count).round(0)
+    Montecasting::Metrics.percent_of_items_at(issues_selectable_for_graph.map(&:cycle_time),days)
   end
 
   def percent_of_capacity
     current_capacity.percent_of(max_capacity).round(0)
   end
 
-  def estimation_over_average_closed_points?
-    begin
-      bigger_estimation = issues.sort {|x, y| x.customfield_11802.to_i <=> y.customfield_11802.to_i}.select {|elem| !elem.customfield_11802.blank?}.last
-      bigger_estimation.blank? ? false : bigger_estimation.customfield_11802.percent_of(average_closed_points).round(0) > 15
-    rescue FloatDomainError
-      false
-    end
-  end
-
-  def sprint_forecast_points
-    (average_closed_points * (percent_of_capacity / 100.to_f)).round
-  end
-
-  def velocity_variance
-    closed_points = average_closed_points
-    variance = 0
-    sprints.recent.each {|spt|
-      variance += ((closed_points - spt.closed_points) ** 2)
-    }
-    Math.sqrt(variance).round(0)
+  def points_variance
+    Montecasting::Metrics.variance(sprints.recent.map(&:closed_points)).round(0)
   end
 
   def stories_variance
-    closed_stories = average_stories
-    variance = 0
-    sprints.recent.each {|spt|
-      variance += ((closed_stories - spt.stories) ** 2)
-    }
-    Math.sqrt(variance).round(0)
-  end
-
-  def variance_volatility?
-    stories_variance > 2
+    Montecasting::Metrics.variance(sprints.recent.map(&:stories)).round(0)
   end
 
   def trend_stories
@@ -145,14 +136,6 @@ class Team < ApplicationRecord
   def trend_points
     return 0 if sprint.blank? || (sprint.closed_points.eql? 0)
     (sprint.closed_points - average_closed_points).round
-  end
-
-  def trend_forecast
-    (sprint_forecast_points - average_closed_points).round
-  end
-
-  def trend_capacity
-    (percent_of_capacity - 100).floor(2)
   end
 
   def bar_percent_of tag = :new?
@@ -187,18 +170,6 @@ class Team < ApplicationRecord
 
   def all_sprint_names
     sprints.names_safe
-  end
-
-  def avg_team_stories
-    sprints.select(:stories)
-  end
-
-  def avg_closed_points
-    sprints.select(:closed_points)
-  end
-
-  def avg_remaining_points
-    sprints.select(:remaining_points)
   end
 
   def longer_issue

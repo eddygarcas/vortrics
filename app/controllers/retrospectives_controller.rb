@@ -2,6 +2,7 @@ class RetrospectivesController < ApplicationController
   layout 'sidenav'
   before_action :set_retrospective, only: [:show, :destroy, :move]
   before_action :team_session
+  before_action :redirect_unless_user_has_settings
 
 
   # GET /retrospectives

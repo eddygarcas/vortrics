@@ -48,12 +48,12 @@ class Sprint < ApplicationRecord
   end
 
   def time_in_flagged
-    (time_in_log / 1.day).round
+    time_in_log.round
   end
 
   def ratio_time_flagged
     begin
-      ((time_in_log / 1.hour) / issues.select(&:task?).count.to_f).round(0)
+      ((time_in_log.days / 1.hour) / issues.select(&:task?).count.to_f).round(0)
     rescue FloatDomainError => e
       return 0
     end
@@ -98,17 +98,22 @@ class Sprint < ApplicationRecord
 	  issues.map(&:lead_time).average.ceil.to_i
   end
 
-  def wip_limit
-    (sprint_cycle_time * throughput).round(0)
-  end
+  # def wip_limit
+  #   (sprint_cycle_time * throughput).round(0)
+  # end
 
   def days
     (start_date..enddate).count
   end
 
-  def throughput
-    ((stories + bugs).to_f / days).round(2)
+  # def throughput
+  #   ((stories + bugs).to_f / days).round(2)
+  # end
+
+  def week_days
+    (start_date..enddate + 1).select { |day| !day.sunday? && !day.saturday? }
   end
+
 
   protected
 

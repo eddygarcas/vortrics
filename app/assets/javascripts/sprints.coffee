@@ -93,18 +93,6 @@
                     renderer: 'bar',
                     color: '#cee8f9',
                     data: data[7]
-                },
-                {
-                    name: 'Comulative Time Blocked',
-                    renderer: 'line',
-                    color: '#d13b47',
-                    data: data[8]
-                },
-                {
-                    name: 'Average Cycle Time',
-                    renderer: 'line',
-                    color: '#0085f9',
-                    data: data[9]
                 }
             ]
         });
@@ -114,7 +102,6 @@
                 return;
             }
             return data[0][n].y;
-
         }
 
         var legend = new Rickshaw.Graph.Legend({
@@ -134,6 +121,13 @@
         var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
             graph: graph,
             legend: legend
+        })
+
+        var clickinghandler = new Rickshaw.Graph.ClickDetail({
+            graph: graph,
+            clickHandler: function (value) {
+                window.open('/issues/' + $(".id_team_story").text(),"_self")
+            }
         });
 
         new Rickshaw.Graph.Axis.X({
@@ -162,10 +156,10 @@
             graph: graph,
             formatter: function (series, x, y) {
                 var sprint = '<span class="date key_bug_sprint">' + data[0][x].y + '</span><span class="date"> ' + data[5][x].y + '</span>';
-                var flagged = ' <i class="fa fa-flag"></i>'
-                var bug = ' <i class="fa fa-bug"></i>'
-                var firsttime = ' <i class="fa fa-bolt"></i>'
-                var moreonesprint = '    <i class="fa fa-exclamation-triangle"></i>'
+                var flagged = '<i class="fa fa-flag"></i>'
+                var bug = '<i class="fa fa-bug"></i>'
+                var firsttime = '<i class="fa fa-bolt"></i>'
+                var moreonesprint = '<i class="fa fa-exclamation-triangle"></i>'
 
                 var content = series.name + ": " + parseInt(y) + ' days<br>' + sprint;
                 if (series.name === 'Comulative Time Blocked') return content;
@@ -173,6 +167,7 @@
                 if (data[2][x].y) content += flagged
                 if (data[3][x].y) content += firsttime
                 if (data[6][x].y) content += moreonesprint
+                content += '<span class="id_team_story" style="visibility: hidden;">' + data[8][x].y + '</span>';
                 return content;
             }
         });
@@ -197,11 +192,13 @@ class Sprints
       type: 'GET'
       url: '/sprints/' + @sprintid + '/graph_closed_by_day'
       success: @handleSuccess
+      timeout: 10000
     )
     $.ajax(
       type: 'GET'
       url: '/sprints/' + @sprintid + '/graph_release_time'
       success: @handleReleaseSuccess
+      timeout: 10000
     )
 
   handleSuccess: (data) ->

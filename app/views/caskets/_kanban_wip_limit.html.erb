@@ -3,14 +3,14 @@
     <p class="lead"><i class="fa fa-fire"></i> <b>WIP</b> Limit</p>
   </div>
   <div class='panel-body text-light-blue-400 text-center'>
-    <h2 class="m0"><%= sprint.wip_limit %></h2>
+    <h2 class="m0"><%= team.wip_limit %></h2>
     <small>items</small>
 
   </div>
   <div class="panel-footer">
     <div class="row">
       <div class="col-sm-12">
-        As result of <strong><%= sprint.sprint_cycle_time %></strong> average cycle time per <strong><%= sprint.throughput %></strong> items/day
+        As result of <strong><%= team.average_time %></strong> days as average cycle time per <strong><%= team.throughput %></strong> items/day
       </div>
     </div>
     <div class="clearfix"></div>

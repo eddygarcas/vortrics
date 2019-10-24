@@ -1,25 +1,19 @@
+require 'active_support/all'
+
 module JqlHelper
 
   def parse_jql_paramters jql_param
-    jql = ''
-    index = 0
-    jql_param.each do |k, v|
-      jql << "#{' AND ' if index >= 1}#{k}#{v}"
-      index+=1
-    end
-    jql
+    jql_param.map{|k,v| "#{k}#{v}"}.join(' AND ')
   end
 
-  def url_with_query_params(url, query_params)
+  def url_with_query_params(url, query_params = {})
     uri = URI.parse(url)
-    uri.query = uri.query.nil? ? "#{hash_to_query_string query_params}" : "#{uri.query}&#{hash_to_query_string query_params}" unless query_params.empty?
-    puts uri.to_s
+    uri.query = Array.wrap([uri.query,hash_to_query_string(query_params)]).compact.join('&')
     uri.to_s
   end
 
-  def hash_to_query_string(query_params)
-    query_params.map do |k, v|
-      CGI.escape(k.to_s) + '=' + CGI.escape(v.respond_to?(:each) ? v.join(',') : v.to_s)
-    end.join('&')
+  def hash_to_query_string(query_params = {})
+    query_params.map{ |k,v| "#{CGI.escape(k.to_s)}=#{CGI.escape(Array.wrap(v).join(','))}" }.join('&')
   end
+
 end

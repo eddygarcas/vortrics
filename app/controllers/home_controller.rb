@@ -5,7 +5,9 @@ class HomeController < ApplicationController
   layout 'sidenav'
   before_action :set_dashboard, only: [:sidenav, :dashboard, :manage_users]
   before_action :team_session
-  before_action :set_current_user
+  before_action :redirect_unless_user_has_settings
+
+
 
   def sidenav
   end
@@ -13,7 +15,6 @@ class HomeController < ApplicationController
   #dashboard method should retrieve all information regarding average date from team selected. If any it should deal with the error codes produced.
   # All redirections should happend here, so far when there is no service connection, no teams defined or team has to import a sprint to see data.
   def dashboard
-    redirect_to new_setting_url and return if current_user.setting.blank?
     redirect_to teams_url and return unless current_user.setting.teams?
     redirect_to sprint_import_url(@team.board_id) and return if @team.no_sprint?
     redirect_to kanban_import_issues_url(@team.board_id) and return if @team.no_kanban?

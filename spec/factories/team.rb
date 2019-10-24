@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :team do
-    id { Faker::Number.between(1,5000)}
+    id { Faker::Number.between}
     name {Faker::Name::first_name_men}
     project { "MTR"}
-    board_id { Faker::Number.between(1,9999)}
+    board_id { Faker::Number.between}
     board_type {"scrum"}
     avatar { ""}
     estimated { "Story Points"}

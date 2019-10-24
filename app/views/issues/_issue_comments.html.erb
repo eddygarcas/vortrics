@@ -1,0 +1,23 @@
+<div class="panel panel-info mt15" style="height: 310px;">
+  <div class="panel-heading" >
+    <p class='lead'><%= fa_icon_tag 'comment' %> COMMENTS</p>
+    <ul class="nav nav-tabs nav-tabs-xs mt15">
+      <li class="active">
+        <a href="#story-recent-comments" data-toggle="tab">Comments</a>
+      </li>
+      <li class="">
+        <a href="#story-attach-historial" data-toggle="tab">Historial</a>
+      </li>
+      <li class="">
+        <a href="#story-attach-data" data-toggle="tab">Attachments</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="tab-content">
+    <%= render partial: 'issues/issue_tab_comments' %>
+    <%= render partial: 'issues/issue_tab_historial' %>
+    <%= render partial: 'issues/issue_tab_attachments' %>
+  </div>
+</div>
+

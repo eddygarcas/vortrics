@@ -1,0 +1,37 @@
+<div class="tab-pane fade active in" style='height: 250px; overflow: scroll;' id='story-recent-comments'>
+  <ul class="list-group list-group-flush">
+    <% @comments.each do |comment| %>
+      <li class='list-group-item'>
+        <div class="media">
+          <a class="pull-left" href="#">
+            <%= image_tag comment.author['avatarUrls']["48x48"], class: "img-rounded", height: '24', width: '24', data: {toggle: "tooltip", title: comment.author['displayName']} unless comment.author.nil? %>
+            <%= random_avatar 40, "media-object" if comment.author.nil? %>
+          </a>
+          <div class="media-body">
+            <h5 class="media-heading">
+              <a href="#" title=""><%= comment.author['displayName'] %></a> commented at
+              <a href="#" title=""><%= comment.created.to_datetime.strftime("%d/%m/%Y %H:%M") %> </a>
+            </h5>
+            <p class='small'><%= comment.body %></p>
+
+          </div>
+        </div>
+      </li>
+    <% end %>
+    <% if @comments.empty? %>
+      <li class='list-group-item'>
+        <div class="media">
+          <a class="pull-left" href="#">
+            <%= image_tag @issue.assigneeavatar.blank? ? "/images/voardtrix_logo.png" : @issue.assigneeavatar,class: "img-rounded", height: '24', width: '24', data: { toggle: "tooltip", title: @issue.assignee } %>
+          </a>
+          <div class="media-body">
+            <h5 class="media-heading">
+              <%= @issue.key %>
+            </h5>
+            <p class='small'> Has no comments</p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

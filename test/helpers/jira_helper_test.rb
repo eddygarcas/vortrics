@@ -6,8 +6,6 @@ require_relative '../../app/helpers/jira_helper'
 require_relative '../../app/helpers/array'
 
 require_relative '../../app/models/jira_issue'
-require_relative '../../app/models/change_log'
-
 
 class JiraHelperTest < Test::Unit::TestCase
   include JiraHelper
@@ -15,54 +13,49 @@ class JiraHelperTest < Test::Unit::TestCase
   # to set up fixture information.
   def setup
     # Do nothing
+    @options = {
+        fields: [:key, :priority, :issuetype, :status, :componentes, :customfield_11382, :summary, :customfield_11802, :timeoriginalestimate, :components, :description, :assignee, :created, :updated, :resolutiondate]
+    }
+    @param_hash = {project: "='MTR'", component: "='Motorheads'", sprint: ' in openSprints()'}
 
+    @single_string = {project: 'alfalfa'}
     @issues ||= Array.new
   end
 
-
+  def test_parse_jql_parameters
+    param_hash = {issuetype: "='Bug'"}
+    param_hash.merge!({created: ">='today'"})
+    param_hash.merge!({status: "='done'"})
+    assert_equal "issuetype='Bug' AND created>='today' AND status='done'", parse_jql_paramters(param_hash)
+    assert_equal "issuetype='Bug'", parse_jql_paramters({issuetype: "='Bug'"})
+  end
 
   # Fake test
+  def test_url_with_query_params
+    search_url = '/rest/agile/1.0/board/2441/issue?jql=test'
+    assert_equal '/rest/agile/1.0/board/2441/issue?jql=test&fields=key%2Cpriority%2Cissuetype%2Cstatus%2Ccomponentes%2Ccustomfield_11382%2Csummary%2Ccustomfield_11802%2Ctimeoriginalestimate%2Ccomponents%2Cdescription%2Cassignee%2Ccreated%2Cupdated%2Cresolutiondate',
+                 url_with_query_params(search_url, @options)
 
+    search_url = '/rest/agile/1.0/board/2441/issue'
+    assert_equal '/rest/agile/1.0/board/2441/issue?fields=key%2Cpriority%2Cissuetype%2Cstatus%2Ccomponentes%2Ccustomfield_11382%2Csummary%2Ccustomfield_11802%2Ctimeoriginalestimate%2Ccomponents%2Cdescription%2Cassignee%2Ccreated%2Cupdated%2Cresolutiondate',
+                 url_with_query_params(search_url, @options)
 
-  def test_get_current_sprint
-    @jira_cli = get_jira_client
-    options = {
-        fields: [:key, :priority, :issuetype, :status, :componentes, :customfield_11382, :summary, :customfield_11802, :timeoriginalestimate, :components, :description, :assignee, :created, :updated, :resolutiondate]
-    }
-    param_hash = {project: "='MTR'", component: "='Motorheads'", sprint: ' in openSprints()'}
+    puts url_with_query_params('/rest/agile/1.0/board/2441/issue?jql=test')
+
+  end
+
+  def test_hash_to_query_string
+
     begin
-      jira_issues = rest_query(@jira_cli, param_hash, options)
-
-
-    issues = []
-    jira_issues[:issues.to_s].each {|elem|
-      issues << JiraIssue.new(elem)
-    }
-    elem = issues.select(&:done?).sort! {|x, y| x.created <=> y.created}.first
-    puts elem
-    assert_not_nil issues
+      assert_equal 'fields=key%2Cpriority%2Cissuetype%2Cstatus%2Ccomponentes%2Ccustomfield_11382%2Csummary%2Ccustomfield_11802%2Ctimeoriginalestimate%2Ccomponents%2Cdescription%2Cassignee%2Ccreated%2Cupdated%2Cresolutiondate',
+                   hash_to_query_string(@options)
+      assert_equal 'project=%3D%27MTR%27&component=%3D%27Motorheads%27&sprint=+in+openSprints%28%29',
+                   hash_to_query_string(@param_hash)
+      assert_equal 'project=alfalfa',
+                   hash_to_query_string(@single_string)
     rescue Exception => e
       puts e.to_s
     end
   end
 
-
-
-  def oauth_instance
-    assert_not_nil outh_instance
-
-    puts @jira_client
-    request_token = @jira_client.request_token
-    session[:request_token] = request_token.token
-    session[:request_secret] = request_token.secret
-  end
-
-  private
-  def get_jira_client
-    options = {}
-
-    @jira_client = JIRA::Client.new(options)
-
-
-  end
 end

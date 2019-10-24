@@ -13,7 +13,6 @@ tags
 /db/*.sqlite3
 /db/*.sqlite3-journal
 
-
 # Ignore bundler config.
 /.bundle
 
@@ -30,8 +29,7 @@ tags
 /yarn-error.log
 
 .byebug_history
-
-
+/public/.DS_Store
 /public/packs
 /public/packs-test
 /node_modules

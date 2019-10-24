@@ -40,6 +40,10 @@ class User < ApplicationRecord
 		Team.by_setting(setting.id)
 	end
 
+	def setting?
+		setting.present?
+	end
+
 	def admin?
 		return false if group.blank?
 		group.priority.eql? 1

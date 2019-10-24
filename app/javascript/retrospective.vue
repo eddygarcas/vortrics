@@ -50,7 +50,7 @@
             createColumn: function () {
                 var data = new FormData
                 data.append("retrospective[name]", this.message)
-                data.append("retrospective[team_id", this.$store.state.team.id)
+                data.append("retrospective[team_id]", this.$store.state.team.id)
 
                 $.ajax({
                     url: `/retrospectives`,

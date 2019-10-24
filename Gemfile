@@ -9,10 +9,10 @@ source "https://gems.rapidrailsthemes.com/gems" do
   gem "dresssed-ives", "~> 1.0.67"
 end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.0.rc1'
+gem 'rails', '~> 6.0.0'
 gem "rack", ">= 2.0.7"
 gem "loofah", ">= 2.2.3"
-gem "rubyzip", ">= 1.2.2"
+gem "rubyzip", ">= 1.3.0"
 gem "ffi", ">= 1.9.24"
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', group: :development
@@ -37,8 +37,9 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'jira-ruby', '1.5.0', :require => 'jira-ruby'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-gem 'bootstrap-datepicker-rails'
-gem "devise", ">= 4.6.0"
+gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
+gem "devise", ">= 4.7.1"
+
 
 gem 'jquery-rails', '~> 4.3.1'
 gem 'jquery-ui-rails','~> 6.0.1'
@@ -50,6 +51,7 @@ gem "sweet-alert", git: "https://github.com/frank184/sweet-alert-rails"
 gem "sweet-alert-confirm", git: "https://github.com/humancopy/sweet-alert-rails-confirm"
 gem 'webpacker', '~> 4.x'
 
+gem 'montecasting', '>= 0.5.0'
 
 gem 'acts_as_list'
 

@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
 	#It calls get_jira_client every time a redirect is requested.
 	before_action :authenticate_user!, except: [:info, :register]
 
-
 	rescue_from JIRA::HTTPError, with: :render_403
 	rescue_from ActiveRecord::RecordNotFound, with: :render_404
 	rescue_from JIRA::OauthClient::UninitializedAccessTokenError do
@@ -61,7 +60,12 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
+
 	private
+
+	def redirect_unless_user_has_settings
+		redirect_to new_setting_path and return unless current_user.setting?
+	end
 
 	def get_jira_client
 		return if current_user.setting.blank?

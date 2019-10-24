@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_22_124130) do
+ActiveRecord::Schema.define(version: 2019_08_08_093533) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -79,6 +79,9 @@ ActiveRecord::Schema.define(version: 2019_07_22_124130) do
     t.integer "issue_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "displayName"
+    t.string "fieldtype"
+    t.string "avatar"
     t.index ["issue_id"], name: "index_change_logs_on_issue_id"
   end
 

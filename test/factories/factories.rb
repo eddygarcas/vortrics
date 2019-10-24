@@ -16,7 +16,7 @@ FactoryBot.define do
 
 
   factory :setting do
-    id {Faker::Number.between(1,5000)}
+    id {Faker::Number.between}
     name {Faker::Name.first_name_men}
     key_file { "rsakey.pem"}
     key_data { Faker::Alphanumeric.alphanumeric.to_s}

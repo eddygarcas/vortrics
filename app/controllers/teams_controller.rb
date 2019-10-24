@@ -16,27 +16,30 @@ class TeamsController < ApplicationController
   # GET /teams/1/graph_points
   def get_graph_data
     data = Array.new {Array.new}
-    data[0] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :closed_points)
-    data[1] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :remaining_points)
-    data[2] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :remaining_points, :closed_points)
-    data[3] = JSON.parse(Team.find(params[:id]).all_sprint_names)
+    team = Team.find(params[:id])
+    data[0] = JSON.parse(team.axis_graph_by_column :closed_points)
+    data[1] = JSON.parse(team.axis_graph_by_column :remaining_points)
+    data[2] = JSON.parse(team.axis_graph_by_column :remaining_points, :closed_points)
+    data[3] = JSON.parse(team.all_sprint_names)
     render json: data
   end
 
   def stories_graph_data
     data = Array.new {Array.new}
-    data[0] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :stories)
-    data[1] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :remainingstories)
-    data[2] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :stories, :remainingstories)
-    data[3] = JSON.parse(Team.find(params[:id]).all_sprint_names)
+    team = Team.find(params[:id])
+    data[0] = JSON.parse(team.axis_graph_by_column :stories)
+    data[1] = JSON.parse(team.axis_graph_by_column :remainingstories)
+    data[2] = JSON.parse(team.axis_graph_by_column :stories, :remainingstories)
+    data[3] = JSON.parse(team.all_sprint_names)
     render json: data
   end
 
   def stories_points_graph_data
     data = Array.new {Array.new}
-    data[0] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :stories)
-    data[1] = JSON.parse(Team.find(params[:id]).axis_graph_by_column :closed_points)
-    data[2] = JSON.parse(Team.find(params[:id]).all_sprint_names)
+    team = Team.find(params[:id])
+    data[0] = JSON.parse(team.axis_graph_by_column :stories)
+    data[1] = JSON.parse(team.axis_graph_by_column :closed_points)
+    data[2] = JSON.parse(team.all_sprint_names)
     render json: data
   end
 
@@ -61,16 +64,11 @@ class TeamsController < ApplicationController
       points = issues.map {|elem| elem.customfield_11802.to_i}.inject(0) {|sum, x| sum + x}
 
       #To get the amount of stories closed by an specific day, will map the whole issues array counting items chechking whether its resolutiondate matches a specific date.
-      data[0] = (@team.sprint.start_date..@team.sprint.enddate).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_by_date(issues, date)}}
-      data[1] = (@team.sprint.start_date..@team.sprint.enddate).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
-      data[2] = (@team.sprint.start_date..@team.sprint.enddate).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_in_progress(date, issues)}}
-      data[3] = (@team.sprint.start_date..@team.sprint.enddate).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: burndown = GraphHelper.number_stories_by_date(issues, date, burndown)}}
-      data[4] = (@team.sprint.start_date..@team.sprint.enddate).select {|day| !day.sunday? && !day.saturday?}
-                    .map.with_index {|date, index| {x: index, y: points = GraphHelper.number_points_by_date(issues, date, points)}}
+      data[0] = @team.sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_by_date(issues, date)}}
+      data[1] = @team.sprint.week_days.map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
+      data[2] = @team.sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_in_progress(issues,date)}}
+      data[3] = @team.sprint.week_days.map.with_index {|date, index| {x: index, y: burndown = GraphHelper.number_stories_by_date(issues, date, burndown)}}
+      data[4] = @team.sprint.week_days.map.with_index {|date, index| {x: index, y: points = GraphHelper.number_points_by_date(issues, date, points)}}
       data
     }
     render json: data
@@ -95,6 +93,8 @@ class TeamsController < ApplicationController
       data[8] = user_stories.map.with_index {|issue, index| {x: index, y: issue.time_to_release}}
       data[9] = user_stories.map.with_index {|issue, index| {x: index, y: stories_lead_time.take(index).average}}
       data[10] = user_stories.map.with_index {|issue, index| {x: index, y: index.percent_of(user_stories.count).round(0)}}
+      data[11] = user_stories.map.with_index {|issue, index| {x: index, y: issue.id}}
+
 
       data
     }
@@ -103,14 +103,9 @@ class TeamsController < ApplicationController
 
   def cycle_time_chart
     data = Rails.cache.fetch("cycle_time_chart_#{@team.id}", expires_in: 30.minutes) {
-      data = Array.new {Array.new}
       user_stories = @team.issues_selectable_for_graph
-      max_index = user_stories.last.cycle_time.round(0).to_i
       lead_times = user_stories.map {|elem| elem.cycle_time.ceil}
-      data[0] = [*0..max_index].map {|index| {x: index, y: lead_times.count {|elem| elem.eql? index}}}
-      data[1] = [*0..max_index].map {|index| {x: index, y: index}}
-      data[2] = data[0].map.with_index {|storycount, index| {x: index, y: data[0].take(index).inject(0) {|acc, elem| acc + elem[:y]}.percent_of(user_stories.count).round(1)}}
-      data
+      Montecasting::Charts.chart_cycle_time lead_times
     }
     render json: data
   end
@@ -144,7 +139,6 @@ class TeamsController < ApplicationController
       data[7] = bugs.map.with_index {|issue, index| {x: index, y: issue.status.upcase}}
       data[8] = bugs.map.with_index {|issue, index| {x: index, y: bugs.take(index).map {|issue| ((issue.life_time) / 1.day).abs}.average}}
       data[9] = bugs.map.with_index {|issue, index| {x: index, y: ((issue.time_in :wip, :last, false) / 1.day).abs}}
-
       data
     }
     render json: data

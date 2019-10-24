@@ -22,10 +22,20 @@
 <div class="container-fluid">
   <%= hidden_field_tag 'teamid', @team.id, class: 'form-control', id: 'teamid' %>
 
+  <div class="row">
+    <div class="col-lg-4 col-md-8 col-sm-12 animate-drop-fade">
+      <%= render partial: "caskets/kanban_wip_limit", :locals => {:team => @team} %>
+
+    </div>
+    <div class="col-lg-4 col-md-8 col-sm-12 animate-drop-fade">
+      <%= render partial: "caskets/kanban_cycle_time", :locals => {:team => @team}%>
+    </div>
+    <div class="col-lg-4 col-md-8 col-sm-12 animate-drop-fade">
+      <%= render partial: "caskets/varianza_sprint", :locals => {:team => @team} %>
+    </div>
+  </div>
 
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 animate-right-fade-1200">
       <%= render "layouts/release_time_graph", :locals => { :graph_id => "team-comulative-flow", :title => "Comulative Flow Diagram" } %>
-    </div>
   </div>
 </div>
