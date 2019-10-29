@@ -154,7 +154,7 @@ function InitializeCycleTimeGraphTeam() {
                 document.getElementById('bars-cycle-time-loader').innerHTML = "";
 
             }
-            series = data[1];
+            series = data[0];
             min = Number.MAX_VALUE;
             max = Number.MIN_VALUE;
             for (_l = 0, _len2 = series.length; _l < _len2; _l++) {
@@ -176,14 +176,14 @@ function InitializeCycleTimeGraphTeam() {
                         name: 'Tickets',
                         renderer: 'bar',
                         color: '#90caf9',
-                        data: data[1],
+                        data: data[0],
                         scale: axis_scale1
                     },
                     {
                         name: 'Percent',
                         renderer: 'line',
                         color: '#d13b47',
-                        data: data[2],
+                        data: data[1],
                         scale: axis_scale2
                     }
                 ]
@@ -222,7 +222,9 @@ function InitializeCycleTimeGraphTeam() {
                 orientation: 'bottom',
                 element: document.getElementById('bars-cycle-time-x_axis'),
                 pixelsPerTick: 100,
-                tickFormat: format
+                tickFormat: function (x) {
+                    return x + ' days';
+                }
             });
 
             new Rickshaw.Graph.Axis.Y.Scaled({
@@ -254,9 +256,9 @@ function InitializeCycleTimeGraphTeam() {
                 graph: graph,
                 formatter: function (series, x, y) {
                     var content = '';
-                    if (data[0][x].y) content += 'Days: ' + data[0][x].y + '<br>';
-                    if (data[1][x].y) content += '#Tickets: ' + data[1][x].y + '<br>';
-                    if (data[2][x].y) content += 'Percent: ' + data[2][x].y + '%';
+                    content += 'Days: ' + x + '<br>';
+                    if (data[0][x].y) content += '#Tickets: ' + data[0][x].y + '<br>';
+                    if (data[1][x].y) content += 'Percent: ' + data[1][x].y + '%';
                     return content;
                 }
             });
