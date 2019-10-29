@@ -25,6 +25,9 @@
     </li>
     <% end %>
 
+    <li role="presentation" class="pull-right">
+      <%= link_to fa_icon_tag("trash-o") << " Delete", @issue, method: :delete, data: {confirm: 'Are you sure?'}  %>
+    </li>
 
   </ul>
 </div>
