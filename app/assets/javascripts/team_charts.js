@@ -49,7 +49,7 @@ function InitializeReleaseTimeGraphTeam() {
 
             });
 
-            var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
+            new Rickshaw.Graph.Behavior.Series.Highlight({
                 graph: graph,
                 legend: legend,
                 disabledColor: function () {
@@ -57,12 +57,12 @@ function InitializeReleaseTimeGraphTeam() {
                 }
             });
 
-            var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+            new Rickshaw.Graph.Behavior.Series.Toggle({
                 graph: graph,
                 legend: legend
             });
 
-            var clickinghandler = new Rickshaw.Graph.ClickDetail({
+            new Rickshaw.Graph.ClickDetail({
                 graph: graph,
                 clickHandler: function (value) {
                     //window.open($('#extsite')[0].value + '/browse/' + $(".key_team_story").text())
@@ -98,7 +98,7 @@ function InitializeReleaseTimeGraphTeam() {
 
             graph.render();
 
-            var hoverDetail = new Rickshaw.Graph.HoverDetail({
+            new Rickshaw.Graph.HoverDetail({
                 onShow: function (event) {
                     $('#key')[0].value = $(".key_team_story").text();
                 },
@@ -196,7 +196,7 @@ function InitializeCycleTimeGraphTeam() {
 
             });
 
-            var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
+            new Rickshaw.Graph.Behavior.Series.Highlight({
                 graph: graph,
                 legend: legend,
                 disabledColor: function () {
@@ -204,7 +204,7 @@ function InitializeCycleTimeGraphTeam() {
                 }
             });
 
-            var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+            new Rickshaw.Graph.Behavior.Series.Toggle({
                 graph: graph,
                 legend: legend
             });
@@ -251,7 +251,7 @@ function InitializeCycleTimeGraphTeam() {
 
             graph.render();
 
-            var hoverDetail = new Rickshaw.Graph.HoverDetail({
+            new Rickshaw.Graph.HoverDetail({
 
                 graph: graph,
                 formatter: function (series, x, y) {
@@ -568,7 +568,7 @@ function InitializeComulativeFlowChart(id) {
                 }
                 return data[2][n].y;
 
-            }
+            };
             new Rickshaw.Graph.Axis.X({
                 graph: graph,
                 orientation: 'bottom',
@@ -594,13 +594,13 @@ function InitializeComulativeFlowChart(id) {
             graph.render();
 
 
-            var hoverDetail = new Rickshaw.Graph.HoverDetail({
+            new Rickshaw.Graph.HoverDetail({
                 onShow: function (event) {
                 },
                 graph: graph,
                 formatter: function (series, x, y) {
                     var sprint = '<span class="date key_team_bug">' + data[2][x].y + '</span>';
-                    var leadime = data[4][x].y
+                    var leadime = data[4][x].y;
                     var content = series.name + ": " + parseInt(y) + ' User Stories<br>Acumlated: ' + leadime + '<br>' + sprint;
                     return content;
                 }

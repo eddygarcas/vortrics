@@ -5,9 +5,10 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-source "https://gems.rapidrailsthemes.com/gems" do
+source "https://gems.kiso.io/" do
   gem "dresssed-ives", "~> 1.0.67"
 end
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.0'
 gem "rack", ">= 2.0.7"
