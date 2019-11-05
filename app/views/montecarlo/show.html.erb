@@ -1,0 +1,37 @@
+<% content_for :javascript do %>
+  <script>
+      $(document).ready(function () {
+          InitializeMontecarloGraph();
+      });
+  </script>
+<% end %>
+
+<% @title = "Montecarlo Forecasting / #{@team.name}" %>
+
+<% content_for :description do %>
+  <p><%= vt_project_tag @team.project %> / <%= @team.name %></p>
+
+<% end %>
+
+<% content_for :actions do %>
+<% end %>
+
+<%= render "layouts/flashes" %>
+
+<div class="container-fluid">
+
+
+  <div class="row top-summary mt15 animate-fade-in-900">
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 animate-left-fade-1200">
+      <%= render "montecarlo_filter" %>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-left-fade-1000">
+      <%= render "teams/cycle_time_chart", :locals => {:title => "Montecarlo Forecasting"} %>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 animate-left-fade-1200">
+      <%= render "montecarlo_summary" %>
+    </div>
+  </div>
+
+
+</div>

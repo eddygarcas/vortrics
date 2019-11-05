@@ -73,6 +73,9 @@ Rails.application.routes.draw do
   get '/teams/boards_by_team/:proj_id', to: 'teams#boards_by_team', as: 'teams_boards_by_team'
   get '/teams/full_project_details/:proj_id', to: 'teams#full_project_details', as: 'teams_full_project_details'
 
+  get '/montecarlo', to: 'montecarlo#show',as: 'montecarlo_show'
+  get '/montecarlo/chart', to: 'montecarlo#montecarlo_chart', as: 'montecarlo_chart'
+
 
   get '/sprints/:id/graph_closed_by_day', to: 'sprints#graph_closed_by_day'
   get '/sprints/:id/graph_release_time', to: 'sprints#graph_release_time'
