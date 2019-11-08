@@ -3,7 +3,7 @@ class TeamsController < ApplicationController
   helper_method :boards_by_team
   layout 'sidenav'
   helper_method :sort_column, :sort_direction
-  before_action :set_team, only: [:show, :edit, :update, :key_results, :comulative_flow_diagram, :update_capacity, :destroy]
+  before_action :set_team, only: [:show, :edit, :update, :key_results, :comulative_flow_diagram, :destroy]
   before_action :team_session, except: [:show, :update, :edit, :update_capacity, :destroy, :key_results]
   before_action :set_current_user
 

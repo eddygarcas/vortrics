@@ -1,60 +1,64 @@
+
 function InitializeMontecarloGraph() {
 
     if ($('#teamid')[0] === undefined) {
         return;
     }
-    $.ajax({
-        type: 'GET',
-        url: '/montecarlo/chart',
-        success: function (data) {
-            if ($('#bars-cycle-time')[0] === undefined) {
-                return;
-            } else {
-                document.getElementById('bars-cycle-time-loader').innerHTML = "";
 
-            }
-            series = data[0];
+    if ($('#bars-cycle-time')[0] === undefined) {
+        return;
+    } else {
+        document.getElementById('bars-cycle-time-loader').innerHTML = "";
+
+    }
+    var axis_scale1;
+    var axis_scale2;
+
+    graph = new Rickshaw.Graph.Ajax({
+        element: document.getElementById('bars-cycle-time'),
+        height: 500,
+        renderer: 'multi',
+        dataURL: '/montecarlo/chart/default',
+        onData: function (data) {
             min = Number.MAX_VALUE;
             max = Number.MIN_VALUE;
-            for (_l = 0, _len2 = series.length; _l < _len2; _l++) {
-                point = series[_l];
+            for (_l = 0, _len2 = data[0].length; _l < _len2; _l++) {
+                point = data[0][_l];
                 min = Math.min(min, point.y);
                 max = Math.max(max, point.y);
             }
 
-            var axis_scale1 = d3.scale.linear().domain([min, max]);
-            var axis_scale2 = d3.scale.linear().domain([0, 100]);
+            axis_scale1 = d3.scale.linear().domain([min, max]);
+            axis_scale2 = d3.scale.linear().domain([0, 100]);
 
+            window.store.state.mseries =  [
+                {
+                    name: 'Iterations',
+                    renderer: 'area',
+                    color: '#90caf9',
+                    data: data[0],
+                    scale: axis_scale1
+                },
+                {
+                    name: 'Confidence',
+                    renderer: 'line',
+                    color: '#d13b47',
+                    data: data[2],
+                    scale: axis_scale2
+                },
+                {
+                    name: 'Likelihood',
+                    renderer: 'line',
+                    color: 'grey',
+                    data: data[1],
+                    scale: axis_scale2
+                }
+            ];
+            return window.store.state.mseries
+        },
+        onComplete: function (transport) {
 
-            graph = new Rickshaw.Graph({
-                element: document.getElementById('bars-cycle-time'),
-                height: 500,
-                renderer: 'multi',
-                series: [
-                    {
-                        name: 'Iterations',
-                        renderer: 'bar',
-                        color: '#90caf9',
-                        data: data[0],
-                        scale: axis_scale1
-                    },
-                    {
-                        name: 'Confidence',
-                        renderer: 'line',
-                        color: '#d13b47',
-                        data: data[2],
-                        scale: axis_scale2
-                    },
-                    {
-                        name: 'Likelihood',
-                        renderer: 'line',
-                        color: 'grey',
-                        data: data[1],
-                        scale: axis_scale2
-                    }
-                ]
-            });
-
+            graph = transport.graph;
 
             var legend = new Rickshaw.Graph.Legend({
                 graph: graph,
@@ -133,10 +137,6 @@ function InitializeMontecarloGraph() {
                 });
                 graph.render();
             });
-
-
-        },
-        timeout: 5000
-    })
-
+        }
+    });
 }

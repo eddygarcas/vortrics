@@ -18,6 +18,7 @@ import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 import App from '../app.vue'
 import Retrospective from '../retrospective'
+import Mfilter from '../mfilter'
 import TurbolinksAdapter from 'vue-turbolinks'
 
 Vue.use(Vuex)
@@ -47,6 +48,7 @@ Vue.use(TurbolinksAdapter)
 window.store = new Vuex.Store({
     state: {
         lists: [],
+        mseries: [],
         team: {}
     },
     mutations: {
@@ -93,6 +95,12 @@ window.store = new Vuex.Store({
             const index = state.lists.findIndex(item => item.id == data.retrospective_id)
             const card_index = state.lists[index].postits.findIndex((item) => item.id == data.id)
             state.lists[index].postits[card_index].dots = data.dots
+        },
+        callForecast(state,data) {
+            state.mseries[0].data = data[0];
+            state.mseries[1].data = data[2];
+            state.mseries[2].data = data[1];
+            graph.update();
         }
 
     }
@@ -120,6 +128,16 @@ document.addEventListener('turbolinks:load', () => {
             store: window.store,
             template: "<Retrospective/>",
             components: {Retrospective}
+        })
+    }
+
+    element = document.querySelector('#filter')
+    if (element != undefined) {
+        const filter = new Vue({
+            el: element,
+            store: window.store,
+            template: "<Mfilter/>",
+            components: {Mfilter}
         })
     }
 });
