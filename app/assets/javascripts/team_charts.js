@@ -180,7 +180,7 @@ function InitializeCycleTimeGraphTeam() {
                         scale: axis_scale1
                     },
                     {
-                        name: 'Percent',
+                        name: 'Cumulative',
                         renderer: 'line',
                         color: '#d13b47',
                         data: data[1],
@@ -258,7 +258,7 @@ function InitializeCycleTimeGraphTeam() {
                     var content = '';
                     content += 'Days: ' + x + '<br>';
                     if (data[0][x].y) content += '#Tickets: ' + data[0][x].y + '<br>';
-                    if (data[1][x].y) content += 'Percent: ' + data[1][x].y + '%';
+                    if (data[1][x].y) content += 'Cumulative: ' + data[1][x].y + '%';
                     return content;
                 }
             });

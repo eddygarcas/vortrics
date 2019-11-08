@@ -56,7 +56,6 @@ Rails.application.routes.draw do
   get '/callback', to: 'jira_sessions#authorize'
   get '/signout', to: 'jira_sessions#destroy'
 
-  put '/teams/:id/update_capacity', to: 'teams#update_capacity'
   get '/teams/:id/graph_points', to: 'teams#get_graph_data'
   get '/teams/:id/graph_stories', to: 'teams#get_graph_stories'
   get '/teams/:id/graph_bugs', to: 'teams#get_graph_bugs'
@@ -74,7 +73,8 @@ Rails.application.routes.draw do
   get '/teams/full_project_details/:proj_id', to: 'teams#full_project_details', as: 'teams_full_project_details'
 
   get '/montecarlo', to: 'montecarlo#show',as: 'montecarlo_show'
-  get '/montecarlo/chart', to: 'montecarlo#montecarlo_chart', as: 'montecarlo_chart'
+  post '/montecarlo/chart', to: 'montecarlo#montecarlo_chart', as: 'montecarlo_chart'
+  get '/montecarlo/chart/default', to: 'montecarlo#montecarlo_chart', as: 'montecarlo_chart_default'
 
 
   get '/sprints/:id/graph_closed_by_day', to: 'sprints#graph_closed_by_day'
