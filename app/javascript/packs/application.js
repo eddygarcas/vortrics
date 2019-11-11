@@ -19,6 +19,7 @@ import Vuex from 'vuex'
 import App from '../app.vue'
 import Retrospective from '../retrospective'
 import Mfilter from '../mfilter'
+import Msummary from '../msummary'
 import TurbolinksAdapter from 'vue-turbolinks'
 
 Vue.use(Vuex)
@@ -49,7 +50,12 @@ window.store = new Vuex.Store({
     state: {
         lists: [],
         mseries: [],
-        team: {}
+        team: {},
+        summary: {
+            confidence_at_50: 0,
+            confidence_at_85: 0,
+            max_likelihood: 0
+        }
     },
     mutations: {
         createColumn(state, data) {
@@ -100,6 +106,7 @@ window.store = new Vuex.Store({
             state.mseries[0].data = data[0];
             state.mseries[1].data = data[2];
             state.mseries[2].data = data[1];
+            state.summary = data[3];
             graph.update();
         }
 
@@ -107,7 +114,7 @@ window.store = new Vuex.Store({
 });
 
 document.addEventListener('turbolinks:load', () => {
-    var element = document.querySelector("#boards")
+    var element = document.querySelector("#boards");
     if (element != undefined) {
         const app = new Vue({
             el: element,
@@ -121,8 +128,8 @@ document.addEventListener('turbolinks:load', () => {
 
     element = document.querySelector('#retrospective')
     if (element != undefined) {
-        window.store.state.lists = JSON.parse(element.dataset.retrospectives)
-        window.store.state.team = JSON.parse(element.dataset.team)
+        window.store.state.lists = JSON.parse(element.dataset.retrospectives);
+        window.store.state.team = JSON.parse(element.dataset.team);
         const retrospective = new Vue({
             el: element,
             store: window.store,
@@ -138,6 +145,15 @@ document.addEventListener('turbolinks:load', () => {
             store: window.store,
             template: "<Mfilter/>",
             components: {Mfilter}
+        })
+    }
+    element = document.querySelector('#summary')
+    if (element != undefined) {
+        const summary = new Vue({
+            el: element,
+            store: window.store,
+            template: "<Msummary/>",
+            components: {Msummary}
         })
     }
 });

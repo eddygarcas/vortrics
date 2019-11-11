@@ -54,6 +54,7 @@ function InitializeMontecarloGraph() {
                     scale: axis_scale2
                 }
             ];
+            window.store.state.summary = data[3];
             return window.store.state.mseries
         },
         onComplete: function (transport) {
@@ -122,7 +123,7 @@ function InitializeMontecarloGraph() {
                 formatter: function (series, x, y) {
                     var content = '';
                     content += '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
-                    content += '<strong>' + x + '</strong><br>';
+                    content += '<strong>' + x + ' Sprint</strong><br>';
                     if (series.name === 'Likelihood') content += 'Likelihood % ' + y + '<br>';
                     if (series.name === 'Iterations') content += 'Iterations ' + y + '<br>';
                     if (series.name === 'Confidence') content += 'Confidence % ' + y + '<br>';
