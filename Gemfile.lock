@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: https://github.com/stympy/faker.git
-  revision: 65a252f36eb445de79bae16a550762d32ffe0d30
+  revision: 7e554d6aa59ae86aa0c72d90feeb19d37d970156
   branch: master
   specs:
     faker (2.7.0)
@@ -140,7 +140,7 @@ GEM
     factory_bot_rails (5.1.1)
       factory_bot (~> 5.1.0)
       railties (>= 4.2.0)
-    ffi (1.11.1)
+    ffi (1.11.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.7.0)
@@ -175,7 +175,7 @@ GEM
     mocha (1.9.0)
       metaclass (~> 0.0.1)
     mono_logger (1.1.0)
-    montecasting (0.5.3)
+    montecasting (0.6.5)
     multi_json (1.14.1)
     multipart-post (2.1.1)
     mustermann (1.0.3)
@@ -232,7 +232,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.20.3, < 2.0)
-    rake (13.0.0)
+    rake (13.0.1)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -321,7 +321,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webpacker (4.0.7)
+    webpacker (4.2.0)
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
       railties (>= 4.2)
@@ -357,7 +357,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   loofah (>= 2.2.3)
   mocha
-  montecasting (>= 0.5.0)
+  montecasting (>= 0.6.5)
   pg
   puma (~> 3.7)
   rack (>= 2.0.7)

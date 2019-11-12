@@ -8,7 +8,7 @@ class MontecarloController < ApplicationController
     criteria = Montecarlo.new(params)
     user_stories = @team.issues_selectable_for_graph
     lead_times = user_stories.map {|elem| (elem.cycle_time.ceil / criteria.focus) }
-    data = Montecasting::Charts.chart_montecarlo(lead_times, criteria.backlog, criteria.iteration)
+    data = Montecasting::Charts.chart_montecarlo(lead_times, criteria.backlog, criteria.iteration, criteria.number)
     data.append montecarlo_summary(data)
     render json: data
   end
