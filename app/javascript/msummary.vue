@@ -9,15 +9,15 @@
 
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="metric-value col-xs-12">
-                            {{ summary.confidence_at_50.x }}
+                            <strong>{{ summary.confidence_at_50.x }}</strong>
                             <small>CONFIDENCE AT {{ summary.confidence_at_50.y }}%</small>
                         </div>
                         <div class="metric-value col-xs-12">
-                            {{ summary.confidence_at_85.x }}
+                            <strong>{{ summary.confidence_at_85.x }}</strong>
                             <small>CONFIDENCE AT {{ summary.confidence_at_85.y }}%</small>
                         </div>
                         <div class="metric-value col-xs-12">
-                            {{ summary.max_likelihood.x }}
+                            <strong>{{ summary.max_likelihood.x }}</strong>
                             <small>MAX. LIKELIHOOD {{summary.max_likelihood.y}}%</small>
                         </div>
 

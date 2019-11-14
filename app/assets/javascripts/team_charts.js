@@ -35,9 +35,9 @@ function InitializeReleaseTimeGraphTeam() {
                         data: data[8]
                     },
                     {
-                        name: 'Average Cycle Time',
+                        name: 'Accumulated Average',
                         renderer: 'line',
-                        color: '#0085f9',
+                        color: '#ffcc80',
                         data: data[9]
                     }
                 ]
@@ -75,7 +75,7 @@ function InitializeReleaseTimeGraphTeam() {
                 if (data[0][n] === undefined) {
                     return;
                 }
-                return data[0][n].y;
+                return data[5][n].y;
 
             }
 
@@ -111,8 +111,6 @@ function InitializeReleaseTimeGraphTeam() {
                     var moreonesprint = '    <i class="fa fa-exclamation-triangle"></i>';
 
                     var content = series.name + ": " + parseInt(y) + ' days';
-                    if (series.name === 'Comulative Time Blocked') return content;
-                    if (series.name === 'Cycle Time') content += ' at ' + data[10][x].y + '%';
                     content += '<br>' + sprint;
                     if (data[4][x].y) content += bug;
                     if (data[2][x].y) content += flagged;
@@ -210,7 +208,7 @@ function InitializeCycleTimeGraphTeam() {
             });
 
             var format = function (n) {
-                if (data[0][n] === undefined) {
+                if (data[4][n] === undefined) {
                     return;
                 }
                 return data[0][n].y + ' Days';
@@ -305,19 +303,19 @@ function InitializeReleaseTimeBugsGraphTeam() {
                 renderer: 'multi',
                 series: [
                     {
-                        name: 'Backlog Time',
+                        name: 'Waiting Time',
                         renderer: 'bar',
                         color: '#ff9642',
                         data: data[1]
                     },
                     {
-                        name: 'Release Time',
+                        name: 'Working Time',
                         renderer: 'bar',
-                        color: '#FFCC80',
+                        color: '#ffcc80',
                         data: data[9]
                     },
                     {
-                        name: 'Average Lead Time',
+                        name: 'Rolling Average',
                         renderer: 'line',
                         color: '#d13b47',
                         data: data[8]
@@ -331,7 +329,7 @@ function InitializeReleaseTimeBugsGraphTeam() {
 
             });
 
-            var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
+            new Rickshaw.Graph.Behavior.Series.Highlight({
                 graph: graph,
                 legend: legend,
                 disabledColor: function () {
@@ -339,12 +337,12 @@ function InitializeReleaseTimeBugsGraphTeam() {
                 }
             });
 
-            var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+            new Rickshaw.Graph.Behavior.Series.Toggle({
                 graph: graph,
                 legend: legend
             });
 
-            var clickinghandler = new Rickshaw.Graph.ClickDetail({
+            new Rickshaw.Graph.ClickDetail({
                 graph: graph,
                 clickHandler: function (value) {
                     //window.open('/issues/' + $(".id_team_bug").text())
@@ -354,10 +352,10 @@ function InitializeReleaseTimeBugsGraphTeam() {
             });
 
             var format = function (n) {
-                if (data[0][n] === undefined) {
+                if (data[4][n] === undefined) {
                     return;
                 }
-                return data[0][n].y;
+                return data[4][n].y;
 
             }
 
@@ -380,7 +378,7 @@ function InitializeReleaseTimeBugsGraphTeam() {
 
             graph.render();
 
-            var hoverDetail = new Rickshaw.Graph.HoverDetail({
+            new Rickshaw.Graph.HoverDetail({
                 onShow: function (event) {
                     $('#key')[0].value = $(".key_team_bug").text();
                 },
@@ -554,7 +552,7 @@ function InitializeComulativeFlowChart(id) {
                     {
                         name: 'Todo',
                         renderer: 'stack',
-                        color: '#ff9642',
+                        color: '#ffcc80',
                         data: data[3],
                         scale: axis_scale
 
