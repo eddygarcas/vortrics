@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/jbuilder.git
-  revision: e5f57cff32275afda17ac1674ff79f0451e5ce40
+  revision: bec0d6c840c3486ee589d5de0ba9c348ccbc27ee
   branch: master
   specs:
     jbuilder (2.9.1)
@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: https://github.com/stympy/faker.git
-  revision: 7e554d6aa59ae86aa0c72d90feeb19d37d970156
+  revision: a99e62b2f888ae3861dac91867d0dbe6850e3ae8
   branch: master
   specs:
     faker (2.7.0)
@@ -35,7 +35,7 @@ GIT
 
 GEM
   remote: https://rubygems.org/
-  remote: https://gems.kiso.io/
+  remote: https://gems.rapidrailsthemes.com/gems/
   specs:
     actioncable (6.0.1)
       actionpack (= 6.0.1)
@@ -140,9 +140,12 @@ GEM
     factory_bot_rails (5.1.1)
       factory_bot (~> 5.1.0)
       railties (>= 4.2.0)
+    faraday (0.17.0)
+      multipart-post (>= 1.2, < 3)
     ffi (1.11.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    hashie (3.6.0)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
     jira-ruby (1.5.0)
@@ -155,6 +158,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
+    jwt (2.2.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -177,12 +181,27 @@ GEM
     mono_logger (1.1.0)
     montecasting (0.6.5)
     multi_json (1.14.1)
+    multi_xml (0.6.0)
     multipart-post (2.1.1)
     mustermann (1.0.3)
     nio4r (2.5.2)
     nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     oauth (0.5.4)
+    oauth2 (1.4.2)
+      faraday (>= 0.8, < 2.0)
+      jwt (>= 1.0, < 3.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 3)
+    omniauth (1.9.0)
+      hashie (>= 3.4.6, < 3.7.0)
+      rack (>= 1.6.2, < 3)
+    omniauth-facebook (5.0.0)
+      omniauth-oauth2 (~> 1.2)
+    omniauth-oauth2 (1.6.0)
+      oauth2 (~> 1.1)
+      omniauth (~> 1.9)
     orm_adapter (0.5.0)
     pg (1.1.4)
     power_assert (1.1.5)
@@ -358,6 +377,7 @@ DEPENDENCIES
   loofah (>= 2.2.3)
   mocha
   montecasting (>= 0.6.5)
+  omniauth-facebook
   pg
   puma (~> 3.7)
   rack (>= 2.0.7)

@@ -5,10 +5,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-source "https://gems.kiso.io/" do
+source "https://gems.rapidrailsthemes.com/gems" do
   gem "dresssed-ives", "~> 1.0.67"
 end
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.0'
 gem "rack", ">= 2.0.7"
@@ -40,7 +39,7 @@ gem 'jira-ruby', '1.5.0', :require => 'jira-ruby'
 # gem 'capistrano-rails', group: :development
 gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
 gem "devise", ">= 4.7.1"
-
+gem 'omniauth-facebook'
 
 gem 'jquery-rails', '~> 4.3.1'
 gem 'jquery-ui-rails','~> 6.0.1'
