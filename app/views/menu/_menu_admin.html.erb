@@ -15,7 +15,7 @@
     end %>
 
     <%= activatable_li_tag sprints_path do |url|
-      link_to_unless current_user.admin?, fa_icon_tag("heart") << "Clean up (Admin)", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
+      link_to_unless current_user.admin?, fa_icon_tag("heart") << "Clean up", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
         link_to name, url
       end
     end %>
