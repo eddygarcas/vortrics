@@ -118,6 +118,7 @@ module JiraHelper
 
   def sprint_report boardid, sprintid, options = {}
     return if current_user.setting.blank?
+    return if sprintid.blank?
     sprint_report = Rails.cache.fetch("sprint_report_#{sprintid.to_s}", expires_in: 1.day) {
       param_hash = {rapidViewId: boardid, sprintId: sprintid}
       greenhopper_query jira_instance(current_user.setting), '/rapid/charts/sprintreport', param_hash, options

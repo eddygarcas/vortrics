@@ -11,6 +11,7 @@ class User < ApplicationRecord
 
   has_many :notifications, foreign_key: :recipient_id
   has_many :postits, dependent: :destroy
+  has_many :services, dependent: :destroy
 
   def self.current
     Thread.current[:user]
@@ -62,7 +63,7 @@ class User < ApplicationRecord
   end
 
   def full_profile?
-    displayName.present? and avatar.present? and active.present?
+    displayName.present? and avatar.present?
   end
 
 end

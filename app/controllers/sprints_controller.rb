@@ -18,7 +18,7 @@ class SprintsController < ApplicationController
   def show
     options = {fields: vt_jira_issue_fields}
     @bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, options).map {|elem| JiraIssue.to_issue(elem)}
-    @sprint.changed_scope(sprint_report(@sprint.team.board_id, @sprint.sprint_id)['issueKeysAddedDuringSprint'].count) unless @sprint.sprint_id.blank?
+    @sprint.changed_scope(sprint_report(@sprint.team.board_id, @sprint.sprint_id)['issueKeysAddedDuringSprint'].count) unless @sprint.team.kanban?
   end
 
   # GET /sprints/news

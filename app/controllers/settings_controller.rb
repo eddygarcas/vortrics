@@ -18,6 +18,7 @@ class SettingsController < ApplicationController
 	# GET /settings/new
 	def new
 		@setting = Setting.new
+		flash[:default] = ScrumMetrics.config[:messages][:first_steps].html_safe
 	end
 
 	# GET /settings/1/edit
@@ -36,8 +37,11 @@ class SettingsController < ApplicationController
 			if @setting.save
 				current_user.save_dependent(@setting.id) if current_user.guest?
 				Workflow.create_by_setting(@setting.id)
-				format.html { redirect_to settings_url, notice: 'Setting was successfully created.' } unless current_user.guest?
-				format.html { redirect_to edit_user_registration_path, notice: 'Setting was successfully created. Please update now your JIRA login.' } if current_user.guest?
+				format.html { redirect_to root_url }
+
+				#format.html { redirect_to settings_url, notice: 'Setting was successfully created.' }
+				#unless current_user.guest?
+				#format.html { redirect_to edit_user_registration_path, notice: 'Setting was successfully created. Please update now your JIRA login.' } if current_user.guest?
 				format.json { render :show, status: :created, location: @setting }
 			else
 				format.html { render :new }

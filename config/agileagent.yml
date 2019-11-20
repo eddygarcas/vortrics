@@ -51,10 +51,12 @@ defaults: &defaults
     :external_service_error: "Unable to retrieve external service information. Please try it later."
     :no_teams_available: "Before getting information from the external service, create a team."
     :first_steps: "<h4>Welcome to Vortrics</h4><strong>Hands up!</strong> These are the first steps to be followed before getting data from JIRA
+    <br>
     <ul>
-    <li>Create an external service connection</li>
-    <li>Create new users and assign them a connection</li>
-    <li>Create team(s) from the external service</li></ul>"
+    <li>Create an external service connection towards your JIRA service, we strongly recommend OAuth rather than a Basic authentication. </li>
+    <li>Import team(s) from the external service</li>
+    <li>Add sprint(s) or task(s) from the external service and start enjoying metrics and charts.</li>
+    </ul>"
   :popover:
     :average_velocity: "Velocity is quite simple to calculate. At the end of a sprint, add up the total of all the story points that were moved to 'Done' (based on your Definition of Done) in that sprint."
     :average_stories: "At the end of a sprint, add up the total of all the user stories that were moved to 'Done' (based on your Definition of Done) in that sprint."
