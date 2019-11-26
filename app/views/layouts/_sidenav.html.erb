@@ -31,9 +31,9 @@
       <%end %>
       <%= render 'menu/menu_analysis' if @team.id.present? %>
       <%= render 'menu/menu_forecating' %>
-      <%= render 'menu/menu_kaizen' %>
+      <%= render 'menu/menu_kaizen'%>
     <% end %>
-    <%= render 'menu/menu_admin' if current_user.admin? %>
+    <%= render 'menu/menu_admin' %>
     <li class="nav-side-menu-footer">
       <% unless @team.blank? %>
         <div>

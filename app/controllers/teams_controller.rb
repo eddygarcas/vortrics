@@ -3,8 +3,8 @@ class TeamsController < ApplicationController
   helper_method :boards_by_team
   layout 'sidenav'
   helper_method :sort_column, :sort_direction
-  before_action :set_team, only: [:show, :edit, :update, :key_results, :comulative_flow_diagram, :destroy]
-  before_action :team_session, except: [:show, :update, :edit, :update_capacity, :destroy, :key_results]
+  before_action :set_team, only: [:show, :edit, :key_results, :comulative_flow_diagram, :destroy]
+  before_action :team_session, except: [:show, :edit, :destroy, :key_results]
   before_action :set_current_user
 
   # GET /teams
@@ -212,32 +212,32 @@ class TeamsController < ApplicationController
   # PATCH/PUT /teams/1
   # PATCH/PUT /teams/1.json
   def update
-    respond_to do |format|
-      @team.project_info_id = ProjectInfo.create_data(project_details(@team.project)).id if @team.project_info.blank?
-
-      #@team.avatar = project_details(@team.project)[:avatarUrls.to_s]['32x32']
-      if @team.update(team_params)
-        format.html {redirect_to teams_path, notice: 'Team was successfully updated.'}
-        format.json {render :show, status: :ok, location: @team}
-      else
-        format.html {render :edit}
-        format.json {render json: @team.errors, status: :unprocessable_entity}
-      end
-    end
+    # respond_to do |format|
+    #   @team.project_info_id = ProjectInfo.create_data(project_details(@team.project)).id if @team.project_info.blank?
+    #
+    #   #@team.avatar = project_details(@team.project)[:avatarUrls.to_s]['32x32']
+    #   if @team.update(team_params)
+    #     format.html {redirect_to teams_path, notice: 'Team was successfully updated.'}
+    #     format.json {render :show, status: :ok, location: @team}
+    #   else
+    #     format.html {render :edit}
+    #     format.json {render json: @team.errors, status: :unprocessable_entity}
+    #   end
+    # end
   end
 
   # PATCH/PUT /teams/1/update_capacity
   # PATCH/PUT /teams/1.json/update_capacity
   def update_capacity
-    respond_to do |format|
-      if @team.update(params.permit(:current_capacity))
-        format.html {redirect_to root_path, notice: 'Team was successfully updated.'}
-        format.json {render :show, status: :ok, location: @team}
-      else
-        format.html {redirect_to root_path, alert: "Wasn't able to update the team's capacity."}
-        format.json {render json: @team.errors, status: :unprocessable_entity}
-      end
-    end
+    # respond_to do |format|
+    #   if @team.update(params.permit(:current_capacity))
+    #     format.html {redirect_to root_path, notice: 'Team was successfully updated.'}
+    #     format.json {render :show, status: :ok, location: @team}
+    #   else
+    #     format.html {redirect_to root_path, alert: "Wasn't able to update the team's capacity."}
+    #     format.json {render json: @team.errors, status: :unprocessable_entity}
+    #   end
+    # end
   end
 
 

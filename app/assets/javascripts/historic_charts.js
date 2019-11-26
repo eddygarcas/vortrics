@@ -61,7 +61,7 @@ function InitializeNoEstimatesGraph() {
 
             graph.render();
 
-            var hoverDetail = new Rickshaw.Graph.HoverDetail({
+            new Rickshaw.Graph.HoverDetail({
                 graph: graph,
                 formatter: function (series, x, y) {
                     var date = '<span class="date">' + data[2][x].name + '</span>';
@@ -161,7 +161,7 @@ function InitializePointsGraph() {
                     {
                         name: 'Remaining',
                         renderer: 'line',
-                        color: '#f9b200',
+                        color: '#ffcc80',
                         data: data[1]
                     }
                 ]
@@ -253,7 +253,7 @@ function InitializeGrpahStories() {
                     {
                         name: 'Leftovers',
                         renderer: 'line',
-                        color: '#f9b200',
+                        color: '#ffcc80',
                         data: data[1]
                     }
                 ]

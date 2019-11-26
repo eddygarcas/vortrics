@@ -2,34 +2,40 @@
   <a class="nav-link"> <i class="fa fa-fw fa-cog fa-lg fa-fw"></i> Settings<span class="fa arrow"></span></a>
   <ul class="nav nav-second-level" aria-expanded="false">
 
-    <%= activatable_li_tag devise_manage_users_path do |url| %>
-      <%= link_to fa_icon_tag("users") << "Users & Groups", url %>
-    <% end %>
-
     <% if current_user.setting.present? %>
       <%= activatable_li_tag teams_path do |url| %>
         <%= link_to fa_icon_tag("users") << "Teams", url %>
       <% end %>
     <% end %>
 
-    <%= activatable_li_tag sprints_path do |url| %>
-      <%= link_to fa_icon_tag("heart") << "Clean up", url %>
-    <% end %>
+    <%= activatable_li_tag devise_manage_users_path do |url|
+      link_to_unless(current_user.admin?, fa_icon_tag("users") << "Users & Groups", {}, data: { title: 'Admin only', toggle: :tooltip }) do |name|
+        link_to name, url
+      end
+    end %>
 
-
+    <%= activatable_li_tag sprints_path do |url|
+      link_to_unless current_user.admin?, fa_icon_tag("heart") << "Clean up", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
+        link_to name, url
+      end
+    end %>
 
     <li class="nav-item">
       <a class="nav-link"><i class="fa fa-fw fa-wrench fa-lg fa-fw"></i> Configuration
         <span class="fa arrow"></span></a>
       <ul class="nav nav-third-level" aria-expanded="false">
 
-        <%= activatable_li_tag settings_path do |url| %>
-          <%= link_to fa_icon_tag("server") << "External service", url %>
-        <% end %>
+        <%= activatable_li_tag settings_path do |url|
+          link_to_unless current_user.admin?, fa_icon_tag("server") << "External service", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
+          link_to name, url
+          end
+        end %>
 
-        <%= activatable_li_tag workflows_path do |url| %>
-          <%= link_to fa_icon_tag("columns") << "Workflow status", url %>
-        <% end %>
+        <%= activatable_li_tag workflows_path do |url|
+          link_to_unless current_user.admin?, fa_icon_tag("columns") << "Workflow status", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
+          link_to name, url
+          end
+        end %>
 
       </ul>
     </li>

@@ -9,7 +9,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt15 mb15">
                         <div class="form-group col-xs-12">
                             <small class="form-label">NUMBER OF SIMULATIONS</small>
-                            <input ref="number" v-model.number="number" type="number" min="100" max="1000" readonly
+                            <input ref="number" v-model.number="number" type="number" min="100" max="1000"
                                    class="form-control add-column-name"
                                    placeholder="1000"/>
                         </div>

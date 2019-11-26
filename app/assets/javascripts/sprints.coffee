@@ -98,10 +98,10 @@
         });
 
         var format = function (n) {
-            if (data[0][n] === undefined) {
+            if (data[5][n] === undefined) {
                 return;
             }
-            return data[0][n].y;
+            return data[5][n].y;
         }
 
         var legend = new Rickshaw.Graph.Legend({

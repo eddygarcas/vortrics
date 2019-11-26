@@ -90,9 +90,7 @@
                   <p class="m0 p0">
                     <%= current_user.displayName %>
                   </p>
-                  <p class="small m0 p0"> <%= current_user.active? ? "Active" : "Offline" %> <%= current_user.group.name.humanize if current_user.group? %></p>
-
-
+                    <p class="small m0 p0">OAuth by <%= current_user&.services&.first&.provider&.humanize %></p>
                 </li>
                 <li class="profile-footer">
                   <div class="pull-left">

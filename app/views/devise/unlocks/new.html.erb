@@ -3,13 +3,13 @@
 <div id="main" class='devise'>
   <div class="container-fluid">
     <div class="row">
-      <header class="text-center">
-        <span class="pull-right"><img src="/images/vortrics_name.png" style="margin-left: 12px;margin-top: 12px;height: 74px;"></span>
-        <h1><%=app_name%></h1>
-        <p class="p0 m0">Unlock My Account</p>
-      </header>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <span class="pull-left"><img src="/images/vortrics_name.png" style="margin-left: 12px;margin-top: 12px;height: 110px;"></span>
+      </div>
     </div>
     <div class="row mt20">
+      <h2 class="p0 m0 mb20 text-center">Unlock my account</h2>
+
       <%= form_for resource, as: resource_name, url: unlock_path(resource_name),
                              html: { method: :post, class: "form-horizontal col-xs-12 col-md-6 col-md-offset-3" } do |f| %>
         <%= f.error_notification %>

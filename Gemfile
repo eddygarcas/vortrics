@@ -14,7 +14,7 @@ gem 'rails', '~> 6.0.0'
 gem "rack", ">= 2.0.7"
 gem "loofah", ">= 2.2.3"
 gem "rubyzip", ">= 1.3.0"
-gem "ffi", ">= 1.9.24"
+gem "ffi", ">= 1.11.3"
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', group: :development
 # Use Puma as the app server
@@ -40,6 +40,7 @@ gem 'jira-ruby', '1.5.0', :require => 'jira-ruby'
 # gem 'capistrano-rails', group: :development
 gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
 gem "devise", ">= 4.7.1"
+gem 'omniauth-github'
 
 
 gem 'jquery-rails', '~> 4.3.1'
@@ -52,7 +53,7 @@ gem "sweet-alert", git: "https://github.com/frank184/sweet-alert-rails"
 gem "sweet-alert-confirm", git: "https://github.com/humancopy/sweet-alert-rails-confirm"
 gem 'webpacker', '~> 4.x'
 
-gem 'montecasting', '>= 0.5.0'
+gem 'montecasting', '>= 0.6.5'
 
 gem 'acts_as_list'
 
@@ -86,7 +87,7 @@ group :production do
   gem 'pg'
   gem 'rails_12factor'
   # Use Redis adapter to run Action Cable in production
-  gem 'redis', '~> 4.1.2'
+  gem 'redis', '~> 4.1.3'
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

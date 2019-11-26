@@ -44,7 +44,7 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, controllers: {registrations: 'registrations'}
+  devise_for :users, controllers: {registrations: 'registrations', omniauth_callbacks: 'users/omniauth_callbacks'}
   match 'users/:id', to: 'users#destroy', via: :delete, as: :admin_destroy_user
   get '/users/manage_users', to: 'users#manage_users', as: 'devise_manage_users'
 	post '/users/manage_users', to: 'users#create'

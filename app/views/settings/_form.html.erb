@@ -51,7 +51,7 @@
     <%= f.form_group :context do |f| %>
       <%= f.label :context, class: 'control-label col-md-2' %>
       <div class='col-md-2'>
-        <%= f.text_field :context, class: 'form-control form-control-lg' %>
+        <%= f.text_field :context, class: 'form-control form-control-lg', placeholder: ""%>
         <%= f.error_messages %>
       </div>
     <% end %>
@@ -64,7 +64,7 @@
           <span></span>
         </label>
         <p class="small">We strongly recommend setting up a OAuth authentication, will approve interacting with JIRA
-          without giving away your password.</p>
+          without giving away your password. This option requires a previous configuration of Vortrics as a consumer in JIRA, using application links. </p>
       </div>
       <%= f.error_messages %>
     <% end %>

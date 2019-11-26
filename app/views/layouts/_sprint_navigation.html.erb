@@ -26,12 +26,17 @@
 
     <% if @sprint.enddate.next_weekday >= Date.today %>
         <li role="presentation">
-          <%= link_to fa_icon_tag("download") << " Refresh", sprint_refresh_issues_path(@sprint.to_param), data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Downloading..."} %>
+          <%= link_to fa_icon_tag("download") << " Refresh", sprint_refresh_issues_path(@sprint.to_param), data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Downloading..."} unless @team.kanban? %>
+          <%= link_to fa_icon_tag("download") << " Refresh", kanban_import_issues_path(@team.board_id), data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Downloading..."} unless @team.scrum? %>
         </li>
     <% end %>
 
     <li role="presentation">
-      <%= link_to fa_icon_tag("trash-o") << " Delete", @sprint, method: :delete, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Removing..."} %>
+      <%=link_to_unless current_user.admin?, fa_icon_tag("trash-o") << " Delete (Admin)" do
+        link_to fa_icon_tag("trash-o") << " Delete", @sprint, method: :delete, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Removing..."}
+      end%>
+
+
     </li>
 
 

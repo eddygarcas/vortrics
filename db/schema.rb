@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_08_093533) do
+ActiveRecord::Schema.define(version: 2019_11_20_082758) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -225,6 +225,20 @@ ActiveRecord::Schema.define(version: 2019_08_08_093533) do
     t.index ["team_id"], name: "index_retrospectives_on_team_id"
   end
 
+  create_table "services", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "provider"
+    t.string "uid"
+    t.string "access_token"
+    t.string "access_token_secret"
+    t.string "refresh_token"
+    t.datetime "expires_at"
+    t.text "auth"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_services_on_user_id"
+  end
+
   create_table "settings", force: :cascade do |t|
     t.string "site"
     t.string "base_path"
@@ -347,6 +361,7 @@ ActiveRecord::Schema.define(version: 2019_08_08_093533) do
   add_foreign_key "q_stages", "levels"
   add_foreign_key "questions", "q_stages"
   add_foreign_key "retrospectives", "teams"
+  add_foreign_key "services", "users"
   add_foreign_key "sprints", "teams"
   add_foreign_key "team_advices", "advices"
   add_foreign_key "team_advices", "teams"

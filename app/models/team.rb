@@ -25,7 +25,8 @@ class Team < ApplicationRecord
   end
 
   def issues
-    sprint&.issues
+    return nil unless sprint.present?
+    sprint.issues
   end
 
   def scrum?

@@ -35,21 +35,21 @@ function InitializeMontecarloGraph() {
                 {
                     name: 'Iterations',
                     renderer: 'area',
-                    color: '#90caf9',
+                    color: '#79BEDB',
                     data: data[0],
                     scale: axis_scale1
                 },
                 {
                     name: 'Confidence',
                     renderer: 'line',
-                    color: '#d13b47',
+                    color: '#C13100',
                     data: data[2],
                     scale: axis_scale2
                 },
                 {
                     name: 'Likelihood',
                     renderer: 'line',
-                    color: 'grey',
+                    color: '#FF9900',
                     data: data[1],
                     scale: axis_scale2
                 }

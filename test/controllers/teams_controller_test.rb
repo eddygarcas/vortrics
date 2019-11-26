@@ -7,11 +7,4 @@ class TeamsControllerTest < ActionDispatch::IntegrationTest
     sign_in users(:one)
   end
 
-  test "should show team" do
-    get team_url(@team)
-    assert_response :success
-  end
-
-
-
 end

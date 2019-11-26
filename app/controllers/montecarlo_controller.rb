@@ -1,3 +1,4 @@
+
 class MontecarloController < ApplicationController
   include MontecarloHelper
   layout 'sidenav'
