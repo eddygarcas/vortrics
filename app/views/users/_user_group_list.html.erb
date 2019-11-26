@@ -11,7 +11,6 @@
   </ol>
 <% end %>
 
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -37,8 +36,10 @@
                 <td><%= user.displayName %></td>
                 <td><%= user.email %></td>
                 <td>
-                  <a class="btn btn-social-icon btn-sm btn-<%= user.services.first.provider %>"><i class="fa fa-<%= user.services.first.provider %>-square"></i></a>
-                  </td>
+                  <% user.services.each do |p| %>
+                     <%= provider_icon p %>
+                  <% end %>
+                </td>
                 <td><%= user.last_sign_in_at.strftime("%d-%m-%Y") unless user.last_sign_in_at.blank? %></td>
                 <td>
                   <label class="switch switch-success">

@@ -369,7 +369,7 @@ DEPENDENCIES
   dresssed-ives (~> 1.0.67)!
   factory_bot_rails
   faker!
-  ffi (>= 1.9.24)
+  ffi (>= 1.11.3)
   jbuilder!
   jira-ruby (= 1.5.0)
   jquery-rails (~> 4.3.1)
