@@ -6,7 +6,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if (service.present?)
       user = service.user
     else
-      user = User.create(
+      user = User.create!(
           email: auth.info.email,
           avatar: auth.info.image,
           name: auth.info.name,
@@ -14,7 +14,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           password: Devise.friendly_token[0, 20]
       )
 
-      user.services.create(
+      user.services.create!(
           provider: auth.provider,
           uid: auth.uid,
           access_token: auth.credentials.token
