@@ -17,10 +17,6 @@ class SprintsControllerTest < ActionDispatch::IntegrationTest
     assert_response :found
   end
 
-  test "should get new" do
-    get new_sprint_url
-    assert_response :found
-  end
 
   # test "should create sprint" do
   #   assert_difference('Sprint.count') do
