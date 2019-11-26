@@ -40,7 +40,8 @@ gem 'jira-ruby', '1.5.0', :require => 'jira-ruby'
 # gem 'capistrano-rails', group: :development
 gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
 gem "devise", ">= 4.7.1"
-gem 'omniauth-facebook'
+gem 'omniauth-github'
+
 
 gem 'jquery-rails', '~> 4.3.1'
 gem 'jquery-ui-rails','~> 6.0.1'

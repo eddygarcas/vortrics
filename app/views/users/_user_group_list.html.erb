@@ -23,7 +23,7 @@
               <th width="15">Avatar</th>
               <th><%= sort_link "displayName", "Name" %></th>
               <th><%= sort_link "email", "email" %></th>
-              <th><%= sort_link "extuser", "Login" %></th>
+              <th>Provider</th>
               <th>Last login</th>
               <th width="15">Admin</th>
               <th width="40">Jira</th>
@@ -36,7 +36,9 @@
                 <td><%= image_tag user.avatar.to_s, class: "img-circle profile-image", height: '35', width: '35' %></td>
                 <td><%= user.displayName %></td>
                 <td><%= user.email %></td>
-                <td><%= user.extuser %></td>
+                <td>
+                  <a class="btn btn-social-icon btn-sm btn-<%= user.services.first.provider %>"><i class="fa fa-<%= user.services.first.provider %>-square"></i></a>
+                  </td>
                 <td><%= user.last_sign_in_at.strftime("%d-%m-%Y") unless user.last_sign_in_at.blank? %></td>
                 <td>
                   <label class="switch switch-success">

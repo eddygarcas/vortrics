@@ -20,6 +20,21 @@
               performance agile metrics
               in an Agile transformation.</p>
           </div>
+
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-4 text-xs-center text-md-left">
+            <p style="color: lightgray">Clone Vortrics Github repository or try it out first.</p>
+          </div>
+          <div class="col-md-8">
+            <%= link_to root_url,class: "social-icons btn btn-outline-inverse",style: "font-size: 24px;"  do |url|  %>
+              <i class="fa fa-sign-in" style="font-size: 24px;"></i> Sign in with Github
+            <%end %>
+            <a href="https://github.com/eddygarcas/vortrics" class="social-icons btn  btn-outline-inverse" style="font-size: 24px;"><i class="fa fa-github" style="font-size: 24px;"></i> Clone in Github</a>
+          </div>
         </div>
       </div>
     </div>
@@ -110,11 +125,10 @@
             </div>
           <% end %>
 
-          <div class="col-md-5 text-xs-center text-md-left">
-            <h1>Interested?</h1>
-            <p style="color: lightgray">Just know what we could do for you.</p>
+          <div class="col-md-7 text-center text-left">
+            <p style="color: lightgray;font-size: 16px;"><i class="fa fa-envelope mr-2"></i><strong> Stay up to date with new Vortrics releases and future functionality.</strong></p>
           </div>
-          <div class="col-md-7 text-xs-center text-right ctas">
+          <div class="col-md-5 text-xs-center text-right">
 
             <%= form_for @user, url: landing_register_path,
                          html: {class: "form-inline", novalidate: false} do |f| %>
@@ -122,8 +136,8 @@
               <div class="text-center">
 
                 <%= f.form_group :email do |f| %>
-                  <%= f.email_field :email, autofocus: true, required: true, placeholder: 'Your email', class: 'form-control col-xs-12 mr10 mb10', pattern: '[^@]+@[^@]+\.[a-zA-Z]{2,6}' %>
-                  <%= f.submit value: 'Want to know more →', class: 'btn btn-outline-default', style: 'padding:8px;' %>
+                  <%= f.email_field :email, autofocus: true, required: true, placeholder: 'email address', class: 'form-control col-xs-12 mr10 mb10', pattern: '[^@]+@[^@]+\.[a-zA-Z]{2,6}' %>
+                  <%= f.submit value: 'Subscribe', class: 'btn btn-outline-default', style: 'padding:8px;' %>
                   <%= f.error_messages %>
                 <% end %>
               </div>

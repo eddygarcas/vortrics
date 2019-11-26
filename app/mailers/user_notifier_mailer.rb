@@ -5,7 +5,7 @@ class UserNotifierMailer < ApplicationMailer
 
 	def send_info_email(user)
 		@user = user
-		mail(to: 'edugarcas@gmail.com',
-		     subject: "Grant access to #{user.email}")
+		mail(to: 'vortrics@gmail.com',
+		     subject: "Add #{user.email} to the newsletter")
 	end
 end

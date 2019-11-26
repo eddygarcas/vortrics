@@ -13,6 +13,11 @@
 
           <%= f.error_notification %>
 
+          <div class="avatar text-center">
+            <img alt="2" class="img-rounded" src="<%= current_user&.avatar.to_s%>" width="150" height="150">
+            <p style="font-size: 28px;margin-bottom: 5px;"><%= current_user&.displayName %></p>
+          </div>
+
           <%= f.form_group :email do |f| %>
             <%= f.label :email, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
             <div class="col-sm-10">
@@ -60,8 +65,29 @@
             <%= f.submit "Update", class: 'btn btn-primary' %>
             <%= link_to "Cancel my account", registration_path(resource_name), confirm: "Are you sure?", method: :delete, class: "pull-right text-red-400 pt10" %>
           </div>
+
+
         <% end %>
       </div>
     </div>
+
+    <div class="row mt20">
+      <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+        <div style="display:block;" id="policy" class="col-sm-offset-4 animate-fade-in-500">
+          <p>Your privacy is important to us. It is Vortrics' policy to respect your privacy regarding any information we
+            may collect from you across our website, <a href="https://vortrics.com">https://vortrics.com</a>, and other
+            sites we own and operate.</p>
+
+          <p>Cancelling your account with Vortrics it assures that will remove all your personal information as wel as any content from external sites,
+          particularly connection data.</p>
+
+          <p>Please, feel free to contact us if you want more details about this process at info@vortrics.com </p>
+        </div>
+      </div>
+    </div>
+
+
+
+
   </div>
 </div>

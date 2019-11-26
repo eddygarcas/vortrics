@@ -48,9 +48,7 @@
                   <td><%= tmf_stars team.tmf_quality %></td>
                   <td class="actions">
                     <%= link_to fa_icon_tag("eye"), get_dashboard_path(team.id), rel: 'tooltip', title: 'Show' %>
-                    <%= link_to fa_icon_tag("pencil"), edit_team_path(team), rel: 'tooltip', title: 'Edit' %>
                     <%= link_to fa_icon_tag("trash-o"), team, rel: 'tooltip', title: 'Delete', method: :delete, data: {confirm: 'Are you sure?'} %>
-
                   </td>
                 </tr>
                 <div class="radio radio-inline">

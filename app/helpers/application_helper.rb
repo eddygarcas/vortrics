@@ -77,7 +77,8 @@ module ApplicationHelper
 	end
 
 	def percent_num value, total
-		return 0 if value.eql?(0) || total.eql?(0)
+		return 0 if value.eql?(0)
+		return 100 if total.eql?(0)
 		(((value.to_f) / total.to_f) * 100).round
 	end
 
@@ -118,7 +119,7 @@ module ApplicationHelper
 	end
 
 	def tmf_badge value, size = 64, css_class
-		image_tag "/images/tmf_#{value}.png", class: css_class, width: size, height: size
+		image_tag @team.project_info.icon, class: css_class, width: size, height: size
 	end
 
 	def tmf_elem team, type = 'name'

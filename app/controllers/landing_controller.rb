@@ -12,9 +12,11 @@ class LandingController < ApplicationController
 		@user.email = params[:user][:email]
 		UserNotifierMailer.send_info_email(@user).deliver
 		respond_to do |format|
-			format.html { redirect_to landing_info_path, notice: 'Our team will contact you shortly to know your needs and see how we can support your organization on its Agile Tranformation.' }
+			format.html { redirect_to landing_info_path, notice: 'for showing interest on our product, will only contact you to notify new functionality or critical updates.' }
 		end
 	end
+
+	private
 
 	def set_request
 		params.require(:user).permit(:email)
