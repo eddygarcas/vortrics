@@ -49,6 +49,11 @@ class User < ApplicationRecord
     group.priority.eql? 1
   end
 
+  def has_setting? set_id
+    return false if setting.blank?
+    setting.id.eql? set_id
+  end
+
   def guest?
     return true if group.blank?
     group.priority.eql? 99

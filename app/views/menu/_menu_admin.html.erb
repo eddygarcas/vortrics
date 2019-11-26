@@ -26,15 +26,11 @@
       <ul class="nav nav-third-level" aria-expanded="false">
 
         <%= activatable_li_tag settings_path do |url|
-          link_to_unless current_user.admin?, fa_icon_tag("server") << "External service", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
-          link_to name, url
-          end
+          link_to fa_icon_tag("server") << "External service", url
         end %>
 
         <%= activatable_li_tag workflows_path do |url|
-          link_to_unless current_user.admin?, fa_icon_tag("columns") << "Workflow status", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
-          link_to name, url
-          end
+          link_to fa_icon_tag("columns") << "Workflow status",url
         end %>
 
       </ul>

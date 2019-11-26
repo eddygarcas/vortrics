@@ -13,16 +13,6 @@ class WorkflowsControllerTest < ActionDispatch::IntegrationTest
 		assert_response 302
 	end
 
-	test "should get new" do
-		get new_workflow_url
-		assert_response 302
-	end
-
-
-	test "should show workflow" do
-		get workflow_url(@workflow)
-		assert_response 302
-	end
 
 
 
