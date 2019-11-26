@@ -102,7 +102,7 @@ Before pushing all changes into Heroku will have to set up and environment varia
 ```console
 $heroku config:set BUNDLE_GEMS__KISO__IO=xxxxxxxxxxxx
 Setting BUNDLE_GEMS__KISO__IO and restarting ⬢ your-app... done, v3
-BUNDLE_GEMS__RAPIDRAILSTHEMES__COM: xxxxxxxx@xxxx.com:xxxxxXXxxxXXx
+BUNDLE_GEMS__KISO__IO: xxxxxxxxxxxxx
 ```
 
 Next command should be pushing all changes into Heroku, which will trigger a deployment.
