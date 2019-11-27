@@ -42,12 +42,6 @@
       <div class="help-block"></div>
     </li>
 
-    <li class='navbar-form pull-left'>
-      <%= link_to sprint_import_path, class: 'pull-left', data: {toggle: "tooltip", title: 'Add sprints from external service'} do %>
-          <%= fa_icon_tag "plus" %> Add Sprint
-      <% end %>
-    </li>
-
     <li class='navbar-form pull-right'>
       <%= link_to issues_path, class: 'pull-right', data: { toggle: "tooltip", title: 'Clean up issues' } do %>
         <%= fa_icon_tag "trash" %> Clean Issues
@@ -92,12 +86,12 @@
                   <td><%= sprint.remaining_points %></td>
                   <td><%= sprint.team_name %></td>
                   <td class="actions text-center">
-                    <%= link_to fa_icon_tag("eye"), sprint, rel: 'tooltip', data: {toggle: "tooltip", title: 'Show sprint dashboard'} %>
+                    <%= link_to fa_icon_tag("eye"), sprint,class: "btn-xs", data: {toggle: "tooltip", title: 'Show sprint dashboard'} %>
                     <% if sprint.issues? %>
-                        <%= link_to fa_icon_tag("list"), sprint_issues_path(sprint.id), rel: 'tooltip', data: {toggle: "tooltip", title: 'Show sprint issues'} %>
+                        <%= link_to fa_icon_tag("list"), sprint_issues_path(sprint.id),class: "btn-xs", data: {toggle: "tooltip", title: 'Show sprint issues'} %>
                     <% end %>
-                    <%= link_to fa_icon_tag("pencil"), edit_sprint_path(sprint), rel: 'tooltip', title: 'Edit' %>
-                    <%= link_to fa_icon_tag("trash-o"), sprint, rel: 'tooltip', title: 'Delete', method: :delete, data: {confirm: 'Are you sure?'} %>
+                    <%= link_to fa_icon_tag("pencil"), edit_sprint_path(sprint),class: "btn-xs", data: {toggle: "tooltip", title: 'Edit'} %>
+                    <%= link_to fa_icon_tag("trash-o"), sprint, method: :delete,class: "btn-xs", data: {toggle: "tooltip", title: 'Delete',confirm: 'Are you sure?'} %>
                   </td>
                 </tr>
             <% end %>
