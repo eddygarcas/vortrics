@@ -1,6 +1,6 @@
 class Config < ApplicationRecord
 	belongs_to :user
-	belongs_to :setting
+	belongs_to :setting, dependent: :destroy
 
 	def self.update_or_create(attributes)
 		assign_or_new(attributes).save

@@ -1,7 +1,8 @@
 class Setting < ApplicationRecord
-  has_many :configs
+  has_many :configs, dependent: :destroy
   has_many :users, through: :configs
   has_many :workflow, dependent: :destroy
+  has_many :teams, dependent: :destroy
   has_one :fieldmap
 
   URL_REGEXP = /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/

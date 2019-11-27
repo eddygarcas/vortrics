@@ -4,12 +4,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   has_one :access, dependent: :destroy
-  has_one :group, through: :access, dependent: :destroy
+  has_one :group, through: :access
 
   has_one :config, dependent: :destroy
-  has_one :setting, through: :config, dependent: :destroy
+  has_one :setting, through: :config
 
-  has_many :notifications, foreign_key: :recipient_id
+  has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
   has_many :postits, dependent: :destroy
   has_many :services, dependent: :destroy
 

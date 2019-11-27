@@ -7,6 +7,7 @@ class SettingsController < ApplicationController
 	# GET /settings.json
 	def index
 		@settings = current_user.admin? ? Setting.all : [current_user.setting]
+		redirect_to new_setting_url unless @settings.any?
 	end
 
 	# GET /settings/1
