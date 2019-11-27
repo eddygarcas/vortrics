@@ -72,9 +72,13 @@ class Team < ApplicationRecord
   end
 
   def wip_limit
+    begin
     Montecasting::Metrics.wip_limit(
         issues_selectable_for_graph.map(&:cycle_time),
-        sprints.last.start_date).round(0)
+        sprints.last.start_date)&.round(0)
+    rescue FloatDomainError
+      return 0
+    end
   end
 
   def throughput
