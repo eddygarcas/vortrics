@@ -82,9 +82,9 @@
                   <td><%= fa_icon_tag("flag") if issue.flagged? %></td>
                   <td><%= issue.time_in :wip, :done %></td>
                   <td class="actions">
-                    <%= link_to fa_icon_tag("eye"), issue, rel: 'tooltip', data: {toggle: "tooltip", title: 'Show issue details'} %>
-                    <%= link_to ionicon_icon_tag("ios-infinite"), issue.sprint, rel: 'tooltip', title: 'Go to sprint' %>
-                    <%= link_to fa_icon_tag("trash-o"), issue, rel: 'tooltip', title: 'Delete', method: :delete, data: {confirm: 'Are you sure?'} %>
+                    <%= link_to fa_icon_tag("eye"), issue, data: {toggle: "tooltip", title: 'Show issue details'} %>
+                    <%= link_to ionicon_icon_tag("ios-infinite"), issue.sprint, data: {toggle: "tooltip", title: 'Go to sprint'} %>
+                    <%= link_to fa_icon_tag("trash-o"), issue, method: :delete, data: {toggle: "tooltip", title: 'Delete',confirm: 'Are you sure?'} %>
                   </td>
                 </tr>
             <% end %>
