@@ -5,14 +5,14 @@ require_relative '../../app/helpers/numeric'
 
 class Team < ApplicationRecord
   include JiraHelper
-
   belongs_to :project_info
 
   has_many :sprints, -> {order(enddate: :desc)}, dependent: :destroy
   has_many :assesments, dependent: :destroy
-  has_many :team_advices
+  has_many :team_advices, dependent: :destroy
   has_many :advices, through: :team_advices
   has_one :retrospective, dependent: :destroy
+
   attr_writer :issues, :sprint, :changelog
 
   scope :by_setting, -> (setting_id) {where(:setting_id => setting_id)}
