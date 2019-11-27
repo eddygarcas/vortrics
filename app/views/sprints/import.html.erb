@@ -18,12 +18,14 @@
             <thead>
             <tr>
               <th>Board Id</th>
-              <th><%= sort_link "name", "Name", {board_id: params[:board_id]} %></th>
+              <th>Sprint Id</th>
+              <th><%= sort_link "name", "Sprint name", {board_id: params[:board_id]} %></th>
               <th><%= sort_link "startDate", "Start Date", {board_id: params[:board_id]} %></th>
               <th><%= sort_link "endDate", "End Date", {board_id: params[:board_id]} %></th>
               <th>Complete date</th>
               <th>State</th>
-              <th></th>
+              <th>Actions</th>
+
             </tr>
             </thead>
             <tbody>
@@ -36,10 +38,8 @@
                   <td><%= formatDate sprint['endDate'] %></td>
                   <td><%= formatDate sprint['completeDate'] %></td>
                   <td><%= vt_issue_status_tag sprint['state'], sprint['state'].upcase %></td>
-
                   <td class="actions">
-
-                    <%= link_to fa_icon_tag("cloud-download"), sprint_import_issues_path(sprint), rel: 'tooltip', title: 'Download', data: {disable_with: "<i class='fa fa-spinner fa-pulse'></i>"} %>
+                    <%= link_to fa_icon_tag("cloud-download"), sprint_import_issues_path(sprint), rel: 'tooltip', title: 'Download',class:"pull-left", data: {disable_with: "<i class='fa fa-spinner fa-pulse'></i>"} %>
                   </td>
 
                 </tr>
