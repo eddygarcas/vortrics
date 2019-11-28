@@ -63,9 +63,10 @@ class UsersController < ApplicationController
 
 	def destroy
 		@user = User.find(params[:id])
-		message = "User #{@user.displayName} has been deleted."
+		@user.setting.destroy unless @user.setting.blank?
 		@user.destroy
 		if @user.destroy
+			message = "User #{@user.displayName} has been deleted."
 			redirect_to devise_manage_users_url, notice: message.humanize
 		end
 	end

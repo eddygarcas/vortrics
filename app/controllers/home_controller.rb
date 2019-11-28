@@ -7,8 +7,6 @@ class HomeController < ApplicationController
   before_action :team_session
   before_action :redirect_unless_user_has_settings
 
-
-
   def sidenav
   end
 
