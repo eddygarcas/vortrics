@@ -12,7 +12,7 @@
 
 <div class="row">
   <% content_for :actions do %>
-      <%= link_to new_team_path, class: 'btn btn-primary btn-large pull-right' do %>
+      <%= link_to new_team_path, class: 'btn btn-primary btn-large pull-right',data: {disable_with: "<i class='fa fa-spinner fa-pulse'></i>"} do %>
           <%= fa_icon_tag "plus" %> Add Team
       <% end %>
   <% end %>

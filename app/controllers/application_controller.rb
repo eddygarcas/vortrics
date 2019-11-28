@@ -4,7 +4,6 @@ require_relative '../../app/helpers/file'
 
 class ApplicationController < ActionController::Base
 	include JiraHelper
-
 	protect_from_forgery with: :exception
 	#Will only get into JIRA if a Devise user has logged in
 	#It calls get_jira_client every time a redirect is requested.
@@ -17,7 +16,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def render_404
-		redirect_to root_url, flash: { warning: "Ups! #{params[:id]} doesn't exist. " }
+		redirect_to root_url, flash: { warning: "Ups! The content you are try to reach doesn't exist. " }
 	end
 
 	def render_403
