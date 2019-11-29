@@ -68,7 +68,7 @@ class User < ApplicationRecord
   end
 
   def full_profile?
-    displayName.present? and avatar.present?
+    displayName.present? && (!User.column_defaults.has_value? avatar)
   end
 
 end
