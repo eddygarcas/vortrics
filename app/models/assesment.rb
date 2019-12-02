@@ -1,7 +1,7 @@
 class Assesment < ApplicationRecord
   belongs_to :team
   belongs_to :maturity_framework
-  has_many :answers
+  has_many :answers, dependent: :destroy
 
 
   def evalutaion level_id
