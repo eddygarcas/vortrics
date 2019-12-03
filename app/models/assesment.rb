@@ -3,6 +3,7 @@ class Assesment < ApplicationRecord
   belongs_to :maturity_framework
   has_many :answers, dependent: :destroy
 
+  scope :by_team, -> (id) {where(team_id: id).order(updated_at: :asc)}
 
   def evalutaion level_id
     level = maturity_framework.levels.find(level_id)

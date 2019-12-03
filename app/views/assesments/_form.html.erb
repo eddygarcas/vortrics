@@ -22,7 +22,7 @@
       <%= f.form_group :team_id do |f| %>
         <%= f.label :team_id, class: 'control-label col-md-2' %>
         <div class='col-md-4'>
-          <%= f.select :team_id, Team.order(:id).collect { |p| [ p.name, p.id ] }, {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?}%>
+          <%= f.select :team_id, current_user.teams.collect { |p| [ p.name, p.id ] }, {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?}%>
           <%= f.error_messages %>
         </div>
       <% end %>
