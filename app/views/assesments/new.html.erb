@@ -5,10 +5,20 @@
       <%= vt_project_name %></p>
 <% end %>
 
-<div class="container-fluid mt15">
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <%= render 'form' %>
+
+
+
+<div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <%= render "layouts/flashes" %>
+  <div class="row sheet sheet-condensed mt15">
+    <div class="panel panel-default sheet-inner">
+      <div class="panel-heading">
+        <span class="fa fa-list"></span>
+        Create a new assesment for  <%= vt_project_name %>
+      </div>
+      <p class="panel-body">
+        <%= render 'form' %>
+      </p>
     </div>
   </div>
 </div>

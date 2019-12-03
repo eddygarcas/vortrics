@@ -1,17 +1,20 @@
 <% @title = "New Maturity Framework" %>
 
 <% content_for :description do %>
-    <p><%= vt_project_icon %>
-      <%= vt_project_name %></p>
+  <p><%= vt_project_icon %> <%= vt_project_name %></p>
 <% end %>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <%= render 'form' %>
+<div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <%= render "layouts/flashes" %>
+  <div class="row sheet sheet-condensed mt15">
+    <div class="panel panel-default sheet-inner">
+      <div class="panel-heading">
+        <span class=" fa fa-line-chart"></span>
+        Create a new maturity framework
+      </div>
+      <p class="panel-body">
+        <%= render 'form' %>
+      </p>
     </div>
-  </div>
-
-
   </div>
 </div>

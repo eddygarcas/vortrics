@@ -3,25 +3,23 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.form_group :name do |f| %>
-      <%= f.label :name, class: 'control-label col-md-2' %>
-      <div class='col-md-8'>
-        <%= f.text_field :name, class: 'form-control' %>
+
+    <%= f.form_group :maturity_framework do |f| %>
+      <%= f.label "Framework", class: 'control-label col-md-2' %>
+      <div class='col-md-4'>
+        <%= f.select :maturity_framework_id, MaturityFramework.order(:name).collect { |p| [ p.name, p.id ] } ,{required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?} %>
         <%= f.error_messages %>
       </div>
     <% end %>
 
-
-
-
-
-    <%= f.form_group :maturity_framework do |f| %>
-        <%= f.label :maturity_framework_id, class: 'control-label col-md-2' %>
-        <div class='col-md-8'>
-          <%= f.collection_select :maturity_framework_id, MaturityFramework.order(:name), :id, :name, include_blank: false, class: 'form-control' %>
-          <%= f.error_messages %>
-        </div>
+    <%= f.form_group :name do |f| %>
+      <%= f.label :name, class: 'control-label col-md-2' %>
+      <div class='col-md-6'>
+        <%= f.text_field :name, class: 'form-control form-control-lg',required: true %>
+        <%= f.error_messages %>
+      </div>
     <% end %>
+
 
   </div>
 

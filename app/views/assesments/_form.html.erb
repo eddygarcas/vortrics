@@ -1,39 +1,40 @@
-<%= form_for(@assesment, html: {class: 'form-horizontal'}) do |f| %>
+<%= form_for(@assesment, html: {class: 'form-horizontal form-control-lg'}) do |f| %>
     <%= f.error_notification %>
 
     <div class="form-inputs">
 
       <%= f.form_group :name do |f| %>
           <%= f.label :name, class: 'control-label col-md-2' %>
-          <div class='col-md-8'>
-            <%= f.text_field :name, required: true, class: 'form-control' %>
+          <div class='col-md-2'>
+            <%= f.text_field :name, required: true, class: 'form-control form-control-lg' %>
             <%= f.error_messages %>
           </div>
       <% end %>
 
       <%= f.form_group :date do |f| %>
           <%= f.label :date, class: 'control-label col-md-2' %>
-          <div class='col-md-8'>
-            <%= f.date_field :date, min: Time.now, required: true, class: 'form-control' %>
+          <div class='col-md-2'>
+            <%= f.date_field :date, min: Time.now, required: true, class: 'form-control form-control-lg', disabled: f.object.persisted? %>
             <%= f.error_messages %>
           </div>
       <% end %>
 
       <%= f.form_group :team_id do |f| %>
-          <%= f.label :team_id, class: 'control-label col-md-2' %>
-          <div class='col-md-8'>
-            <%= f.collection_select :team_id, Team.order(:id), :id, :name,class: "form-control form-control-lg", include_blank: false, required: true %>
-            <%= f.error_messages %>
-          </div>
+        <%= f.label :team_id, class: 'control-label col-md-2' %>
+        <div class='col-md-4'>
+          <%= f.select :team_id, Team.order(:id).collect { |p| [ p.name, p.id ] }, {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?}%>
+          <%= f.error_messages %>
+        </div>
       <% end %>
 
-      <%= f.form_group :maturity_framework_id do |f| %>
-          <%= f.label :maturity_framework_id, class: 'control-label col-md-2' %>
-          <div class='col-md-8'>
-            <%= f.collection_select :maturity_framework_id, MaturityFramework.order(:id), :id, :name, class: "form-control form-control-lg", include_blank: false, required: true %>
-            <%= f.error_messages %>
-          </div>s
+      <%= f.form_group :team_id do |f| %>
+        <%= f.label "Framework", class: 'control-label col-md-2' %>
+        <div class='col-md-4'>
+          <%= f.select :maturity_framework_id, MaturityFramework.order(:id).collect { |p| [ p.name, p.id ] },{required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?}%>
+          <%= f.error_messages %>
+        </div>
       <% end %>
+
 
     </div>
 
