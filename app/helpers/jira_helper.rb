@@ -7,7 +7,7 @@ module JiraHelper
     options = {
         site: setting.site,
         rest_base_path: setting.base_path,
-        context_path: setting.context,
+        context_path: setting.context.blank? ? "" : setting.context,
         auth_type: setting.oauth? ? :oauth : :basic,
         http_debug: setting.debug?,
         signature_method: setting.signature_method,

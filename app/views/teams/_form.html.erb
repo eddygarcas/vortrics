@@ -19,7 +19,7 @@
         <% if (f.object.persisted?) %>
           <%= f.label board_name(@team), {class: 'form-control form-control-lg'} %>
         <% else %>
-          <%= f.select :board_id, "Not defined", {prompt: 'Not defined', required: true}, {class: 'form-control', data: {behaviour: :team_board_id_change}} %>
+          <%= f.select :board_id, "Not defined", {prompt: 'Not defined', required: true}, {required: true,class: 'form-control', data: {behaviour: :team_board_id_change}, disabled: f.object.persisted?} %>
         <% end %>
         <%= f.error_messages %>
       </div>

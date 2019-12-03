@@ -28,6 +28,7 @@ class Teams
       success: (data) ->
         boards = data
         $('#team_board_id').empty()
+        $('#team_board_id').append($('<option>', {value: '', text: 'Select board...'}))
         data.map (board) ->
           $('#team_board_id').append($('<option>', {value: board['id'], text: board['name']}))
     )

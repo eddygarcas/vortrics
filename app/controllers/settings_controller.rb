@@ -18,6 +18,7 @@ class SettingsController < ApplicationController
 	# GET /settings/new
 	def new
 		@setting = Setting.new
+		flash.discard
 		flash[:default] = ScrumMetrics.config[:messages][:first_steps].html_safe
 	end
 
@@ -86,6 +87,6 @@ class SettingsController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def setting_params
-		params.require(:setting).permit(:name, :site, :base_path, :context, :debug, :signature_method, :key_file, :key_data, :consumer_key, :oauth, :login, :password)
+		params.require(:setting).permit(:name, :site, :base_path, :debug, :signature_method, :key_file, :key_data, :consumer_key, :oauth, :login, :password)
 	end
 end

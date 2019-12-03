@@ -28,7 +28,7 @@
             </tr>
             </thead>
             <tbody>
-            <% @assesments.each do |assesment| %>
+            <% Assesment.by_team(@team.id).each do |assesment| %>
               <tr>
                 <td><%= assesment.name %></td>
                 <td><%= assesment.date.strftime('%a, %d/%b/%Y') %></td>
@@ -41,7 +41,7 @@
                 </td>
               </tr>
             <% end %>
-            <% if @assesments.length == 0 %>
+            <% if Assesment.by_team(@team.id).length == 0 %>
               <tr>
                 <td colspan=42 class='text-center'>No assesments.</td>
               </tr>
@@ -52,7 +52,7 @@
       </div><!-- /.sheet -->
 
       <%# Remove the trailing if condition if you're using pagination. %>
-      <%= will_paginate @assesments if @assesments.respond_to?(:total_pages) %>
+      <%= will_paginate  Assesment.by_team(@team.id) if  Assesment.by_team(@team.id).respond_to?(:total_pages) %>
     </div>
   </div>
 </div>
