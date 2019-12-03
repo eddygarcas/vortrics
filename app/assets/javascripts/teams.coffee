@@ -33,7 +33,7 @@ class Teams
           $('#team_board_id').append($('<option>', {value: board['id'], text: board['name']}))
     )
   handleBoardChange: (e) ->
-    $("[data-behaviour='board_type']").val(boards[$('select#team_board_id option:selected').index()].type)
+    $("[data-behaviour='board_type']").val(boards[$('select#team_board_id option:selected').index()-1].type)
 
 
 ready = ->
