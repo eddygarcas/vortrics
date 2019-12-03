@@ -27,9 +27,14 @@
         <%= f.text_area :description, placeholder: "What's in your mind to improve this situation?", class: "form-control" %>
         <div class="row">
           <div class="col-xs-6 col-sm-6">
-            <a class="btn btn-sm btn-default"><i class="fa fa-fw fa-camera"></i></a>
-            <a class="btn btn-sm btn-default"><i class="fa fa-fw fa-video-camera"></i></a>
-            <a class="btn btn-sm btn-default"><i class="fa fa-fw fa-map-marker"></i></a>
+            <a class=""></a>
+
+            <%= link_to "#", class: "btn btn-sm btn-default", data: {toggle: "tooltip", title: 'Ups! not available yet'} do |url|  %>
+
+              <i class="fa fa-fw fa-camera"></i>
+              <%end %>
+
+
           </div>
           <div class="col-xs-6 col-sm-6 text-right">
             <%= f.submit class: 'btn btn-sm btn-outline-primary' %>
@@ -44,7 +49,7 @@
               <small><%= comment.created_at.strftime('%b') %></small>
             </time>
             <div class="media">
-              <%= link_to comment, method: :delete, class: "btn btn-link btn-flat btn-xs btn-borderless pull-right" do %>
+              <%= link_to comment, method: :delete, class: "btn btn-link btn-flat btn-xs btn-borderless pull-right",data: {toggle: "tooltip", title: 'Delete comment'} do %>
                 <i class="fa fa-trash"></i>
               <% end if comment.actor.eql? current_user %>
               <a class="pull-left" href="#">

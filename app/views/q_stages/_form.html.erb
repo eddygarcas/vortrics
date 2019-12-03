@@ -6,8 +6,8 @@
 
     <%= f.form_group :level do |f| %>
         <%= f.label 'Category', class: 'control-label col-md-2' %>
-        <div class='col-md-8'>
-          <%= f.collection_select :level_id, Level.order(:name), :id, :name, include_blank: false, class: 'form-control' %>
+        <div class='col-md-3'>
+          <%= f.select :level_id, Level.order(:name).collect { |p| [ p.name, p.id ] }, {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?}%>
           <%= f.error_messages %>
         </div>
     <% end %>
@@ -15,15 +15,15 @@
     <%= f.form_group :name do |f| %>
       <%= f.label :name, class: 'control-label col-md-2' %>
       <div class='col-md-8'>
-        <%= f.text_field :name, class: 'form-control' %>
+        <%= f.text_field :name, class: 'form-control form-control-lg',required: true %>
         <%= f.error_messages %>
       </div>
     <% end %>
 
     <%= f.form_group :value do |f| %>
       <%= f.label :value, class: 'control-label col-md-2' %>
-      <div class='col-md-8'>
-        <%= f.number_field :value, class: 'form-control' %>
+      <div class='col-md-1'>
+        <%= f.number_field :value, class: 'form-control form-control-lg',min: "1", max: "100", placeholder: "1",required: true %>
         <%= f.error_messages %>
       </div>
     <% end %>
