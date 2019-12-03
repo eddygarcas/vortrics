@@ -3,7 +3,7 @@ class Retrospective < ApplicationRecord
   belongs_to :team
   has_many :postits, -> {order(position: :asc)}, dependent: :destroy
 
-  scope :sorted, -> {order(position: :asc)}
+  scope :sorted, -> (id) {where(team_id: id ).order(position: :asc)}
 
 
 end
