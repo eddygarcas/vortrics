@@ -15,12 +15,8 @@
 
   <p><%= vt_project_icon %>
     Issues</p>
-  <ol class="breadcrumb col-sm-6 col-xs-height text-left col-middle">
-    <li><%= link_to "Manage Users", devise_manage_users_path %></li>
-    <li><%= link_to "Clean Up", sprints_path %></li>
-    <li><%= link_to "External Services", settings_path %></li>
-    <li><%= link_to "Workflow", workflows_path %></li>
-  </ol>
+  <%= render 'layouts/settings_nav' %>
+
 <% end %>
 
 <% content_for :actions do %>

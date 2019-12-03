@@ -10,11 +10,15 @@
         <a href="https://pages.github.schibsted.io/eduard-garcia/vortrics/"><img src="/images/vortrics_just_name.png" style="margin-top: -25px;margin-bottom: -25px;margin-left: -15px;height: 72px;"></a>
       </h4>
       <div class="user-links">
-        <a class="btn btn-link btn-flat btn-xs btn-borderless" href="#" data-placement="bottom" data-toggle="tooltip" data-original-title="Messages"><i class="fa fa-envelope"></i></a>
+
+        <%= link_to advices_path, method: :get, class: "btn btn-link btn-flat btn-xs btn-borderless", data: { title: 'Messages', toggle: :tooltip } do %>
+          <i class="fa fa-envelope"></i>
+        <% end if current_user.admin?%>
+
         <%= link_to edit_user_registration_path, method: :get, class: "btn btn-link btn-flat btn-xs btn-borderless", data: { title: 'Profile', toggle: :tooltip } do %>
           <i class="fa fa-user"></i>
         <% end %>
-        <%= link_to users_manage_users_path, method: :get, class: "btn btn-link btn-flat btn-xs btn-borderless", data: { title: 'Settings', toggle: :tooltip } do %>
+        <%= link_to settings_path, method: :get, class: "btn btn-link btn-flat btn-xs btn-borderless", data: { title: 'Settings', toggle: :tooltip } do %>
           <i class="fa fa-cog"></i>
         <% end %>
         <%= link_to destroy_user_session_path, method: :delete, class: "btn btn-link btn-flat btn-xs btn-borderless", data: { title: 'Logout', toggle: :tooltip } do %>
