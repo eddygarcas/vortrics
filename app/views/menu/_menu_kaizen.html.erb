@@ -2,13 +2,13 @@
   <a class="nav-link"> <i class="fa fa-fw fa-magic fa-lg fa-fw"></i> Kaizen <span class="fa arrow"></span></a>
   <ul class="nav nav-second-level" aria-expanded="false">
     <%= activatable_li_tag retrospectives_path do |url|
-        link_to_unless current_user.admin?, fa_icon_tag("Commenting") << "Remote Retrospective", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
+        link_to_unless current_user.admin?, fa_icon_tag("Commenting") << "Funboard", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
         link_to name, url
         end
     end %>
 
     <%= activatable_li_tag advices_path do |url|
-      link_to_unless current_user.admin?, fa_icon_tag("compass") << "Actions", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
+      link_to_unless current_user.admin?, fa_icon_tag("newspaper-o") << "Wallboard", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
       link_to name, url
       end
     end %>
