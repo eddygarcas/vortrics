@@ -20,3 +20,48 @@ main {
     position: relative;
     padding: 1rem;
 }
+
+@-webkit-keyframes invalid {
+  from { background-color: #d13b47; }
+  to { background-color: inherit; }
+}
+@-moz-keyframes invalid {
+  from { background-color: #d13b47; }
+  to { background-color: inherit; }
+}
+@-o-keyframes invalid {
+  from { background-color: #d13b47; }
+  to { background-color: inherit; }
+}
+@keyframes invalid {
+  from { background-color: #d13b47; }
+  to { background-color: inherit; }
+}
+.invalid {
+  -webkit-animation: invalid 2s; /* Safari 4+ */
+  -moz-animation:    invalid 2s; /* Fx 5+ */
+  -o-animation:      invalid 2s; /* Opera 12+ */
+  animation:         invalid 2s; /* IE 10+ */
+}
+@-webkit-keyframes valid {
+  from { background-color: #2ed126; }
+  to { background-color: inherit; }
+}
+@-moz-keyframes valid {
+  from { background-color: #2ed126; }
+  to { background-color: inherit; }
+}
+@-o-keyframes valid {
+  from { background-color: #2ed126; }
+  to { background-color: inherit; }
+}
+@keyframes valid {
+  from { background-color: #2ed126; }
+  to { background-color: inherit; }
+}
+.valid {
+  -webkit-animation: valid 2s; /* Safari 4+ */
+  -moz-animation:    valid 2s; /* Fx 5+ */
+  -o-animation:      valid 2s; /* Opera 12+ */
+  animation:         valid 2s; /* IE 10+ */
+}
