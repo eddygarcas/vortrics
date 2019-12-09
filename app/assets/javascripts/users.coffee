@@ -16,18 +16,22 @@ class Users
       contentType: "application/json"
       processData: false
       success: (data)  ->
+        setInterval(@completeClick,3000)
         if (data['success'] is "true")
-          $("[data-behaviour='user_link']").tooltip({title: 'Saved!'})
-          $("[data-behaviour='user_link']").tooltip('show');
-          $("[data-behavior='user_info_" + data['message'] + "']")[0].className += ' has-success';
-          $("[data-behaviour='user_link']").tooltip('hide');
+          $("[data-behavior='user_info_" + data['message'] + "']").toggleClass("valid");
         else
-          $("[data-behaviour='user_link']").tooltip({title: 'Error!'})
-          $("[data-behaviour='user_link']").tooltip('show');
-          $("[data-behavior='user_info_" + data['message'] + "']")[0].className += ' has-error';
-          $("[data-behaviour='user_link']").tooltip('hide');
+          $("[data-behavior='user_info_" + data['message'] + "']").toggleClass('invalid');
+
+      completeClick: (data) ->
+        elems = document.getElementsByClassName('valid')
+        while (elems.length)
+          elems[0].classList.remove('valid')
+        elems = document.getElementsByClassName('invalid')
+        while (elems.length)
+          elems[0].classList.remove('invalid')
 
     )
+
 
   handleChange: (e) ->
     @elems = $(this).val();
@@ -41,16 +45,12 @@ class Users
       contentType: "application/json"
       processData: false
       success: (data)  ->
+        setInterval(@completeClick,3000)
         if (data['success'] is "true")
-          $("[data-behavior='user_info_" + data['message'] + "']").tooltip({title: 'Saved!'})
-          $("[data-behavior='user_info_" + data['message'] + "']").tooltip('show');
-          $("[data-behavior='user_info_" + data['message'] + "']")[0].className += ' has-success';
-          $("[data-behavior='user_info_" + data['message'] + "']").tooltip('hide');
+          $("[data-behavior='user_info_" + data['message'] + "']").toggleClass('valid');
         else
-          $("[data-behavior='user_info_" + data['message'] + "']").tooltip({title: 'Error!'})
-          $("[data-behavior='user_info_" + data['message'] + "']").tooltip('show');
-          $("[data-behavior='user_info_" + data['message'] + "']")[0].className += ' has-error';
-          $("[data-behavior='user_info_" + data['message'] + "']").tooltip('hide');
+          $("[data-behavior='user_info_" + data['message'] + "']").toggleClass('invalid');
+
     )
 
 jQuery ->
