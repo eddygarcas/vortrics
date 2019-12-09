@@ -1,8 +1,8 @@
-<% @title = "Retrospective" %>
+<% @title = "Funboard" %>
 
 <% content_for :description do %>
   <p><%= vt_project_icon %>
-    Retrospective for <%= @team.name %></p>
+    Build <%= @team.name %> board</p>
 <% end %>
 <%= tag.div id: :retrospective, data: {
     retrospectives: @retrospectives.sorted(@team.id).to_json(only: [:id,:name,:position,:team_id],:include => {:postits => {include: :user}}),team: @team.to_json(only: [:id])

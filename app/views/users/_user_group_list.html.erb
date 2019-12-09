@@ -39,18 +39,18 @@
                 <td><%= user.last_sign_in_at.strftime("%d-%m-%Y") unless user.last_sign_in_at.blank? %></td>
                 <td>
                   <label class="switch switch-success">
-                    <%= check_box_tag "#{user.id}", "#{user.group.blank? ? '0' : user.group.priority}", user.admin?, data: {behaviour: :user_link} %>
+                    <%= check_box_tag "#{user.id}", "#{user.group.blank? ? '0' : user.group.priority}", user.admin?, data: {behaviour: :user_link,placement: 'left',tigger: 'manual'} %>
                     <span></span>
                   </label>
                 </td>
                 <td style="min-width: 30px;">
                   <div class="btn-group" data-behavior='user_info_<%= user.id %>'>
-                    <%= select_tag "setting_id", options_from_collection_for_select(Setting.all, "id", "name", (user.setting.id unless user.setting.blank?)), id: user.id, include_blank: 'Not defined', data: {behaviour: :site_link}, class: 'form-control form-control-lg' %>
+                    <%= select_tag "setting_id", options_from_collection_for_select(Setting.all, "id", "name", (user.setting.id unless user.setting.blank?)), id: user.id, include_blank: 'Not defined', data: {behaviour: :site_link,placement: 'right',tigger: 'manual'}, class: 'form-control form-control-lg' %>
                   </div>
                 </td>
 
                 <td class="actions">
-                  <%= link_to fa_icon_tag("trash-o"), admin_destroy_user_path(user.id), rel: 'tooltip', title: 'Delete', method: :delete, data: {confirm: 'Are you sure?'} %>
+                  <%= link_to fa_icon_tag("trash-o"), admin_destroy_user_path(user.id), method: :delete, data: {confirm: 'Are you sure?', title: 'Delete', toggle: :tooltip} %>
                 </td>
               </tr>
             <% end %>
