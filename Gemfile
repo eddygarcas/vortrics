@@ -8,15 +8,13 @@ end
 source "https://gems.kiso.io/" do
   gem "dresssed-ives", "~> 1.0.67"
 end
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.0'
 gem "rack", ">= 2.0.7"
 gem "loofah", ">= 2.2.3"
 gem "rubyzip", ">= 1.3.0"
 gem "ffi", ">= 1.11.3"
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3', group: :development
+
 # Use Puma as the app server
 gem "puma", ">= 3.12.2"
 # Use SCSS for stylesheets
@@ -33,15 +31,17 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', github: 'rails/jbuilder', branch: 'master'
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 gem 'will_paginate', '~> 3.1.0'
-gem 'jira-ruby', '1.5.0', :require => 'jira-ruby'
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
+gem "sweet-alert", git: "https://github.com/frank184/sweet-alert-rails"
+gem "sweet-alert-confirm", git: "https://github.com/humancopy/sweet-alert-rails-confirm"
+gem 'acts_as_list'
+
+gem 'jira-ruby', '1.5.0', :require => 'jira-ruby'
+
 gem "devise", ">= 4.7.1"
 gem 'omniauth-github'
-
+gem 'omniauth-rails_csrf_protection', '~> 0.1'
 
 gem 'jquery-rails', '~> 4.3.1'
 gem 'jquery-ui-rails','~> 6.0.1'
@@ -49,18 +49,15 @@ gem 'rails-ujs'
 
 gem 'resque'
 gem 'business_time'
-gem "sweet-alert", git: "https://github.com/frank184/sweet-alert-rails"
-gem "sweet-alert-confirm", git: "https://github.com/humancopy/sweet-alert-rails-confirm"
+
 gem 'webpacker', '~> 4.x'
 
 gem 'montecasting', '>= 0.6.5'
 
-gem 'acts_as_list'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'sqlite3'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'test-unit'
@@ -74,10 +71,8 @@ group :development, :test do
 end
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'awesome_print'
