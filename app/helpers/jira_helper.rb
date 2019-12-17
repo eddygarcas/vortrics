@@ -51,7 +51,6 @@ module JiraHelper
     }
   end
 
-  #This method will be a depretation candidate
   def current_project key, options = {}
     return if current_user.setting.blank?
     elems = Rails.cache.fetch("get_current_project_#{key.to_s}", expires_in: 30.minutes) {
@@ -93,7 +92,6 @@ module JiraHelper
     jira_instance(current_user.setting).Issue.find(key, fields: :attachment).attachment
   end
 
-
   def bug_for_board boardid, startdate, options = {}, status = nil
     return if current_user.setting.blank?
     elems = Rails.cache.fetch("bug_for_board_#{boardid}_#{startdate.to_s}", expires_in: 30.minutes) {
@@ -106,7 +104,6 @@ module JiraHelper
     }
     elems[:issues.to_s]
   end
-
 
   def boards_by_project keyorid, type = '', options = {}
     return if current_user.setting.blank?
