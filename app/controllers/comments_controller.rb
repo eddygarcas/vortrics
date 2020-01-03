@@ -33,6 +33,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         broadcast_notification @comment
+        broadcast_actioncable("retrospective", "saveComment", @comment.to_json(include: :actor)) unless @comment.postit_id.blank?
         format.html { redirect_to comment_path(@comment.advice_id) }
         format.json { render :show, status: :created, location: @comment }
       else
@@ -61,6 +62,7 @@ class CommentsController < ApplicationController
   def destroy
     @comment.destroy
     respond_to do |format|
+      broadcast_actioncable("retrospective", "deleteComment", @comment.to_json(include: :actor)) unless @comment.postit_id.blank?
       format.html { redirect_to comment_path(@comment.advice_id) }
       format.json { head :no_content }
     end
@@ -79,6 +81,6 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:description,:advice_id)
+      params.require(:comment).permit(:description,:advice_id,:postit_id)
     end
 end

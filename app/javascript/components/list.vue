@@ -7,8 +7,8 @@
         <h5>{{list.name.toUpperCase()}}</h5>
 
         <draggable v-model="list.postits" group="postits" @change="postitMoved" class="dragArea">
-            <postit v-for="(postit, index) in list.postits" :postit="postit" :postit_index="index"
-                    :list_id="list.id"></postit>
+            <postit v-for="(postit, index) in list.postits" v-bind:key="index" :postit="postit" :postit_index="index"
+                    :list_id="list.id" :list_o="list"></postit>
         </draggable>
         <input type="text" v-model="message"
                v-on:change="createPostit" class="insight"

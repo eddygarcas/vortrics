@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_20_082758) do
+ActiveRecord::Schema.define(version: 2019_12_19_091743) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -91,6 +91,8 @@ ActiveRecord::Schema.define(version: 2019_11_20_082758) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "postit_id"
+    t.index ["postit_id"], name: "index_comments_on_postit_id"
   end
 
   create_table "components", force: :cascade do |t|
@@ -186,6 +188,7 @@ ActiveRecord::Schema.define(version: 2019_11_20_082758) do
     t.integer "retrospective_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "description"
     t.index ["retrospective_id"], name: "index_postits_on_retrospective_id"
   end
 
@@ -351,6 +354,7 @@ ActiveRecord::Schema.define(version: 2019_11_20_082758) do
   add_foreign_key "assesments", "teams"
   add_foreign_key "cards", "workflows"
   add_foreign_key "change_logs", "issues"
+  add_foreign_key "comments", "postits"
   add_foreign_key "components_sprints", "components"
   add_foreign_key "components_sprints", "sprints"
   add_foreign_key "configs", "settings"
