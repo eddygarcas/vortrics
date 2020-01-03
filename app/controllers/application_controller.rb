@@ -31,6 +31,11 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
+	def broadcast_actioncable channel, method, payload
+		ActionCable.server.broadcast channel, { commit: method, payload: payload }
+
+	end
+
 	def sprint_by_board board_id, sort_column, sort_direction, options = {}
 		return if board_id.blank?
 		board_sprint = boards_by_sprint board_id, 0, options

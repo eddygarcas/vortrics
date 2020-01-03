@@ -4,6 +4,8 @@ class Postit < ApplicationRecord
   belongs_to :retrospective
   belongs_to :user
 
+  has_many :comments, -> {order(created_at: :desc)}, dependent: :destroy
+
   validates :text, presence: true
 
   def advice

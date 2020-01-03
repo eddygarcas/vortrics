@@ -7,7 +7,7 @@
                        placeholder="Add column..."/>
             </div>
             <draggable v-model="lists" group="lists" class="board dragArea" @end="columnMoved">
-                <list v-for="(list, index) in lists" :list="list" :list_index="index">
+                <list v-for="(list, index) in lists" v-bind:key="index" :list="list" :list_index="index">
 
                 </list>
 

@@ -5,5 +5,5 @@
     Build <%= @team.name %> board</p>
 <% end %>
 <%= tag.div id: :retrospective, data: {
-    retrospectives: @retrospectives.sorted(@team.id).to_json(only: [:id,:name,:position,:team_id],:include => {:postits => {include: :user}}),team: @team.to_json(only: [:id])
+    retrospectives: @retrospectives.to_vue(@team.id),team: @team.to_json(only: [:id])
 }, class: "container-fluid"  %>

@@ -22,6 +22,7 @@ import Mfilter from '../mfilter'
 import Msummary from '../msummary'
 import TurbolinksAdapter from 'vue-turbolinks'
 
+
 Vue.use(Vuex)
 Vue.use(TurbolinksAdapter)
 
@@ -108,10 +109,36 @@ window.store = new Vuex.Store({
             state.mseries[2].data = data[1];
             state.summary = data[3];
             graph.update();
+        },
+        savePostit(state,data){
+            const index = state.lists.findIndex(item => item.id == data.retrospective_id)
+            const card_index = state.lists[index].postits.findIndex((item) => item.id == data.id)
+            state.lists[index].postits[card_index].description = data.description
+        },
+        saveComment(state,data) {
+            const index = state.lists.findIndex((list) => {
+                return list.postits.find((postit) => {
+                    return postit.id === data.postit_id
+                })
+            })
+            const card_index = state.lists[index].postits.findIndex((item) => item.id == data.postit_id)
+            state.lists[index].postits[card_index].comments.unshift(data)
+        },
+        deleteComment(state,data) {
+            const index = state.lists.findIndex((list) => {
+                return list.postits.find((postit) => {
+                    return postit.id === data.postit_id
+                })
+            })
+            const card_index = state.lists[index].postits.findIndex((item) => item.id == data.postit_id)
+            const comment_index =  state.lists[index].postits[card_index].comments.findIndex((comm) => comm.id == data.id)
+            state.lists[index].postits[card_index].comments.splice(comment_index, 1)
         }
 
     }
 });
+
+
 
 document.addEventListener('turbolinks:load', () => {
     var element = document.querySelector("#boards");

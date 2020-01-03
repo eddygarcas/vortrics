@@ -1,5 +1,5 @@
 class PostitsController < ApplicationController
-  before_action :set_postit, only: [:show, :edit, :update, :destroy,:move,:vote]
+  before_action :set_postit, only: [:show, :edit, :update,:save, :destroy,:move,:vote]
 
   # GET /postits
   # GET /postits.json
@@ -23,15 +23,22 @@ class PostitsController < ApplicationController
 
   def move
     @postit.update(postit_params)
-    ActionCable.server.broadcast "retrospective", { commit: 'postitMoved', payload: @postit.to_json(include: :user) }
+    broadcast_actioncable "retrospective","postitMoved", @postit.to_json(include: [:user,comments: {include: :actor }])
     render action: :show
   end
 
   def vote
     @postit.update(dots: @postit.dots.nil? ? 1 : @postit.dots+1)
-    ActionCable.server.broadcast "retrospective", { commit: 'postitVote', payload: @postit.to_json(include: :user) }
+    broadcast_actioncable "retrospective","postitVote", @postit.to_json
     render json: :success
   end
+
+  def save
+    @postit.update(description: postit_params[:description])
+    broadcast_actioncable "retrospective", "savePostit", @postit.to_json
+    render json: :success
+  end
+
   # POST /postits
   # POST /postits.json
   def create
@@ -41,7 +48,7 @@ class PostitsController < ApplicationController
     respond_to do |format|
       if @postit.save
         broadcast_notification @postit
-        ActionCable.server.broadcast "retrospective", { commit: 'createPostit', payload: @postit.to_json(include: :user) }
+        broadcast_actioncable "retrospective", "createPostit", @postit.to_json(include: [:user,comments: {include: :actor }])
         format.html { redirect_to @postit, notice: 'Postit was successfully created.' }
         format.json { render json: @postit.to_json(include: :user) }
       else
@@ -84,6 +91,6 @@ class PostitsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def postit_params
-      params.require(:postit).permit(:text, :position, :dots, :comments, :retrospective_id)
+      params.require(:postit).permit(:text, :position, :dots, :description, :comments, :retrospective_id)
     end
 end
