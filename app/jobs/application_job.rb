@@ -16,7 +16,7 @@ class ApplicationJob < ActiveJob::Base
     sprints.each {|sprint|
 
 
-      options = {fields: ScrumMetrics.config[:jira][:fields], maxResults: 200, expand: :changelog}
+      options = {fields: Vortrics.config[:jira][:fields], maxResults: 200, expand: :changelog}
       issues = import_sprint(sprint.sprint_id, options).map {|elem| JiraIssue.to_issue(elem)}
 
       issues_save = issues.select {|el| el.closed_in.include? sprint.sprint_id.to_s unless el.closed_in.blank?}
@@ -31,8 +31,8 @@ class ApplicationJob < ActiveJob::Base
 
   def instance_jira
     options = {
-        site: ScrumMetrics.config[:jira][:site],
-        rest_base_path: ScrumMetrics.config[:jira][:restbasepath],
+        site: Vortrics.config[:jira][:site],
+        rest_base_path: Vortrics.config[:jira][:restbasepath],
         username: ENV[:EXT_SERVICE_USERNAME.to_s],
         password: ENV[:EXT_SERVICE_PASSWORD.to_s],
         :ssl_verify_mode => 0,

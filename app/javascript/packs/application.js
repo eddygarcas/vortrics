@@ -22,10 +22,8 @@ import Mfilter from '../mfilter'
 import Msummary from '../msummary'
 import TurbolinksAdapter from 'vue-turbolinks'
 
-
 Vue.use(Vuex)
 Vue.use(TurbolinksAdapter)
-
 
 // document.addEventListener('DOMContentLoaded', () => {
 //   const el = document.body.appendChild(document.createElement('hello'))
@@ -34,7 +32,6 @@ Vue.use(TurbolinksAdapter)
 //     render: h => h(App)
 //   });
 // });
-
 
 // document.addEventListener('DOMContentLoaded', () => {
 //   const app = new Vue({

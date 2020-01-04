@@ -7,7 +7,7 @@ class AdvicesController < ApplicationController
   # GET /advices.json
   def index
     return if @team.blank?
-    ScrumMetrics.config[:advices].each_key do |key|
+    Vortrics.config[:advices].each_key do |key|
       @team.advices.create_by_key(key) if (@team.respond_to?(key) && @team.send(key))
     end
     @advices = @team.advices.reject(&:read?)

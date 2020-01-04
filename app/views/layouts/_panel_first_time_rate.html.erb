@@ -2,7 +2,7 @@
   <div class="panel-heading">
     <p class="lead"><%= fa_icon_tag("bolt") %>  First time <b> pass rate</b></p>
   </div>
-  <div class='panel-body text-blue-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= ScrumMetrics.config[:popover][:pass_rate] %>" data-original-title="" title="" id="popoverPassRate">
+  <div class='panel-body text-blue-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= Vortrics.config[:popover][:pass_rate] %>" data-original-title="" title="" id="popoverPassRate">
     <h2 class="m0"><%= percent_num sprint.first_time_pass, sprint.total_stories %>%</h2>
     <small>One Transition from Review to Done</small>
   </div>

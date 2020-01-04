@@ -18,7 +18,7 @@
         </div>
         <div class="metric-trend">
           <%= vt_trend_tag @team.percent_of_lead_time, 85, :thumbs %>
-          <small>Cycle Time < <%= ScrumMetrics.config[:baseline][:leadtime] %> Days</small>
+          <small>Cycle Time < <%= Vortrics.config[:baseline][:leadtime] %> Days</small>
         </div>
         <div class="metric-value" style="margin-top: -30px;">
         </div>

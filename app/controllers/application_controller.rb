@@ -75,7 +75,7 @@ class ApplicationController < ActionController::Base
 	def get_jira_client
 		return if current_user.setting.blank?
 		@jira_client = jira_instance current_user.setting
-		flash[:danger] = ScrumMetrics.config[:messages][:external_service_error] if @jira_client.nil?
+		flash[:danger] = Vortrics.config[:messages][:external_service_error] if @jira_client.nil?
 	end
 
 end

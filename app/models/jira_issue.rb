@@ -89,7 +89,7 @@ class JiraIssue
     return [] if histories.blank?
     items = []
     histories.each_with_index.map {|elem, index|
-      if index.zero? || (ScrumMetrics.config[:jira][:changelogfields].include? elem['items'].first['field'].to_s.downcase)
+      if index.zero? || (Vortrics.config[:jira][:changelogfields].include? elem['items'].first['field'].to_s.downcase)
         items << elem
       end
     }.compact

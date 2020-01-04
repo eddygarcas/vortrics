@@ -2,7 +2,7 @@
   <div class="panel-heading">
     <p class="lead"><i class="fa fa-gavel"></i> Sprint <b>Summary</b></p>
   </div>
-  <div class='panel-body text-red-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= ScrumMetrics.config[:popover][:bug_sprint] %>" data-original-title="" title="" id="popoverOpenBug">
+  <div class='panel-body text-red-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= Vortrics.config[:popover][:bug_sprint] %>" data-original-title="" title="" id="popoverOpenBug">
     <h2 class="m0" style="font-size: 42px;"><%= days_remain @team.sprint.enddate unless @team.sprint.blank? %></h2>
     <small>Days left</small>
   </div>

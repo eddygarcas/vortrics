@@ -45,7 +45,7 @@ RSpec.describe AdvicesController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      allow(ScrumMetrics).to receive(:config).and_return({:advices => {:no_key => nil}})
+      allow(Vortrics).to receive(:config).and_return({:advices => {:no_key => nil}})
       advice = FactoryBot.create(:advice)
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
@@ -71,7 +71,7 @@ RSpec.describe AdvicesController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Advice" do
-        allow(ScrumMetrics).to receive(:config).and_return(nil)
+        allow(Vortrics).to receive(:config).and_return(nil)
         expect {
           post :create, params: {advice: valid_attributes}, session: valid_session
         }.to change(Advice, :count).by(1)
