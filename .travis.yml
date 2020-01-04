@@ -2,7 +2,7 @@ language: ruby
 rvm:
  - 2.6.3
 before_script:
-   - yarn install --check-files
+   - yarn install --ignore-engines
    - bundle exec rake db:drop
    - RAILS_ENV=development bundle exec rake db:migrate --trace
    - bundle exec rake db:test:prepare
