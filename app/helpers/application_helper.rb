@@ -3,11 +3,11 @@ module ApplicationHelper
 	include JiraHelper
 
 	def app_name
-		ScrumMetrics.config['name']
+		Vortrics.config['name']
 	end
 
 	def vt_jira_issue_fields
-		ScrumMetrics.config[:jira][:fields] << ",#{@team.estimated}"
+		Vortrics.config[:jira][:fields] << ",#{@team.estimated}"
 	end
 
 	def vt_project_icon style = "img-circle profile-image"
@@ -16,7 +16,7 @@ module ApplicationHelper
 	end
 
 	def vt_project_name
-		return ScrumMetrics.config['name'].humanize if (@team.blank? || @team.project_info.blank?)
+		return Vortrics.config['name'].humanize if (@team.blank? || @team.project_info.blank?)
 		@team.project_info.name.humanize
 	end
 

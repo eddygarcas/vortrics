@@ -104,7 +104,7 @@ class Team < ApplicationRecord
     sum_by_colum(:bugs).round.to_i
   end
 
-  def percent_of_lead_time days = ScrumMetrics.config[:baseline][:leadtime]
+  def percent_of_lead_time days = Vortrics.config[:baseline][:leadtime]
     Montecasting::Metrics.percent_of_items_at(issues_selectable_for_graph.map(&:cycle_time),days)
   end
 

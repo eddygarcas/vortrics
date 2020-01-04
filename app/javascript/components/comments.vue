@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h5 class="media-heading  m0 mt15 mb15">
-                    <i class="fa fa-comment-o"></i>
+                    <i class="fa fa-comment-os"></i>
                     Comments
                 </h5>
             </div>
@@ -13,9 +13,7 @@
             <div v-model="postit.comments" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="tab-pane pane-fixed fade active in">
                     <ul class="list-group list-group-flush">
-                        <li class='list-group-item' v-for="(comment, index) in postit.comments"
-                            :comment="comment">
-
+                        <li class='list-group-item' v-for="(comment, index) in postit.comments" :comment="comment">
 
                             <div class="media">
                                 <a class="pull-left" href="#">
@@ -35,6 +33,7 @@
                                     <p>{{comment.description}}</p>
                                 </div>
                             </div>
+
                         </li>
                     </ul>
                 </div>
@@ -55,6 +54,7 @@
                 </button>
             </div>
         </div>
+
     </div>
     
 </template>

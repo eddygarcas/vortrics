@@ -19,7 +19,7 @@
       <div class="panel-heading">
         <p class="lead"><i class="fa fa-percent"></i> Ratio <b>items blocked</b></p>
       </div>
-      <div class='panel-body text-red-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= ScrumMetrics.config[:popover][:ratio_items_blocked] %>" data-original-title="" title="" id="popoverItemsBlocked">
+      <div class='panel-body text-red-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= Vortrics.config[:popover][:ratio_items_blocked] %>" data-original-title="" title="" id="popoverItemsBlocked">
         <h2 class="m0"><%= sprint.ratio_items_flagged %>%</h2>
         <small>Items flagged / Items</small>
       </div>
@@ -37,7 +37,7 @@
       <div class="panel-heading">
         <p class="lead"><i class="fa fa-clock-o"></i> Sum Time in <b>blocked</b></p>
       </div>
-      <div class='panel-body text-red-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= ScrumMetrics.config[:popover][:time_blocked] %>" data-original-title="" title="" id="popoverTimeBlocked">
+      <div class='panel-body text-red-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= Vortrics.config[:popover][:time_blocked] %>" data-original-title="" title="" id="popoverTimeBlocked">
         <h2 class="m0"><%= sprint.time_in_flagged %>d</h2>
         <small>Days</small>
       </div>
@@ -49,7 +49,7 @@
       <div class="panel-heading">
         <p class="lead"><%= fa_icon_tag("pie-chart") %>  Ratio <b>time blocked</b></p>
       </div>
-      <div class='panel-body text-red-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= ScrumMetrics.config[:popover][:ratio_time_blocked] %>" data-original-title="" title="" id="popoverTimeBlocked">
+      <div class='panel-body text-red-400 text-center' data-toggle="popover" data-placement="top" data-content="<%= Vortrics.config[:popover][:ratio_time_blocked] %>" data-original-title="" title="" id="popoverTimeBlocked">
         <h2 class="m0"><%= sprint.ratio_time_flagged %>h</h2>
         <small>Hours by item</small>
       </div>

@@ -7,12 +7,12 @@ class ChangeLog < ApplicationRecord
   belongs_to :issue
 
   def flagged?
-    return ScrumMetrics.config[:changelog][:flagged].include? toString.to_s.downcase unless User.workflow(:flagged).present?
+    return Vortrics.config[:changelog][:flagged].include? toString.to_s.downcase unless User.workflow(:flagged).present?
     User.workflow(:flagged).include? toString.to_s.downcase
   end
 
   def first_time_review?
-    return ScrumMetrics.config[:changelog][:testing].include? toString.to_s.downcase unless User.workflow(:testing).present?
+    return Vortrics.config[:changelog][:testing].include? toString.to_s.downcase unless User.workflow(:testing).present?
     User.workflow(:testing).include? toString.to_s.downcase
   end
 

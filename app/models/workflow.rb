@@ -6,7 +6,7 @@ class Workflow < ApplicationRecord
 	scope :sorted, -> {where.not(position: nil).order(position: :asc)}
 
 	def self.create_by_setting setting_id
-		ScrumMetrics.config[:changelog].each_with_index do |status,index|
+		Vortrics.config[:changelog].each_with_index do |status,index|
 			Workflow.create({name: status[0],position: index,setting_id: setting_id})
 		end
 	end
