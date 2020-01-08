@@ -20,8 +20,10 @@ function InitializeMontecarloGraph() {
         renderer: 'multi',
         dataURL: '/montecarlo/chart/default',
         onData: function (data) {
+
             min = Number.MAX_VALUE;
             max = Number.MIN_VALUE;
+
             for (_l = 0, _len2 = data[0].length; _l < _len2; _l++) {
                 point = data[0][_l];
                 min = Math.min(min, point.y);
@@ -90,14 +92,6 @@ function InitializeMontecarloGraph() {
                 }
             });
 
-            new Rickshaw.Graph.Axis.Y.Scaled({
-                element: document.getElementById('bars-cycle-time-y_axis1'),
-                graph: graph,
-                orientation: 'left',
-                scale: axis_scale1,
-                pixelsPerTick: 20,
-                tickFormat: Rickshaw.Fixtures.Number.formatKMBT
-            });
 
             new Rickshaw.Graph.Axis.Y.Scaled({
                 element: document.getElementById('bars-cycle-time-y_axis2'),
@@ -111,12 +105,21 @@ function InitializeMontecarloGraph() {
                 }
             });
 
+            new Rickshaw.Graph.Axis.Y.Scaled({
+                element: document.getElementById('bars-cycle-time-y_axis1'),
+                graph: graph,
+                orientation: 'left',
+                scale: axis_scale1,
+                pixelsPerTick: 20,
+                tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+            });
+
+
             new Rickshaw.Graph.RangeSlider.Preview({
                 graph: graph,
                 element: document.querySelector("#rangeSlider")
             });
 
-            graph.render();
 
             new Rickshaw.Graph.HoverDetail({
                 graph: graph,
@@ -130,6 +133,8 @@ function InitializeMontecarloGraph() {
                     return content;
                 }
             });
+
+            graph.render();
 
             $(window).on('resize', function () {
                 graph.configure({
