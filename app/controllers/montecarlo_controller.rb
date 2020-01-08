@@ -17,6 +17,6 @@ class MontecarloController < ApplicationController
   private
 
   def set_montecarlo_chart_criteria
-    params.permit(:montecarlo, :number, :backlog, :focus, :iteration)
+    params.permit( :number, :backlog, :focus, :iteration)
   end
 end
