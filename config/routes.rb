@@ -70,6 +70,7 @@ Rails.application.routes.draw do
   get '/teams/:id/cycle_time_chart', to: 'teams#cycle_time_chart'
   get '/teams/:id/key_results', to: 'teams#key_results', as: 'teams_key_results'
   get '/teams/:id/comulative_flow_diagram', to: 'teams#comulative_flow_diagram', as:'teams_comulative_flow_diagram'
+  get '/teams/:id/support', to: 'teams#support', as: 'teams_support'
   get '/teams/boards_by_team/:proj_id', to: 'teams#boards_by_team', as: 'teams_boards_by_team'
   get '/teams/full_project_details/:proj_id', to: 'teams#full_project_details', as: 'teams_full_project_details'
 

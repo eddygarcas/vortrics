@@ -1,0 +1,85 @@
+<div class="panel panel-default">
+
+  <div class="panel-heading">
+    <%= team.name.upcase unless team.blank? %> SUPPORT ISSUES
+  </div>
+
+  <div class="panel-body" style='height: 470px; overflow: scroll;'>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+          <th>Type</th>
+          <th>Key</th>
+          <th>Task report</th>
+          <th>Summary</th>
+          <th>Story points</th>
+          <th>Created</th>
+          <th>Resolved</th>
+          <th>Components</th>
+          <th>Status</th>
+          <th>Cycle Time</th>
+
+          <th>Jira</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @support_bugs.reverse.each do |issue| %>
+          <tr class="active">
+            <td><%= image_tag issue.issueicon, data: { toggle: "tooltip", title: issue.issuetype } %> </td>
+            <td><h6><%= issue.key %></h6></td>
+            <td>
+              <% if issue.bug? %>
+                    <span class="fa-stack" data-toggle="tooltip" title="Bug item" data-placement="top">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-bug fa-stack-1x fa-inverse"></i>
+                    </span>
+              <% end %>
+              <% if issue.flagged? %>
+                  <span class="fa-stack" data-toggle="tooltip" title="Time Flagged <%= issue.time_flagged.round %> Days" data-placement="top">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-flag fa-stack-1x fa-inverse" style="color:red;"></i>
+                  </span>
+              <% end %>
+              <% if issue.more_than_sprint? %>
+                  <span class="fa-stack" data-toggle="tooltip" title="This item last more <%= issue.customfield_11382 %> sprint" data-placement="top">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse" style="color:yellow;"></i>
+                  </span>
+              <% end %>
+              <% if issue.first_time_pass_rate? %>
+                    <span class="fa-stack" data-toggle="tooltip" title="First Time Pass Rate" data-placement="top">
+                        <i class="fa fa-circle fa-stack-2x" style="color:antiquewhite;"></i>
+                        <i class="fa fa-bolt fa-stack-1x fa-inverse" style="color:gold;"></i>
+                    </span>
+              <% end %>
+
+            </td>
+
+            <td><h6><%= issue.summary[0..60] %></h6></td>
+            <td><h6><%= issue.customfield_11802 %></h6></td>
+            <td><h6><%= issue.created.strftime("%d/%m/%Y") unless issue.created.nil? %></h6></td>
+            <td><h6><%= issue.resolutiondate.strftime("%d/%m/%Y") unless issue.resolutiondate.nil? %></h6></td>
+            <td><h6><%= issue.components %></h6></td>
+            <td><%= vt_issue_status_tag issue.status, issue.statusname.humanize %></td>
+            <td><h6><%= issue.cycle_time.round %>d</h6></td>
+            <td>
+              <div class="btn-group btn-group-xs">
+                <%= link_to fa_icon_tag("eye"), issue %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+        <% if @support_bugs.length == 0 %>
+          <tr>
+            <td colspan=42 class='text-center'>There are no issues for this team.</td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="panel-footer">
+
+  </div>
+</div>

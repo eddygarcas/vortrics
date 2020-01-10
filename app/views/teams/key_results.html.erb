@@ -1,8 +1,8 @@
 <% content_for :javascript do %>
   <script>
-      $(document).ready(function () {
-          InitializeCycleTimeGraphTeam();
-          InitializeAverageStoriesGraph();
+      $(document).on('turbolinks:load', function () {
+        setTimeout(function() { InitializeCycleTimeGraphTeam(); }, 1000);
+        setTimeout(function() { InitializeAverageStoriesGraph(); }, 1000);
       });
   </script>
 <% end %>

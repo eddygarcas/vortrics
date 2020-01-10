@@ -50,7 +50,7 @@ rsakey.pem
 
 Check out the following link to know how to set up an application link in JIRA. (https://support.desk.com/customer/portal/articles/1428875-jira-6-x-installation---onpremise-or-ondemand)
 
-*agileagent.yml* file has a set of properties that handles JIRA mapping fields. Change *:fields:* list for those you want to process from your JIRA Rest API.
+*vortrics.yml* file has a set of properties that handles JIRA mapping fields. Change *:fields:* list for those you want to process from your JIRA Rest API.
 Regarding *:changelogfields:* will process those areas specified here and ignore the rest, by this we want to avoid process the large volume of data comming in this section.
 ```ruby
   :jira:

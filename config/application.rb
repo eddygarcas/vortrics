@@ -18,6 +18,6 @@ module Vortrics
   end
 
   def self.config
-    Rails.application.config_for(:agileagent)
+    Rails.application.config_for(:vortrics)
   end
 end
