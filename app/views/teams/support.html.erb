@@ -1,0 +1,39 @@
+<% content_for :javascript do %>
+<script>
+      $(document).on('turbolinks:load', function () {
+          setTimeout(function() { InitializeReleaseTimeBugsGraphTeam(); }, 1000);
+          setTimeout(function() { InitializeOpenClosedBugsGraphTeam(); }, 1000);    });
+</script>
+<%end %>
+
+<% @title = "Support / #{@team.name}" %>
+
+<% content_for :description do %>
+  <p><%= vt_project_tag @team.project %> / <%= @team.name %></p>
+
+<% end %>
+
+<% content_for :actions do %>
+<% end %>
+
+
+<%#= render "layouts/sprint_navigation" %>
+<%= render "team_navigation" %>
+<%= render "layouts/flashes" %>
+
+<div class="container-fluid">
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-right-fade-1000">
+    <%= render "layouts/release_time_graph", :locals => {:graph_id => "bars-team-release-bugs", :title => "Time to First Response"} %>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-right-fade-1200">
+    <%= render "layouts/release_time_graph", :locals => { :graph_id => "bars-team-openclosed-bugs", :title => "Comulative Flow Diagram Bugs" } %>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  animate-rise-fade-1200">
+      <%= render partial: "teams/bugs_issue_list", :locals => { :team => @team } %>
+    </div>
+  </div>
+</div>

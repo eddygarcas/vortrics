@@ -3,7 +3,7 @@ class TeamsController < ApplicationController
   helper_method :boards_by_team
   layout 'sidenav'
   helper_method :sort_column, :sort_direction
-  before_action :set_team, only: [:show, :edit, :key_results, :comulative_flow_diagram, :destroy]
+  before_action :set_team, only: [:show, :edit, :key_results, :comulative_flow_diagram,:support, :destroy]
   before_action :team_session, except: [:show, :edit, :destroy, :key_results]
   before_action :set_current_user
 
@@ -177,6 +177,10 @@ class TeamsController < ApplicationController
 
   def comulative_flow_diagram
 
+  end
+
+  def support
+    @support_bugs = bugs_selectable_for_graph.sort_by(&:cycle_time)
   end
 
   # GET /teams/1

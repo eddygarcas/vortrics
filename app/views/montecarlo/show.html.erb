@@ -1,6 +1,6 @@
 <% content_for :javascript do %>
   <script>
-      $(document).ready(function () {
+      $(document).on('turbolinks:load', function () {
           InitializeMontecarloGraph();
       });
   </script>

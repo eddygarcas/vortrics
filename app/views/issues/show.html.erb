@@ -3,11 +3,9 @@
 <% content_for :description do %>
     <p></p>
 <% end %>
-<script>
-    $(document).ready(function () {
-        InitializeReleaseTimeGraphSprint();
-    });
-</script>
+
+
+
 <%= hidden_field_tag 'sprintid', @sprint.id, class: 'form-control', id: 'sprintid' %>
 
 <%= render "issue_nav_bar" %>

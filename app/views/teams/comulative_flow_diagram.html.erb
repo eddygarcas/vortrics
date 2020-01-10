@@ -1,8 +1,11 @@
-<script>
-    $(document).ready(function () {
-        InitializeComulativeFlowChart();
+<% content_for :javascript do %>
+  <script>
+      $(document).on('turbolinks:load', function () {
+        setTimeout(function() { InitializeComulativeFlowChart(); }, 1000);
+
     });
 </script>
+<%end %>
 
 <% @title = "Comulative Flow Diagram / #{@team.name}" %>
 
@@ -36,6 +39,8 @@
   </div>
 
   <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 animate-drop-fade">
       <%= render "layouts/release_time_graph", :locals => { :graph_id => "team-comulative-flow", :title => "Comulative Flow Diagram" } %>
+      </div>
   </div>
 </div>
