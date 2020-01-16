@@ -101,6 +101,20 @@ class TeamsController < ApplicationController
     render json: data
   end
 
+  def graph_time_first_response
+    render json: Rails.cache.fetch("graph_time_first_response_#{@team.id}", expires_in: 30.minutes) {
+      data = Array.new {Array.new}
+      bugs = bugs_selectable_for_graph
+
+      bugs.map! { |elem| {key: elem.key, first_time: issue_comments(elem.key)&.first&.created&.to_time, created: elem.created&.to_time} }.delete_if {|elem| elem[:first_time].blank?}
+
+      data[0] = bugs.map.with_index {|issue, index| {x: index, y: issue[:key]}}
+      data[1] = bugs.map.with_index {|issue, index| {x: index, y: issue[:created].strftime("%b %d")}}
+      data[2] = bugs.map.with_index {|issue, index| {x: index, y: ((issue[:first_time] - issue[:created]) / 1.hour).ceil }}
+      data
+    }
+  end
+
   def cycle_time_chart
     data = Rails.cache.fetch("cycle_time_chart_#{@team.id}", expires_in: 30.minutes) {
       user_stories = @team.issues_selectable_for_graph
@@ -213,38 +227,6 @@ class TeamsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /teams/1
-  # PATCH/PUT /teams/1.json
-  def update
-    # respond_to do |format|
-    #   @team.project_info_id = ProjectInfo.create_data(project_details(@team.project)).id if @team.project_info.blank?
-    #
-    #   #@team.avatar = project_details(@team.project)[:avatarUrls.to_s]['32x32']
-    #   if @team.update(team_params)
-    #     format.html {redirect_to teams_path, notice: 'Team was successfully updated.'}
-    #     format.json {render :show, status: :ok, location: @team}
-    #   else
-    #     format.html {render :edit}
-    #     format.json {render json: @team.errors, status: :unprocessable_entity}
-    #   end
-    # end
-  end
-
-  # PATCH/PUT /teams/1/update_capacity
-  # PATCH/PUT /teams/1.json/update_capacity
-  def update_capacity
-    # respond_to do |format|
-    #   if @team.update(params.permit(:current_capacity))
-    #     format.html {redirect_to root_path, notice: 'Team was successfully updated.'}
-    #     format.json {render :show, status: :ok, location: @team}
-    #   else
-    #     format.html {redirect_to root_path, alert: "Wasn't able to update the team's capacity."}
-    #     format.json {render json: @team.errors, status: :unprocessable_entity}
-    #   end
-    # end
-  end
-
-
   # DELETE /teams/1
   # DELETE /teams/1.json
   def destroy
@@ -259,7 +241,7 @@ class TeamsController < ApplicationController
 
   def bugs_selectable_for_graph
     options = {fields: vt_jira_issue_fields, maxResults: 200}
-    bugs = bug_for_board(@team.board_id, (DateTime.now - 3.months).strftime("%Y-%m-%d"), options).map {|elem| JiraIssue.to_issue(elem)}
+    bugs = bug_for_board(@team.board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"), options).map {|elem| JiraIssue.to_issue(elem)}
     bugs.sort_by!(&:created)
   end
 

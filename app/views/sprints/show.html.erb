@@ -23,10 +23,10 @@
   </div>
   <div class="row match-my-cols">
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-left-fade-1000">
-      <%= render "layouts/closed_by_day_graph", :locals => {:graph_id => "rickshaw-bars-sprint"} %>
+      <%= render "layouts/closed_by_day_graph", :locals => {:graph_id => "rickshaw-bars-sprint", :behaviour => "chart_closed_by_day"} %>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-left-fade-1000">
-      <%= render "layouts/release_time_graph", :locals => {:graph_id => "bars-release", :title => "Throughput"} %>
+      <%= render "layouts/release_time_graph", :locals => {:graph_id => "bars-release", :title => "Throughput", :behaviour => "chart_sprint_throughtput"} %>
     </div>
   </div>
 

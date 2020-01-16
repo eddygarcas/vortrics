@@ -45,7 +45,7 @@
               <td><h6><%= issue.resolutiondate.strftime("%d/%m") unless issue.resolutiondate.nil? %></h6></td>
               <td><h6><%= issue.components %></h6></td>
               <td><%= vt_issue_status_tag issue.status, issue.statusname %></td>
-              <td><h6><%= issue.time_in :wip, :done %></h6></td>
+              <td><h6><%= issue.cycle_time.round %>d</h6></td>
               <td>
                 <div class="btn-group btn-group-xs">
                   <%= link_to fa_icon_tag("eye"), issue %>

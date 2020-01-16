@@ -1,35 +1,3 @@
-<% content_for :javascript do %>
-  <script>
-      $(document).on('turbolinks:load', function () {
-          setTimeout(function() { InitializePointsGraph(); }, 1000);
-          setTimeout(function() { InitializeClosedByDayGraph(); }, 1000);
-          setTimeout(function() { InitializeReleaseTimeGraphTeam(); }, 1000);
-          setTimeout(function() { InitializeAverageStoriesGraph(); }, 1000);
-          $("#sgraph_noestimate").on("click", function () {
-              if ($("#sgraph_noestimate")[0].checked) {
-                  InitializeNoEstimatesGraph();
-              }else{
-                  if ($("#sgraph")[0].checked) {
-                      InitializeGrpahStories();
-                  } else {
-                      InitializePointsGraph();
-                  }
-              }
-          });
-
-          $("#sgraph").on("click", function () {
-              $("#sgraph_noestimate")[0].checked = false
-              if ($("#sgraph")[0].checked) {
-                  InitializeGrpahStories();
-              } else {
-                  InitializePointsGraph();
-              }
-          });
-
-      });
-  </script>
-<% end %>
-
 <div class="container-fluid mt20">
   <%= render "layouts/flashes" %>
 

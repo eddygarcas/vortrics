@@ -53,5 +53,8 @@ class Users
 
     )
 
-jQuery ->
-  new Users
+ready = ->
+  jQuery ->
+    new Users()
+
+$(document).on('turbolinks:load', ready)

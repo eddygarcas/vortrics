@@ -53,14 +53,13 @@
         <input type="checkbox" data-toggle="tooltip" data-title="Count stories rather than points" id="sgraph">
         <span style="margin-bottom: -5px;" class="mr5"></span>
       </label>
-
-
     </p>
   </div>
+
   <div class="panel-body" style="position: relative">
     <div id="rickshaw-bars-y_axis1"></div>
     <div id="rickshaw-bars-y_axis2"></div>
-    <div id="rickshaw-bars" style="position: relative;margin-left: 10px;"></div>
+    <div id="rickshaw-bars" style="position: relative;margin-left: 10px;" data-behaviour="<%= locals[:behaviour] %>"></div>
     <div id="legend_container">
       <div id="rickshaw-bars-legend"></div>
     </div>

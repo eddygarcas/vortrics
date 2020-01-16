@@ -27,8 +27,8 @@ class IssuesController < ApplicationController
   # GET /issues/1
   # GET /issues/1.json
   def show
-    @comments = issue_comments (@issue.key) unless @issue.blank?
-    @attachments = issue_attachments (@issue.key) unless @issue.blank?
+    @comments = issue_comments(@issue.key) unless @issue.blank?
+    @attachments = issue_attachments(@issue.key) unless @issue.blank?
     @sprint = Sprint.find(@issue.sprint_id)
   end
 
