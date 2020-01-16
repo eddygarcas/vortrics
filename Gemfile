@@ -37,7 +37,7 @@ gem "sweet-alert", git: "https://github.com/frank184/sweet-alert-rails"
 gem "sweet-alert-confirm", git: "https://github.com/humancopy/sweet-alert-rails-confirm"
 gem 'acts_as_list'
 
-gem 'jira-ruby', '1.5.0', :require => 'jira-ruby'
+gem 'jira-ruby', '1.7.0', :require => 'jira-ruby'
 
 gem "devise", ">= 4.7.1"
 gem 'omniauth-github'

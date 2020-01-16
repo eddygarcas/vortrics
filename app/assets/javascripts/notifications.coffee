@@ -31,5 +31,8 @@ class Notifications
     $("[data-behaviour='notifications-count']").text(items.length)
     $("[data-behaviour='notifications-items']").html(items)
 
-jQuery ->
-  new Notifications
+ready = ->
+  jQuery ->
+    new Notifications()
+
+$(document).on('turbolinks:load', ready)

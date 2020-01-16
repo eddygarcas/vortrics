@@ -67,6 +67,7 @@ Rails.application.routes.draw do
   get '/teams/:id/graph_lead_time_bugs', to: 'teams#graph_lead_time_bugs'
   get '/teams/:id/graph_ratio_bugs_closed', to: 'teams#graph_ratio_bugs_closed'
   get '/teams/:id/graph_comulative_flow_diagram', to: 'teams#graph_comulative_flow_diagram'
+  get '/teams/:id/graph_time_first_response', to: 'teams#graph_time_first_response'
   get '/teams/:id/cycle_time_chart', to: 'teams#cycle_time_chart'
   get '/teams/:id/key_results', to: 'teams#key_results', as: 'teams_key_results'
   get '/teams/:id/comulative_flow_diagram', to: 'teams#comulative_flow_diagram', as:'teams_comulative_flow_diagram'

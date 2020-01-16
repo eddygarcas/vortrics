@@ -1,10 +1,8 @@
 `
     function Sprintbyday(data) {
-        if ($('#rickshaw-bars-sprint')[0] === undefined) {
-            return
-        } else {
-            document.getElementById('rickshaw-bars-sprint-loader').innerHTML = "";
-        }
+
+        document.getElementById('rickshaw-bars-sprint-loader').innerHTML = "";
+
         var graph;
         graph = new Rickshaw.Graph({
             element: document.getElementById('rickshaw-bars-sprint'),
@@ -71,11 +69,7 @@
     }
 
     function ReleaseTime(data) {
-        if ($('#bars-release')[0] === undefined) {
-            return
-        } else {
-            document.getElementById('bars-release-loader').innerHTML = "";
-        }
+        document.getElementById('bars-release-loader').innerHTML = "";
 
         graph = new Rickshaw.Graph({
             element: document.getElementById('bars-release'),
@@ -188,18 +182,28 @@ class Sprints
     @setup() if @sprintid?
 
   setup: ->
+    @handleSprintClosedByDay()
+    @handleSprintReleaseTime()
+
+  handleSprintClosedByDay: (e) ->
+    return if $('#rickshaw-bars-sprint')[0] == undefined
+    return if ($('#rickshaw-bars-sprint')[0].dataset.behaviour != 'chart_closed_by_day')
     $.ajax(
-      type: 'GET'
-      url: '/sprints/' + @sprintid + '/graph_closed_by_day'
-      success: @handleSuccess
-      timeout: 10000
-    )
+        type: 'GET'
+        url: '/sprints/' + @sprintid + '/graph_closed_by_day'
+        success: @handleSuccess
+        timeout: 10000
+      )
+
+  handleSprintReleaseTime: (e) ->
+    return if $('#bars-release')[0] == undefined
+    return if ($('#bars-release')[0].dataset.behaviour != 'chart_sprint_throughtput')
     $.ajax(
-      type: 'GET'
-      url: '/sprints/' + @sprintid + '/graph_release_time'
-      success: @handleReleaseSuccess
-      timeout: 10000
-    )
+        type: 'GET'
+        url: '/sprints/' + @sprintid + '/graph_release_time'
+        success: @handleReleaseSuccess
+        timeout: 10000
+      )
 
   handleSuccess: (data) ->
     Sprintbyday(data)
@@ -207,5 +211,8 @@ class Sprints
   handleReleaseSuccess: (data) ->
     ReleaseTime(data)
 
-jQuery ->
-  new Sprints
+ready = ->
+  jQuery ->
+    new Sprints()
+
+$(document).on('turbolinks:load', ready)
