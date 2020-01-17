@@ -94,7 +94,7 @@ module JiraHelper
 
   def bug_for_board boardid, startdate, options = {}, status = nil
     return if current_user.setting.blank?
-    elems = Rails.cache.fetch("bug_for_board_#{boardid}_#{startdate.to_s}", expires_in: 30.minutes) {
+    elems = Rails.cache.fetch("bug_for_board_#{boardid}_#{startdate.to_s}", expires_in: 1.day) {
       param_hash = {issuetype: "='Bug'"}
       param_hash.merge!({created: ">='#{startdate}'"})
       param_hash.merge!({status: "='#{status}'"}) unless status.blank?

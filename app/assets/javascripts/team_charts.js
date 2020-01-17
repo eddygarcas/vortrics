@@ -9,12 +9,9 @@ function InitializeCycleTimeGraphTeam() {
         type: 'GET',
         url: '/teams/' + $('#teamid')[0].value + '/cycle_time_chart',
         success: function (data) {
-            if ($('#bars-cycle-time')[0] === undefined) {
-                return;
-            } else {
-                document.getElementById('bars-cycle-time-loader').innerHTML = "";
 
-            }
+            document.getElementById('bars-cycle-time-loader').innerHTML = "";
+
             series = data[0];
             min = Number.MAX_VALUE;
             max = Number.MIN_VALUE;
@@ -113,7 +110,6 @@ function InitializeCycleTimeGraphTeam() {
             graph.render();
 
             new Rickshaw.Graph.HoverDetail({
-
                 graph: graph,
                 formatter: function (series, x, y) {
                     var content = '';

@@ -102,7 +102,7 @@ class TeamsController < ApplicationController
   end
 
   def graph_time_first_response
-    render json: Rails.cache.fetch("graph_time_first_response_#{@team.id}", expires_in: 30.minutes) {
+    render json: Rails.cache.fetch("graph_time_first_response_#{@team.id}", expires_in: 1.day) {
       data = Array.new {Array.new}
       bugs = bugs_selectable_for_graph
 
