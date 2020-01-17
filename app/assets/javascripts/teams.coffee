@@ -103,6 +103,7 @@ class Teams
     $("[data-behaviour='team_board_id_change']").on "change", @handleBoardChange
     @handleFirstResponse()
     @handleCycleTime()
+    @handleHistoricalCFD()
 
   handleChange: (e) ->
     return if $('#team_project').val() == undefined
@@ -150,6 +151,11 @@ class Teams
     return if ($('#bars-cycle-time')[0].dataset.behaviour != 'chart_cycle_time')
     InitializeCycleTimeGraphTeam()
     InitializeAverageStoriesGraph()
+
+  handleHistoricalCFD: (e) ->
+    return if $('#team-comulative-flow')[0] == undefined
+    return if ($('#team-comulative-flow')[0].dataset.behaviour != 'chart_historical_stories_cfd')
+    InitializeComulativeFlowChart()
 
 ready = ->
   jQuery ->
