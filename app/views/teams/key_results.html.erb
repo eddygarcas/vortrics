@@ -1,11 +1,4 @@
-<% content_for :javascript do %>
-  <script>
-      $(document).on('turbolinks:load', function () {
-        setTimeout(function() { InitializeCycleTimeGraphTeam(); }, 1000);
-        setTimeout(function() { InitializeAverageStoriesGraph(); }, 1000);
-      });
-  </script>
-<% end %>
+
 
 <% @title = "Cycle Time / #{@team.name}" %>
 
@@ -30,7 +23,7 @@
 
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-left-fade-1000">
-      <%= render "teams/cycle_time_chart", :locals => { :title => "Cycle Time" } %>
+      <%= render "teams/cycle_time_chart", :locals => { :title => "Cycle Time", :behaviour => "chart_cycle_time" } %>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-left-fade-1200">
       <%= render "layouts/average_stories_graph" %>

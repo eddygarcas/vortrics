@@ -1,16 +1,8 @@
 
 function InitializeMontecarloGraph() {
 
-    if ($('#teamid')[0] === undefined) {
-        return;
-    }
+    document.getElementById('bars-cycle-time-loader').innerHTML = "";
 
-    if ($('#bars-cycle-time')[0] === undefined) {
-        return;
-    } else {
-        document.getElementById('bars-cycle-time-loader').innerHTML = "";
-
-    }
     var axis_scale1;
     var axis_scale2;
 

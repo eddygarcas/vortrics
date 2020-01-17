@@ -102,6 +102,7 @@ class Teams
     $("[data-behaviour='team_project_change']").on "change", @handleChange
     $("[data-behaviour='team_board_id_change']").on "change", @handleBoardChange
     @handleFirstResponse()
+    @handleCycleTime()
 
   handleChange: (e) ->
     return if $('#team_project').val() == undefined
@@ -143,6 +144,12 @@ class Teams
         if (data != undefined)
           TimeToFirstResponse(data);
     )
+
+  handleCycleTime: (e) ->
+    return if $('#bars-cycle-time')[0] == undefined
+    return if ($('#bars-cycle-time')[0].dataset.behaviour != 'chart_cycle_time')
+    InitializeCycleTimeGraphTeam()
+    InitializeAverageStoriesGraph()
 
 ready = ->
   jQuery ->
