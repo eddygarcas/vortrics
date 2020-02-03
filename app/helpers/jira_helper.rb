@@ -17,8 +17,9 @@ module JiraHelper
         private_key_file: File.create_rsa_file(setting.key_data, setting.key_file),
         consumer_key: setting.consumer_key,
         username: setting.login,
-        password: setting.password
-        #:ssl_verify_mode => 0,
+        password: setting.password,
+        #ssl_verify_mode: 0,
+        use_ssl: setting.usessl
     }
     instance = JIRA::Client.new(options)
     if session[:jira_auth].present? && setting.oauth?

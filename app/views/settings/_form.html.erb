@@ -1,18 +1,3 @@
-<script type="text/javascript">
-
-    function yesnoCheck() {
-        if (document.getElementById('oauthCheck').checked) {
-            document.getElementById('basic').style.display = 'none';
-            document.getElementById('oauth').style.display = 'block';
-        } else {
-            document.getElementById('basic').style.display = 'block';
-            document.getElementById('oauth').style.display = 'none';
-
-        }
-    }
-
-</script>
-
 <%= form_for(@setting, html: { multipart: true, class: 'form-horizontal form-control-lg' }) do |f| %>
   <%= f.error_notification %>
   <div class="form-inputs">
@@ -23,7 +8,6 @@
           <%= f.text_field :name, class: 'form-control form-control-lg', placeholder: "Connection name", disabled: f.object.persisted? %>
         </div>
         <%= f.error_messages %>
-
       </div>
     <% end %>
 
@@ -36,7 +20,6 @@
           <%= f.text_field :site, class: 'form-control form-control-lg', placeholder: "https://jira.yourrestserver.com" %>
         </div>
         <%= f.error_messages %>
-
       </div>
     <% end %>
 
@@ -48,25 +31,29 @@
       </div>
     <% end %>
 
-    <%#= f.form_group :context do |f| %>
-      <%#= f.label :context, class: 'control-label col-md-2' %>
-<!--      <div class='col-md-2'>-->
-        <%#= f.text_field :context, class: 'form-control form-control-lg', placeholder: ""%>
-        <%#= f.error_messages %>
-<!--      </div>-->
-    <%# end %>
+    <%= f.form_group :usessl do |f| %>
+      <%= f.label "SSL", class: 'control-label col-md-2' %>
+      <div class='col-md-6'>
+        <label class="switch switch-success small">
+          <%= f.check_box :usessl, class: 'form-control form-control-lg',id: :usesslcheck, checked: @setting.usessl, data: { behaviour: 'usesslcheck'}  %>
+          <span></span>
+        </label>
+        <%= f.error_messages %>
+        <p class="small">Consider not using SSL if running locally or JIRA server not in a secure sockets</p>
+      </div>
+    <% end %>
 
     <%= f.form_group :oauth do |f| %>
       <%= f.label :oauth, class: 'control-label col-md-2' %>
       <div class='col-md-6'>
         <label class="switch switch-success small">
-          <%= f.check_box :oauth, class: 'form-control form-control-lg', checked: true, id: 'oauthCheck', onChange: "javascript:yesnoCheck();" %>
+          <%= f.check_box :oauth, class: 'form-control form-control-lg',id: :oauthswitch, checked: @setting.oauth, data: { behaviour: 'oauthswitch'} %>
           <span></span>
         </label>
+        <%= f.error_messages %>
         <p class="small">We strongly recommend setting up a OAuth authentication, will approve interacting with JIRA
           without giving away your password. This option requires a previous configuration of Vortrics as a consumer in JIRA, using application links. </p>
       </div>
-      <%= f.error_messages %>
     <% end %>
 
     <div style="display:none;"  class="animate-fade-in-500" id="basic">
@@ -142,10 +129,8 @@
           <span></span>
         </label>
         <%= f.error_messages %>
-
       </div>
     <% end %>
-
 
   </div>
 

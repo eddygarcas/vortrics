@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_19_091743) do
+ActiveRecord::Schema.define(version: 2020_01_28_082436) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -257,6 +257,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_091743) do
     t.string "login"
     t.string "password"
     t.string "name"
+    t.boolean "usessl"
   end
 
   create_table "sprints", force: :cascade do |t|

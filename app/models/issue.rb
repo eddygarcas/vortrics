@@ -24,7 +24,7 @@ class Issue < ApplicationRecord
 	end
 
 	def lead_time
-		(time_transitions({ toString: :first }, { toString: :done })).abs
+		(time_transitions({ toString: :first }, { toString: :done }))
 	end
 
 	def new?

@@ -94,8 +94,6 @@ class TeamsController < ApplicationController
       data[9] = user_stories.map.with_index {|issue, index| {x: index, y: stories_lead_time.take(index).average}}
       data[10] = user_stories.map.with_index {|issue, index| {x: index, y: index.percent_of(user_stories.count).round(0)}}
       data[11] = user_stories.map.with_index {|issue, index| {x: index, y: issue.id}}
-
-
       data
     }
     render json: data
@@ -194,7 +192,7 @@ class TeamsController < ApplicationController
   end
 
   def support
-    @support_bugs = bugs_selectable_for_graph.sort_by(&:cycle_time)
+    @support_bugs = bugs_selectable_for_graph.sort_by(&:lead_time)
   end
 
   # GET /teams/1
@@ -240,7 +238,7 @@ class TeamsController < ApplicationController
   private
 
   def bugs_selectable_for_graph
-    options = {fields: vt_jira_issue_fields, maxResults: 200}
+    options = {fields: vt_jira_issue_fields, maxResults: 400}
     bugs = bug_for_board(@team.board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"), options).map {|elem| JiraIssue.to_issue(elem)}
     bugs.sort_by!(&:created)
   end
