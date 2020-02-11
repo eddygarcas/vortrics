@@ -25,15 +25,17 @@ require 'rails_helper'
 
 RSpec.describe CardsController, type: :controller do
   login_user
+  fakecard =  FactoryBot.create(:card)
+
   # This should return the minimal set of attributes required to create a valid
   # Card. As you add validations to Card, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {workflow_id: fakecard.workflow.id ,name: fakecard.name ,position: fakecard.position}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {workflow_id: fakecard.workflow.id ,fakename: fakecard.name ,position: fakecard.position}
   }
 
   # This should return the minimal set of values that should be in the session
@@ -82,7 +84,7 @@ RSpec.describe CardsController, type: :controller do
 
       it "redirects to the created card" do
         post :create, params: {card: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Card.last)
+        expect(response).to redirect_to(workflows_path)
       end
     end
 
@@ -97,14 +99,15 @@ RSpec.describe CardsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        newcard = FactoryBot.create(:card)
+        {workflow_id: newcard.workflow.id ,name: newcard.name ,position: newcard.position}
       }
 
       it "updates the requested card" do
         card = Card.create! valid_attributes
         put :update, params: {id: card.to_param, card: new_attributes}, session: valid_session
         card.reload
-        skip("Add assertions for updated state")
+        expect(response).to redirect_to(card)
       end
 
       it "redirects to the card" do
@@ -118,7 +121,7 @@ RSpec.describe CardsController, type: :controller do
       it "returns a success response (i.e. to display the 'edit' template)" do
         card = Card.create! valid_attributes
         put :update, params: {id: card.to_param, card: invalid_attributes}, session: valid_session
-        expect(response).to be_successful
+        expect(response).to_not be_successful
       end
     end
   end

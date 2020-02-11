@@ -35,7 +35,7 @@ RSpec.describe CommentsController, type: :controller do
   }
 
   let(:invalid_attributes) {
-    {advice_user: valid_comment.advice_id,actor_id: valid_comment.actor_id,description: valid_comment.description}
+    {advice_id: valid_comment.advice_id,actor_ttt: valid_comment.actor_id,description: valid_comment.description}
   }
 
   # This should return the minimal set of values that should be in the session
@@ -91,39 +91,10 @@ RSpec.describe CommentsController, type: :controller do
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: {comment: invalid_attributes}, session: valid_session
-        expect(response).to redirect_to(advices_path)
+        expect(response).to redirect_to(comment_path(valid_comment.advice_id))
       end
     end
   end
-
-  # describe "PUT #update" do
-  #   context "with valid params" do
-  #     let(:new_attributes) {
-  #       skip("Add a hash of attributes valid for your model")
-  #     }
-  #
-  #     it "updates the requested comment" do
-  #       comment = FactoryBot.create(:comment)
-  #       put :update, params: {id: comment.to_param, comment: new_attributes}, session: valid_session
-  #       comment.reload
-  #       skip("Add assertions for updated state")
-  #     end
-  #
-  #     it "redirects to the comment" do
-  #       comment = FactoryBot.create(:comment)
-  #       put :update, params: {id: comment.to_param, comment: valid_attributes}, session: valid_session
-  #       expect(response).to redirect_to(comment)
-  #     end
-  #   end
-  #
-  #   context "with invalid params" do
-  #     it "returns a success response (i.e. to display the 'edit' template)" do
-  #       comment = FactoryBot.create(:comment)
-  #       put :update, params: {id: comment.to_param, comment: invalid_attributes}, session: valid_session
-  #       expect(response).to be_successful
-  #     end
-  #   end
-  # end
 
   describe "DELETE #destroy" do
     it "destroys the requested comment" do

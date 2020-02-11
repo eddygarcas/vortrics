@@ -12,7 +12,7 @@
               <a href="#" title=""><%= log.displayName %></a> transition made at
               <a href="#" title=""><%= log.created.to_datetime.strftime("%d/%m/%Y %H:%M") %> </a>
             </h5>
-            <p class='small'>From <strong><%= log.fromString %></strong> to <strong><%= log.toString %></strong></p>
+            <p class='small'>From <strong><%= log.fromString&.upcase %></strong> <%= fa_icon_tag("arrow-right") %> <strong><%= log.toString&.upcase %></strong></p>
           </div>
         </div>
       </li>

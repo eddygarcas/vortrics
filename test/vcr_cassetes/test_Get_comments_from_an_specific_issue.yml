@@ -1,0 +1,62 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://vortrics.atlassian.net/rest/api/3/issue/VOR-1?fields=comment
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic ZWR1Z2FyY2FzQGdtYWlsLmNvbTpvNmNjYmcxODg5RTNpcXdNc0x6M0VBNDU=
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - AtlassianProxy/1.15.8.1
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - no-cache, no-store, no-transform
+      Content-Type:
+      - application/json;charset=UTF-8
+      Strict-Transport-Security:
+      - max-age=315360000; includeSubDomains; preload
+      Date:
+      - Mon, 10 Feb 2020 08:19:04 GMT
+      Atl-Traceid:
+      - 9c104d8f08c86446
+      X-Aaccountid:
+      - 557058%3A450b4c64-7e58-4a39-a5d1-fb8167e1228f
+      X-Arequestid:
+      - 48d2ef88-3960-4b78-9261-64726068c4b7
+      X-Xss-Protection:
+      - 1; mode=block
+      Transfer-Encoding:
+      - chunked
+      Timing-Allow-Origin:
+      - "*"
+      X-Content-Type-Options:
+      - nosniff
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - atlassian.xsrf.token=eac915fa-ceca-404c-bf50-5763dc469810_a09ecde4a5c0efc20b2e20383b405bd05c3e7b00_lin;
+        Path=/; Secure
+    body:
+      encoding: ASCII-8BIT
+      string: '{"expand":"renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations","id":"10000","self":"https://vortrics.atlassian.net/rest/api/3/issue/10000","key":"VOR-1","fields":{"comment":{"comments":[{"self":"https://vortrics.atlassian.net/rest/api/3/issue/10000/comment/10011","id":"10011","author":{"self":"https://vortrics.atlassian.net/rest/api/3/user?accountId=557058%3A450b4c64-7e58-4a39-a5d1-fb8167e1228f","name":"admin","key":"admin","accountId":"557058:450b4c64-7e58-4a39-a5d1-fb8167e1228f","emailAddress":"edugarcas@gmail.com","avatarUrls":{"48x48":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=48&s=48","24x24":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=24&s=24","16x16":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=16&s=16","32x32":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=32&s=32"},"displayName":"Eduard
+        Garcia","active":true,"timeZone":"Europe/Madrid","accountType":"atlassian"},"body":{"version":1,"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"This
+        is a test comment, for testing purposes only"}]}]},"updateAuthor":{"self":"https://vortrics.atlassian.net/rest/api/3/user?accountId=557058%3A450b4c64-7e58-4a39-a5d1-fb8167e1228f","name":"admin","key":"admin","accountId":"557058:450b4c64-7e58-4a39-a5d1-fb8167e1228f","emailAddress":"edugarcas@gmail.com","avatarUrls":{"48x48":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=48&s=48","24x24":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=24&s=24","16x16":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=16&s=16","32x32":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=32&s=32"},"displayName":"Eduard
+        Garcia","active":true,"timeZone":"Europe/Madrid","accountType":"atlassian"},"created":"2020-02-07T13:53:16.493+0100","updated":"2020-02-07T13:53:16.493+0100","jsdPublic":true}],"maxResults":1,"total":1,"startAt":0}}}'
+    http_version: null
+  recorded_at: Mon, 10 Feb 2020 08:19:01 GMT
+recorded_with: VCR 5.1.0

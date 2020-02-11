@@ -87,13 +87,7 @@ class JiraIssue
 
   def parse_histories
     return [] if histories.blank?
-    items = []
-    histories.each_with_index.map {|elem, index|
-      if index.zero? || (Vortrics.config[:jira][:changelogfields].include? elem['items'].first['field'].to_s.downcase)
-        items << elem
-      end
-    }.compact
-    items
+    histories.compact
   end
 
   def parse_closed_sprints

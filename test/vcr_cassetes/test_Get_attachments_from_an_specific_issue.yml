@@ -1,0 +1,60 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://vortrics.atlassian.net/rest/api/3/issue/VOR-1?fields=attachment
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic ZWR1Z2FyY2FzQGdtYWlsLmNvbTpvNmNjYmcxODg5RTNpcXdNc0x6M0VBNDU=
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - AtlassianProxy/1.15.8.1
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - no-cache, no-store, no-transform
+      Content-Type:
+      - application/json;charset=UTF-8
+      Strict-Transport-Security:
+      - max-age=315360000; includeSubDomains; preload
+      Date:
+      - Mon, 10 Feb 2020 08:19:03 GMT
+      Atl-Traceid:
+      - fd87b772d397127a
+      X-Aaccountid:
+      - 557058%3A450b4c64-7e58-4a39-a5d1-fb8167e1228f
+      X-Arequestid:
+      - 45a67fd7-6b6e-437c-8dde-0c80a901234c
+      X-Xss-Protection:
+      - 1; mode=block
+      Transfer-Encoding:
+      - chunked
+      Timing-Allow-Origin:
+      - "*"
+      X-Content-Type-Options:
+      - nosniff
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - atlassian.xsrf.token=eac915fa-ceca-404c-bf50-5763dc469810_7b70133342c3b94a335bd985566cbc32e9ff6f3d_lin;
+        Path=/; Secure
+    body:
+      encoding: ASCII-8BIT
+      string: '{"expand":"renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations","id":"10000","self":"https://vortrics.atlassian.net/rest/api/3/issue/10000","key":"VOR-1","fields":{"attachment":[{"self":"https://vortrics.atlassian.net/rest/api/3/attachment/10000","id":"10000","filename":"vertical_on_corporate_500x500px_by_logaster.png","author":{"self":"https://vortrics.atlassian.net/rest/api/3/user?accountId=557058%3A450b4c64-7e58-4a39-a5d1-fb8167e1228f","name":"admin","key":"admin","accountId":"557058:450b4c64-7e58-4a39-a5d1-fb8167e1228f","emailAddress":"edugarcas@gmail.com","avatarUrls":{"48x48":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=48&s=48","24x24":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=24&s=24","16x16":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=16&s=16","32x32":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=32&s=32"},"displayName":"Eduard
+        Garcia","active":true,"timeZone":"Europe/Madrid","accountType":"atlassian"},"created":"2020-02-07T13:53:52.059+0100","size":37859,"mimeType":"image/png","content":"https://vortrics.atlassian.net/secure/attachment/10000/vertical_on_corporate_500x500px_by_logaster.png","thumbnail":"https://vortrics.atlassian.net/secure/thumbnail/10000/vertical_on_corporate_500x500px_by_logaster.png"}]}}'
+    http_version: null
+  recorded_at: Mon, 10 Feb 2020 08:19:01 GMT
+recorded_with: VCR 5.1.0

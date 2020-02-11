@@ -22,8 +22,8 @@ module JiraHelper
         use_ssl: setting.usessl
     }
     instance = JIRA::Client.new(options)
-    if session[:jira_auth].present? && setting.oauth?
-      instance.set_access_token(session[:jira_auth]['access_token'], session[:jira_auth]['access_key'])
+    if setting.oauth?
+      instance.set_access_token(session[:jira_auth]['access_token'], session[:jira_auth]['access_key']) if session[:jira_auth].present?
     end
     instance
   end
@@ -90,7 +90,7 @@ module JiraHelper
 
   def issue_attachments key
     return if current_user.setting.blank?
-    jira_instance(current_user.setting).Issue.find(key, fields: :attachment).attachment
+    jira_instance(current_user.setting).Issue.find(key, fields: :attachment).attachments
   end
 
   def bug_for_board boardid, startdate, options = {}, status = nil

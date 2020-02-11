@@ -45,7 +45,7 @@
       <p class="lead"><i class="fa fa-list"></i><%= puts_non_nill(@issue, :key) %> <b> Lead Time</b></p>
     </div>
     <div class='panel-body text-blue-400 text-center'>
-      <h2 class='page-hits m0'><%= puts_no_defined(@issue.time_in :open, :done) %></h2>
+      <h2 class='page-hits m0'><%= puts_no_defined(@issue.time_in :first, :done) %></h2>
       <small>Time</small>
     </div>
   </div>

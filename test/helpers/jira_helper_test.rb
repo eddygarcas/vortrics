@@ -1,61 +1,98 @@
-require 'test/unit'
-require 'date'
-
-require_relative '../../app/helpers/jql_helper'
+require 'test_helper'
 require_relative '../../app/helpers/jira_helper'
-require_relative '../../app/helpers/array'
 
-require_relative '../../app/models/jira_issue'
+class JiraHelperTest < ActionView::TestCase
+  include Devise::Test::IntegrationHelpers
 
-class JiraHelperTest < Test::Unit::TestCase
-  include JiraHelper
-  # Called before every test method runs. Can be used
-  # to set up fixture information.
-  def setup
-    # Do nothing
-    @options = {
-        fields: [:key, :priority, :issuetype, :status, :componentes, :customfield_11382, :summary, :customfield_11802, :timeoriginalestimate, :components, :description, :assignee, :created, :updated, :resolutiondate]
+  def current_user
+    @current_user
+  end
+
+  def session
+    @session
+  end
+
+  def create_setting
+    Setting.create(
+        {
+            "id" => 4,
+            "site" => "https://vortrics.atlassian.net",
+            "base_path" => "/rest/api/3",
+            "context" => "",
+            "debug" => true,
+            "oauth" => false,
+            "login" => "edugarcas@gmail.com",
+            "password" => "o6ccbg1889E3iqwMsLz3EA45",
+            "name" => "Vortrics",
+            "usessl" => true
+        }
+    )
+  end
+
+
+  setup do
+    @current_user = FactoryBot.create(:user)
+    @current_user.setting = create_setting
+    sign_in @current_user
+    VCR.insert_cassette(name)
+    @options = {fields: Vortrics.config[:jira][:fields], maxResults: 200, expand: :changelog}
+  end
+
+  teardown do
+    VCR.eject_cassette
+  end
+
+  test "Current user exist" do
+    assert_not_nil current_user
+  end
+
+  test "Connection to a JIRA Cloud instance" do
+    user_profile(current_user) { |data|
+      assert_equal data['name'], 'eduard.garcia'
+      assert_equal data['key'], 'eduard.garcia'
     }
-    @param_hash = {project: "='MTR'", component: "='Motorheads'", sprint: ' in openSprints()'}
-
-    @single_string = {project: 'alfalfa'}
-    @issues ||= Array.new
   end
 
-  def test_parse_jql_parameters
-    param_hash = {issuetype: "='Bug'"}
-    param_hash.merge!({created: ">='today'"})
-    param_hash.merge!({status: "='done'"})
-    assert_equal "issuetype='Bug' AND created>='today' AND status='done'", parse_jql_paramters(param_hash)
-    assert_equal "issuetype='Bug'", parse_jql_paramters({issuetype: "='Bug'"})
+  test "Get projects form user" do
+    data = project_list.first
+    assert_equal data.instance_values['key'], "IM"
+    assert_equal data.instance_values['name'], "VeePee - Manager"
+    assert_equal data.instance_values['projectTypeKey'], "software"
   end
 
-  # Fake test
-  def test_url_with_query_params
-    search_url = '/rest/agile/1.0/board/2441/issue?jql=test'
-    assert_equal '/rest/agile/1.0/board/2441/issue?jql=test&fields=key%2Cpriority%2Cissuetype%2Cstatus%2Ccomponentes%2Ccustomfield_11382%2Csummary%2Ccustomfield_11802%2Ctimeoriginalestimate%2Ccomponents%2Cdescription%2Cassignee%2Ccreated%2Cupdated%2Cresolutiondate',
-                 url_with_query_params(search_url, @options)
-
-    search_url = '/rest/agile/1.0/board/2441/issue'
-    assert_equal '/rest/agile/1.0/board/2441/issue?fields=key%2Cpriority%2Cissuetype%2Cstatus%2Ccomponentes%2Ccustomfield_11382%2Csummary%2Ccustomfield_11802%2Ctimeoriginalestimate%2Ccomponents%2Cdescription%2Cassignee%2Ccreated%2Cupdated%2Cresolutiondate',
-                 url_with_query_params(search_url, @options)
-
-    puts url_with_query_params('/rest/agile/1.0/board/2441/issue?jql=test')
-
+  test "Get project details from WORK" do
+    data = project_details "VOR"
+    assert_equal data['id'], "10000"
   end
 
-  def test_hash_to_query_string
-
-    begin
-      assert_equal 'fields=key%2Cpriority%2Cissuetype%2Cstatus%2Ccomponentes%2Ccustomfield_11382%2Csummary%2Ccustomfield_11802%2Ctimeoriginalestimate%2Ccomponents%2Cdescription%2Cassignee%2Ccreated%2Cupdated%2Cresolutiondate',
-                   hash_to_query_string(@options)
-      assert_equal 'project=%3D%27MTR%27&component=%3D%27Motorheads%27&sprint=+in+openSprints%28%29',
-                   hash_to_query_string(@param_hash)
-      assert_equal 'project=alfalfa',
-                   hash_to_query_string(@single_string)
-    rescue Exception => e
-      puts e.to_s
-    end
+  test "Get issues from an specific project" do
+    data = current_project 'VOR'
+    assert_not_nil data
   end
 
+  test "Get comments from an specific issue" do
+    data = issue_comments 'VOR-1'
+    assert_equal data.first.body['content'][0]['content'][0]['text'], "This is a test comment, for testing purposes only"
+    assert_equal data.first.id, "10011"
+  end
+
+  test "Get attachments from an specific issue" do
+    data = issue_attachments 'VOR-1'
+    assert_equal data.first.filename, "vertical_on_corporate_500x500px_by_logaster.png"
+  end
+
+  test "List of boards by project" do
+    data = boards_by_project "VOR"
+    assert_equal data.values.size, 5
+    assert_instance_of Array,data.values
+    assert_instance_of Hash,data.values.last[0]
+    assert_equal data.values.last[0]['id'], 1
+    assert_equal data.values.last[0]['name'], "VOR board"
+  end
+
+  test "Get active sprint from a jira instances for an specific board" do
+    data = import_sprint 1, @options
+    assert_equal data.last['changelog'].present?, true
+    assert_equal data.last['changelog']['histories'].present?, true
+  end
 end

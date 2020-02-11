@@ -101,7 +101,7 @@ RSpec.describe AdvicesController, type: :controller do
         advice = FactoryBot.create(:advice)
         put :update, params: {id: advice.to_param, advice: new_attributes}, session: valid_session
         advice.reload
-        skip("Add assertions for updated state")
+        expect(response).to redirect_to(advice)
       end
 
       it "redirects to the advice" do
