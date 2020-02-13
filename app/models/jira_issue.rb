@@ -87,6 +87,10 @@ class JiraIssue
 
   def parse_histories
     return [] if histories.blank?
+    # histories.map! do |elem|
+    #   elem['items'] = elem['items'].filter {|e| Vortrics.config[:jira][:changelogfields].include? e['field'].to_s.downcase }
+    #   elem
+    # end
     histories.compact
   end
 

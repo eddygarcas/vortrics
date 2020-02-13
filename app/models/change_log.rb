@@ -19,21 +19,15 @@ class ChangeLog < ApplicationRecord
 
   # Regardless of the jira_log value, this method will match log value within a ChangeLog record.
   def parse_and_initialize jira_log, issue_id
-    return if issue_id.blank?
-    log = filter_changelog(jira_log)
-    return if log['items'].blank?
+    return if issue_id.blank? || jira_log.blank?
+    jira_log['items'].keep_element_if 'field',Vortrics.config[:jira][:changelogfields]
+    return if jira_log['items'].blank?
     send("issue_id=", issue_id)
-    send_attribute('avatar',log,'48x48')
+    send_attribute('avatar',jira_log,'48x48')
     ChangeLog.column_names.each { |key|
-      send_attribute(key,log)
+      send_attribute(key,jira_log)
     }
   end
-
-  def filter_changelog log
-    log['items'] = log['items'].filter {|e| Vortrics.config[:jira][:changelogfields].include? e['field'].to_s.downcase }
-    log
-  end
-
 
   def remaining toDate
     return 'n/d' if toDate.blank?

@@ -13,11 +13,10 @@
           <th>Key</th>
           <th>Task report</th>
           <th>Summary</th>
-          <th>Story points</th>
           <th>Created</th>
           <th>Resolved</th>
-          <th>Components</th>
           <th>Status</th>
+          <th>WIP Time</th>
           <th>Lead Time</th>
 
           <th>Jira</th>
@@ -57,12 +56,11 @@
             </td>
 
             <td><h6><%= issue.summary[0..60] %></h6></td>
-            <td><h6><%= issue.customfield_11802 %></h6></td>
-            <td><h6><%= issue.created.strftime("%d/%m/%Y") unless issue.created.nil? %></h6></td>
-            <td><h6><%= issue.resolutiondate.strftime("%d/%m/%Y") unless issue.resolutiondate.nil? %></h6></td>
-            <td><h6><%= issue.components %></h6></td>
+            <td><h6><%= issue.created&.strftime("%d/%m/%Y")  %></h6></td>
+            <td><h6><%= issue.resolutiondate&.strftime("%d/%m/%Y")  %></h6></td>
             <td><%= vt_issue_status_tag issue.status, issue.statusname.humanize %></td>
-            <td><h6><%= issue.lead_time.round(2) %>d</h6></td>
+            <td><h6><%= issue.cycle_time.round %>d</h6></td>
+            <td><h6><%= issue.lead_time.round %>d</h6></td>
             <td>
               <div class="btn-group btn-group-xs">
                 <%= link_to fa_icon_tag("eye"), issue %>

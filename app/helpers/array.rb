@@ -34,4 +34,9 @@ class Array
     (sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0
   end
 
+  def keep_element_if element, has_tags
+    return if element.blank? || has_tags.blank?
+    keep_if { |e| has_tags.include? e[element]&.to_s.downcase}
+  end
+
 end

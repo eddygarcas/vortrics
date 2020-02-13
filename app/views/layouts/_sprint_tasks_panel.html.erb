@@ -24,7 +24,6 @@
           <th>Story points</th>
           <th>Created</th>
           <th>Resolved</th>
-          <th>Components</th>
           <th>Status</th>
           <th>Cycle time</th>
 
@@ -43,7 +42,6 @@
               <td><h6><%= issue.customfield_11802 %></h6></td>
               <td><h6><%= issue.created.strftime("%d/%m") unless issue.created.nil? %></h6></td>
               <td><h6><%= issue.resolutiondate.strftime("%d/%m") unless issue.resolutiondate.nil? %></h6></td>
-              <td><h6><%= issue.components %></h6></td>
               <td><%= vt_issue_status_tag issue.status, issue.statusname %></td>
               <td><h6><%= issue.cycle_time.round %>d</h6></td>
               <td>

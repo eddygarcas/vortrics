@@ -55,6 +55,9 @@ class JiraHelperTest < ActionView::TestCase
 
   test "Get projects form user" do
     data = project_list.first
+    assert_equal data.key, "IM"
+    assert_equal data.name, "VeePee - Manager"
+    assert_equal data.projectTypeKey, "software"
     assert_equal data.instance_values['key'], "IM"
     assert_equal data.instance_values['name'], "VeePee - Manager"
     assert_equal data.instance_values['projectTypeKey'], "software"

@@ -20,6 +20,18 @@
   <div class="row top-summary mt15 animate-fade-in-900">
     <%= render "layouts/sprint_sumary_transitions" %>
   </div>
+  <div class="row">
+    <div class="col-lg-4 col-md-8 col-sm-12 animate-drop-fade">
+      <%= render partial: "caskets/kanban_wip_limit", :locals => {:team => @team} %>
+
+    </div>
+    <div class="col-lg-4 col-md-8 col-sm-12 animate-drop-fade">
+      <%= render partial: "caskets/kanban_cycle_time", :locals => {:team => @team}%>
+    </div>
+    <div class="col-lg-4 col-md-8 col-sm-12 animate-drop-fade">
+      <%= render partial: "caskets/varianza_sprint", :locals => {:team => @team} %>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-left-fade-1000">

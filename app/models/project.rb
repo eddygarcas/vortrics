@@ -1,6 +1,8 @@
 class Project
   include DataBuilderHelper
 
+  attr_accessor :key,:name,:projectTypeKey
+
   def initialize json = {}
     parse json unless json.blank?
   end
