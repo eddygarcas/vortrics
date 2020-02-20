@@ -1,0 +1,38 @@
+<div class="tab-pane fade active in" style='height: 250px; overflow: scroll;' id='story-recent-comments'>
+  <ul class="list-group list-group-flush">
+    <% comments.each do |comment| %>
+      <li class='list-group-item'>
+        <div class="media">
+          <a class="pull-left" href="#">
+            <%= image_tag comment[:first_time].author['avatarUrls']["48x48"], class: "img-rounded", height: '24', width: '24', data: {toggle: "tooltip", title: comment[:first_time].author['displayName']} unless comment[:first_time].author.nil? %>
+            <%= random_avatar 40, "media-object" if comment[:first_time].author.nil? %>
+          </a>
+          <div class="media-body">
+            <h5 class="media-heading small">
+              <a href="#" title=""><%= comment[:first_time].issue.key %></a> Time until first comment
+              <%= ((comment[:first_time]&.created&.to_time - comment[:created]) / 1.hour).ceil %> hours
+
+            </h5>
+            <p class='small'><%= comment[:first_time].body %></p>
+
+          </div>
+        </div>
+      </li>
+    <% end %>
+    <% if comments.empty? %>
+      <li class='list-group-item'>
+        <div class="media">
+          <a class="pull-left" href="#">
+            <%= image_tag "/images/voardtrix_logo.png",class: "img-rounded", height: '24', width: '24', data: { toggle: "tooltip", title: "Vortrics" } %>
+          </a>
+          <div class="media-body">
+            <h5 class="media-heading">
+              No comments
+            </h5>
+            <p class='small'> Has no comments</p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

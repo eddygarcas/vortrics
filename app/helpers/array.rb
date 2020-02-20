@@ -3,7 +3,7 @@ class Array
   def array_to_hash
     each {|sprint|
       #the string must contain a par elements, first would be the kay and the next one the value
-      #Fist step it transforma a string into an array and then creates a hash getting pairs.
+      #Fist step it transforms a string into an array and then creates a hash getting pairs.
       yield Hash[*sprint.chop[(sprint.index('[')+1)..-1].gsub!('=',',').split(',')]
     }
   end

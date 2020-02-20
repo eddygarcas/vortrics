@@ -204,9 +204,7 @@ function InitializeReleaseTimeBugsGraphTeam() {
             new Rickshaw.Graph.ClickDetail({
                 graph: graph,
                 clickHandler: function (value) {
-                    //window.open('/issues/' + $(".id_team_bug").text())
-                    window.open($('#extsite')[0].value + '/browse/' + $(".key_team_bug").text())
-
+                    window.open('/issues/key/' + $(".key_team_bug").text(),"_self")
                 }
             });
 

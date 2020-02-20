@@ -1,0 +1,10 @@
+<div class="panel panel-info" style="height: 330px;">
+  <div class="panel-heading" >
+    <p class='lead'><%= fa_icon_tag 'comment' %> FIRST COMMENTS</p>
+  </div>
+
+  <div class="tab-content">
+    <%= render partial: 'comment_panel', :locals => { :comments => @comments }  %>
+  </div>
+</div>
+

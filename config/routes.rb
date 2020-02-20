@@ -90,6 +90,7 @@ Rails.application.routes.draw do
   get '/refresh/:id/issues', to: 'sprints#refresh_issues', as: 'sprint_refresh_issues'
 
   get '/issues/sprint/:sprint_id', to: 'issues#sprint_issues', as: 'sprint_issues'
+  get '/issues/key/:key', to:"issues#show"
   post '/issues/search', to: 'issues#search', as: 'issues_search'
 
   get '/import/kanban(/:board_id)', to: 'kanban#import_issues', as: 'kanban_import_issues'

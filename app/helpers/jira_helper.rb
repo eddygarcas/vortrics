@@ -83,6 +83,13 @@ module JiraHelper
     elems[:issues.to_s]
   end
 
+  def issue_first_comments board_id
+      options = {fields: vt_jira_issue_fields, maxResults: 400}
+      items = bug_for_board(board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"), options)
+      items.map! { |elem| { key: elem['key'], first_time: issue_comments(elem['key'])&.first, created: elem['fields']['created']&.to_time} }.delete_if { |elem| elem[:first_time].blank? }
+
+  end
+
   def issue_comments key
     return if current_user.setting.blank?
     jira_instance(current_user.setting).Issue.find(key, fields: :comment).comments

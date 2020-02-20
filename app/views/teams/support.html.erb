@@ -22,10 +22,13 @@
 <%= render "layouts/flashes" %>
 
 <div class="container-fluid">
-
+<% if @support_bugs.length > 0 %>
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-right-fade-1000">
     <%= render "layouts/release_time_graph", :locals => {:graph_id => "bars-first-response", :title => "Time to First Response", :behaviour => "chart_first_response"} %>
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-12">
+      <%= render partial: 'issue_tab_first_time_comments'  %>
   </div>
 </div>
 
@@ -37,7 +40,7 @@
     <%= render "layouts/release_time_graph", :locals => { :graph_id => "bars-team-openclosed-bugs", :title => "Comulative Flow Diagram Bugs", :behaviour => "chart_historical_bugs_cfd" } %>
   </div>
 </div>
-
+<%end %>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  animate-rise-fade-1200">
       <%= render partial: "teams/bugs_issue_list", :locals => { :team => @team } %>

@@ -46,7 +46,7 @@
         new Rickshaw.Graph.ClickDetail({
             graph: graph_f,
             clickHandler: function (value) {
-                window.open('/issues/' + $(".id_team_story").text(),"_self")
+                window.open('/issues/key/' + $(".key_bug_sprint").text(),"_self")
             }
         });
 
