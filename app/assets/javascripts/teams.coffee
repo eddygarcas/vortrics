@@ -12,8 +12,13 @@
                     renderer: 'bar',
                     color: '#90caf9',
                     data: data[2]
+                },
+                {
+                    name: 'Average First Time Response',
+                    renderer: 'line',
+                    color: '#d13b47',
+                    data: data[3]
                 }
-
             ]
         });
 
@@ -46,7 +51,7 @@
         new Rickshaw.Graph.ClickDetail({
             graph: graph_f,
             clickHandler: function (value) {
-                window.open('/issues/key/' + $(".key_bug_sprint").text(),"_self")
+                window.open('/issues/key/' + $(".key_bug_sprint").text(), "_self")
             }
         });
 
@@ -116,7 +121,6 @@ class Teams
           $("#project_image")[0].src = data.avatarUrls["32x32"]
         else
           $("[data-behaviour='board_type']").html("Error")
-
     )
     $.ajax(
       url: "/teams/boards_by_team/" + $('#team_project').val()
@@ -131,7 +135,7 @@ class Teams
           $('#team_board_id').append($('<option>', {value: board['id'], text: board['name']}))
     )
   handleBoardChange: (e) ->
-    $("[data-behaviour='board_type']").val(boards[$('select#team_board_id option:selected').index()-1].type)
+    $("[data-behaviour='board_type']").val(boards[$('select#team_board_id option:selected').index() - 1].type)
 
   handleFirstResponse: (e) ->
     return if $('#teamid').val() == undefined

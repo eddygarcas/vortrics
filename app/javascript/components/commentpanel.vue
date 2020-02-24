@@ -32,7 +32,7 @@
         filters: {
             toHours: function (start,stop) {
                 if (start && stop) {
-                    return moment(String(start)).diff(stop,"hour")
+                    return moment(String(start)).diff(stop,"hours")
                 }
             }
         },

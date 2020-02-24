@@ -103,10 +103,12 @@ class TeamsController < ApplicationController
     render json: Rails.cache.fetch("graph_time_first_response_#{@team.id}", expires_in: 1.day) {
       data = Array.new { Array.new }
       bugs = issue_first_comments @team.board_id
+      average_first_time = bugs.map { |issue| ((issue[:first_time]['created']&.to_time - issue[:created]) / 1.hour).ceil }.average
 
       data[0] = bugs.map.with_index { |issue, index| {x: index, y: issue[:key]} }
       data[1] = bugs.map.with_index { |issue, index| {x: index, y: issue[:created]&.strftime("%b %d")} }
       data[2] = bugs.map.with_index { |issue, index| {x: index, y: ((issue[:first_time]['created']&.to_time - issue[:created]) / 1.hour).ceil} }
+      data[3] = bugs.map.with_index { |issue, index| { x: index, y: average_first_time}}
       data
     }
   end
