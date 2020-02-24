@@ -1,4 +1,6 @@
 class CommentsController < ApplicationController
+  include ApplicationHelper
+
   layout 'sidenav'
   before_action :set_advice, only: [:show, :edit]
   before_action :set_comment, only: [:destroy]
@@ -66,6 +68,11 @@ class CommentsController < ApplicationController
       format.html { redirect_to comment_path(@comment.advice_id) }
       format.json { head :no_content }
     end
+  end
+
+  def comments_by_board
+    board_id = params[:board_id]
+    render json: issue_first_comments(board_id)
   end
 
   private

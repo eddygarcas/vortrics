@@ -1,0 +1,67 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://vortrics.atlassian.net/rest/api/3/project/VOR?jql=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic ZWR1Z2FyY2FzQGdtYWlsLmNvbTpvNmNjYmcxODg5RTNpcXdNc0x6M0VBNDU=
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - AtlassianProxy/1.15.8.1
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - no-cache, no-store, no-transform
+      Content-Type:
+      - application/json;charset=UTF-8
+      Strict-Transport-Security:
+      - max-age=315360000; includeSubDomains; preload
+      Date:
+      - Mon, 24 Feb 2020 10:06:37 GMT
+      Atl-Traceid:
+      - b8fd226ac4cbfb58
+      X-Arequestid:
+      - 6a26f4ae-d64f-48f8-b016-75a363899b86
+      X-Aaccountid:
+      - 557058%3A450b4c64-7e58-4a39-a5d1-fb8167e1228f
+      X-Xss-Protection:
+      - 1; mode=block
+      Transfer-Encoding:
+      - chunked
+      Timing-Allow-Origin:
+      - "*"
+      X-Content-Type-Options:
+      - nosniff
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - atlassian.xsrf.token=eac915fa-ceca-404c-bf50-5763dc469810_f4f981c6ee5b073d5b6f4d1c15073ef3ec93a728_lin;
+        Path=/; Secure
+    body:
+      encoding: ASCII-8BIT
+      string: '{"expand":"description,lead,issueTypes,url,projectKeys,permissions,insight","self":"https://vortrics.atlassian.net/rest/api/3/project/10000","id":"10000","key":"VOR","description":"Supports
+        software product teams & coaches handling and visualise performance agile
+        metrics with the Agile transformation","lead":{"self":"https://vortrics.atlassian.net/rest/api/3/user?accountId=557058:450b4c64-7e58-4a39-a5d1-fb8167e1228f","accountId":"557058:450b4c64-7e58-4a39-a5d1-fb8167e1228f","avatarUrls":{"48x48":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=48&s=48","24x24":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=24&s=24","16x16":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=16&s=16","32x32":"https://secure.gravatar.com/avatar/a16a4451199ed22885deea6875461d33?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEG-0.png&size=32&s=32"},"displayName":"Eduard
+        Garcia","active":true},"components":[],"issueTypes":[{"self":"https://vortrics.atlassian.net/rest/api/3/issuetype/10002","id":"10002","description":"A
+        small, distinct piece of work.","iconUrl":"https://vortrics.atlassian.net/secure/viewavatar?size=medium&avatarId=10318&avatarType=issuetype","name":"Task","subtask":false,"avatarId":10318},{"self":"https://vortrics.atlassian.net/rest/api/3/issuetype/10003","id":"10003","description":"A
+        small piece of work that''s part of a larger task.","iconUrl":"https://vortrics.atlassian.net/secure/viewavatar?size=medium&avatarId=10316&avatarType=issuetype","name":"Sub-task","subtask":true,"avatarId":10316},{"self":"https://vortrics.atlassian.net/rest/api/3/issuetype/10001","id":"10001","description":"Functionality
+        or a feature expressed as a user goal.","iconUrl":"https://vortrics.atlassian.net/secure/viewavatar?size=medium&avatarId=10315&avatarType=issuetype","name":"Story","subtask":false,"avatarId":10315},{"self":"https://vortrics.atlassian.net/rest/api/3/issuetype/10004","id":"10004","description":"A
+        problem or error.","iconUrl":"https://vortrics.atlassian.net/secure/viewavatar?size=medium&avatarId=10303&avatarType=issuetype","name":"Bug","subtask":false,"avatarId":10303},{"self":"https://vortrics.atlassian.net/rest/api/3/issuetype/10000","id":"10000","description":"A
+        collection of related bugs, stories, and tasks.","iconUrl":"https://vortrics.atlassian.net/images/icons/issuetypes/epic.svg","name":"Epic","subtask":false}],"assigneeType":"UNASSIGNED","versions":[],"name":"Vortrics","roles":{"atlassian-addons-project-access":"https://vortrics.atlassian.net/rest/api/3/project/10000/role/10003","Administrators":"https://vortrics.atlassian.net/rest/api/3/project/10000/role/10002"},"avatarUrls":{"48x48":"https://vortrics.atlassian.net/secure/projectavatar?pid=10000&avatarId=10512","24x24":"https://vortrics.atlassian.net/secure/projectavatar?size=small&s=small&pid=10000&avatarId=10512","16x16":"https://vortrics.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10000&avatarId=10512","32x32":"https://vortrics.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10000&avatarId=10512"},"projectTypeKey":"software","simplified":false,"style":"classic","isPrivate":false,"properties":{}}'
+    http_version: null
+  recorded_at: Mon, 24 Feb 2020 10:06:35 GMT
+recorded_with: VCR 5.1.0

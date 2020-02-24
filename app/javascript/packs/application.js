@@ -20,28 +20,13 @@ import App from '../app.vue'
 import Retrospective from '../retrospective'
 import Mfilter from '../mfilter'
 import Msummary from '../msummary'
+import Commentpanel from '../components/commentpanel'
 import TurbolinksAdapter from 'vue-turbolinks'
+import tooltip from './directives'
 
-Vue.use(Vuex)
-Vue.use(TurbolinksAdapter)
+Vue.use(Vuex);
+Vue.use(TurbolinksAdapter);
 
-// document.addEventListener('DOMContentLoaded', () => {
-//   const el = document.body.appendChild(document.createElement('hello'))
-//   const app = new Vue({
-//     el,
-//     render: h => h(App)
-//   });
-// });
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   const app = new Vue({
-//     el: '#hello',
-//     data: {
-//       message: "Can you say hello?"
-//     },
-//     components: { App }
-//   });
-// });
 
 
 window.store = new Vuex.Store({
@@ -49,6 +34,10 @@ window.store = new Vuex.Store({
         lists: [],
         mseries: [],
         team: {},
+        comments: {
+            board_id: 0,
+            list: {}
+        },
         summary: {
             confidence_at_50: 0,
             confidence_at_85: 0,
@@ -130,8 +119,10 @@ window.store = new Vuex.Store({
             const card_index = state.lists[index].postits.findIndex((item) => item.id == data.postit_id)
             const comment_index =  state.lists[index].postits[card_index].comments.findIndex((comm) => comm.id == data.id)
             state.lists[index].postits[card_index].comments.splice(comment_index, 1)
+        },
+        byBoardComments(state,data) {
+            state.comments.list = data
         }
-
     }
 });
 
@@ -178,6 +169,16 @@ document.addEventListener('turbolinks:load', () => {
             store: window.store,
             template: "<Msummary/>",
             components: {Msummary}
+        })
+    }
+    element = document.querySelector( '#commentpanel')
+    if (element != undefined) {
+        window.store.state.comments.board_id = JSON.parse(element.dataset.board);
+        const commentpanel = new Vue({
+            el: element,
+            store: window.store,
+            template: "<Commentpanel/>",
+            components: {Commentpanel}
         })
     }
 });

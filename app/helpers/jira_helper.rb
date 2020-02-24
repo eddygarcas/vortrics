@@ -54,7 +54,7 @@ module JiraHelper
 
   def current_project key, options = {}
     return if current_user.setting.blank?
-    elems = Rails.cache.fetch("get_current_project_#{key.to_s}", expires_in: 30.minutes) {
+    elems = Rails.cache.fetch("get_current_project_#{key.to_s}", expires_in: 1.hour) {
       param_hash = {project: "='#{key}'"}
       rest_query(jira_instance(current_user.setting), '/search', param_hash, options)
     }
@@ -68,7 +68,7 @@ module JiraHelper
   end
 
   def import_sprint sprintId, options = {}
-    elems = Rails.cache.fetch("sprint_#{sprintId}", expires_in: 2.minutes) {
+    elems = Rails.cache.fetch("sprint_#{sprintId}", expires_in: 1.hour) {
       param_hash = {}
       agile_query jira_instance(current_user.setting), "/sprint/#{sprintId}/issue", param_hash, options
     }
@@ -76,7 +76,7 @@ module JiraHelper
   end
 
   def import_kanban boardId, options = {}
-    elems = Rails.cache.fetch("kanban_board#{boardId}", expires_in: 15.minutes) {
+    elems = Rails.cache.fetch("kanban_board#{boardId}", expires_in: 1.hour) {
       param_hash = {}
       agile_query jira_instance(current_user.setting), "/board/#{boardId}/issue", param_hash, options
     }
@@ -86,13 +86,20 @@ module JiraHelper
   def issue_first_comments board_id
       options = {fields: vt_jira_issue_fields, maxResults: 400}
       items = bug_for_board(board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"), options)
-      items.map! { |elem| { key: elem['key'], first_time: issue_comments(elem['key'])&.first, created: elem['fields']['created']&.to_time} }.delete_if { |elem| elem[:first_time].blank? }
-
+      items.map! { |elem| {
+          priority: { icon: elem.dig('fields','priority','iconUrl'), name: elem.dig('fields','priority','name') },
+          status: { icon: elem.dig('fields','status','iconUrl'), name: elem.dig('fields','status','name')},
+          key: elem['key'],
+          first_time: issue_comments(elem.dig('key'))&.first,
+          created: elem.dig('fields','created')&.to_time}
+      }.delete_if { |elem| elem[:first_time].blank? }
   end
 
   def issue_comments key
     return if current_user.setting.blank?
-    jira_instance(current_user.setting).Issue.find(key, fields: :comment).comments
+    Rails.cache.fetch("comments_by_key_#{key}", expires_in: 1.day) {
+      jira_instance(current_user.setting).Issue.find(key, fields: :comment).comments.map(&:attrs)
+     }
   end
 
   def issue_attachments key
@@ -133,7 +140,7 @@ module JiraHelper
 
   def boards_by_sprint board, startAt = 0, options = {}
     return if current_user.setting.blank?
-    boards_spints = Rails.cache.fetch("boards_sprints_#{board.to_s}", expires_in: 1.minute) {
+    boards_spints = Rails.cache.fetch("boards_sprints_#{board.to_s}", expires_in: 1.day) {
       param_hash = {startAt: startAt, toLast: 20}
       agile_query jira_instance(current_user.setting), "/board/#{board}/sprint", param_hash, options
     }

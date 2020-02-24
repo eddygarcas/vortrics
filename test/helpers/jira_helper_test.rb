@@ -75,8 +75,8 @@ class JiraHelperTest < ActionView::TestCase
 
   test "Get comments from an specific issue" do
     data = issue_comments 'VOR-1'
-    assert_equal data.first.body['content'][0]['content'][0]['text'], "This is a test comment, for testing purposes only"
-    assert_equal data.first.id, "10011"
+    assert_equal data.first.dig('body')['content'][0]['content'][0]['text'], "This is a test comment, for testing purposes only"
+    assert_equal data.first.dig('id'), "10011"
   end
 
   test "Get attachments from an specific issue" do
@@ -95,7 +95,7 @@ class JiraHelperTest < ActionView::TestCase
 
   test "Get active sprint from a jira instances for an specific board" do
     data = import_sprint 1, @options
-    assert_equal data.last['changelog'].present?, true
-    assert_equal data.last['changelog']['histories'].present?, true
+    assert_equal data.last.dig('changelog').present?, true
+    assert_equal data.last.dig('changelog','histories').present?, true
   end
 end

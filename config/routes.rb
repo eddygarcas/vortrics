@@ -75,6 +75,8 @@ Rails.application.routes.draw do
   get '/teams/boards_by_team/:proj_id', to: 'teams#boards_by_team', as: 'teams_boards_by_team'
   get '/teams/full_project_details/:proj_id', to: 'teams#full_project_details', as: 'teams_full_project_details'
 
+  get '/comments/by_board/:board_id', to:'comments#comments_by_board', as: 'comments_by_board'
+
   get '/montecarlo', to: 'montecarlo#show',as: 'montecarlo_show'
   post '/montecarlo/chart', to: 'montecarlo#montecarlo_chart', as: 'montecarlo_chart'
   get '/montecarlo/chart/default', to: 'montecarlo#montecarlo_chart', as: 'montecarlo_chart_default'
@@ -90,12 +92,10 @@ Rails.application.routes.draw do
   get '/refresh/:id/issues', to: 'sprints#refresh_issues', as: 'sprint_refresh_issues'
 
   get '/issues/sprint/:sprint_id', to: 'issues#sprint_issues', as: 'sprint_issues'
-  get '/issues/key/:key', to:"issues#show"
+  get '/issues/key/:key', to:"issues#show", as: 'issues_key_show'
   post '/issues/search', to: 'issues#search', as: 'issues_search'
 
   get '/import/kanban(/:board_id)', to: 'kanban#import_issues', as: 'kanban_import_issues'
-
-
 
   get '/:id', to: 'home#dashboard', as: 'get_dashboard'
   get '/:id/refresh', to: 'home#refresh', as: 'refresh_path'

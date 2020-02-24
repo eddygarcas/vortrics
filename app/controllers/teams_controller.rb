@@ -105,8 +105,8 @@ class TeamsController < ApplicationController
       bugs = issue_first_comments @team.board_id
 
       data[0] = bugs.map.with_index { |issue, index| {x: index, y: issue[:key]} }
-      data[1] = bugs.map.with_index { |issue, index| {x: index, y: issue[:created].strftime("%b %d")} }
-      data[2] = bugs.map.with_index { |issue, index| {x: index, y: ((issue[:first_time]&.created&.to_time - issue[:created]) / 1.hour).ceil} }
+      data[1] = bugs.map.with_index { |issue, index| {x: index, y: issue[:created]&.strftime("%b %d")} }
+      data[2] = bugs.map.with_index { |issue, index| {x: index, y: ((issue[:first_time]['created']&.to_time - issue[:created]) / 1.hour).ceil} }
       data
     }
   end
