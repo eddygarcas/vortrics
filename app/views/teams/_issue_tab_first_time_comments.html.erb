@@ -1,11 +1,2 @@
-<div class="panel panel-info" style="height: 335px;">
-  <div class="panel-heading" >
-    <p class='lead'><%= fa_icon_tag 'comment' %> FIRST COMMENTS</p>
-  </div>
-
-  <%= tag.div id: :commentpanel, data: {
-    board: @team.board_id
-  }, class: "tab-content" %>
-
-</div>
+<%= tag.div id: :commentpanel, data: { board: @team.board_id }%>
 
