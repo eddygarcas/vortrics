@@ -123,30 +123,36 @@ class Issue < ApplicationRecord
     change_logs.select(&:first_time_review?).count.eql? 1
   end
 
-  def time_in initial, final, format = true
-    return 0 if change_logs.blank? && initial.eql?(:first)
-    return life_time if change_logs.blank?
+  def time_transitions start = {}, finish = {}
+    time_in start,finish,false,:done,:last
+  end
+
+  def time_in start = {}, finish = {}, format = true, alternatice_tag = :first, alternative_pos = :first
+    return 0 if change_logs.blank? && start.keys.first.eql?(:first)
+    return life_time format if change_logs.blank?
     times_in = []
-    times_in << changelog_lapse(:toString, initial, &:first)
-    times_in << changelog_lapse(:toString, final, &:first)
-    times_in << changelog_lapse(:toString, :first, &:first) if (times_in.compact!.present?)
-    return times_in.inject { |sum, number| sum.created - number.created } unless format
-    times_in.inject { |sum, number| sum.remaining(number) }
+    times_in << changelog_lapse(start.keys.first,start.fetch(start.keys.first),&:first)
+    times_in << changelog_lapse(finish.keys.first,finish.fetch(finish.keys.first),&:first)
+    times_in << changelog_lapse(finish.keys.first, alternatice_tag, &alternative_pos) unless times_in.all?
+    return 0 unless times_in.all?
+    return times_in.sort_by!(&:created).inject { |sum, number| sum.created.to_date.business_days_until(number.created.to_date) } unless format
+    times_in.sort_by!(&:created).inject { |sum, number| sum.remaining(number) }
+
   end
 
-  def life_time
-    return nil if created.blank?
-    return updated - created if resolutiondate.blank?
-    resolutiondate - created
+  def life_time format = true
+    return 0 if created.blank?
+    finish = resolutiondate.blank? ? updated : resolutiondate
+    return created.to_date.business_days_until(finish.to_date).to_f unless format
+    finish.remaining(finish)
   end
-
 
   def save_changelog
     return if histories.blank?
     ChangeLog.transaction do
-      histories.each { |elem|
+      histories.each_with_index { |elem,index|
         log = ChangeLog.new
-        log.parse_and_initialize elem, id
+        log.parse_and_initialize elem, id, index
         ChangeLog.find_or_initialize_by(id: log.id).update(log.to_hash)
       }
     end
@@ -157,19 +163,6 @@ class Issue < ApplicationRecord
   def save_cycle_time
     write_attribute(:cycle_time, (time_transitions({toString: :wip}, {toString: :done})).abs)
     save!
-  end
-
-  def time_transitions start = {}, finish = {}
-    return 0 if change_logs.blank?
-    time_stamps = []
-    start.each_pair { |method, tag| time_stamps << changelog_lapse(method, tag, &:first) }
-    finish.each_pair { |method, tag| time_stamps << changelog_lapse(method, tag, &:first) }
-    #Next call will avoid the chance of no testing state, so will get the WIP time towards the last recor
-    finish.each_pair { |method, tag| time_stamps[1] = changelog_lapse(method, :done, &:last) } if time_stamps[1].blank?
-
-    return 0 if time_stamps[0].blank? || time_stamps[1].blank?
-    time_stamps.sort_by!(&:created)
-    time_stamps[0].created.to_date.business_days_until(time_stamps[1].created.to_date).to_f
   end
 
   def changelog_lapse column, tag

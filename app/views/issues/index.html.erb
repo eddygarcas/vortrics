@@ -76,7 +76,7 @@
                   <td><%= issue.components %></td>
                   <td><%= issue.assignee %></td>
                   <td><%= fa_icon_tag("flag") if issue.flagged? %></td>
-                  <td><%= issue.time_in :wip, :done %></td>
+                  <td><%= issue.time_in({toString: :wip},{toString: :done}) %></td>
                   <td class="actions">
                     <%= link_to fa_icon_tag("eye"), issue, data: {toggle: "tooltip", title: 'Show issue details'} %>
                     <%= link_to ionicon_icon_tag("ios-infinite"), issue.sprint, data: {toggle: "tooltip", title: 'Go to sprint'} %>

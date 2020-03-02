@@ -241,6 +241,7 @@ function InitializeReleaseTimeBugsGraphTeam() {
                 },
                 graph: graph,
                 formatter: function (series, x, y) {
+
                     var sprint = '<span class="date key_team_bug">' + data[0][x].y + '</span><span class="date"> ' + data[7][x].y + ' ' + data[4][x].y + '</span>';
                     var flagged = ' <i class="fa fa-flag"></i>';
                     var bug = ' <i class="fa fa-bug"></i>';
@@ -251,6 +252,8 @@ function InitializeReleaseTimeBugsGraphTeam() {
                     if (data[2][x].y) content += flagged;
                     if (data[3][x].y) content += firsttime;
                     if (data[5][x].y) content += moreonesprint;
+                    console.log(x)
+                    console.log(y)
                     return content;
                 }
             });

@@ -142,15 +142,15 @@ class TeamsController < ApplicationController
       data = Array.new { Array.new }
       bugs = bugs_selectable_for_graph
       data[0] = bugs.map.with_index { |issue, index| {x: index, y: issue.key} }
-      data[1] = bugs.map.with_index { |issue, index| {x: index, y: ((issue.time_in :first, :wip, false) / 1.day).abs} }
+      data[1] = bugs.map.with_index { |issue, index| {x: index, y: issue.time_in({toString: :first},{toString: :wip}, false).abs} }
       data[2] = bugs.map.with_index { |issue, index| {x: index, y: issue.flagged?} }
       data[3] = bugs.map.with_index { |issue, index| {x: index, y: issue.first_time_pass_rate?} }
       data[4] = bugs.map.with_index { |issue, index| {x: index, y: issue.created.strftime("%b %d")} }
       data[5] = bugs.map.with_index { |issue, index| {x: index, y: issue.more_than_sprint?} }
       data[6] = bugs.map.with_index { |issue, index| {x: index, y: issue.time_flagged} }
       data[7] = bugs.map.with_index { |issue, index| {x: index, y: issue.status.upcase} }
-      data[8] = bugs.map.with_index { |issue, index| {x: index, y: bugs.take(index).map { |issue| ((issue.life_time) / 1.day).abs }.average} }
-      data[9] = bugs.map.with_index { |issue, index| {x: index, y: ((issue.time_in :wip, :last, false) / 1.day).abs} }
+      data[8] = bugs.map.with_index { |issue, index| {x: index, y: bugs.take(index).map { |issue| ((issue.life_time false)).abs }.average} }
+      data[9] = bugs.map.with_index { |issue, index| {x: index, y: issue.time_in({toString: :wip},{toString: :last}, false).abs} }
       data
     }
     render json: data

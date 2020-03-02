@@ -6,7 +6,7 @@
       <p class="lead"><%= fa_icon_tag("wrench") %><%= puts_non_nill(@issue, :key) %> <b> In Progress</b></p>
     </div>
     <div class='panel-body text-light-blue-400 text-center'>
-      <h2 class="m0"><%= puts_no_defined(@issue.time_in :wip, :testing) %></h2>
+      <h2 class="m0"><%= puts_no_defined(@issue.time_in({toString: :wip},{toString: :testing})) %></h2>
       <small>Time</small>
 
     </div>
@@ -19,7 +19,7 @@
       <p class="lead"><%= fa_icon_tag("eye") %> <%= puts_non_nill(@issue, :key) %> <b>Review</b></p>
     </div>
     <div class='panel-body text-blue-400 text-center'>
-      <h2 class="m0"><%= puts_no_defined(@issue.time_in :testing, :done) %></h2>
+      <h2 class="m0"><%= puts_no_defined(@issue.time_in({toString: :testing},{toString: :done})) %></h2>
       <small>Time</small>
     </div>
 
@@ -33,7 +33,7 @@
       <p class="lead"><i class="fa fa-gift"></i><%= puts_non_nill(@issue, :key) %> <b> Cycle Time</b></p>
     </div>
     <div class='panel-body text-blue-400 text-center'>
-      <h2 class="m0"><%= puts_no_defined (@issue.time_in :wip, :done) %></h2>
+      <h2 class="m0"><%= puts_no_defined (@issue.time_in({toString: :wip},{toString: :done})) %></h2>
       <small>Time</small>
     </div>
   </div>
@@ -45,7 +45,7 @@
       <p class="lead"><i class="fa fa-list"></i><%= puts_non_nill(@issue, :key) %> <b> Lead Time</b></p>
     </div>
     <div class='panel-body text-blue-400 text-center'>
-      <h2 class='page-hits m0'><%= puts_no_defined(@issue.time_in :first, :done) %></h2>
+      <h2 class='page-hits m0'><%= puts_no_defined(@issue.time_in({toString: :first},{toString: :done})) %></h2>
       <small>Time</small>
     </div>
   </div>
