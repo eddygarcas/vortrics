@@ -1,8 +1,6 @@
 
 function InitializeMontecarloGraph() {
 
-    document.getElementById('bars-cycle-time-loader').innerHTML = "";
-
     var axis_scale1;
     var axis_scale2;
 
@@ -13,6 +11,7 @@ function InitializeMontecarloGraph() {
         dataURL: '/montecarlo/chart/default',
         onData: function (data) {
 
+            document.getElementById('bars-cycle-time-loader').innerHTML = "";
             min = Number.MAX_VALUE;
             max = Number.MIN_VALUE;
 
@@ -25,7 +24,7 @@ function InitializeMontecarloGraph() {
             axis_scale1 = d3.scale.linear().domain([min, max]);
             axis_scale2 = d3.scale.linear().domain([0, 100]);
 
-            window.store.state.mseries =  [
+            window.store.state.metrics.mseries =  [
                 {
                     name: 'Iterations',
                     renderer: 'area',
@@ -48,8 +47,8 @@ function InitializeMontecarloGraph() {
                     scale: axis_scale2
                 }
             ];
-            window.store.state.summary = data[3];
-            return window.store.state.mseries
+            window.store.state.metrics.summary = data[3];
+            return window.store.state.metrics.mseries
         },
         onComplete: function (transport) {
 

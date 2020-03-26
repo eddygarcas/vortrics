@@ -60,30 +60,11 @@
             }
         },
         computed: {
-            mseries: {
-                get(){
-                    return this.$store.state.mseries;
-                }
-            }
+
         },
         methods: {
-            callForecast: function () {
-                var data = new FormData
-                data.append("montecarlo[number]",this.number);
-                data.append("montecarlo[backlog]",this.backlog);
-                data.append("montecarlo[focus]",this.focus);
-                data.append("montecarlo[iteration]",this.selected);
-                $.ajax({
-                    url: `/montecarlo/chart`,
-                    dataType: "JSON",
-                    type: "POST",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    success: (data) => {
-                        this.$store.commit('callForecast',data);
-                    }
-                })
+            callForecast() {
+                this.$store.dispatch('postForecast',this)
             }
         }
     }

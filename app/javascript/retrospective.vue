@@ -7,10 +7,7 @@
                        placeholder="Add column..."/>
             </div>
             <draggable v-model="lists" group="lists" class="board dragArea" @end="columnMoved">
-                <list v-for="(list, index) in lists" v-bind:key="index" :list="list" :list_index="index">
-
-                </list>
-
+                <list v-for="(list, index) in lists" v-bind:key="index" :list="list" :list_index="index"></list>
             </draggable>
 
         </div>
@@ -27,56 +24,38 @@
         data: function () {
             return {
                 editing: false,
-                message: "",
             }
         },
 
         computed: {
             lists: {
                 get(){
-                    return this.$store.state.lists;
+                    return this.$store.state.retro.lists;
                 },
                 set(value) {
-                    this.$store.state.lists = value
+                    this.$store.state.retro.lists = value
                 },
             },
             team: {
                 get() {
-                    return this.$store.state.team;
+                    return this.$store.state.retro.team;
                 },
+            },
+            message: {
+                get() {
+                    return this.$store.state.retro.message
+                },
+                set(value) {
+                    this.$store.state.retro.message = value
+                }
             }
         },
         methods: {
-            createColumn: function () {
-                var data = new FormData
-                data.append("retrospective[name]", this.message)
-                data.append("retrospective[team_id]", this.$store.state.team.id)
-
-                $.ajax({
-                    url: `/retrospectives`,
-                    dataType: "JSON",
-                    type: "POST",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    success: (data) => {
-                        // Don't need next line due to ActionCable is going to take care of calling createColumn. see. retrospective.coffee that calls retrospective.vue
-                        // this.$store.commit('createColumn',data)
-                        this.message = ""
-                    }
-                })
+            createColumn() {
+                this.$store.dispatch('createColumn',this.message)
             },
-            columnMoved: function (event) {
-                var data = new FormData
-                data.append("retrospective[position]", event.newIndex + 1)
-                $.ajax({
-                    url: `/retrospectives/${this.lists[event.newIndex].id}/move`,
-                    dataType: "JSON",
-                    type: "PATCH",
-                    data: data,
-                    processData: false,
-                    contentType: false
-                })
+            columnMoved(event) {
+                this.$store.dispatch('columnMoved', event.newIndex)
             }
         }
     }
@@ -91,7 +70,6 @@
         overflow-x: auto;
         white-space: normal;
     }
-
     .list {
         background: whitesmoke;
         border-radius: 10px;
@@ -102,7 +80,6 @@
         width: 320px;
         margin-bottom: 10px;
     }
-
     .add-column-name {
         background: white;
         width: 100%;

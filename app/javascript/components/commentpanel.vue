@@ -55,15 +55,14 @@
         computed: {
             comments: {
                 get() {
-                    return this.$store.state.comments.list;
+                    return this.$store.state.comm.comments.list;
                 }
             },
             board_id: {
                 get() {
-                    return this.$store.state.comments.board_id
+                    return this.$store.state.comm.comments.board_id
                 }
             }
-
         },
         data: function () {
             return {

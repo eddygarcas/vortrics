@@ -14,141 +14,55 @@
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
 import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
-import App from '../app.vue'
+import TurbolinksAdapter from 'vue-turbolinks'
+
+import Workflow from '../workflow.vue'
 import Retrospective from '../retrospective'
 import Mfilter from '../mfilter'
 import Msummary from '../msummary'
 import Commentpanel from '../components/commentpanel'
-import TurbolinksAdapter from 'vue-turbolinks'
-import tooltip from './directives'
+
+import montecarlo from "./modules/montecarlo";
+import retrospective from "./modules/retrospective";
+import comments from "./modules/comments"
+import workflow from "./modules/workflow";
 
 Vue.use(Vuex);
 Vue.use(TurbolinksAdapter);
 
-
-
 window.store = new Vuex.Store({
-    state: {
-        lists: [],
-        mseries: [],
-        team: {},
-        comments: {
-            board_id: 0,
-            list: {}
-        },
-        summary: {
-            confidence_at_50: 0,
-            confidence_at_85: 0,
-            max_likelihood: 0
-        }
-    },
-    mutations: {
-        createColumn(state, data) {
-            state.lists.push(data)
-        },
-        columnMoved(state,data) {
-            const index = state.lists.findIndex(item => item.id == data.id)
-            state.lists.splice(index, 1)
-            state.lists.splice(data.position - 1, 0, data)
-        },
-        createPostit(state,data){
-            const index = state.lists.findIndex(item => item.id == data.retrospective_id)
-            state.lists[index].postits.push(data)
-        },
-        postitMoved(state,data) {
-            const old_list_index = state.lists.findIndex((list) => {
-                return list.postits.find((postit) => {
-                    return postit.id === data.id
-                })
-            })
-            const old_card_index = state.lists[old_list_index].postits.findIndex((item) => item.id == data.id)
-            const new_list_index = state.lists.findIndex((item) => item.id == data.retrospective_id)
+    modules: {
+        metrics: montecarlo,
+        retro: retrospective,
+        comm: comments,
+        flows: workflow,
 
-            if (old_list_index != new_list_index) {
-                // Remove card from old list, add to new one
-                state.lists[old_list_index].postits.splice(old_card_index, 1)
-                state.lists[new_list_index].postits.splice(data.position - 1, 0, data)
-            } else {
-                state.lists[new_list_index].postits.splice(old_card_index, 1)
-                state.lists[new_list_index].postits.splice(data.position - 1, 0, data)
-            }
-        },
-        deleteColumn(state,data) {
-            const index = state.lists.findIndex(item => item.id == data.id)
-            state.lists.splice(index, 1)
-        },
-        deletePostit(state,data) {
-            const index = state.lists.findIndex(item => item.id == data.retrospective_id)
-            const card_index = state.lists[index].postits.findIndex((item) => item.id == data.id)
-            state.lists[index].postits.splice(card_index, 1)
-        },
-        postitVote(state,data) {
-            const index = state.lists.findIndex(item => item.id == data.retrospective_id)
-            const card_index = state.lists[index].postits.findIndex((item) => item.id == data.id)
-            state.lists[index].postits[card_index].dots = data.dots
-        },
-        callForecast(state,data) {
-            state.mseries[0].data = data[0];
-            state.mseries[1].data = data[2];
-            state.mseries[2].data = data[1];
-            state.summary = data[3];
-            graph.update();
-        },
-        savePostit(state,data){
-            const index = state.lists.findIndex(item => item.id == data.retrospective_id)
-            const card_index = state.lists[index].postits.findIndex((item) => item.id == data.id)
-            state.lists[index].postits[card_index].description = data.description
-        },
-        saveComment(state,data) {
-            const index = state.lists.findIndex((list) => {
-                return list.postits.find((postit) => {
-                    return postit.id === data.postit_id
-                })
-            })
-            const card_index = state.lists[index].postits.findIndex((item) => item.id == data.postit_id)
-            state.lists[index].postits[card_index].comments.unshift(data)
-        },
-        deleteComment(state,data) {
-            const index = state.lists.findIndex((list) => {
-                return list.postits.find((postit) => {
-                    return postit.id === data.postit_id
-                })
-            })
-            const card_index = state.lists[index].postits.findIndex((item) => item.id == data.postit_id)
-            const comment_index =  state.lists[index].postits[card_index].comments.findIndex((comm) => comm.id == data.id)
-            state.lists[index].postits[card_index].comments.splice(comment_index, 1)
-        },
-        byBoardComments(state,data) {
-            state.comments.list = data
-        }
     }
 });
-
-
 
 document.addEventListener('turbolinks:load', () => {
     var element = document.querySelector("#boards");
     if (element != undefined) {
+        window.store.state.flows.workflows = JSON.parse(element.dataset.workflows)
         const app = new Vue({
             el: element,
-            data: {
-                workflows: JSON.parse(element.dataset.workflows)
-            },
-            template: "<App :original_lists='workflows'/>",
-            components: {App}
+            store: window.store,
+            template: "<workflow/>",
+            components: {Workflow}
         })
     }
 
     element = document.querySelector('#retrospective')
     if (element != undefined) {
-        window.store.state.lists = JSON.parse(element.dataset.retrospectives);
-        window.store.state.team = JSON.parse(element.dataset.team);
+        window.store.state.retro.lists = JSON.parse(element.dataset.retrospectives);
+        window.store.state.retro.team = JSON.parse(element.dataset.team);
         const retrospective = new Vue({
             el: element,
             store: window.store,
-            template: "<Retrospective/>",
+            template: "<retrospective/>",
             components: {Retrospective}
         })
     }
@@ -158,7 +72,7 @@ document.addEventListener('turbolinks:load', () => {
         const filter = new Vue({
             el: element,
             store: window.store,
-            template: "<Mfilter/>",
+            template: "<mfilter/>",
             components: {Mfilter}
         })
     }
@@ -167,17 +81,17 @@ document.addEventListener('turbolinks:load', () => {
         const summary = new Vue({
             el: element,
             store: window.store,
-            template: "<Msummary/>",
+            template: "<msummary/>",
             components: {Msummary}
         })
     }
     element = document.querySelector( '#commentpanel')
     if (element != undefined) {
-        window.store.state.comments.board_id = JSON.parse(element.dataset.board);
+        window.store.state.comm.comments.board_id = JSON.parse(element.dataset.board);
         const commentpanel = new Vue({
             el: element,
             store: window.store,
-            template: "<Commentpanel/>",
+            template: "<commentpanel/>",
             components: {Commentpanel}
         })
     }
