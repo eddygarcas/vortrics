@@ -7,17 +7,13 @@
         <h5>{{list.name.toUpperCase()}}</h5>
 
         <draggable v-model="list.postits" group="postits" @change="postitMoved" class="dragArea">
-            <postit v-for="(postit, index) in list.postits" v-bind:key="index" :postit="postit" :postit_index="index"
-                    :list_id="list.id" :list_o="list"></postit>
+            <postit v-for="(postit, index) in list.postits" v-bind:key="index" v-bind:postit="postit" v-bind:list_o="list"></postit>
         </draggable>
         <input type="text" v-model="message"
                v-on:change="createPostit" class="insight"
                placeholder="Add insight..."/>
-
     </div>
-
 </template>
-
 <script>
     import draggable from 'vuedraggable'
     import postit from "./postit";
@@ -27,63 +23,27 @@
         props: ["list", "list_index"],
         data: function () {
             return {
-                message: ""
+                message: undefined,
+                index: {type: Number,},
+                id: {type: Number,}
             }
         },
         methods: {
             createPostit: function () {
-                var data = new FormData
-                data.append("postit[retrospective_id]", this.list.id)
-                data.append("postit[text]", this.message)
-
-                $.ajax({
-                    url: "/postits",
-                    dataType: "JSON",
-                    type: "POST",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    success: (data) => {
-                        // Don't need next line due to ActionCable is going to take care of calling createColumn. see. retrospective.coffee that calls retrospective.vue
-                        //this.$store.commit('createPostit', data)
-                        this.message = ""
-                    }
-                })
+                this.$store.dispatch('createPostit', this)
             },
             postitMoved: function (event) {
                 const evt = event.added || event.moved
                 if (evt == undefined) {
                     return
                 }
-
-                const element = evt.element
-                var data = new FormData
-                data.append("postit[retrospective_id]", this.list.id)
-                data.append("postit[position]", evt.newIndex + 1)
-                $.ajax({
-                    url: `/postits/${element.id}/move`,
-                    type: "PATCH",
-                    data: data,
-                    dataType: "JSON",
-                    processData: false,
-                    contentType: false
-                })
+                this.index = evt.newIndex
+                this.id = evt.element.id
+                this.$store.dispatch('postitMoved', this)
             },
             deleteColumn: function () {
-                $.ajax({
-                    url: "/retrospectives/" + this.list.id,
-                    type: "DELETE",
-                    dataType: "JSON",
-                    processData: false,
-                    contentType: false,
-                    success: () => {
-                        // Don't need next line due to ActionCable is going to take care of calling createColumn. see. retrospective.coffee that calls retrospective.vue
-                        //this.$store.commit('deleteColumn',this.list.id)
-                        this.message = ""
-                    }
-                })
-            }
-
+                this.$store.dispatch('deleteColumn', this)
+            },
         }
     }
 
@@ -93,6 +53,7 @@
     .dragArea {
         min-height: 10px;
     }
+
     .list {
         background: whitesmoke;
         border-radius: 10px;
@@ -102,6 +63,7 @@
         vertical-align: top;
         width: 320px;
     }
+
     .insight {
         background: white;
         width: 100%;

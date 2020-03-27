@@ -48,7 +48,7 @@
                                 </button>
                             </div>
                         </div>
-                        <comments :postit="postit"></comments>
+                        <comments v-bind:postit="postit"></comments>
                     </div>
 
                     <div class="modal-footer text-center">
@@ -70,11 +70,6 @@
         components: {Comments},
         filters: {},
         props: ['postit', 'list_o', 'editing'],
-        data: function () {
-            return {
-                comment: ''
-            }
-        },
         methods: {
             emitCloseModal: function () {
                 this.$emit('update:editing', false)
@@ -84,20 +79,8 @@
                     this.$emit('update:editing', false)
                 }
             },
-            savePostit: function (event) {
-                var data = new FormData
-                data.append("postit[description]", this.postit.description)
-                $.ajax({
-                    url: `/postits/${this.postit.id}/save`,
-                    dataType: "JSON",
-                    type: "POST",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    success: (data) => {
-                    }
-                })
-
+            savePostit: function () {
+                this.$store.dispatch('savePostit',this)
             }
         }
     }

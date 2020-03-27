@@ -74,41 +74,17 @@
         props: ['postit'],
         data: function () {
             return {
-                comment: ''
+                comment: undefined,
             }
         },
         methods: {
             saveComment: function () {
-                var data = new FormData
-                data.append("comment[postit_id]", this.postit.id)
-                data.append("comment[description]", this.comment)
-                $.ajax({
-                    url: "/comments",
-                    dataType: "JSON",
-                    type: "POST",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    success: (data) => {
-                        // Don't need next line due to ActionCable is going to take care of calling createColumn. see. retrospective.coffee that calls retrospective.vue
-                        //this.$store.commit('createPostit', data)
-                    }
-                })
+                this.$store.dispatch('saveComment',this)
+
             },
-            deleteComment: function (data) {
-                $.ajax({
-                    url: `/comments/${data}`,
-                    dataType: "JSON",
-                    type: "DELETE",
-                    processData: false,
-                    contentType: false,
-                    success: (data) => {
-                        // Don't need next line due to ActionCable is going to take care of calling createColumn. see. retrospective.coffee that calls retrospective.vue
-                        // const index = this.$store.state.lists.findIndex(item => item.id == this.list_id)
-                        // this.$store.state.lists[index].postits.splice(this.postit_index, 1)
-                    }
-                })
-            }
+            deleteComment: function (id) {
+                this.$store.dispatch('deleteComment',id)
+            },
         }
     }
 </script>
