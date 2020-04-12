@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.7.0"
+ruby "2.6.3"
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
@@ -32,7 +32,7 @@ gem 'jbuilder', github: 'rails/jbuilder', branch: 'master'
 
 # Use ActiveModel has_secure_password
 gem 'will_paginate', '~> 3.1.0'
-gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
+gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',:git => 'https://github.com/Nerian/bootstrap-datepicker-rails.git'
 gem "sweet-alert", git: "https://github.com/frank184/sweet-alert-rails"
 gem "sweet-alert-confirm", git: "https://github.com/humancopy/sweet-alert-rails-confirm"
 gem 'acts_as_list'

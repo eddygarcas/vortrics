@@ -1,8 +1,8 @@
 GIT
-  remote: git://github.com/Nerian/bootstrap-datepicker-rails.git
-  revision: 0dcee7ddb65b2702cd8933c05ca5f238ee43e14e
+  remote: https://github.com/Nerian/bootstrap-datepicker-rails.git
+  revision: 31be2ecdc26a3d82b3bacc7d003a0c4d40728120
   specs:
-    bootstrap-datepicker-rails (1.8.0.1)
+    bootstrap-datepicker-rails (1.9.0.1)
       railties (>= 3.0)
 
 GIT
@@ -426,7 +426,7 @@ DEPENDENCIES
   will_paginate (~> 3.1.0)
 
 RUBY VERSION
-   ruby 2.7.0p0
+   ruby 2.6.3p62
 
 BUNDLED WITH
    2.1.2
