@@ -1,16 +1,16 @@
 class Board
   include DataBuilderHelper
 
-  def initialize json = {}
-    parse json unless json.blank?
+  def initialize(json = {})
+    json.keys.each do |k|
+      self.send("#{k}=",nested_hash_value(json, k.to_s))
+    end unless json.blank?
   end
 
   private
 
-  def parse json
-    json.keys.each {|key|
-      v = nested_hash_value(json, key.to_s)
-      accesor_builder key, v
-    }
+  def method_missing(name,*args)
+    accesor_builder name.to_s.chop, args[0]
   end
+
 end

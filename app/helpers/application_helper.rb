@@ -1,6 +1,6 @@
 module ApplicationHelper
 	include EmailTemplateHelper
-	include JiraHelper
+	include JiraIssueHelper
 
 	def app_name
 		Vortrics.config['name']

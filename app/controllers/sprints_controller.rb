@@ -1,5 +1,6 @@
 class SprintsController < ApplicationController
   include ApplicationHelper
+
   layout 'sidenav'
   helper_method :sort_column, :sort_direction
   before_action :set_board, only: [:import]
