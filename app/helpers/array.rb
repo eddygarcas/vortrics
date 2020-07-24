@@ -11,7 +11,7 @@ class Array
   def each_sum_done key_status = [:done]
     counter = 0
     each {|issue|
-      counter += yield issue if key_status.include? issue.status.to_sym
+      counter += yield issue if key_status.include? issue.fields&.status&.statusCategory&.key&.to_sym
     }
     counter
   end

@@ -2,10 +2,6 @@ require 'jira-ruby'
 
 module JiraHelper
   include JqlHelper
-  def self.included(base)
-    base.extend(DataBuilderHelper)
-  end
-
 
   def jira_instance(setting)
     options = {

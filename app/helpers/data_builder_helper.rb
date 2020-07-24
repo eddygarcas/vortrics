@@ -1,16 +1,5 @@
 module DataBuilderHelper
 
-  class Hash
-    def method_missing(name,*args)
-      attribute = name.to_s
-      if attribute =~ /=$/
-        self[attribute.chop.to_sym] = args[0]
-      else
-        return self[attribute.to_sym]
-      end
-    end
-  end
-
   def accesor_builder k, v
     #First will create a new instance variable, value if it wasn't a Hash or Hash type instead.
     self.instance_variable_set("@#{k}", v)
@@ -33,7 +22,9 @@ module DataBuilderHelper
       #The asterisk in this context is called the "splat" operator.
       #This means you can pass multiple parameters in its place and the block will see them as an array.
       #For every Array found it make a recursive call to itself passing the last element of the array and the Key it's looking for.
-      obj.find {|*a| r = nested_hash_value(a.last, key)}
+      obj.find do |*a|
+        r = nested_hash_value(a.last, key)
+      end
       r
     end
   end

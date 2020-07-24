@@ -17,9 +17,8 @@ class SprintsController < ApplicationController
   # GET /sprints/1
   # GET /sprints/1.json
   def show
-    options = {fields: vt_jira_issue_fields}
-    @bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, options).map {|elem| JiraIssue.to_issue(elem)}
-    @sprint.changed_scope(sprint_report(@sprint.team.board_id, @sprint.sprint_id)['issueKeysAddedDuringSprint'].count) unless @sprint.team.kanban?
+    @bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, {fields: :key}).map {|elem| JiraIssue.new(elem)}
+    @sprint.changed_scope(sprint_report(@sprint.team.board_id, @sprint.sprint_id)['issueKeysAddedDuringSprint'].count) unless @sprint&.team.kanban?
   end
 
   # GET /sprints/news
@@ -32,9 +31,7 @@ class SprintsController < ApplicationController
   end
 
   def dashboards
-
   end
-
 
   #GET /sprints/1/graph_closed_by_day
   def graph_closed_by_day
@@ -42,13 +39,13 @@ class SprintsController < ApplicationController
       data = Array.new {Array.new}
 
       options = {fields: vt_jira_issue_fields}
-      bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, options).map {|elem| JiraIssue.to_issue(elem)}
+      bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, options).map {|elem| JiraIssue.new(elem)}
 
       burndown = @sprint.issues.select(&:task?).count
-      data[0] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_stories_by_date(@sprint.issues, date)}}
+      data[0] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of_by_date(@sprint.issues,:resolutiondate,:story,date)}}
       data[1] = @sprint.week_days.map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
-      data[2] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of(bugs, date, :created)}}
-      data[3] = @sprint.week_days.map.with_index {|date, index| {x: index, y: burndown = GraphHelper.number_stories_by_date(@sprint.issues, date, burndown)}}
+      data[2] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of(bugs, date, :created_at)}}
+      data[3] = @sprint.week_days.map.with_index {|date, index| {x: index, y: burndown = GraphHelper.number_of_by_date(@sprint.issues, :resolutiondate, :story, date, burndown)}}
       data
     }
 
@@ -84,7 +81,7 @@ class SprintsController < ApplicationController
 
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
 
-      issues = import_sprint(import_params[:id], options).map {|elem| JiraIssue.to_issue(elem) {|i| i.send(@team.estimated)}}
+      issues = import_sprint(import_params[:id], options).map {|elem| JiraIssue.new(elem,@team.estimated)}
       issues_save = issues.select {|el| el.closed_in.include? import_params[:id] unless el.closed_in.blank?}
 
       @team.store_sprint(issues,import_params) {Sprint.find_by_sprint_id(import_params[:id]).save_issues issues_save}
@@ -99,8 +96,8 @@ class SprintsController < ApplicationController
 
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
 
-      issues = import_sprint(@sprint.sprint_id, options).map {|elem| JiraIssue.to_issue(elem) {|i| i.send(@team.estimated)}}
-      issues_save = issues.select {|el| el.closed_in.include? @sprint.sprint_id.to_s unless el.closed_in.blank?}
+      issues = import_sprint(@sprint.sprint_id, options).map {|e| JiraIssue.new(e,@team&.estimated) }
+      issues_save = issues.select {|e| e.closed_in.include? @sprint.sprint_id.to_s unless e.closed_in.blank?}
 
       @team.update_sprint(@sprint, issues) {@sprint.save_issues issues_save}
       Rails.cache.clear

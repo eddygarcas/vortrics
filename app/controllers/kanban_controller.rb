@@ -17,9 +17,9 @@ class KanbanController < ApplicationController
     options = {fields: vt_jira_issue_fields, maxResults: 400, expand: :changelog}
 
     issues = import_kanban(@team.board_id, options).
-        map {|elem| JiraIssue.to_issue(elem) {|i| i.send(@team.estimated)}}.
+        map {|elem| JiraIssue.new(elem,@team.estimated)}.
         select(&:selectable_for_kanban?).
-        sort_by!(&:created).
+        sort_by!(&:created_at).
         reverse!
 
     last60days = issues.select { |i| i.created >= (issues.first.created - 180.days)}

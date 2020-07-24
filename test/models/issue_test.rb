@@ -25,9 +25,23 @@ class IssueTest < Test::Unit::TestCase
     }
   end
 
+  def test_create_elements_using_method_missing
+    config = JiraIssue.new
+
+    config.some = 'test'
+    config.other = 'test2'
+    config.yet_one_more = {}
+    config.yet_one_more.test = 'test'
+
+    assert_equal config.some,'test'
+    assert_equal config.other,'test2'
+    assert_equal config.yet_one_more.test,"test"
+  end
+
   def test_jira_parse_issue
     issue = JiraIssue.new(@elem_string)
     assert_equal 2.0, issue.fields.customfield_10002
   end
+
 
 end

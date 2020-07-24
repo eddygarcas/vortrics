@@ -203,7 +203,7 @@ class Team < ApplicationRecord
 
   def store_sprint issues, params = nil
     store_scrum_sprint issues do
-      params.blank? ? {id: nil, name: "#{name} Kanban", endDate: Time.zone.now.to_date, startDate: issues.last.created} :
+      params.blank? ? {id: nil, name: "#{name} Kanban", endDate: Time.zone.now.to_date, startDate: issues.last.created_at} :
           {id: params[:id], name: params['name'], endDate: params['endDate'], startDate: params['startDate']}
     end
     yield
@@ -241,16 +241,15 @@ class Team < ApplicationRecord
     current_issues = sprintid.present? ? issues.select {|el| el.closed_in.include? sprintid unless el.closed_in.blank?} : issues
     exclude_issue =  sprintid.present? ? issues.select {|el| el.closed_in.exclude? sprintid unless el.closed_in.blank?} : []
 
-
-    sprintData[:closed_points] = current_issues.each_sum_done {|elem| elem.customfield_11802.to_i}
+    sprintData[:closed_points] = current_issues.each_sum_done {|elem| elem.story_points.to_i}
     sprintData[:stories] = current_issues.each_sum_done {|elem| elem.task? ? 1 : 0}
     sprintData[:bugs] = current_issues.each_sum_done {|elem| elem.bug? ? 1 : 0}
 
     sprintData[:openstories] = current_issues.each_sum_done([:new, :indeterminate]) {|elem| elem.task? ? 1 : 0}
-    sprintData[:remaining_points] = current_issues.each_sum_done([:new, :indeterminate]) {|elem| elem.customfield_11802.to_i}
+    sprintData[:remaining_points] = current_issues.each_sum_done([:new, :indeterminate]) {|elem| elem.story_points.to_i}
 
     sprintData[:openstories] += exclude_issue.select(&:task?).count
-    sprintData[:remaining_points] += exclude_issue.each_sum {|elem| elem.customfield_11802.to_i}
+    sprintData[:remaining_points] += exclude_issue.each_sum {|elem| elem.story_points.to_i}
     sprintData
   end
 

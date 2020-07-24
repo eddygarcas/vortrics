@@ -64,11 +64,11 @@ class TeamsController < ApplicationController
       points = issues.map { |elem| elem.customfield_11802.to_i }.inject(0) { |sum, x| sum + x }
 
       #To get the amount of stories closed by an specific day, will map the whole issues array counting items chechking whether its resolutiondate matches a specific date.
-      data[0] = @team.sprint.week_days.map.with_index { |date, index| {x: index, y: GraphHelper.number_stories_by_date(issues, date)} }
+      data[0] = @team.sprint.week_days.map.with_index { |date, index| {x: index, y: GraphHelper.number_of_by_date(@sprint.issues,:resolutiondate,:story,date)} }
       data[1] = @team.sprint.week_days.map.with_index { |date, index| {x: index, y: date.strftime("%b %d")} }
-      data[2] = @team.sprint.week_days.map.with_index { |date, index| {x: index, y: GraphHelper.number_stories_in_progress(issues, date)} }
-      data[3] = @team.sprint.week_days.map.with_index { |date, index| {x: index, y: burndown = GraphHelper.number_stories_by_date(issues, date, burndown)} }
-      data[4] = @team.sprint.week_days.map.with_index { |date, index| {x: index, y: points = GraphHelper.number_points_by_date(issues, date, points)} }
+      data[2] = @team.sprint.week_days.map.with_index { |date, index| {x: index, y: GraphHelper.number_of(issues, date,:updated)} }
+      data[3] = @team.sprint.week_days.map.with_index { |date, index| {x: index, y: burndown = GraphHelper.number_of_by_date(issues,:resolutiondate,:story,date,burndown)} }
+      data[4] = @team.sprint.week_days.map.with_index { |date, index| {x: index, y: points = GraphHelper.number_of_by_date(issues,:resolutiondate,:points,date,points)} }
       data
     }
     render json: data
@@ -240,7 +240,7 @@ class TeamsController < ApplicationController
 
   def bugs_selectable_for_graph
     options = {fields: vt_jira_issue_fields, maxResults: 400}
-    bugs = bug_for_board(@team.board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"), options).map { |elem| JiraIssue.to_issue(elem) }
+    bugs = bug_for_board(@team.board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"), options).map { |elem| JiraIssue.new(elem).to_issue }
     bugs.sort_by!(&:created)
   end
 

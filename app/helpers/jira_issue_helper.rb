@@ -1,18 +1,30 @@
 module JiraIssueHelper
-  extend JiraHelper
+
+  class Hash
+    def method_missing(name,*args)
+      attribute = name.to_s
+      if attribute =~ /=$/
+        self[attribute.chop.to_sym] = args[0]
+      else
+        return self[attribute.to_sym]
+      end
+    end
+  end
 
   class JiraIssue
-    def initialize(json = nil)
+    def initialize(json = nil,estimation = nil)
       @attributes = {}
+      @estimation_field = ""
       json.each do |k, v|
         self.send("#{k}=", v)
       end unless json.blank?
+      @estimation_field = estimation unless estimation.blank?
     end
 
     def method_missing(name, *args)
       attribute = name.to_s.start_with?(/\d/) ? "_#{name.to_s}" : name.to_s
       if attribute =~ /=$/
-        if args[0].respond_to?(:key?)
+        if args[0].respond_to?(:key?) || args[0].is_a?(Hash)
           @attributes[attribute.chop] = JiraIssue.new(args[0])
         else
           @attributes[attribute.chop] = args[0]
@@ -22,45 +34,78 @@ module JiraIssueHelper
       end
     end
 
-    def self.to_issue elem
-      jissue = JiraIssue.new(elem)
-      issue = Issue.find_by_key(jissue.key)
+    def to_issue
+      issue = Issue.find_by_key(key)
       issue = Issue.new if issue.nil?
-      issue.key = jissue.key
-      issue.issuetype = jissue.fields.issuetype&.name
-      issue.issueicon = jissue.fields.issuetype&.iconUrl
-      issue.issuetypeid = jissue.fields.issuetype&.id.to_i
-      issue.summary = jissue.fields.summary
-      issue.closed_in = jissue.fields.sprint_info&.self
-      issue.customfield_11382 = jissue.fields.count_sprints
-      issue.description = jissue.fields.description
-      issue.priority = jissue.fields.priority&.name
-      issue.priorityicon = jissue.fields.priority&.iconUrl
-      issue.components = jissue.fields.components&.map {|elem| elem['name']}.join(",")
-      issue.status = jissue.fields.status&.statusCategory.key
-      issue.statusname = jissue.fields.status&.statusCategory.name
-      issue.assignee = jissue.fields.assignee&.displayName
-      issue.assigneeavatar = jissue.fields.assignee&.avatarUrls&._32x32
-      issue.created = jissue.fields.created
-      issue.updated = jissue.fields.updated
-      issue.resolutiondate = jissue.fields.resolutiondate
-      issue.histories = jissue.changelog&.histories
-      issue.customfield_11802 = yield jissue if block_given?
+      issue.key = key
+      issue.issuetype = fields.issuetype&.name
+      issue.issueicon = fields.issuetype&.iconUrl
+      issue.issuetypeid = fields.issuetype&.id.to_i
+      issue.summary = fields.summary
+      issue.closed_in = fields.sprint_info&.self
+      issue.customfield_11382 = fields.count_sprints
+      issue.description = fields.description
+      issue.priority = fields.priority&.name
+      issue.priorityicon = fields.priority&.iconUrl
+      issue.components = fields.components&.map {|elem| elem['name']}.join(",")
+      issue.status = fields.status&.statusCategory.key
+      issue.statusname = fields.status&.statusCategory.name
+      issue.assignee = fields.assignee&.displayName
+      issue.assigneeavatar = fields.assignee&.avatarUrls&._32x32
+      issue.created = created_at
+      issue.updated = fields.updated
+      issue.resolutiondate = fields.resolutiondate
+      issue.histories = changelog&.histories
+      issue.customfield_11802 = story_points
       issue
     end
 
+    def story_points
+      self.send("fields").send(@estimation_field)
+    end
+
+    def created_at
+      fields&.created
+    end
+
+    def closed_in
+      sprint_info&.self
+    end
+
     def count_sprints
-      return 0 if closedSprints.blank?
-      closedSprints.count.to_i
+      return 0 if fields&.closedSprints.blank?
+      fields&.closedSprints.count.to_i
     end
 
     def sprint_info
-      return sprint unless sprint.blank?
-      return closed_sprints unless closedSprints.blank?
+      return fields.sprint unless fields&.sprint.blank?
+      return JiraIssue.new(closed_sprints) unless fields&.closedSprints.blank?
     end
 
+    def selectable_for_kanban?
+       !epic? && !subtask?
+    end
+
+    def epic?
+      fields.issuetype.name.downcase.eql?('epic')
+    end
+
+    def task?
+      !subtask? && !bug? && !epic?
+    end
+
+    def subtask?
+      (fields.issuetype.id.to_i.eql? 10104 || fields.issuetype.name.downcase.eql?('subtask'))
+    end
+
+    def bug?
+      (fields.issuetype.id.to_i.eql?(4) || fields.issuetype.name.downcase.eql?('bug'))
+    end
+
+    private
+
     def closed_sprints
-      closedSprints.sort {|x, y| Time.parse(x['completeDate']) <=> Time.parse(y['completeDate'])}.last unless closedSprints.blank?
+      fields&.closedSprints.sort {|x, y| Time.parse(x['completeDate']) <=> Time.parse(y['completeDate'])}.last unless fields&.closedSprints.blank?
     end
   end
 end
