@@ -15,15 +15,25 @@ class KanbanController < ApplicationController
   #GET /kanban/import
   def import_issues
     options = {fields: vt_jira_issue_fields, maxResults: 400, expand: :changelog}
+    pp "#{@team.name} id #{@team.id} board id #{@team.board_id} options #{options}"
 
     issues = import_kanban(@team.board_id, options).
         map {|elem| JiraIssue.new(elem,@team.estimated)}.
         select(&:selectable_for_kanban?).
         sort_by!(&:created_at).
         reverse!
+    last60days = issues.select { |i| i.created_at >= (issues.first.created_at - 180.days)}
 
-    last60days = issues.select { |i| i.created >= (issues.first.created - 180.days)}
-    @team.store_sprint(last60days) { Sprint.find_by_sprint_id(@team.board_id).save_issues last60days}
+    sprint_data = SprintsHelper::SprintBuilder.new(issues,{
+        id: @team.board_id,
+        team_id: @team.id,
+        board_type: @team.board_type,
+        name: "#{@team.name} Kanban",
+        endDate: Time.zone.now.to_date,
+        startDate: issues.last.created_at
+    })
+    @team.update_active_sprint(sprint_data.to_sprint)
+    @team.sprint.save_issues last60days
     Rails.cache.clear
     redirect_to sprint_path(@team.sprint), notice: "Kanban board has been updated"
   end

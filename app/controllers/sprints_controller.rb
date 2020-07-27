@@ -80,14 +80,17 @@ class SprintsController < ApplicationController
     unless import_params[:id].blank?
 
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
-
-      issues = import_sprint(import_params[:id], options).map {|elem| JiraIssue.new(elem,@team.estimated)}
-      issues_save = issues.select {|el| el.closed_in.include? import_params[:id] unless el.closed_in.blank?}
-
-      @team.store_sprint(issues,import_params) {Sprint.find_by_sprint_id(import_params[:id]).save_issues issues_save}
+      criteria = import_params
+      criteria[:team_id] = @team.id
+      criteria[:board_type] = @team.board_type
+      issues = import_sprint(criteria[:id], options).map {|elem| JiraIssue.new(elem,@team.estimated)}
+      issues_save = issues.select {|el| el.closed_in.include? criteria[:id] unless el.closed_in.blank?}
+      sprint_data = SprintsHelper::SprintBuilder.new(issues,criteria)
+      @team.update_active_sprint(sprint_data.to_sprint)
+      @team.sprint.save_issues issues_save
       Rails.cache.clear
     end
-    redirect_to sprint_import_url(import_params[:originBoardId]), notice: 'Sprint has successfully been imported.'
+    redirect_to sprint_import_url(criteria[:originBoardId]), notice: 'Sprint has successfully been imported.'
   end
 
   def refresh_issues
@@ -99,7 +102,10 @@ class SprintsController < ApplicationController
       issues = import_sprint(@sprint.sprint_id, options).map {|e| JiraIssue.new(e,@team&.estimated) }
       issues_save = issues.select {|e| e.closed_in.include? @sprint.sprint_id.to_s unless e.closed_in.blank?}
 
-      @team.update_sprint(@sprint, issues) {@sprint.save_issues issues_save}
+      sprint_data = SprintsHelper::SprintBuilder.new(issues,{id: @team.sprint.sprint_id.to_s, team_id: @team.id,board_type: @team.board_type})
+      pp sprint_data.to_sprint
+      @sprint.update(sprint_data.to_sprint)
+      @sprint.save_issues issues_save
       Rails.cache.clear
     end
     redirect_to sprint_path(@sprint), notice: 'Sprint has successfully been updated.'

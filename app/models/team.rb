@@ -152,7 +152,6 @@ class Team < ApplicationRecord
     end
   end
 
-
   def array_of_data_for_graph column_name
     stories_data = []
     sprints.select(column_name).order(:enddate).each_with_index {|x, index| stories_data << [index, x[column_name]]}
@@ -189,77 +188,13 @@ class Team < ApplicationRecord
     issue
   end
 
-  def update_sprint sprint, issues
-    data = sprint_data issues, sprint.sprint_id.to_s
-    sprint.closed_points = data[:closed_points]
-    sprint.stories = data[:stories]
-    sprint.bugs = data[:bugs]
-    sprint.remainingstories = data[:openstories]
-    sprint.remaining_points = data[:remaining_points]
-    if sprint.save!
-      yield
-    end
-  end
-
-  def store_sprint issues, params = nil
-    store_scrum_sprint issues do
-      params.blank? ? {id: nil, name: "#{name} Kanban", endDate: Time.zone.now.to_date, startDate: issues.last.created_at} :
-          {id: params[:id], name: params['name'], endDate: params['endDate'], startDate: params['startDate']}
-    end
-    yield
-
+  def update_active_sprint p = {}
+    Sprint.find_or_initialize_by(sprint_id: p[:id]).update(p)
   end
 
   protected
-
-  def store_scrum_sprint issues
-
-    sprint_params = yield
-    enddate = sprint_params[:endDate].blank? ? Time.new.to_date : sprint_params[:endDate].to_date
-    startdate = sprint_params[:startDate].blank? ? Time.new.to_date : sprint_params[:startDate].to_date
-
-    data = sprint_data issues, sprint_params[:id]
-
-    update_active_sprint sprint: {
-        name: sprint_params[:name],
-        stories: data[:stories],
-        remainingstories: data[:openstories],
-        bugs: data[:bugs],
-        closed_points: data[:closed_points],
-        remaining_points: data[:remaining_points],
-        enddate: enddate,
-        start_date: startdate,
-        team_id: id,
-        sprint_id: sprint_params[:id].blank? ? board_id : sprint_params[:id]
-    }
-  end
-
-  def sprint_data issues, sprintid = nil
-    #At this point issue has all closed in this sprint and the future ones.
-    sprintData = {}
-
-    current_issues = sprintid.present? ? issues.select {|el| el.closed_in.include? sprintid unless el.closed_in.blank?} : issues
-    exclude_issue =  sprintid.present? ? issues.select {|el| el.closed_in.exclude? sprintid unless el.closed_in.blank?} : []
-
-    sprintData[:closed_points] = current_issues.each_sum_done {|elem| elem.story_points.to_i}
-    sprintData[:stories] = current_issues.each_sum_done {|elem| elem.task? ? 1 : 0}
-    sprintData[:bugs] = current_issues.each_sum_done {|elem| elem.bug? ? 1 : 0}
-
-    sprintData[:openstories] = current_issues.each_sum_done([:new, :indeterminate]) {|elem| elem.task? ? 1 : 0}
-    sprintData[:remaining_points] = current_issues.each_sum_done([:new, :indeterminate]) {|elem| elem.story_points.to_i}
-
-    sprintData[:openstories] += exclude_issue.select(&:task?).count
-    sprintData[:remaining_points] += exclude_issue.each_sum {|elem| elem.story_points.to_i}
-    sprintData
-  end
-
-  #Sprit by a given team id
   def sum_by_colum column_name
     sum_colum = sprints.select(column_name).average(column_name)
     sum_colum.blank? ? 0 : sum_colum
-  end
-
-  def update_active_sprint p = {}
-    Sprint.find_or_initialize_by(name: p[:sprint][:name]).update(p[:sprint])
   end
 end

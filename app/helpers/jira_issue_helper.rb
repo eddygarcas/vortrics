@@ -65,7 +65,7 @@ module JiraIssueHelper
     end
 
     def created_at
-      fields&.created
+      fields&.created&.to_datetime
     end
 
     def closed_in
@@ -95,11 +95,11 @@ module JiraIssueHelper
     end
 
     def subtask?
-      (fields.issuetype.id.to_i.eql? 10104 || fields.issuetype.name.downcase.eql?('subtask'))
+      fields&.issuetype&.subtask
     end
 
     def bug?
-      (fields.issuetype.id.to_i.eql?(4) || fields.issuetype.name.downcase.eql?('bug'))
+      fields.issuetype.name.downcase.eql?('bug')
     end
 
     private
@@ -107,5 +107,6 @@ module JiraIssueHelper
     def closed_sprints
       fields&.closedSprints.sort {|x, y| Time.parse(x['completeDate']) <=> Time.parse(y['completeDate'])}.last unless fields&.closedSprints.blank?
     end
+
   end
 end

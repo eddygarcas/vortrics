@@ -42,11 +42,11 @@ class Issue < ApplicationRecord
   end
 
   def subtask?
-    (issuetypeid.eql? 10104 || issuetype.downcase.eql?('subtask'))
+    issuetype.downcase.eql?('subtask')
   end
 
   def bug?
-    (issuetypeid.eql?(4) || issuetype.downcase.eql?('bug'))
+    issuetype.downcase.eql?('bug')
   end
 
   def epic?
