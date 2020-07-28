@@ -20,18 +20,8 @@ module ApplicationHelper
 		@team.project_info.name.humanize
 	end
 
-	def board_by_team info = nil
-		key =  info.present? ? info.key : project_list.first.key
-		return { name: 'None' } if key.blank?
-		boards_by_project(key)['values'].map{ |c| Board.new(c) }
-	end
-
 	def board_name team
 		boards_by_project(team.project_info.key)['values'].map { |c| Board.new(c) }.find{|board| board.id.eql? team.board_id}.name
-	end
-
-	def fa_radio_tag(name, value = 1)
-		radio_button_tag(name, value)
 	end
 
 	def vt_items_text_tag
