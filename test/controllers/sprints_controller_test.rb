@@ -26,8 +26,8 @@ class SprintsControllerTest < ActionDispatch::IntegrationTest
   # end
 
   test "should retrieve project information" do
-    JiraHelper.stubs(:current_project).returns(file_fixture('current_project.json').read)
-    assert_equal JiraHelper.current_project('MTR-1111'), file_fixture('current_project.json').read
+    JiraActions.stubs(:current_project).returns(file_fixture('current_project.json').read)
+    assert_equal JiraActions.current_project('MTR-1111'), file_fixture('current_project.json').read
   end
 
   test "should get edit" do

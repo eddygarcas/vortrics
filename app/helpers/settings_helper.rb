@@ -1,5 +1,5 @@
 module SettingsHelper
-	include JiraHelper
+	include JiraActions
 
 	def jira_field_list project
 		field_list(project).invert

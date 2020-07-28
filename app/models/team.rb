@@ -4,7 +4,7 @@ require_relative '../../app/helpers/array'
 require_relative '../../app/helpers/numeric'
 
 class Team < ApplicationRecord
-  include JiraHelper
+  include JiraActions
   belongs_to :project_info
 
   has_many :sprints, -> {order(enddate: :desc)}, dependent: :destroy

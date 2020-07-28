@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-	include JiraHelper
+	include JiraActions
 	protect_from_forgery with: :exception
 	#Will only get into JIRA if a Devise user has logged in
 	#It calls get_jira_client every time a redirect is requested.
