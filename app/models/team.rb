@@ -21,7 +21,7 @@ class Team < ApplicationRecord
   scope :progress_by_project, -> (key) {where("project = ?", key).all.sort_by {|e| e.sprint.enddate}}
 
   def sprint
-    sprints.active
+     sprints.active
   end
 
   def issues
@@ -120,29 +120,6 @@ class Team < ApplicationRecord
     Montecasting::Metrics.variance(sprints.recent.map(&:stories)).round(0)
   end
 
-  def trend_stories
-    begin
-      return 0 if sprint.blank? || (sprint.stories.eql? 0)
-      sprint.stories.percent_of(average_stories).round - 100
-    rescue Errors
-      0
-    end
-  end
-
-  def trend_bugs
-    begin
-      return 0 if sprint.blank? || (sprint.bugs.eql? 0)
-      sprint.bugs.percent_of(average_bugs).round - 100
-    rescue StandardError
-      0
-    end
-  end
-
-  def trend_points
-    return 0 if sprint.blank? || (sprint.closed_points.eql? 0)
-    (sprint.closed_points - average_closed_points).round
-  end
-
   def bar_percent_of tag = :new?
     return 0 if sprint.blank? || sprint.issues.blank?
     begin
@@ -171,7 +148,6 @@ class Team < ApplicationRecord
     data.to_json(except: :id)
   end
 
-
   def all_sprint_names
     sprints.names_safe
   end
@@ -193,6 +169,7 @@ class Team < ApplicationRecord
   end
 
   protected
+
   def sum_by_colum column_name
     sum_colum = sprints.select(column_name).average(column_name)
     sum_colum.blank? ? 0 : sum_colum

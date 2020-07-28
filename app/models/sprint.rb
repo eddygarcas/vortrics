@@ -44,6 +44,30 @@ class Sprint < ApplicationRecord
     issues.exists?
   end
 
+  def trend_stories
+    begin
+      return 0 if self.blank? || (stories.eql? 0)
+      stories.percent_of(team.average_stories).round - 100
+    rescue Errors
+      0
+    end
+  end
+
+  def trend_bugs
+    begin
+      return 0 if self.blank? || (bugs.eql? 0)
+      bugs.percent_of(team.average_bugs).round - 100
+    rescue StandardError
+      0
+    end
+  end
+
+  def trend_points
+    return 0 if self.blank? || (closed_points.eql? 0)
+    (closed_points - team.average_closed_points).round
+  end
+
+
   def items_flagged_by_sprint
     items_flagged.count
   end
