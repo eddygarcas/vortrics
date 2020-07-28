@@ -107,11 +107,12 @@ module JiraHelper
     jira_instance(current_user.setting).Issue.find(key, fields: :attachment).attachments
   end
 
-  def bug_for_board boardid, startdate, options = {}, status = nil
+  def bug_for_board boardid, startdate, enddate = nil, options = {}, status = nil
     return if current_user.setting.blank?
     elems = Rails.cache.fetch("bug_for_board_#{boardid}_#{startdate.to_s}", expires_in: 1.day) {
       param_hash = {issuetype: "='Bug'"}
       param_hash.merge!({created: ">='#{startdate}'"})
+      param_hash.merge!({resolutiondate: "<='#{enddate}'"}) unless enddate.blank?
       param_hash.merge!({status: "='#{status}'"}) unless status.blank?
       query_params = {:jql => parse_jql_paramters(param_hash)}
 

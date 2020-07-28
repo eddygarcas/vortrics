@@ -18,22 +18,6 @@ class Sprint < ApplicationRecord
     end
   end
 
-  def next
-    begin
-      team.sprints.where("id > ?", id).first!
-    rescue ActiveRecord::RecordNotFound => e
-      return self
-    end
-  end
-
-  def prev
-    begin
-      team.sprints.where("id < ?", id).last!
-    rescue ActiveRecord::RecordNotFound => e
-      return self
-    end
-  end
-
   def active_sprints project
     Rails.cache.fetch("active_sprints_#{project}", expires_in: 1.hour) {
       Sprint.joins(:team).select('sprints.*,teams.name as team_name').where('project = ? and enddate >= ? ', project, Date.today.prev_weekday)

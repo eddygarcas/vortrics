@@ -17,7 +17,7 @@ class SprintsController < ApplicationController
   # GET /sprints/1
   # GET /sprints/1.json
   def show
-    @bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, {fields: :key}).map {|elem| JiraIssue.new(elem)}
+    @bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, @sprint.enddate,{fields: :key}).map {|elem| JiraIssue.new(elem)}
     @sprint.changed_scope(sprint_report(@sprint.team.board_id, @sprint.sprint_id)['issueKeysAddedDuringSprint'].count) unless @sprint&.team.kanban?
   end
 
@@ -37,10 +37,7 @@ class SprintsController < ApplicationController
   def graph_closed_by_day
     data = Rails.cache.fetch("graph_closed_by_day_sprint_#{@sprint.id}", expires_in: 30.minutes) {
       data = Array.new {Array.new}
-
-      options = {fields: vt_jira_issue_fields}
-      bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, options).map {|elem| JiraIssue.new(elem)}
-
+      bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date,@sprint.enddate, {fields: :created}).map {|elem| JiraIssue.new(elem)}
       burndown = @sprint.issues.select(&:task?).count
       data[0] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of_by_date(@sprint.issues,:resolutiondate,:story,date)}}
       data[1] = @sprint.week_days.map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
