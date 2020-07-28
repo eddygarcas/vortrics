@@ -1,7 +1,7 @@
 require 'test_helper'
 require_relative '../../app/helpers/jira_actions'
 
-class JiraHelperTest < ActionView::TestCase
+class JiraActionsTest < ActionView::TestCase
   include Devise::Test::IntegrationHelpers
 
   def current_user
