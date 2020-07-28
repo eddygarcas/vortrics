@@ -125,12 +125,12 @@ class TeamsController < ApplicationController
   def graph_ratio_bugs_closed
     data = Rails.cache.fetch("graph_ratio_bugs_closed_#{@team.id}", expires_in: 30.minutes) {
       data = Array.new { Array.new }
-      bugs = bugs_selectable_for_graph
+      bugs = bugs_selectable_for_graph.map { |elem| JiraIssue.new(elem) }.sort_by!(&:created_at)
       sum_open = 0
       sum_closed = 0
       data[2] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| {x: index, y: day.strftime("%d/%m")} }
-      data[0] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| {x: index, y: sum_open += (GraphHelper.number_of(bugs, day, :created) - GraphHelper.number_of(bugs, day, :resolutiondate))} }
-      data[1] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| {x: index, y: sum_closed += GraphHelper.number_of(bugs, day, :resolutiondate)} }
+      data[0] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| {x: index, y: sum_open += (GraphHelper.number_of(bugs, day, :created_at) - GraphHelper.number_of(bugs, day, :resolution_date))} }
+      data[1] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| {x: index, y: sum_closed += GraphHelper.number_of(bugs, day, :resolution_date)} }
       data
     }
     render json: data
@@ -140,7 +140,7 @@ class TeamsController < ApplicationController
   def graph_lead_time_bugs
     data = Rails.cache.fetch("graph_lead_time_bugs_team_#{@team.id}", expires_in: 30.minutes) {
       data = Array.new { Array.new }
-      bugs = bugs_selectable_for_graph
+      bugs = bugs_selectable_for_graph.map { |elem| JiraIssue.new(elem).to_issue }.sort_by!(&:created)
       data[0] = bugs.map.with_index { |issue, index| {x: index, y: issue.key} }
       data[1] = bugs.map.with_index { |issue, index| {x: index, y: issue.time_in({toString: :first},{toString: :wip}, false).abs} }
       data[2] = bugs.map.with_index { |issue, index| {x: index, y: issue.flagged?} }
@@ -192,7 +192,7 @@ class TeamsController < ApplicationController
   end
 
   def support
-    @support_bugs = bugs_selectable_for_graph.sort_by(&:lead_time)
+    @support_bugs = bugs_selectable_for_graph.map { |elem| JiraIssue.new(elem).to_issue }.sort_by!(&:lead_time)
     @comments = issue_first_comments @team.board_id
   end
 
@@ -240,8 +240,7 @@ class TeamsController < ApplicationController
 
   def bugs_selectable_for_graph
     options = {fields: vt_jira_issue_fields, maxResults: 400}
-    bugs = bug_for_board(@team.board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"), options).map { |elem| JiraIssue.new(elem).to_issue }
-    bugs.sort_by!(&:created)
+    bug_for_board(@team.board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"), options)
   end
 
 

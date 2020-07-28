@@ -1,7 +1,8 @@
 module JiraIssueHelper
 
   class JiraIssue
-    def initialize(json = nil,estimation = nil)
+
+    def initialize(json = nil, estimation = nil)
       @attributes = {}
       @estimation_field = ""
       json.each do |k, v|
@@ -24,8 +25,7 @@ module JiraIssueHelper
     end
 
     def to_issue
-      issue = Issue.find_by_key(key)
-      issue = Issue.new if issue.nil?
+      issue = Issue.new
       issue.key = key
       issue.issuetype = fields.issuetype&.name
       issue.issueicon = fields.issuetype&.iconUrl
@@ -49,12 +49,42 @@ module JiraIssueHelper
       issue
     end
 
+    def to_h
+      {
+          key: key,
+          issuetype: fields.issuetype&.name,
+          issueicon: fields.issuetype&.iconUrl,
+          issuetypeid: fields.issuetype&.id.to_i,
+          summary: fields.summary,
+          closed_in: fields.sprint_info&.self,
+          customfield_11382: fields.count_sprints,
+          description: fields.description,
+          priority: fields.priority&.name,
+          priorityicon: fields.priority&.iconUrl,
+          components: fields.components&.map {|elem| elem['name']}.join(","),
+          status: fields.status&.statusCategory.key,
+          statusname: fields.status&.statusCategory.name,
+          assignee: fields.assignee&.displayName,
+          assigneeavatar: fields.assignee&.avatarUrls&._32x32,
+          created: created_at,
+          updated: fields.updated,
+          resolutiondate: fields.resolutiondate,
+          histories: changelog&.histories,
+          customfield_11802: story_points
+      }.compact
+    end
+
+
     def story_points
       self.send("fields").send(@estimation_field)
     end
 
     def created_at
       fields&.created&.to_datetime
+    end
+
+    def resolution_date
+      fields&.resolutiondate
     end
 
     def closed_in
@@ -72,7 +102,7 @@ module JiraIssueHelper
     end
 
     def selectable_for_kanban?
-       !epic? && !subtask?
+      !epic? && !subtask?
     end
 
     def epic?

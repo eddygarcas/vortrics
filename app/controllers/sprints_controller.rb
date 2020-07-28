@@ -78,7 +78,6 @@ class SprintsController < ApplicationController
 
   def import_issues
     unless import_params[:id].blank?
-
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
       criteria = import_params
       criteria[:team_id] = @team.id
@@ -87,7 +86,7 @@ class SprintsController < ApplicationController
       issues_save = issues.select {|el| el.closed_in.include? criteria[:id] unless el.closed_in.blank?}
       sprint_data = SprintsHelper::SprintBuilder.new(issues,criteria)
       @team.update_active_sprint(sprint_data.to_sprint)
-      @team.sprint.save_issues issues_save
+      @team.sprints.find_by(sprint_id: sprint_data.id).save_issues issues_save
       Rails.cache.clear
     end
     redirect_to sprint_import_url(criteria[:originBoardId]), notice: 'Sprint has successfully been imported.'
@@ -103,7 +102,6 @@ class SprintsController < ApplicationController
       issues_save = issues.select {|e| e.closed_in.include? @sprint.sprint_id.to_s unless e.closed_in.blank?}
 
       sprint_data = SprintsHelper::SprintBuilder.new(issues,{id: @team.sprint.sprint_id.to_s, team_id: @team.id,board_type: @team.board_type})
-      pp sprint_data.to_sprint
       @sprint.update(sprint_data.to_sprint)
       @sprint.save_issues issues_save
       Rails.cache.clear

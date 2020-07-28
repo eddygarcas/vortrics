@@ -8,15 +8,11 @@ class Sprint < ApplicationRecord
   scope :recent, -> {where('enddate <= ?', Date.today).take(5)}
   scope :names_safe, -> {select(:name).order(:enddate).to_json(except: :id).html_safe}
 
-  # issues.each {|i| i.sprint_id = id}
-  # issues.each(&:save!)
-  # issues.each(&:save_changelog)
   def save_issues jiraissue = []
     Issue.transaction do
       jiraissue.each do |i|
-        issue = i.to_issue
-        issue.sprint_id = id
-        issue.save!
+        issue = Issue.find_or_initialize_by(key: i.key,sprint_id: id)
+        issue.update(i.to_h)
         issue.save_changelog
       end
     end
