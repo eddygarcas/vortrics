@@ -85,7 +85,7 @@ module JiraHelper
 
   def issue_first_comments board_id
       options = {fields: vt_jira_issue_fields, maxResults: 400}
-      items = bug_for_board(board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"), options)
+      items = bug_for_board(board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"),nil, options)
       items.map! { |elem| {
           priority: { icon: elem.dig('fields','priority','iconUrl'), name: elem.dig('fields','priority','name') },
           status: { icon: elem.dig('fields','status','iconUrl'), name: elem.dig('fields','status','name')},

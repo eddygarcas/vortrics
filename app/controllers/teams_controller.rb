@@ -240,7 +240,7 @@ class TeamsController < ApplicationController
 
   def bugs_selectable_for_graph
     options = {fields: vt_jira_issue_fields, maxResults: 400}
-    bug_for_board(@team.board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"), options)
+    bug_for_board(@team.board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"),nil, options)
   end
 
 
