@@ -110,7 +110,7 @@ module ApplicationHelper
 	def vt_project_tag project
 		elem = ""
 		options = { fields: [:project], maxResults: 1 }
-		issue = JiraIssue.new(current_project(project, options).first)
+		issue = IssueBuilder.new(current_project(project, options).first)
 		project_name = issue&.fields&.project.blank? ? 'n/d' : issue.fields.project.name
 		project_icon = issue&.fields&.project.blank? ? '' : issue.fields.project.avatarUrls._32x32
 		elem << image_tag(project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30')

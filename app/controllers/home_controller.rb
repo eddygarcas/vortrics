@@ -1,6 +1,3 @@
-require_relative '../../app/helpers/numeric'
-require_relative '../../app/models/change_log'
-
 class HomeController < ApplicationController
   layout 'sidenav'
   before_action :set_dashboard, only: [:sidenav, :dashboard, :manage_users]

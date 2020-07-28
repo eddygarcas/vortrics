@@ -1,26 +1,14 @@
 module SprintsHelper
 
   class SprintBuilder
+    include Builder
+    alias :super_initialize :initialize
+
     def initialize(issues = [], params = nil)
-      @attributes = {}
-      params.each do |k, v|
-        self.send("#{k}=", v)
-      end unless params.blank?
+      super_initialize params
       generate_sprint_info(issues) unless issues.blank?
     end
 
-    def method_missing(name, *args)
-      attribute = name.to_s.start_with?(/\d/) ? "_#{name.to_s}" : name.to_s
-      if attribute =~ /=$/
-        if args[0].respond_to?(:key?) || args[0].is_a?(Hash)
-          @attributes[attribute.chop] = SprintBuilder.new(args[0])
-        else
-          @attributes[attribute.chop] = args[0]
-        end
-      else
-        @attributes[attribute]
-      end
-    end
 
     def generate_sprint_info(issues = nil)
       current_issues = scrum? ? issues.select {|el| el.closed_in.include? id} : issues

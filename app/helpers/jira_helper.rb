@@ -1,4 +1,5 @@
 require 'jira-ruby'
+require_relative 'file'
 
 module JiraHelper
   include JqlHelper

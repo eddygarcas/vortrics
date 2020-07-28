@@ -1,7 +1,3 @@
-require 'jira-ruby'
-require_relative '../../app/helpers/jira_helper'
-require_relative '../../app/helpers/file'
-
 class ApplicationController < ActionController::Base
 	include JiraHelper
 	protect_from_forgery with: :exception

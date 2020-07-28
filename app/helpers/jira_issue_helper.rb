@@ -1,27 +1,12 @@
 module JiraIssueHelper
 
-  class JiraIssue
+  class IssueBuilder
+    include Builder
+    alias :super_initialize :initialize
 
     def initialize(json = nil, estimation = nil)
-      @attributes = {}
-      @estimation_field = ""
-      json.each do |k, v|
-        self.send("#{k}=", v)
-      end unless json.blank?
-      @estimation_field = estimation unless estimation.blank?
-    end
-
-    def method_missing(name, *args)
-      attribute = name.to_s.start_with?(/\d/) ? "_#{name.to_s}" : name.to_s
-      if attribute =~ /=$/
-        if args[0].respond_to?(:key?) || args[0].is_a?(Hash)
-          @attributes[attribute.chop] = JiraIssue.new(args[0])
-        else
-          @attributes[attribute.chop] = args[0]
-        end
-      else
-        @attributes[attribute]
-      end
+      super_initialize json
+      @estimation_field = estimation || ""
     end
 
     def to_issue
@@ -74,7 +59,6 @@ module JiraIssueHelper
       }.compact
     end
 
-
     def story_points
       self.send("fields").send(@estimation_field)
     end
@@ -98,7 +82,7 @@ module JiraIssueHelper
 
     def sprint_info
       return fields.sprint unless fields&.sprint.blank?
-      return JiraIssue.new(closed_sprints) unless fields&.closedSprints.blank?
+      return IssueBuilder.new(closed_sprints) unless fields&.closedSprints.blank?
     end
 
     def selectable_for_kanban?

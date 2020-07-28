@@ -18,7 +18,7 @@ class KanbanController < ApplicationController
     pp "#{@team.name} id #{@team.id} board id #{@team.board_id} options #{options}"
 
     issues = import_kanban(@team.board_id, options).
-        map {|elem| JiraIssue.new(elem,@team.estimated)}.
+        map {|elem| IssueBuilder.new(elem,@team.estimated)}.
         select(&:selectable_for_kanban?).
         sort_by!(&:created_at).
         reverse!

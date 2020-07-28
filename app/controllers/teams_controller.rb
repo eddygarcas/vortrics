@@ -125,7 +125,7 @@ class TeamsController < ApplicationController
   def graph_ratio_bugs_closed
     data = Rails.cache.fetch("graph_ratio_bugs_closed_#{@team.id}", expires_in: 30.minutes) {
       data = Array.new { Array.new }
-      bugs = bugs_selectable_for_graph.map { |elem| JiraIssue.new(elem) }.sort_by!(&:created_at)
+      bugs = bugs_selectable_for_graph.map { |elem| IssueBuilder.new(elem) }.sort_by!(&:created_at)
       sum_open = 0
       sum_closed = 0
       data[2] = ((DateTime.now - 3.months)..DateTime.now).map.each_with_index { |day, index| {x: index, y: day.strftime("%d/%m")} }
@@ -140,7 +140,7 @@ class TeamsController < ApplicationController
   def graph_lead_time_bugs
     data = Rails.cache.fetch("graph_lead_time_bugs_team_#{@team.id}", expires_in: 30.minutes) {
       data = Array.new { Array.new }
-      bugs = bugs_selectable_for_graph.map { |elem| JiraIssue.new(elem).to_issue }.sort_by!(&:created)
+      bugs = bugs_selectable_for_graph.map { |elem| IssueBuilder.new(elem).to_issue }.sort_by!(&:created)
       data[0] = bugs.map.with_index { |issue, index| {x: index, y: issue.key} }
       data[1] = bugs.map.with_index { |issue, index| {x: index, y: issue.time_in({toString: :first},{toString: :wip}, false).abs} }
       data[2] = bugs.map.with_index { |issue, index| {x: index, y: issue.flagged?} }
@@ -192,7 +192,7 @@ class TeamsController < ApplicationController
   end
 
   def support
-    @support_bugs = bugs_selectable_for_graph.map { |elem| JiraIssue.new(elem).to_issue }.sort_by!(&:lead_time)
+    @support_bugs = bugs_selectable_for_graph.map { |elem| IssueBuilder.new(elem).to_issue }.sort_by!(&:lead_time)
     @comments = issue_first_comments @team.board_id
   end
 
