@@ -111,14 +111,14 @@ module ApplicationHelper
 		elem = ""
 		options = { fields: [:project], maxResults: 1 }
 		issue = JiraIssue.new(current_project(project, options).first)
-		project_name = issue.project.blank? ? 'n/d' : issue.project[:name.to_s]
-		project_icon = issue.project.blank? ? '' : issue.project[:avatarUrls.to_s]['32x32']
+		project_name = issue&.fields&.project.blank? ? 'n/d' : issue.fields.project.name
+		project_icon = issue&.fields&.project.blank? ? '' : issue.fields.project.avatarUrls._32x32
 		elem << image_tag(project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30')
 		elem << " #{project_name.to_s}" unless project_name.blank?
 		elem.html_safe
 	end
 
-	def tmf_badge value, size = 64, css_class
+	def tmf_badge size = 64, css_class
 		image_tag @team.project_info.icon, class: css_class, width: size, height: size
 	end
 
