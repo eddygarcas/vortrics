@@ -1,4 +1,3 @@
-
 class Array
   def array_to_hash
     each {|sprint|

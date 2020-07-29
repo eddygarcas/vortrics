@@ -8,8 +8,7 @@ module HomeHelper
   end
 
   def puts_non_nill element, method
-    return element.public_send(method) if element.respond_to? method
-    "n/d"
+    element.respond_to? method ? element.send(method) : 'n/d'
   end
 
   def puts_no_defined element = nil

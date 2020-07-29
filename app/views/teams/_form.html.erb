@@ -17,7 +17,7 @@
       <%= f.label :board_id, class: 'control-label col-md-2' %>
       <div class='col-md-4'>
         <% if (f.object.persisted?) %>
-          <%= f.label board_name(@team), {class: 'form-control form-control-lg'} %>
+          <%= f.label board @team, {class: 'form-control form-control-lg'} %>
         <% else %>
           <%= f.select :board_id, "Not defined", {prompt: 'Not defined', required: true}, {required: true,class: 'form-control', data: {behaviour: :team_board_id_change}, disabled: f.object.persisted?} %>
         <% end %>
@@ -34,7 +34,7 @@
     <%= f.form_group :estimated do |f| %>
       <%= f.label :estimated, class: 'control-label col-md-2' %>
       <div class='col-md-8'>
-        <%= f.select :estimated, jira_field_list(@team.project), {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?} %>
+        <%= f.select :estimated, field_list(@team.project).invert, {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?} %>
         <%= f.error_messages %>
       </div>
     <% end %>

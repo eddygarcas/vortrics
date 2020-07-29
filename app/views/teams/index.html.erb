@@ -41,7 +41,7 @@
                 <tr>
                   <td><%= image_tag(team.project_info.blank? ? "/images/voardtrix_logo.png" : team.project_info.icon, class: "img-rounded", height: '24', width: '24', id: 'project_image') %> <%= team.project %></td>
                   <td><%= team.name %></td>
-                  <td><%= board_name(team) %></td>
+                  <td><%= board @team %></td>
                   <td>
                     <%= tmf_stars team.tmf_process %></td>
                   <td><%= tmf_stars team.tmf_value %></td>

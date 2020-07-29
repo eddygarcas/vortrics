@@ -1,6 +1,5 @@
 require 'jira-ruby'
 require_relative 'file'
-#require 'active_support/all'
 module JiraHelper
 
   def jira_instance(setting)

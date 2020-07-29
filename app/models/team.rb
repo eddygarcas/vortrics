@@ -1,8 +1,4 @@
-#require 'open-uri'
-require_relative '../../app/helpers/jira_helper'
-require_relative '../../app/helpers/array'
 require_relative '../../app/helpers/numeric'
-
 class Team < ApplicationRecord
   include JiraActions
   belongs_to :project_info
@@ -59,7 +55,6 @@ class Team < ApplicationRecord
 
   def issues_selectable_for_graph
     Rails.cache.fetch("issues_selectable_for_graph_#{id}", expires_in: 1.day) {
-      #limit = Vortrics.config[:performance][:graph_limit].to_i
       Issue.joins(:sprint).where('team_id = ?', id).select('issues.*').select(&:selectable_for_cycle_time?).sort_by!(&:cycle_time)
     }
   end

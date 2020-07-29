@@ -1,3 +1,4 @@
+require_relative 'array'
 module SprintsHelper
 
   class SprintBuilder

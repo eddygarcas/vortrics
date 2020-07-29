@@ -1,6 +1,3 @@
-require_relative '../../app/helpers/data_builder_helper'
-
-#This class will sotore changelog information form JIRA JiraIssue
 class ChangeLog < ApplicationRecord
   include DataBuilderHelper
   include ActiveModel::AttributeMethods

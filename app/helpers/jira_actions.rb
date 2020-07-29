@@ -93,6 +93,7 @@ module JiraActions
     elems[:issues.to_s]
   end
 
+
   def boards_by_project keyorid, type = '', options = {}
     return if current_user.setting.blank?
     Rails.cache.fetch("project_boards_#{keyorid.to_s}", expires_in: 7.day) {
