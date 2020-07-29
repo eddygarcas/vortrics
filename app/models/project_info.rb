@@ -1,12 +1,6 @@
 class ProjectInfo < ApplicationRecord
   has_many :teams
 
-  alias :initialize_super :initialize
-
-  def initialize(info = nil)
-
-  end
-
   def self.create_data info
     project = ProjectInfo.new(key: info['key'], name: info['name'],icon: info.dig('avatarUrls','32x32'))
     project.save!
