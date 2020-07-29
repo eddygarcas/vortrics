@@ -252,8 +252,6 @@ function InitializeReleaseTimeBugsGraphTeam() {
                     if (data[2][x].y) content += flagged;
                     if (data[3][x].y) content += firsttime;
                     if (data[5][x].y) content += moreonesprint;
-                    console.log(x)
-                    console.log(y)
                     return content;
                 }
             });
