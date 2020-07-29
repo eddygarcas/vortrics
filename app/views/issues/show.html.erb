@@ -1,42 +1,26 @@
 <% @title = " #{@issue.key} - #{@issue.summary}" %>
-
 <% content_for :description do %>
     <p></p>
 <% end %>
-
-
-
 <%= hidden_field_tag 'sprintid', @sprint.id, class: 'form-control', id: 'sprintid' %>
 
 <%= render "issue_nav_bar" %>
 <%= render "layouts/flashes" %>
 
 <div class="container-fluid">
-
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12 col-md-12 animate-left-fade-1000">
       <%= render "layouts/issue_summary_transition", :locals => {:issue => @issue} %>
-    </div>
   </div>
-
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12 col-md-12  animate-left-fade-1000">
       <%= render "issue_description" %>
-    </div>
   </div>
-
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12 col-md-12  animate-left-fade-1000">
       <%= render "layouts/issue_details", :locals => {:issue => @issue} %>
-    </div>
   </div>
-
   <div class="row">
     <div class="col-sm-12 col-md-12 col-md-12 col-lg-12 animate-rise-fade-1200">
       <%= render "layouts/release_time_graph", :locals => {:graph_id => "bars-release", :title => "Throughput", :behaviour => "chart_throughtput"} %>
     </div>
   </div>
-
-
 </div>
 

@@ -7,7 +7,6 @@
           <p class="lead"><%= fa_icon_tag("tag") %>
             <b>Summary</b> <%= @issue.key %>
           </p>
-          <%= first_time_to_response %>
         </div>
 
         <form class="form-horizontal">
@@ -52,8 +51,9 @@
         <div class="panel-heading">
           <p class="lead"><%= fa_icon_tag("bolt") %>
             Priority
-            <span class="pull-right">   <%= image_tag @issue.priorityicon, data: {toggle: "tooltip", title: @issue.priority}, height: '20', width: '20' %> <%= @issue.priority %>
-</span>
+            <span class="pull-right">
+              <%= image_tag @issue.priorityicon, data: {toggle: "tooltip", title: @issue.priority}, height: '20', width: '20' %> <%= @issue.priority %>
+            </span>
           </p>
         </div>
 
