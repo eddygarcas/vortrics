@@ -6,6 +6,7 @@ class LandingController < ApplicationController
 		@user = User.new
 	end
 
+
 	def register
 		logger.info "Sending a register email #{params[:user][:email]}"
 		@user = User.new

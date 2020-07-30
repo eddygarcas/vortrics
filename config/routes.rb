@@ -104,6 +104,8 @@ Rails.application.routes.draw do
   get '/assesments/:assesment_id/answer', to: 'assesments#answer', as: 'assesment_answer'
 
 	get '/landing/info', to: 'landing#info', as: 'landing_info'
+  get '/landing/error/401', to: 'landing#error_401', as: 'landing_error_401'
+  get '/landing/error/403', to: 'landing#error_403', as: 'landing_error_403'
 	post '/register', to: 'landing#register', as: 'landing_register'
 
   post '/advices/mark_as_read', to: 'advices#mark_as_read', as: 'advices_mark_as_read'

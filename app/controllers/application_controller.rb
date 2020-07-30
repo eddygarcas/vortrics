@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def render_401
-		redirect_to "/401.html"
+		redirect_to landing_error_401_path
 	end
 
 	def render_404
@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def render_403
-		redirect_to "/403.html"
+		redirect_to landing_error_403_path
 	end
 
 	protected
