@@ -79,7 +79,7 @@ class Sprint < ApplicationRecord
   def first_time_pass
     first_time = 0
     issues.select(&:task?).each {|item|
-      first_time += 1 if item.first_time_pass_rate?
+      first_time += 1 unless item.first_time_pass_rate?
     }
     first_time
   end

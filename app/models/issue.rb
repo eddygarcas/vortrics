@@ -118,7 +118,7 @@ class Issue < ApplicationRecord
   end
 
   def first_time_pass_rate?
-    change_logs.select(&:first_time_review?).count.eql? 1
+    change_logs.select(&:first_time_review?).count <= 1
   end
 
   def time_transitions start = {}, finish = {}

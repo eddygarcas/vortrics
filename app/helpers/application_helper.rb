@@ -64,14 +64,19 @@ module ApplicationHelper
 	end
 
 	def percent(value, total)
-		return 0 if value.eql?(0) || total.eql?(0)
-		(((value.to_f - total.to_f) / total.to_f) * 100).round
+		begin
+			(((value.to_f - total.to_f) / total.to_f) * 100).round
+		rescue FloatDomainError
+			return 0
+		end
 	end
 
 	def percent_num(value, total)
-		return 0 if value.eql?(0)
-		return 100 if total.eql?(0)
-		(((value.to_f) / total.to_f) * 100).round
+		begin
+			(((value.to_f) / total.to_f) * 100).round
+		rescue ZeroDivisionError
+			return 0
+		end
 	end
 
 	def summary_trend(value = 0, text = '', percent = true)
