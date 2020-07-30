@@ -17,7 +17,7 @@ class SprintsController < ApplicationController
   # GET /sprints/1
   # GET /sprints/1.json
   def show
-    @bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, @sprint.enddate,{fields: :key}).map {|elem| IssueBuilder.new(elem)}
+    @bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, @sprint.enddate, {fields: :key}).map {|elem| IssueBuilder.new(elem)}
     @sprint.changed_scope(sprint_report(@sprint.team.board_id, @sprint.sprint_id)['issueKeysAddedDuringSprint'].count) unless @sprint&.team.kanban?
   end
 
@@ -37,9 +37,9 @@ class SprintsController < ApplicationController
   def graph_closed_by_day
     data = Rails.cache.fetch("graph_closed_by_day_sprint_#{@sprint.id}", expires_in: 30.minutes) {
       data = Array.new {Array.new}
-      bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date,@sprint.enddate, {fields: :created}).map {|elem| IssueBuilder.new(elem)}
+      bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, @sprint.enddate, {fields: :created}).map {|elem| IssueBuilder.new(elem)}
       burndown = @sprint.issues.select(&:task?).count
-      data[0] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of_by_date(@sprint.issues,:resolutiondate,:story,date)}}
+      data[0] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of_by_date(@sprint.issues, :resolutiondate, :story, date)}}
       data[1] = @sprint.week_days.map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
       data[2] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of(bugs, date, :created_at)}}
       data[3] = @sprint.week_days.map.with_index {|date, index| {x: index, y: burndown = GraphHelper.number_of_by_date(@sprint.issues, :resolutiondate, :story, date, burndown)}}
@@ -70,7 +70,9 @@ class SprintsController < ApplicationController
 
   #GET /sprints/import
   def import
-    @board_sprint = sprint_by_board @team.board_id, sort_column_import, sort_direction
+    @board_sprint = boards_by_sprint @team.board_id, 0
+    @board_sprint.sort_by! {|x| x[sort_column_import].blank? ? '' : x[sort_column_import]}
+    @board_sprint.reverse! unless sort_direction.eql? 'asc'
   end
 
   def import_issues
@@ -79,9 +81,9 @@ class SprintsController < ApplicationController
       criteria = import_params
       criteria[:team_id] = @team.id
       criteria[:board_type] = @team.board_type
-      issues = import_sprint(criteria[:id], options).map {|elem| IssueBuilder.new(elem,@team.estimated)}
+      issues = import_sprint(criteria[:id], options).map {|elem| IssueBuilder.new(elem, @team.estimated)}
       issues_save = issues.select {|el| el.closed_in.include? criteria[:id] unless el.closed_in.blank?}
-      sprint_data = SprintsHelper::SprintBuilder.new(issues,criteria)
+      sprint_data = SprintsHelper::SprintBuilder.new(issues, criteria)
       @team.update_active_sprint(sprint_data.to_sprint)
       @team.sprints.find_by(sprint_id: sprint_data.id).save_issues issues_save
       Rails.cache.clear
@@ -95,10 +97,10 @@ class SprintsController < ApplicationController
 
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
 
-      issues = import_sprint(@sprint.sprint_id, options).map {|e| IssueBuilder.new(e,@team&.estimated) }
+      issues = import_sprint(@sprint.sprint_id, options).map {|e| IssueBuilder.new(e, @team&.estimated)}
       issues_save = issues.select {|e| e.closed_in.include? @sprint.sprint_id.to_s unless e.closed_in.blank?}
 
-      sprint_data = SprintsHelper::SprintBuilder.new(issues,{id: @team.sprint.sprint_id.to_s, team_id: @team.id,board_type: @team.board_type})
+      sprint_data = SprintsHelper::SprintBuilder.new(issues, {id: @team.sprint.sprint_id.to_s, team_id: @team.id, board_type: @team.board_type})
       @sprint.update(sprint_data.to_sprint)
       @sprint.save_issues issues_save
       Rails.cache.clear

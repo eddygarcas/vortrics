@@ -7,8 +7,13 @@ class ApplicationController < ActionController::Base
 
 	rescue_from JIRA::HTTPError, with: :render_403
 	rescue_from ActiveRecord::RecordNotFound, with: :render_404
+	rescue_from SocketError, with: :render_401
 	rescue_from JIRA::OauthClient::UninitializedAccessTokenError do
 		redirect_to signin_path
+	end
+
+	def render_401
+		redirect_to "/401.html"
 	end
 
 	def render_404
@@ -30,14 +35,6 @@ class ApplicationController < ActionController::Base
 	def broadcast_actioncable channel, method, payload
 		ActionCable.server.broadcast channel, { commit: method, payload: payload }
 
-	end
-
-	def sprint_by_board board_id, sort_column, sort_direction, options = {}
-		return if board_id.blank?
-		board_sprint = boards_by_sprint board_id, 0, options
-		board_sprint.sort_by! { |x| x[sort_column].blank? ? '' : x[sort_column] }
-		return board_sprint.reverse! unless sort_direction.eql? 'asc'
-		board_sprint
 	end
 
 	def set_current_user
