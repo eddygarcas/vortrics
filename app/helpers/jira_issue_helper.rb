@@ -1,7 +1,7 @@
 module JiraIssueHelper
 
   class IssueBuilder
-    include Builder
+    include Binky::Builder
     alias :super_initialize :initialize
 
     def initialize(json = nil, estimation = nil)
@@ -54,8 +54,17 @@ module JiraIssueHelper
           created: created_at,
           updated: fields.updated,
           resolutiondate: fields.resolutiondate,
-          histories: changelog&.histories,
+          histories: transitions,
           customfield_11802: story_points
+      }.compact
+    end
+
+    def transitions
+      changelog&.histories.map.with_index {|e, idx|
+        keep_log_if(e, idx) {|valid|
+          break if valid['items'].blank?
+          ChangeLog.new.log(valid)
+        }
       }.compact
     end
 
@@ -106,6 +115,12 @@ module JiraIssueHelper
     end
 
     private
+
+    def keep_log_if log, index = 1
+      log['items'].keep_element_if 'field', Vortrics.config[:jira][:changelogfields] unless index.eql? 0
+      log['items'].keep_if {|e| e.dig('fromString').present?} unless index.eql? 0
+      yield log
+    end
 
     def closed_sprints
       fields&.closedSprints.sort {|x, y| Time.parse(x['completeDate']) <=> Time.parse(y['completeDate'])}.last unless fields&.closedSprints.blank?

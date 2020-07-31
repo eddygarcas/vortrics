@@ -1,4 +1,4 @@
 class Project
-  include DataBuilder
+  include Binky::AccessorBuilder
   attr_accessor :key,:name,:projectTypeKey
 end

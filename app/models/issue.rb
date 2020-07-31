@@ -122,19 +122,19 @@ class Issue < ApplicationRecord
   end
 
   def time_transitions start = {}, finish = {}
-    time_in start,finish,false,:done,:last
+    time_in start, finish, false, :done, :last
   end
 
   def time_in start = {}, finish = {}, format = true, alternatice_tag = :first, alternative_pos = :first
     return 0 if change_logs.blank? && start.keys.first.eql?(:first)
     return life_time format if change_logs.blank?
     times_in = []
-    times_in << changelog_lapse(start.keys.first,start.fetch(start.keys.first),&:first)
-    times_in << changelog_lapse(finish.keys.first,finish.fetch(finish.keys.first),&:first)
+    times_in << changelog_lapse(start.keys.first, start.fetch(start.keys.first), &:first)
+    times_in << changelog_lapse(finish.keys.first, finish.fetch(finish.keys.first), &:first)
     times_in << changelog_lapse(finish.keys.first, alternatice_tag, &alternative_pos) unless times_in.all?
     return 0 unless times_in.all?
-    return times_in.sort_by!(&:created).inject { |sum, number| sum.created.to_date.business_days_until(number.created.to_date) } unless format
-    times_in.sort_by!(&:created).inject { |sum, number| sum.remaining(number) }
+    return times_in.sort_by!(&:created).inject {|sum, number| sum.created.to_date.business_days_until(number.created.to_date)} unless format
+    times_in.sort_by!(&:created).inject {|sum, number| sum.remaining(number)}
 
   end
 
@@ -146,14 +146,7 @@ class Issue < ApplicationRecord
   end
 
   def save_changelog
-    return if histories.blank?
-    ChangeLog.transaction do
-      histories.each_with_index { |elem,index|
-        log = ChangeLog.new
-        log.parse_and_initialize elem, id, index
-        ChangeLog.find_or_initialize_by(id: log.id).update(log.to_hash)
-      }
-    end
+    histories.each {|elem| ChangeLog.find_or_initialize_by(id: elem['id']).update(elem.merge({issue_id: id}))}
   end
 
   protected
@@ -167,7 +160,7 @@ class Issue < ApplicationRecord
     return nil if change_logs.blank?
     return change_logs.first if tag.eql? :first
     return change_logs.last if tag.eql? :last
-    yield change_logs.select { |log| workflow_stats(tag, log.send(column)) unless log.send(column).blank? }
+    yield change_logs.select {|log| workflow_stats(tag, log.send(column)) unless log.send(column).blank?}
   end
 
   private

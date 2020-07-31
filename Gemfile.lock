@@ -78,6 +78,7 @@ GEM
     awesome_print (1.8.0)
     bcrypt (3.1.15)
     bindex (0.8.1)
+    binky-builder (0.1.1)
     bootstrap-datepicker-rails (1.9.0.1)
       railties (>= 3.0)
     builder (3.2.4)
@@ -132,7 +133,7 @@ GEM
       activesupport (>= 4.2.0)
     hashdiff (1.0.1)
     hashie (4.1.0)
-    i18n (1.8.4)
+    i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
@@ -358,6 +359,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_list
   awesome_print
+  binky-builder (~> 0.1.x)
   bootstrap-datepicker-rails
   business_time
   byebug
