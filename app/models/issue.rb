@@ -146,7 +146,7 @@ class Issue < ApplicationRecord
   end
 
   def save_changelog
-    histories.each {|elem| ChangeLog.find_or_initialize_by(id: elem['id']).update(elem.merge({issue_id: id}))}
+    histories.each {|elem| ChangeLog.find_or_initialize_by(id: elem['id']).update(elem.merge({issue_id: id}).compact)}
   end
 
   protected
