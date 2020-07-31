@@ -1,6 +1,6 @@
 ![Image of Vortrics](public/images/voardtrix_logo.png)
 
-# Vortrics ![Heroku](http://heroku-badges.herokuapp.com/?app=scrum-agent-sch&root=/) [![Travis](https://badgen.net/badge/icon/travis?icon=travis&label)](https://travis-ci.org/eddygarcas/vortrics.svg?branch=master) [![RubyGems](https://badgen.net/rubygems/v/montecasting)](https://rubygems.org/gems/montecasting)
+# Vortrics ![Heroku](http://heroku-badges.herokuapp.com/?app=scrum-agent-sch&root=/) ![Travis](https://travis-ci.org/eddygarcas/vortrics.svg?branch=master) [![RubyGems](https://badgen.net/rubygems/v/montecasting)](https://rubygems.org/gems/montecasting)
 
 Vortrics was conceived from the idea to have a customized Scrum Dashboards as well as a system to analyze every team sprints and propose improvements based on expertise.
 
