@@ -160,7 +160,7 @@ class Team < ApplicationRecord
   end
 
   def update_active_sprint p = {}
-    Sprint.find_or_initialize_by(sprint_id: p[:id]).update(p)
+    Sprint.find_or_initialize_by(sprint_id: p[:sprint_id]).update(p)
   end
 
   protected

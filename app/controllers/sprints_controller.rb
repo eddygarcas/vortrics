@@ -94,12 +94,9 @@ class SprintsController < ApplicationController
   def refresh_issues
     unless @sprint.sprint_id.blank?
       redirect_to sprint_import_url(@sprint.team_id), notice: 'Cannot find the related team.' and return if @team.blank?
-
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
-
       issues = import_sprint(@sprint.sprint_id, options).map {|e| IssueBuilder.new(e, @team&.estimated)}
       issues_save = issues.select {|e| e.closed_in.include? @sprint.sprint_id.to_s unless e.closed_in.blank?}
-
       sprint_data = SprintsHelper::SprintBuilder.new(issues, {id: @team.sprint.sprint_id.to_s, team_id: @team.id, board_type: @team.board_type})
       @sprint.update(sprint_data.to_sprint)
       @sprint.save_issues issues_save
@@ -107,7 +104,6 @@ class SprintsController < ApplicationController
     end
     redirect_to sprint_path(@sprint), notice: 'Sprint has successfully been updated.'
   end
-
 
   # PATCH/PUT /sprints/1
   # PATCH/PUT /sprints/1.json
