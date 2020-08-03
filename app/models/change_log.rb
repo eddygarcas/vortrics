@@ -3,11 +3,6 @@ class ChangeLog < ApplicationRecord
   include ActiveModel::AttributeMethods
   belongs_to :issue
 
-  def log(log)
-    parse(log, ChangeLog.column_names)
-    self.to_hash.merge!(attribute_from_inner_key(log,'avatar', '48x48'))
-  end
-
   def flagged?
     return Vortrics.config[:changelog][:flagged].include? toString.to_s.downcase unless User.workflow(:flagged).present?
     User.workflow(:flagged).include? toString.to_s.downcase

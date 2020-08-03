@@ -78,7 +78,7 @@ GEM
     awesome_print (1.8.0)
     bcrypt (3.1.15)
     bindex (0.8.1)
-    binky-builder (0.1.1)
+    binky-builder (0.2.1)
     bootstrap-datepicker-rails (1.9.0.1)
       railties (>= 3.0)
     builder (3.2.4)

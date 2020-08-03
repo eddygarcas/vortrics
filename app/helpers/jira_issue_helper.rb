@@ -63,7 +63,9 @@ module JiraIssueHelper
       changelog&.histories.map.with_index {|e, idx|
         keep_log_if(e, idx) {|valid|
           break if valid['items'].blank?
-          ChangeLog.new.log(valid)
+          ChangeLog.new.build_by_keys(valid,ChangeLog.column_names) do |e|
+            e.to_hash.merge!(attribute_from_inner_key(log,'avatar', '48x48'))
+          end
         }
       }.compact
     end
