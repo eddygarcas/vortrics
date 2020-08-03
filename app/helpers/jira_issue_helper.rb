@@ -64,8 +64,8 @@ module JiraIssueHelper
         keep_log_if(e, idx) {|valid|
           break if valid['items'].blank?
           ChangeLog.new.build_by_keys(valid,ChangeLog.column_names) do |e|
-            e.to_hash.merge!(attribute_from_inner_key(log,'avatar', '48x48'))
-          end
+            e.to_hash.merge!(attribute_from_inner_key(valid,'avatar', '48x48'))
+          end.to_hash
         }
       }.compact
     end
