@@ -54,7 +54,7 @@ gem 'business_time'
 gem 'webpacker', '~> 4.x'
 
 gem 'montecasting', '>= 0.6.5'
-gem 'binky-builder', '~> 0.1.x'
+gem 'binky-builder', '~> 0.4.x'
 
 group :development, :test do
   gem 'sqlite3'

@@ -2,7 +2,7 @@ require_relative 'array'
 module SprintsHelper
 
   class SprintBuilder
-    include Binky::Builder
+    include Binky::Struct
     alias :super_initialize :initialize
 
     def initialize(issues = [], params = nil)

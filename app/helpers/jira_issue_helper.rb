@@ -1,7 +1,7 @@
 module JiraIssueHelper
 
   class IssueBuilder
-    include Binky::Builder
+    include Binky::Struct
     alias :super_initialize :initialize
 
     def initialize(json = nil, estimation = nil)

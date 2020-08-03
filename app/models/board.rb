@@ -1,3 +1,3 @@
 class Board
-  include Binky::AccessorBuilder
+  include Binky::Builder
 end

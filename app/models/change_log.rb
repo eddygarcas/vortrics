@@ -1,5 +1,5 @@
 class ChangeLog < ApplicationRecord
-  include Binky::BuilderHelper
+  include Binky::Helper
   include ActiveModel::AttributeMethods
   belongs_to :issue
 
