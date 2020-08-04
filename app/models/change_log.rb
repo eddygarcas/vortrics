@@ -4,8 +4,8 @@ class ChangeLog < ApplicationRecord
   belongs_to :issue
 
   def flagged?
-    return Vortrics.config[:changelog][:flagged].include? toString.to_s.downcase unless User.workflow(:flagged).present?
-    User.workflow(:flagged).include? toString.to_s.downcase
+    return Vortrics.config[:changelog][:flagged].include? fromString.to_s.downcase unless User.workflow(:flagged).present?
+    User.workflow(:flagged).include? fromString.to_s.downcase
   end
 
   def first_time_review?
