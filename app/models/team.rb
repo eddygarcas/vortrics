@@ -4,7 +4,7 @@ class Team < ApplicationRecord
   belongs_to :project_info
 
   has_many :sprints, -> {order(enddate: :desc)}, dependent: :destroy
-  has_many :assesments, dependent: :destroy
+  #has_many :assesments, dependent: :destroy
   has_many :team_advices, dependent: :destroy
   has_many :advices, through: :team_advices
   has_one :retrospective, dependent: :destroy
