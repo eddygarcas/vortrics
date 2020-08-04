@@ -4,12 +4,6 @@ Rails.application.routes.draw do
 
   resources :postits
 	resources :settings, except: :show
-  resources :assesments
-  resources :q_stages
-  resources :answers
-  resources :questions
-  resources :levels
-  resources :maturity_frameworks
   resources :components
   resources :sprints
   resources :teams
@@ -99,9 +93,6 @@ Rails.application.routes.draw do
 
   get '/:id', to: 'home#dashboard', as: 'get_dashboard'
   get '/:id/refresh', to: 'home#refresh', as: 'refresh_path'
-
-  get '/assesments/:assesment_id/results', to: 'answers#results', as: 'assesment_result'
-  get '/assesments/:assesment_id/answer', to: 'assesments#answer', as: 'assesment_answer'
 
 	get '/landing/info', to: 'landing#info', as: 'landing_info'
   get '/landing/error/401', to: 'landing#error_401', as: 'landing_error_401'

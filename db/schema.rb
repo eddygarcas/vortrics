@@ -40,29 +40,6 @@ ActiveRecord::Schema.define(version: 2020_01_28_082436) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "answers", force: :cascade do |t|
-    t.string "field_type"
-    t.string "text"
-    t.string "value"
-    t.integer "question_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "assesment_id"
-    t.index ["assesment_id"], name: "index_answers_on_assesment_id"
-    t.index ["question_id"], name: "index_answers_on_question_id"
-  end
-
-  create_table "assesments", force: :cascade do |t|
-    t.datetime "date"
-    t.string "name"
-    t.integer "team_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "maturity_framework_id"
-    t.index ["maturity_framework_id"], name: "index_assesments_on_maturity_framework_id"
-    t.index ["team_id"], name: "index_assesments_on_team_id"
-  end
-
   create_table "cards", force: :cascade do |t|
     t.integer "workflow_id"
     t.string "name"
@@ -154,20 +131,6 @@ ActiveRecord::Schema.define(version: 2020_01_28_082436) do
     t.index ["sprint_id"], name: "index_issues_on_sprint_id"
   end
 
-  create_table "levels", force: :cascade do |t|
-    t.string "name"
-    t.integer "maturity_framework_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["maturity_framework_id"], name: "index_levels_on_maturity_framework_id"
-  end
-
-  create_table "maturity_frameworks", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "notifications", force: :cascade do |t|
     t.integer "recipient_id"
     t.integer "actor_id"
@@ -198,25 +161,6 @@ ActiveRecord::Schema.define(version: 2020_01_28_082436) do
     t.string "icon"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "q_stages", force: :cascade do |t|
-    t.string "name"
-    t.integer "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "level_id"
-    t.index ["level_id"], name: "index_q_stages_on_level_id"
-  end
-
-  create_table "questions", force: :cascade do |t|
-    t.string "question"
-    t.string "help_text"
-    t.boolean "allow_comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "q_stage_id"
-    t.index ["q_stage_id"], name: "index_questions_on_q_stage_id"
   end
 
   create_table "retrospectives", force: :cascade do |t|
@@ -349,10 +293,6 @@ ActiveRecord::Schema.define(version: 2020_01_28_082436) do
   add_foreign_key "accesses", "users"
   add_foreign_key "actions", "advices"
   add_foreign_key "actions", "issues"
-  add_foreign_key "answers", "assesments"
-  add_foreign_key "answers", "questions"
-  add_foreign_key "assesments", "maturity_frameworks"
-  add_foreign_key "assesments", "teams"
   add_foreign_key "cards", "workflows"
   add_foreign_key "change_logs", "issues"
   add_foreign_key "comments", "postits"
@@ -361,10 +301,7 @@ ActiveRecord::Schema.define(version: 2020_01_28_082436) do
   add_foreign_key "configs", "settings"
   add_foreign_key "configs", "users"
   add_foreign_key "issues", "sprints"
-  add_foreign_key "levels", "maturity_frameworks"
   add_foreign_key "postits", "retrospectives"
-  add_foreign_key "q_stages", "levels"
-  add_foreign_key "questions", "q_stages"
   add_foreign_key "retrospectives", "teams"
   add_foreign_key "services", "users"
   add_foreign_key "sprints", "teams"

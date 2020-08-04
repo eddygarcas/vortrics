@@ -13,23 +13,5 @@
       end
     end %>
 
-    <li class="nav-item">
-      <a class="nav-link"><i class="fa fa-fw fa-trophy fa-lg fa-fw"></i> Team maturity
-        <span class="fa arrow"></span></a>
-      <ul class="nav nav-third-level" aria-expanded="false">
-
-        <%= activatable_li_tag assesments_path do |url|
-          link_to_unless current_user.admin?, fa_icon_tag("star") << "Assesments", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
-          link_to name, url
-          end
-        end %>
-        <%= activatable_li_tag maturity_frameworks_path do |url|
-          link_to_unless current_user.admin?, fa_icon_tag("pied-piper") << "Framework Setup", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
-          link_to name, url
-          end
-        end %>
-
-      </ul>
-    </li>
   </ul>
 </li>
