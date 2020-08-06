@@ -34,7 +34,7 @@ module JiraIssueHelper
       issue
     end
 
-    def to_h
+    def to_hash
       {
           key: key,
           issuetype: fields.issuetype&.name,
@@ -64,7 +64,7 @@ module JiraIssueHelper
         keep_log_if(e, idx) {|valid|
           break if valid['items'].blank?
           ChangeLog.new.build_by_keys(valid,ChangeLog.column_names) do |e|
-            e.send("avatar=",attribute_from_inner_key(valid,'avatar', '48x48'))
+            e.send("avatar=",nested_hash_value(valid, '48x48'))
           end
         }
       }.compact

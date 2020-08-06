@@ -7,20 +7,12 @@ class Array
     }
   end
 
-  def each_sum_done key_status = [:done]
-    counter = 0
-    each {|issue|
-      counter += yield issue if key_status.include? issue.fields&.status&.statusCategory&.key&.to_sym
-    }
-    counter
+  def map_sum_done key_status = [:done]
+    map { |issue| yield issue if key_status.include? issue.fields&.status&.statusCategory&.key&.to_sym }
   end
 
-  def each_sum
-    counter = 0
-    each {|issue|
-      counter += yield issue
-    }
-    counter
+  def map_sum
+    map {|issue| yield issue }
   end
 
   def average

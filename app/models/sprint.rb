@@ -12,7 +12,7 @@ class Sprint < ApplicationRecord
     Issue.transaction do
       jiraissue.each do |i|
         issue = Issue.find_or_initialize_by(key: i.key,sprint_id: id)
-        issue.update(i.to_h)
+        issue.update(i.to_hash)
         issue.save_changelog
       end
     end
@@ -77,16 +77,11 @@ class Sprint < ApplicationRecord
   end
 
   def first_time_pass
-    first_time = 0
-    issues.select(&:task?).each {|item|
-      first_time += 1 unless item.first_time_pass_rate?
-    }
-    first_time
+    issues&.select(&:task?).map {|item| item.first_time_pass_rate?.to_i}.inject(&:+).percent_of(total_stories).round
   end
 
   def total_stories
-    self.remainingstories = 0 if self.remainingstories.blank?
-    stories + remainingstories
+    stories + (remainingstories.presence || 0)
   end
 
 
@@ -95,8 +90,7 @@ class Sprint < ApplicationRecord
   end
 
   def sprint_commitment
-    return 0 if issues.blank?
-    issues.map {|elem| elem.customfield_11802.to_i}.inject(0) {|sum, x| sum + x}
+    issues&.map {|elem| elem.customfield_11802.to_i}.inject(0) {|sum, x| sum + x}.presence || 0
   end
 
   def sprint_cycle_time
@@ -118,13 +112,11 @@ class Sprint < ApplicationRecord
   protected
 
   def time_in_log
-    timein = 0
-    items_flagged.each {|elem| timein += elem.time_flagged.to_i}
-    timein
+    items_flagged&.map(&:time_flagged).inject(&:+).to_i
   end
 
   def items_flagged
-    issues.each(&:change_logs).select(&:flagged?)
+    issues&.each(&:change_logs).select(&:flagged?)
   end
 
 end

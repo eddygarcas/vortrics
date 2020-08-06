@@ -1,4 +1,6 @@
 require_relative 'array'
+require_relative 'logic'
+
 module SprintsHelper
 
   class SprintBuilder
@@ -10,36 +12,21 @@ module SprintsHelper
       generate_sprint_info(issues) unless issues.blank?
     end
 
-
     def generate_sprint_info(issues = nil)
       current_issues = scrum? ? issues.select {|el| el.closed_in.include? id} : issues
       exclude_issue = scrum? ? issues.select {|el| el.closed_in.exclude? id} : []
 
-      self.closed_points = current_issues.each_sum_done {|elem| elem.story_points.to_i}
+      self.closed_points = current_issues&.map_sum_done(&:story_points).compact.inject(&:+).to_i
 
-      self.stories = current_issues.each_sum_done {|elem| elem.task? ? 1 : 0}
-      self.bugs = current_issues.each_sum_done {|elem| elem.bug? ? 1 : 0}
+      self.stories = current_issues&.map_sum_done(&:task?).map(&:to_i).inject(&:+).to_i
+      self.bugs = current_issues&.map_sum_done(&:bug?).map(&:to_i).inject(&:+).to_i
 
-      self.openstories = current_issues.each_sum_done([:new, :indeterminate]) {|elem| elem.task? ? 1 : 0}
-      self.remaining_points = current_issues.each_sum_done([:new, :indeterminate]) {|elem| elem.story_points.to_i}
+      self.remainingstories = current_issues&.map_sum_done([:new, :indeterminate],&:task?).map(&:to_i).inject(&:+).to_i
+      self.remaining_points = current_issues&.map_sum_done([:new, :indeterminate],&:story_points).compact.inject(&:+).to_i
 
-      self.openstories += exclude_issue.select(&:task?).count
-      self.remaining_points += exclude_issue.each_sum {|elem| elem.story_points.to_i}
-    end
-
-    def to_sprint
-      {
-          name: self.name,
-          stories: self.stories,
-          remainingstories: self.openstories,
-          bugs: self.bugs,
-          closed_points: self.closed_points,
-          remaining_points: self.remaining_points,
-          enddate: self.endDate,
-          start_date: self.startDate,
-          team_id: self.team_id,
-          sprint_id: self.id
-      }.compact
+      self.remainingstories += exclude_issue.select(&:task?).count
+      self.remaining_points += exclude_issue.map_sum(&:story_points).compact.inject(&:+).to_i
+      self.board_type = nil
     end
 
     def kanban?

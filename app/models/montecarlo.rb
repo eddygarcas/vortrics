@@ -2,19 +2,19 @@ class Montecarlo
   attr_writer :number, :backlog, :focus, :iteration
 
   def number
-    @number || 1000
+    @number ||= 1000
   end
 
   def backlog
-    @backlog || 50
+    @backlog ||= 50
   end
 
   def focus
-    (@focus || 100).to_f / 100
+    (@focus ||= 100).to_f / 100
   end
 
   def iteration
-    @iteration || 5
+    @iteration ||= 5
   end
 
   def initialize(params = {})

@@ -105,8 +105,7 @@ class Issue < ApplicationRecord
   end
 
   def was_done? date
-    return false if done_date.blank?
-    date.yday.eql? done_date.created.to_datetime.yday
+    date.yday.eql? done_date&.created&.to_datetime.yday
   end
 
   def wip_date
@@ -157,10 +156,9 @@ class Issue < ApplicationRecord
   end
 
   def changelog_lapse column, tag
-    return nil if change_logs.blank?
-    return change_logs.first if tag.eql? :first
-    return change_logs.last if tag.eql? :last
-    yield change_logs.select {|log| workflow_stats(tag, log.send(column)) unless log.send(column).blank?}
+    return change_logs&.first if tag.eql? :first
+    return change_logs&.last if tag.eql? :last
+    yield change_logs&.select {|log| workflow_stats(tag, log.send(column)) unless log.send(column).blank?}
   end
 
   private

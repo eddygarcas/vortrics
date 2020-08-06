@@ -1,3 +1,4 @@
+require_relative 'logic'
 module ApplicationHelper
 	include EmailTemplateHelper
 	include JiraIssueHelper
@@ -57,10 +58,7 @@ module ApplicationHelper
 	end
 
 	def days_remain(enddate = Time.now.to_datetime)
-		days = 0
-		today = Time.now.to_datetime
-		(today..enddate).each { |day| days += 1 unless (day.sunday? || day.saturday?) }
-		days
+		(Time.now.to_datetime..enddate).map { |day| (day.sunday?.to_i + day.saturday?.to_i)}.inject(&:+)
 	end
 
 	def percent(value, total)

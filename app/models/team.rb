@@ -4,7 +4,6 @@ class Team < ApplicationRecord
   belongs_to :project_info
 
   has_many :sprints, -> {order(enddate: :desc)}, dependent: :destroy
-  #has_many :assesments, dependent: :destroy
   has_many :team_advices, dependent: :destroy
   has_many :advices, through: :team_advices
   has_one :retrospective, dependent: :destroy
@@ -21,8 +20,7 @@ class Team < ApplicationRecord
   end
 
   def issues
-    return nil unless sprint.present?
-    sprint.issues
+    sprint&.issues
   end
 
   def scrum?
@@ -88,15 +86,15 @@ class Team < ApplicationRecord
   end
 
   def average_closed_points
-    sum_by_colum(:closed_points).round.to_i
+    sum_by_column(:closed_points).round.to_i
   end
 
   def average_stories
-    sum_by_colum(:stories).round.to_i
+    sum_by_column(:stories).round.to_i
   end
 
   def average_bugs
-    sum_by_colum(:bugs).round.to_i
+    sum_by_column(:bugs).round.to_i
   end
 
   def percent_of_lead_time days = Vortrics.config[:baseline][:leadtime]
@@ -116,18 +114,15 @@ class Team < ApplicationRecord
   end
 
   def bar_percent_of tag = :new?
-    return 0 if sprint.blank? || sprint.issues.blank?
     begin
-      sprint.issues.select(&tag).count.percent_of(sprint.issues.count).round(0)
-    rescue StandardError => e
+      sprint&.issues&.select(&tag).count.percent_of(sprint&.issues&.count).round(0)
+    rescue StandardError
       0
     end
   end
 
   def array_of_data_for_graph column_name
-    stories_data = []
-    sprints.select(column_name).order(:enddate).each_with_index {|x, index| stories_data << [index, x[column_name]]}
-    stories_data
+    sprints.select(column_name).order(:enddate).map.with_index {|x, index| [index, x[column_name]]}.presence || []
   end
 
   def axis_graph_by_column column_name, sum_column_name = nil
@@ -148,25 +143,20 @@ class Team < ApplicationRecord
   end
 
   def longer_issue
-    issue = issues_selectable_for_graph.last
-    return issues.first if issue.blank?
-    issue
+    issues_selectable_for_graph.last.presence || issues.first
   end
 
   def shortest_issue
-    issue = issues_selectable_for_graph.first
-    return issues.first if issue.blank?
-    issue
+    issues_selectable_for_graph.first.presence || issues.first
   end
 
   def update_active_sprint p = {}
-    Sprint.find_or_initialize_by(sprint_id: p[:sprint_id]).update(p)
+    Sprint.find_or_initialize_by(sprint_id: p.sprint_id).update(p.to_h.compact)
   end
 
   protected
 
-  def sum_by_colum column_name
-    sum_colum = sprints.select(column_name).average(column_name)
-    sum_colum.blank? ? 0 : sum_colum
+  def sum_by_column column_name
+    sprints.select(column_name).average(column_name).presence || 0
   end
 end

@@ -76,7 +76,7 @@ class SprintsController < ApplicationController
   end
 
   def import_issues
-    unless import_params[:id].blank?
+    unless import_params[:sprint_id].blank?
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
       criteria = import_params
       criteria[:team_id] = @team.id
@@ -84,7 +84,7 @@ class SprintsController < ApplicationController
       issues = import_sprint(criteria[:id], options).map {|elem| IssueBuilder.new(elem, @team.estimated)}
       issues_save = issues.select {|el| el.closed_in.include? criteria[:id] unless el.closed_in.blank?}
       sprint_data = SprintsHelper::SprintBuilder.new(issues, criteria)
-      @team.update_active_sprint(sprint_data.to_sprint)
+      @team.update_active_sprint(sprint_data)
       @team.sprints.find_by(sprint_id: sprint_data.id).save_issues issues_save
       Rails.cache.clear
     end
@@ -97,8 +97,8 @@ class SprintsController < ApplicationController
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
       issues = import_sprint(@sprint.sprint_id, options).map {|e| IssueBuilder.new(e, @team&.estimated)}
       issues_save = issues.select {|e| e.closed_in.include? @sprint.sprint_id.to_s unless e.closed_in.blank?}
-      sprint_data = SprintsHelper::SprintBuilder.new(issues, {id: @team.sprint.sprint_id.to_s, team_id: @team.id, board_type: @team.board_type})
-      @sprint.update(sprint_data.to_sprint)
+      sprint_data = SprintsHelper::SprintBuilder.new(issues, {sprint_id: @team.sprint.sprint_id.to_s, team_id: @team.id, board_type: @team.board_type})
+      @sprint.update(sprint_data.to_h)
       @sprint.save_issues issues_save
       Rails.cache.clear
     end
@@ -160,7 +160,12 @@ class SprintsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def import_params
     params.permit(:id, :completeDate, :endDate, :name, :startDate, :enddate, :state, :originBoardId)
+    params.tap { |p| p[:start_date] = p[:startDate] }.permit(:start_date)
+    params.tap { |p| p[:enddate] = p[:endDate] }.permit(:enddate)
+    params.tap { |p| p[:sprint_id] = p[:id] }.permit(:sprint_id)
+    pp params
   end
+
 
 
   def sprint_params

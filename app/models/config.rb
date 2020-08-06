@@ -7,7 +7,7 @@ class Config < ApplicationRecord
 	end
 
 	def self.assign_or_new(attributes)
-		obj = first || new
+		obj = first.presence || new
 		obj.assign_attributes(attributes)
 		obj
 	end

@@ -8,7 +8,7 @@ class Retrospective < ApplicationRecord
   scope :to_vue, -> (id) {where(team_id: id).order(position: :asc).to_json(
       only: [:id, :name, :position, :team_id],
       include: {postits: {
-          include: [:user,comments: {include: :actor }]
+          include: [:user, comments: {include: :actor}]
       }
       }
   )

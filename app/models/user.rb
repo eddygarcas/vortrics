@@ -22,8 +22,7 @@ class User < ApplicationRecord
   end
 
   def self.workflow type = :open
-    return nil if Thread.current[:user].setting.blank?
-    Thread.current[:user].setting.workflow_tags_for(type)
+    Thread&.current[:user]&.setting&.workflow_tags_for(type)
   end
 
   def save_dependent setting_id = nil, is_admin = nil
@@ -36,8 +35,7 @@ class User < ApplicationRecord
   end
 
   def teams
-    return [] unless setting.present?
-    Team.by_setting(setting.id)
+    Team.by_setting(setting&.id).presence || []
   end
 
   def setting?
