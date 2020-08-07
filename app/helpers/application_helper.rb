@@ -22,6 +22,7 @@ module ApplicationHelper
 	end
 
 	def vt_items_text_tag
+		return if @team.sprint.blank?
 		content_tag(:strong, @team&.sprint&.issues&.count.to_s) <<
 				" Items and " <<
 				content_tag(:strong, @team&.sprint&.sprint_commitment.to_s) <<
