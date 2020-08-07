@@ -97,8 +97,20 @@ class Team < ApplicationRecord
     sum_by_column(:bugs).round.to_i
   end
 
-  def percent_of_lead_time days = Vortrics.config[:baseline][:leadtime]
-    Montecasting::Metrics.percent_of_items_at(issues_selectable_for_graph.map(&:cycle_time),days)
+  def rate_process
+    (100 - sprints.map(&:ratio_items_flagged).average.to_i) / 20
+  end
+
+  def rate_quality
+    sprints.map(&:first_time_pass).average.to_i / 20
+  end
+
+  def rate_delivery
+    percent_of_time(Vortrics.config[:baseline][:leadtime],:lead_time).to_i / 20
+  end
+
+  def percent_of_time days = Vortrics.config[:baseline][:cycletime],field = :cycle_time
+    Montecasting::Metrics.percent_of_items_at(issues_selectable_for_graph.map(&field),days)
   end
 
   def percent_of_capacity

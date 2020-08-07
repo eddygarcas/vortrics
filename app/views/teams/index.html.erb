@@ -43,9 +43,9 @@
                   <td><%= team.name %></td>
                   <td><%= board team %></td>
                   <td>
-                    <%= tmf_stars team.tmf_process %></td>
-                  <td><%= tmf_stars team.tmf_value %></td>
-                  <td><%= tmf_stars team.tmf_quality %></td>
+                    <%= tmf_stars team.rate_process %></td>
+                  <td><%= tmf_stars team.rate_delivery %></td>
+                  <td><%= tmf_stars team.rate_quality %></td>
                   <td class="actions">
                     <%= link_to fa_icon_tag("eye"), get_dashboard_path(team.id), class: "pull-left btn-xs", data: {toggle: :tooltip, title: 'Show metrics', disable_with: "<i class='fa fa-spinner fa-pulse'></i>"} %>
                     <%= link_to fa_icon_tag("trash-o"), team, method: :delete,class: "pull-left btn-xs", data: {toggle: :tooltip, title: 'Delete',confirm: 'Are you sure?'} %>

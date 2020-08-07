@@ -1,10 +1,10 @@
 <div class="panel panel-cover" style="background-image: url(<%= image_path("/images/grey_panel.jpg") %>)">
-    <p class="lead p10">Team Maturity</p>
+    <p class="lead p10">System Performance</p>
     <%= tmf_badge 170, "img-circle" %>
     <h3 class='mt0'><%=tmf_elem(@team,'name'){|elem| elem}%></h3>
     <ul class="stats list-unstlyed list-inline clearfix">
-      <li class="col-4"><span><%= tmf_elem(@team,'tmf_process') {|elem| tmf_stars(elem)} %></span>Process</li>
-      <li class="col-4"><span><%= tmf_elem(@team,'tmf_value') {|elem| tmf_stars(elem)}  %></span>Delivery</li>
-      <li class="col-4"><span><%= tmf_elem(@team,'tmf_quality') {|elem| tmf_stars(elem)}  %></span>Quality</li>
+      <li class="col-4"><span><%= tmf_stars(@team.rate_process) %></span>Process</li>
+      <li class="col-4"><span><%= tmf_stars(@team.rate_delivery)  %></span>Delivery</li>
+      <li class="col-4"><span><%= tmf_stars(@team.rate_quality)  %></span>Quality</li>
     </ul>
   </div>

@@ -17,14 +17,14 @@
           <small>CYCLE TIME TRENDS TO</small>
         </div>
         <div class="metric-trend">
-          <%= vt_trend_tag @team.percent_of_lead_time, 85, :thumbs %>
-          <small>Cycle Time < <%= Vortrics.config[:baseline][:leadtime] %> Days</small>
+          <%= vt_trend_tag @team.percent_of_time, 85, :thumbs %>
+          <small>Cycle Time < <%= Vortrics.config[:baseline][:cycletime] %> Days</small>
         </div>
         <div class="metric-value" style="margin-top: -30px;">
         </div>
         <div class="metric-trend">
-          <%= vt_trend_tag @team.percent_of_lead_time(10), 85, :thumbs %>
-          <small>Cycle Time < 10 Days</small>
+          <%= vt_trend_tag @team.percent_of_time(5), 85, :thumbs %>
+          <small>Cycle Time < 5 Days</small>
         </div>
       </div>
     </div>

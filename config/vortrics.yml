@@ -15,7 +15,8 @@ defaults: &defaults
     :testing: review,in review,testing
     :done: closed,done,production
   :baseline:
-    :leadtime: 5
+    :leadtime: 10
+    :cycletime: 1
   :advices:
     :more_than_one_sprint?:
       :advice_type: :more_than_one_sprint?

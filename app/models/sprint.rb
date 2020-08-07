@@ -116,7 +116,9 @@ class Sprint < ApplicationRecord
   end
 
   def items_flagged
-    issues&.each(&:change_logs).select(&:flagged?)
+    Rails.cache.fetch("items_flagged_#{sprint_id}", expires_in: 1.day) {
+      issues&.each(&:change_logs).select(&:flagged?)
+    }
   end
 
 end
