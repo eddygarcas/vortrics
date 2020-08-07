@@ -97,8 +97,15 @@ class SprintsController < ApplicationController
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
       issues = import_sprint(@sprint.sprint_id, options).map {|e| IssueBuilder.new(e, @team&.estimated)}
       issues_save = issues.select {|e| e.closed_in.include? @sprint.sprint_id.to_s unless e.closed_in.blank?}
-      sprint_data = SprintsHelper::SprintBuilder.new(issues, {sprint_id: @team.sprint.sprint_id.to_s, team_id: @team.id, board_type: @team.board_type})
-      @sprint.update(sprint_data.to_h)
+      sprint_data = SprintsHelper::SprintBuilder.new(
+          issues,
+          {
+              sprint_id: @team&.sprint&.sprint_id.to_s,
+              team_id: @team&.id,
+              board_type: @team&.board_type
+          }
+      ).to_h.compact
+      @sprint.update(sprint_data)
       @sprint.save_issues issues_save
       Rails.cache.clear
     end
@@ -153,8 +160,7 @@ class SprintsController < ApplicationController
   end
 
   def set_board
-    boardid = params[:board_id].blank? ? Team.first.board_id : params[:board_id]
-    @team = Team.find_by_board_id(boardid)
+    @team = Team.find_by_board_id(params[:board_id].presence || Team.first.board_id)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -165,8 +171,6 @@ class SprintsController < ApplicationController
     params.tap { |p| p[:sprint_id] = p[:id] }.permit(:sprint_id)
     pp params
   end
-
-
 
   def sprint_params
     params.require(:sprint).permit(:name, :stories, :bugs, :closed_points, :remaining_points, :enddate, :remainingstories, :team_id, :sprint_id, :page, :per_page)

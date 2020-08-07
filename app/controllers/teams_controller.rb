@@ -45,7 +45,7 @@ class TeamsController < ApplicationController
 
   # GET /teams/1/graph_stories
   def get_graph_stories
-    cycle_time_user_stories = @team.issues_selectable_for_graph.sort_by(&:resolutiondate).map { |issue| issue.cycle_time }
+    cycle_time_user_stories = @team.issues_selectable_for_graph.sort_by(&:resolutiondate).map(&:cycle_time)
     render json: cycle_time_user_stories.map.with_index { |issue, index| [index, cycle_time_user_stories.take(index).average] }
   end
 
@@ -239,10 +239,14 @@ class TeamsController < ApplicationController
   private
 
   def bugs_selectable_for_graph
-    options = {fields: vt_jira_issue_fields, maxResults: 400}
-    bug_for_board(@team.board_id, (DateTime.now - 6.months).strftime("%Y-%m-%d"),nil, options)
+    bug_for_board(
+        @team.board_id,
+        (DateTime.now - 6.months).strftime("%Y-%m-%d"),
+        nil,
+        {fields: vt_jira_issue_fields, maxResults: 400
+        }
+    )
   end
-
 
   def sortable_columns
     ['resolutiondate', 'cycle_time']
@@ -259,7 +263,6 @@ class TeamsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_team
     @team = Team.find(params[:id])
-    side_nav_info
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

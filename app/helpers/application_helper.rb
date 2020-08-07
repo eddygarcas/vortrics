@@ -13,7 +13,7 @@ module ApplicationHelper
 
 	def vt_project_icon style = "img-circle profile-image"
 		return image_tag("/images/voardtrix_logo.png", class: style, height: '30', width: '30') if (@team&.project_info.blank?)
-		image_tag @team.project_info&.icon, class: style, height: '30', width: '30'
+		image_tag @team&.project_info&.icon, class: style, height: '30', width: '30'
 	end
 
 	def vt_project_name
@@ -22,10 +22,9 @@ module ApplicationHelper
 	end
 
 	def vt_items_text_tag
-		return if @team.sprint.blank?
-		content_tag(:strong, @team.sprint.issues.count.to_s) <<
+		content_tag(:strong, @team&.sprint&.issues.count.to_s) <<
 				" Items and " <<
-				content_tag(:strong, @team.sprint.sprint_commitment.to_s) <<
+				content_tag(:strong, @team&.sprint&.sprint_commitment.to_s) <<
 				" Story points"
 	end
 

@@ -13,8 +13,8 @@ module SprintsHelper
     end
 
     def generate_sprint_info(issues = nil)
-      current_issues = scrum? ? issues.select {|el| el.closed_in.include? id} : issues
-      exclude_issue = scrum? ? issues.select {|el| el.closed_in.exclude? id} : []
+      current_issues = scrum? ? issues.select {|el| el.closed_in.include? sprint_id} : issues
+      exclude_issue = scrum? ? issues.select {|el| el.closed_in.exclude? sprint_id} : []
 
       self.closed_points = current_issues&.map_sum_done(&:story_points).compact.inject(&:+).to_i
 
