@@ -73,7 +73,6 @@ GEM
       activerecord (>= 4.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    after_do (0.4.0)
     atlassian-jwt (0.2.0)
       jwt (~> 2.1.0)
     awesome_print (1.8.0)
@@ -102,7 +101,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.6)
+    concurrent-ruby (1.1.7)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
@@ -359,7 +358,6 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_list
-  after_do
   awesome_print
   binky-builder (~> 0.5.x)
   bootstrap-datepicker-rails
