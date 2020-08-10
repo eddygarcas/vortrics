@@ -8,7 +8,7 @@
 
   <div class="progress-bar progress-bar-warning active" style="width: <%= team.bar_percent_of(:in_progress?) %>%">
     <span class="sr-only"><%= team.bar_percent_of(:in_progress?) %> % In Progress</span>
-    <i class="glyphicon glyphicon-wrench" data-toggle="tooltip" data-title="Work in progress <%= team.bar_percent_of(:in_progress?) %>%" style="margin-top: 5px;"></i>
+    <i class="fa fa-cog fa-spin" data-toggle="tooltip" data-title="Work in progress <%= team.bar_percent_of(:in_progress?) %>%" style="margin-top: 5px;"></i>
     <%= tag_info_table(team.bar_percent_of(:in_progress?), :white, :percent) if show.eql? :percent %>
   </div>
 

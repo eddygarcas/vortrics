@@ -37,9 +37,9 @@
     <li class="nav-side-menu-footer">
       <% unless @team.blank? %>
         <div>
-          <strong><%= @team.name %></strong>
+          <strong><%= @team.name %></strong> / <%= days_remain @team.sprint.enddate %> days left
         </div>
-        <%= render partial: "layouts/sprint_progress_bar", :locals => { :team => @team, :type => 'progress-mini' } %>
+        <%= render partial: "layouts/sprint_progress_bar", :locals => { :team => @team, :type => 'progress-striped' } %>
         <div class='text-center'>
           <%= vt_items_text_tag %>
         </div>
