@@ -16,10 +16,11 @@ class Team < ApplicationRecord
   scope :progress_by_project, -> (key) {where("project = ?", key).all.sort_by {|e| e.sprint.enddate}}
 
   def sprint
-     sprints.active
+     sprints&.active
   end
 
   def issues
+    return nil if sprint.blank?
     sprint&.issues
   end
 
@@ -98,15 +99,27 @@ class Team < ApplicationRecord
   end
 
   def rate_process
-    (100 - sprints.map(&:ratio_items_flagged).average.to_i) / 20
+    begin
+      (100 - sprints.map(&:ratio_items_flagged).average.to_i) / 20
+    rescue FloatDomainError
+      0
+    end
   end
 
   def rate_quality
-    sprints.map(&:first_time_pass).average.to_i / 20
+    begin
+      sprints.map(&:first_time_pass).average.to_i / 20
+    rescue FloatDomainError
+      0
+    end
   end
 
   def rate_delivery
-    percent_of_time(Vortrics.config[:baseline][:leadtime],:lead_time).to_i / 20
+    begin
+      percent_of_time(Vortrics.config[:baseline][:leadtime],:lead_time).to_i / 20
+    rescue FloatDomainError
+      0
+    end
   end
 
   def percent_of_time days = Vortrics.config[:baseline][:cycletime],field = :cycle_time

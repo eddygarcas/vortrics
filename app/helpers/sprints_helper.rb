@@ -17,16 +17,12 @@ module SprintsHelper
       exclude_issue = scrum? ? issues.select {|el| el.closed_in.exclude? sprint_id} : []
 
       self.closed_points = current_issues&.map_sum_done(&:story_points).compact.inject(&:+).to_i
-
       self.stories = current_issues&.map_sum_done(&:task?).map(&:to_i).inject(&:+).to_i
       self.bugs = current_issues&.map_sum_done(&:bug?).map(&:to_i).inject(&:+).to_i
-
       self.remainingstories = current_issues&.map_sum_done([:new, :indeterminate],&:task?).map(&:to_i).inject(&:+).to_i
       self.remaining_points = current_issues&.map_sum_done([:new, :indeterminate],&:story_points).compact.inject(&:+).to_i
-
       self.remainingstories += exclude_issue.select(&:task?).count
       self.remaining_points += exclude_issue.map_sum(&:story_points).compact.inject(&:+).to_i
-      self.board_type = nil
     end
 
     def kanban?

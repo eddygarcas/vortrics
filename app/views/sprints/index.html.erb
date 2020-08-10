@@ -74,7 +74,11 @@
             <tbody>
             <% @sprints.each do |sprint| %>
                 <tr class="active <%= sprint.team_name.downcase %>">
-                  <td class="text-center"><%= link_to fa_icon_tag("refresh"), sprint_refresh_issues_path(sprint), rel: 'tooltip', title: 'Sprint Active / Click to refresh', data: {disable_with: "<i class='fa fa-refresh fa-spin'></i>"} if sprint.enddate >= Time.now %></td>
+                  <td class="text-center">
+                    <%= link_to fa_icon_tag("refresh"),
+                                sprint_refresh_issues_path(sprint), rel: 'tooltip', title: 'Sprint Active / Click to refresh',
+                                data: {disable_with: "<i class='fa fa-refresh fa-spin'></i>"} unless sprint.enddate.present? %>
+                  </td>
                   <td><%= sprint.name %></td>
                   <td><%= sprint.start_date.strftime('%a, %d/%b/%Y') unless sprint.start_date.blank? %></td>
                   <td><%= sprint.enddate.strftime('%a, %d/%b/%Y') unless sprint.enddate.blank? %></td>

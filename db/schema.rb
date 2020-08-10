@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_28_082436) do
+ActiveRecord::Schema.define(version: 2020_08_10_081958) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -218,6 +218,9 @@ ActiveRecord::Schema.define(version: 2020_01_28_082436) do
     t.integer "remainingstories", default: 0
     t.date "start_date"
     t.integer "sprint_id"
+    t.datetime "completeDate"
+    t.string "board_type"
+    t.string "originBoardId"
     t.index ["team_id"], name: "index_sprints_on_team_id"
   end
 

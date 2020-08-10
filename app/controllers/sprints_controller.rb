@@ -81,11 +81,11 @@ class SprintsController < ApplicationController
       criteria = import_params
       criteria[:team_id] = @team.id
       criteria[:board_type] = @team.board_type
-      issues = import_sprint(criteria[:id], options).map {|elem| IssueBuilder.new(elem, @team.estimated)}
-      issues_save = issues.select {|el| el.closed_in.include? criteria[:id] unless el.closed_in.blank?}
+      issues = import_sprint(criteria[:sprint_id], options).map {|elem| IssueBuilder.new(elem, @team.estimated)}
+      issues_save = issues.select {|el| el.closed_in.include? criteria[:sprint_id] unless el.closed_in.blank?}
       sprint_data = SprintsHelper::SprintBuilder.new(issues, criteria)
       @team.update_active_sprint(sprint_data)
-      @team.sprints.find_by(sprint_id: sprint_data.id).save_issues issues_save
+      @team.sprints.find_by(sprint_id: sprint_data.sprint_id).save_issues issues_save
       Rails.cache.clear
     end
     redirect_to sprint_import_url(criteria[:originBoardId]), notice: 'Sprint has successfully been imported.'
@@ -165,11 +165,10 @@ class SprintsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def import_params
-    params.permit(:id, :completeDate, :endDate, :name, :startDate, :enddate, :state, :originBoardId)
     params.tap { |p| p[:start_date] = p[:startDate] }.permit(:start_date)
     params.tap { |p| p[:enddate] = p[:endDate] }.permit(:enddate)
     params.tap { |p| p[:sprint_id] = p[:id] }.permit(:sprint_id)
-    pp params
+    params.permit(:sprint_id, :completeDate,:name, :start_date, :enddate, :originBoardId)
   end
 
   def sprint_params
