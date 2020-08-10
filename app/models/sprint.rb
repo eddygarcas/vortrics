@@ -63,16 +63,16 @@ class Sprint < ApplicationRecord
   def ratio_time_flagged
     begin
       ((time_in_log.days / 1.hour) / issues.select(&:task?).count.to_f).round(0)
-    rescue FloatDomainError => e
-      return 0
+    rescue FloatDomainError
+      0
     end
   end
 
   def ratio_items_flagged
     begin
       items_flagged.count.percent_of(issues.select(&:task?).count).round(0)
-    rescue FloatDomainError => e
-      return 0
+    rescue FloatDomainError
+      0
     end
   end
 
@@ -82,11 +82,6 @@ class Sprint < ApplicationRecord
 
   def total_stories
     stories + (remainingstories.presence || 0)
-  end
-
-
-  def changed_scope added
-    @scope = added.to_f.percent_of(total_stories.to_f).round
   end
 
   def sprint_commitment

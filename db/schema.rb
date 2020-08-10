@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_10_081958) do
+ActiveRecord::Schema.define(version: 2020_08_10_104903) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -221,6 +221,7 @@ ActiveRecord::Schema.define(version: 2020_08_10_081958) do
     t.datetime "completeDate"
     t.string "board_type"
     t.string "originBoardId"
+    t.integer "change_scope"
     t.index ["team_id"], name: "index_sprints_on_team_id"
   end
 

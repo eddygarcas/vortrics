@@ -18,7 +18,6 @@ class SprintsController < ApplicationController
   # GET /sprints/1.json
   def show
     @bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, @sprint.enddate, {fields: :key}).map {|elem| IssueBuilder.new(elem)}
-    @sprint.changed_scope(sprint_report(@sprint.team.board_id, @sprint.sprint_id)['issueKeysAddedDuringSprint'].count) unless @sprint&.team.kanban?
   end
 
   # GET /sprints/news
@@ -38,14 +37,13 @@ class SprintsController < ApplicationController
     data = Rails.cache.fetch("graph_closed_by_day_sprint_#{@sprint.id}", expires_in: 30.minutes) {
       data = Array.new {Array.new}
       bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, @sprint.enddate, {fields: :created}).map {|elem| IssueBuilder.new(elem)}
-      burndown = @sprint.issues.select(&:task?).count
+      burndown = @sprint.stories + @sprint.remainingstories
       data[0] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of_by_date(@sprint.issues, :resolutiondate, :story, date)}}
       data[1] = @sprint.week_days.map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
       data[2] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of(bugs, date, :created_at)}}
       data[3] = @sprint.week_days.map.with_index {|date, index| {x: index, y: burndown = GraphHelper.number_of_by_date(@sprint.issues, :resolutiondate, :story, date, burndown)}}
       data
     }
-
     render json: data
   end
 
@@ -81,12 +79,15 @@ class SprintsController < ApplicationController
       criteria = import_params
       criteria[:team_id] = @team.id
       criteria[:board_type] = @team.board_type
+      criteria[:change_scope] = sprint_report(@team.board_id, criteria[:sprint_id])['issueKeysAddedDuringSprint'].count
+
       issues = import_sprint(criteria[:sprint_id], options).map {|elem| IssueBuilder.new(elem, @team.estimated)}
       issues_save = issues.select {|el| el.closed_in.include? criteria[:sprint_id] unless el.closed_in.blank?}
       sprint_data = SprintsHelper::SprintBuilder.new(issues, criteria)
       @team.update_active_sprint(sprint_data)
       @team.sprints.find_by(sprint_id: sprint_data.sprint_id).save_issues issues_save
       Rails.cache.clear
+
     end
     redirect_to sprint_import_url(criteria[:originBoardId]), notice: 'Sprint has successfully been imported.'
   end
@@ -102,7 +103,8 @@ class SprintsController < ApplicationController
           {
               sprint_id: @team&.sprint&.sprint_id.to_s,
               team_id: @team&.id,
-              board_type: @team&.board_type
+              board_type: @team&.board_type,
+              change_scope: sprint_report(@team.board_id, @team&.sprint&.sprint_id.to_s)['issueKeysAddedDuringSprint'].count
           }
       ).to_h.compact
       @sprint.update(sprint_data)

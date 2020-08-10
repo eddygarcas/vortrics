@@ -108,7 +108,7 @@ class Team < ApplicationRecord
 
   def rate_quality
     begin
-      sprints.map(&:first_time_pass).average.to_i / 20
+      (sprints.map(&:first_time_pass).average.to_i / 20)
     rescue FloatDomainError
       0
     end
@@ -116,7 +116,9 @@ class Team < ApplicationRecord
 
   def rate_delivery
     begin
-      percent_of_time(Vortrics.config[:baseline][:leadtime],:lead_time).to_i / 20
+      lt = (percent_of_time(Vortrics.config[:baseline][:leadtime],:lead_time).to_i / 20)
+      scope = (sprints.map(&:change_scope).average.to_i / 20)
+      [lt,scope].average.to_i
     rescue FloatDomainError
       0
     end

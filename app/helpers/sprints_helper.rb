@@ -23,6 +23,7 @@ module SprintsHelper
       self.remaining_points = current_issues&.map_sum_done([:new, :indeterminate],&:story_points).compact.inject(&:+).to_i
       self.remainingstories += exclude_issue.select(&:task?).count
       self.remaining_points += exclude_issue.map_sum(&:story_points).compact.inject(&:+).to_i
+      self.change_scope = self.change_scope.to_f.percent_of(self.stories + self.remainingstories).to_i
     end
 
     def kanban?
