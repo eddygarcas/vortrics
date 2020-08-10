@@ -30,7 +30,7 @@ module JiraHelper
   protected
 
   def agile_query(client, url, jql_param = {}, options = {})
-    search_url = '/rest/agile/1.0' + url
+    search_url = Vortrics.config[:jira][:agile_url] + url
     jql_param.update JIRA::Base.query_params_for_search(options)
     response = client.get(url_with_query_params(search_url, jql_param))
     json = JSON.parse(response.body)
@@ -41,22 +41,20 @@ module JiraHelper
     json
   end
 
-  def greenhopper_query(client, url, jql_param = {}, options = {})
-    search_url = '/rest/greenhopper/1.0' + url
+  def green_hopper_query(client, url, jql_param = {}, options = {})
+    search_url = Vortrics.config[:jira][:green_hopper_url] + url
     jql_param.update JIRA::Base.query_params_for_search(options)
-    response = client.get(url_with_query_params(search_url, jql_param))
-    JSON.parse(response.body)
+    JSON.parse(client.get(url_with_query_params(search_url, jql_param)).body)
   end
 
   def rest_query(client, path, jql_param = {}, options = {})
     search_url = client.options[:rest_base_path] + path
-    query_params = {:jql => parse_jql_paramters(jql_param)}
+    query_params = {:jql => parse_jql_params(jql_param)}
     query_params.update JIRA::Base.query_params_for_search(options)
-    response = client.get(url_with_query_params(search_url, query_params))
-    JSON.parse(response.body)
+    JSON.parse(client.get(url_with_query_params(search_url, query_params)).body)
   end
 
-  def parse_jql_paramters jql_param
+  def parse_jql_params(jql_param)
     jql_param.map{|k,v| "#{k}#{v}"}.join(' AND ')
   end
 

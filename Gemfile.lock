@@ -73,6 +73,7 @@ GEM
       activerecord (>= 4.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    after_do (0.4.0)
     atlassian-jwt (0.2.0)
       jwt (~> 2.1.0)
     awesome_print (1.8.0)
@@ -358,6 +359,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_list
+  after_do
   awesome_print
   binky-builder (~> 0.5.x)
   bootstrap-datepicker-rails

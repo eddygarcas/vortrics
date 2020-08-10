@@ -50,8 +50,6 @@ Check out the following link to know how to set up an application link in JIRA. 
 Regarding *:changelogfields:* will process those areas specified here and ignore the rest, by this we want to avoid process the large volume of data comming in this section.
 ```ruby
   :jira:
-    :site: ""
-    :restbasepath: ""
     :fields: key,priority,issuetype,status,componentes,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint,histories
     :changelogfields: status,flagged,component
  ```
