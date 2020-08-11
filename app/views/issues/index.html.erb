@@ -1,9 +1,7 @@
 <% @title = "Issue list" %>
 
 <% content_for :description do %>
-
-  <p><%= vt_project_icon %>
-    Issues <%= vt_project_name %></p>
+  <p><%= vt_project_icon %> Issues <%= vt_project_name %></p>
   <%= render 'layouts/settings_nav' %>
 <% end %>
 
@@ -52,16 +50,16 @@
                   <td><%= issue.customfield_11382 %> <%= issue.customfield_11382.to_i > 1 ? fa_icon_tag("exclamation-triangle") : '' %></td>
                   <td><%= issue.summary[0..60] %></td>
                   <td><%= issue.customfield_11802 %></td>
-                  <td><%= issue.created.strftime("%d/%m") unless issue.created.nil? %></td>
-                  <td><%= issue.resolutiondate.strftime("%d/%m") unless issue.resolutiondate.nil? %></td>
+                  <td><%= issue&.created&.strftime("%d/%m") %></td>
+                  <td><%= issue&.resolutiondate&.strftime("%d/%m") %></td>
                   <td><%= vt_issue_status_tag issue.status, issue.statusname %></td>
                   <td><%= issue.components %></td>
                   <td><%= issue.assignee %></td>
                   <td><%= fa_icon_tag("flag") if issue.flagged? %></td>
-                  <td><%= issue.time_in({toString: :wip},{toString: :done}) %></td>
+                  <td><%= issue.time_in({toString: :first},{toString: :done}) %></td>
                   <td class="actions">
                     <%= link_to fa_icon_tag("eye"), issue, data: {toggle: "tooltip", title: 'Show issue details'} %>
-                    <%= link_to ionicon_icon_tag("ios-infinite"), issue.sprint, data: {toggle: "tooltip", title: 'Go to sprint'} %>
+                    <%= link_to ionicon_icon_tag("ios-infinite"), issue.sprint, data: {toggle: "tooltip", title: 'Show sprint'} %>
                     <%= link_to fa_icon_tag("trash-o"), issue, method: :delete, data: {toggle: "tooltip", title: 'Delete',confirm: 'Are you sure?'} %>
                   </td>
                 </tr>

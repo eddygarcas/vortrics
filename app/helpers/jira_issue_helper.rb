@@ -17,7 +17,7 @@ module JiraIssueHelper
       issue.issuetypeid = fields.issuetype&.id.to_i
       issue.summary = fields.summary
       issue.closed_in = fields.sprint_info&.self
-      issue.customfield_11382 = fields.count_sprints
+      issue.customfield_11382 = count_sprints
       issue.description = fields.description
       issue.priority = fields.priority&.name
       issue.priorityicon = fields.priority&.iconUrl
@@ -42,7 +42,7 @@ module JiraIssueHelper
           issuetypeid: fields.issuetype&.id.to_i,
           summary: fields.summary,
           closed_in: fields.sprint_info&.self,
-          customfield_11382: fields.count_sprints,
+          customfield_11382: count_sprints,
           description: fields.description,
           priority: fields.priority&.name,
           priorityicon: fields.priority&.iconUrl,
