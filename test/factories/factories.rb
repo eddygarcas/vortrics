@@ -7,6 +7,11 @@ FactoryBot.define do
         create(:team_with_advice, setting_id: user.setting.id)
       end
     end
+    trait :with_sprint do
+      after(:create) do |user|
+        create(:team_with_sprint, setting_id: user.setting.id)
+      end
+    end
     id {Faker::Number.between(from: 1,to: 50000)}
     email { Faker::Internet.email }
     password { "password"}
@@ -14,7 +19,6 @@ FactoryBot.define do
     extuser { "eduard.garcia" }
     setting
   end
-
 
   factory :setting do
     id {Faker::Number.between(from: 1,to: 50000)}
