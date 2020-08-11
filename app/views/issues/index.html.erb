@@ -1,44 +1,26 @@
-<% @title = "Clean Up" %>
-<script>
-    $('#hideSubtasks').on("click", function () {
-        var rows = $('table.table tr');
-        var otro = rows.filter('.false').show();
-        if ($("#hideSubtasks")[0].checked) {
-            rows.not(otro).hide();
-        } else {
-            rows.not(otro).show();
-        }
-    });
-</script>
+<% @title = "Issue list" %>
 
 <% content_for :description do %>
 
   <p><%= vt_project_icon %>
-    Issues</p>
+    Issues <%= vt_project_name %></p>
   <%= render 'layouts/settings_nav' %>
-
 <% end %>
 
-<% content_for :actions do %>
-    <label class="switch switch-info pull-right align-middle" data-toggle="tooltip" data-title="Hide Sub-Tasks" data-placement="auto">
-      <input type="checkbox" id="hideSubtasks" text="Hide subtasks">
-      <span></span>
-    </label>
-<% end %>
+<% content_for :actions do %><% end %>
 
 <div class="container-fluid">
 
   <ul class="nav nav-tabs">
 
     <li class='navbar-form pull-right'>
-      <%= link_to sprints_path, class: 'pull-right', data: { toggle: "tooltip", title: 'Clean up sprints' } do %>
-        <%= fa_icon_tag "trash" %> Clean up Sprints
-      <% end %>
+      <%= activatable_li_tag sprints_path do |url|
+        link_to_unless !current_user.admin?, fa_icon_tag("trash") << " Clean up Sprints", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
+          link_to fa_icon_tag("trash") << " Sprints", url, data: { toggle: "tooltip", title: 'Clean up sprints'}
+        end
+      end %>
     </li>
-
-
   </ul>
-
 
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

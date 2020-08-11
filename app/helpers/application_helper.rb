@@ -58,7 +58,7 @@ module ApplicationHelper
 	end
 
 	def days_remain(enddate = Time.now.to_datetime)
-		(Time.now.to_datetime..enddate).map { |day| (day.sunday?.to_i + day.saturday?.to_i)}.inject(&:+)
+		(Time.now.to_datetime..enddate).map { |day| (day.sunday?.to_i + day.saturday?.to_i)}.inject(&:+).presence || 0
 	end
 
 	def percent(value, total)

@@ -1,7 +1,7 @@
 class IssuesController < ApplicationController
   layout 'sidenav'
   helper_method :sort_column, :sort_direction
-  before_action :set_issue, only: [:show, :destroy]
+  before_action :set_issue, only: [:show, :destroy,:search]
   before_action :set_sprint, only: [:sprint_issues]
   before_action :team_session
 
@@ -11,7 +11,7 @@ class IssuesController < ApplicationController
     @comments = Hash.new
     @sprint = Sprint.new
     @sprint.name = 'All Issues'
-    @issues = Issue.paginate(page: params[:page], per_page: 25).order(set_order)
+    @issues = Issue.joins(:sprint).where('sprints.team_id' => @team.id).paginate(page: params[:page], per_page: 25).order(set_order)
   end
 
   #GET /issues/sprint/1
@@ -27,9 +27,10 @@ class IssuesController < ApplicationController
   # GET /issues/1
   # GET /issues/1.json
   def show
-    @comments = issue_comments(@issue.key) unless @issue.blank?
-    @attachments = issue_attachments(@issue.key) unless @issue.blank?
-    @sprint = Sprint.find(@issue.sprint_id)
+    redirect_to issues_path and return unless @issue.present?
+    @comments = issue_comments(@issue&.key)
+    @attachments = issue_attachments(@issue&.key)
+    @sprint = Sprint.find(@issue&.sprint_id)
   end
 
 
@@ -41,7 +42,6 @@ class IssuesController < ApplicationController
   #POST /issues/1
   # POST /issues/1.json
   def search
-    @issue = Issue.find_by_key params[:key]
     redirect_to issue_path(@issue) and return unless @issue.blank?
 
     @sprint = Sprint.new
