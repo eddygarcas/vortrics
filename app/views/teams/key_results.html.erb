@@ -34,17 +34,20 @@
   </div>
 
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-left-fade-1000">
+    <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 animate-left-fade-1000">
+      <%= render "selector_states" %>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-left-fade-1000" style="margin-left: -10px;">
       <%= render "teams/cycle_time_chart", :locals => { :title => "Cycle Time", :behaviour => "chart_cycle_time" } %>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-left-fade-1200">
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 animate-left-fade-1200">
       <%= render "layouts/average_stories_graph" %>
     </div>
 
   </div>
 
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  animate-rise-fade-1200">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 animate-rise-fade-1200">
       <%= render partial: "teams/cycle_time_issue_list", :locals => { :team => @team } %>
     </div>
   </div>

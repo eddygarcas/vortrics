@@ -1,17 +1,13 @@
-<div class="panel panel-metric">
-<div class="panel-body">
+<div class="panel panel-metric" style="margin-left:-25px;margin-right:-10px;">
   <div class="metric-content">
     <div class="row">
       <header class="col-xs-12">
         <h3>TREND-CYCLE TIME AVERAGE</h3>
       </header>
-      <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7" style="min-height: 285px;">
-        <div class='metric-graph' id='metric-monthly-earnings' style='height:285px;'></div>
+      <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7" style="min-height: 292px;">
+        <div class='metric-graph' id='metric-monthly-earnings' style="min-height: 292px;"></div>
       </div>
       <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-
-
-
         <div class="metric-value">
           <i class="icon ion-arrow-graph-up-right" style="font-size: 1.0em;margin-right: -5px;"></i> <%= @team.sprint.sprint_cycle_time.round(0) %>
           <small>CYCLE TIME TRENDS TO</small>
@@ -29,5 +25,4 @@
       </div>
     </div>
   </div>
-</div>
 </div>

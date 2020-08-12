@@ -1,15 +1,13 @@
 
-
 function InitializeCycleTimeGraphTeam() {
 
-    if ($('#teamid')[0] === undefined) {
-        return;
-    }
-    $.ajax({
-        type: 'GET',
-        url: '/teams/' + $('#teamid')[0].value + '/cycle_time_chart',
-        success: function (data) {
-
+    graph = new Rickshaw.Graph.Ajax({
+        element: document.getElementById('bars-cycle-time'),
+        height: 220,
+        renderer: 'multi',
+        method: 'POST',
+        dataURL: '/teams/' + $('#teamid')[0].value + '/cycle_time_chart',
+        onData: function (data) {
             document.getElementById('bars-cycle-time-loader').innerHTML = "";
 
             series = data[0];
@@ -20,38 +18,32 @@ function InitializeCycleTimeGraphTeam() {
                 min = Math.min(min, point.y);
                 max = Math.max(max, point.y);
             }
+            var scale_x = d3.scale.linear().domain([min, max]);
 
-            var axis_scale1 = d3.scale.linear().domain([min, max]);
-            var axis_scale2 = d3.scale.linear().domain([0, 100]);
-
-
-            graph = new Rickshaw.Graph({
-                element: document.getElementById('bars-cycle-time'),
-                height: 220,
-                renderer: 'multi',
-                series: [
-                    {
-                        name: 'Tickets',
-                        renderer: 'bar',
-                        color: '#90caf9',
-                        data: data[0],
-                        scale: axis_scale1
-                    },
-                    {
-                        name: 'Cumulative',
-                        renderer: 'line',
-                        color: '#d13b47',
-                        data: data[1],
-                        scale: axis_scale2
-                    }
-                ]
-            });
-
+            window.store.state.selector.mseries = [
+                {
+                    name: 'Tickets',
+                    renderer: 'bar',
+                    color: '#90caf9',
+                    data: data[0],
+                    scale: scale_x
+                },
+                {
+                    name: 'Cumulative',
+                    renderer: 'line',
+                    color: '#d13b47',
+                    data: data[1],
+                    scale: d3.scale.linear().domain([0, 100])
+                }
+            ];
+            return window.store.state.selector.mseries
+        },
+        onComplete: function (transport) {
+            graph = transport.graph;
 
             var legend = new Rickshaw.Graph.Legend({
                 graph: graph,
                 element: document.getElementById('bars-cycle-time-legend')
-
             });
 
             new Rickshaw.Graph.Behavior.Series.Highlight({
@@ -67,14 +59,6 @@ function InitializeCycleTimeGraphTeam() {
                 legend: legend
             });
 
-            var format = function (n) {
-                if (data[4][n] === undefined) {
-                    return;
-                }
-                return data[0][n].y + ' Days';
-
-            }
-
             new Rickshaw.Graph.Axis.X({
                 graph: graph,
                 orientation: 'bottom',
@@ -89,33 +73,32 @@ function InitializeCycleTimeGraphTeam() {
                 element: document.getElementById('bars-cycle-time-y_axis1'),
                 graph: graph,
                 orientation: 'left',
-                scale: axis_scale1,
+                scale: window.store.state.selector.mseries[0].scale,
                 pixelsPerTick: 20,
                 tickFormat: Rickshaw.Fixtures.Number.formatKMBT
             });
+
 
             new Rickshaw.Graph.Axis.Y.Scaled({
                 element: document.getElementById('bars-cycle-time-y_axis2'),
                 graph: graph,
                 grid: false,
                 orientation: 'left',
-                scale: axis_scale2,
+                scale: d3.scale.linear().domain([0, 100]),
                 pixelsPerTick: 20,
                 tickFormat: function (x) {
                     return x + '%';
                 }
             });
 
-
             graph.render();
 
             new Rickshaw.Graph.HoverDetail({
                 graph: graph,
                 formatter: function (series, x, y) {
-                    var content = '';
-                    content += 'Days: ' + x + '<br>';
-                    if (data[0][x].y) content += '#Tickets: ' + data[0][x].y + '<br>';
-                    if (data[1][x].y) content += 'Cumulative: ' + data[1][x].y + '%';
+                    var content = 'Days: ' + x + '<br>';
+                    if (window.store.state.selector.mseries[0].data[x]) content += '#Tickets: ' + window.store.state.selector.mseries[0].data[x].y + '<br>';
+                    if (window.store.state.selector.mseries[1].data[x]) content += 'Cumulative: ' + window.store.state.selector.mseries[1].data[x].y + '%';
                     return content;
                 }
             });
@@ -127,12 +110,9 @@ function InitializeCycleTimeGraphTeam() {
                 });
                 graph.render();
             });
-
-
         },
         timeout: 5000
-    })
-
+    });
 }
 
 function InitializeReleaseTimeBugsGraphTeam() {

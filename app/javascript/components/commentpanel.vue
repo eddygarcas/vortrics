@@ -10,7 +10,7 @@
         </div>
 
         <div class="tab-content">
-            <div v-model="comments" class="tab-pane fade active in" style='height: 275px; overflow: scroll;'>
+            <div v-model="comments" class="tab-pane fade active in" style="height: 275px;overflow:scroll;overflow-x:hidden;">
                 <ul class="list-group list-group-flush">
                     <li class='list-group-item' v-for="(comment, index) in comments">
                         <div class="media">

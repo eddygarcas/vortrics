@@ -24,11 +24,13 @@ import Retrospective from '../retrospective'
 import Mfilter from '../mfilter'
 import Msummary from '../msummary'
 import Commentpanel from '../components/commentpanel'
+import Selector from '../components/selector'
 
 import montecarlo from "./modules/montecarlo";
 import retrospective from "./modules/retrospective";
 import comments from "./modules/comments"
 import workflow from "./modules/workflow";
+import cycletime from "./modules/cycletime";
 
 Vue.use(Vuex);
 Vue.use(TurbolinksAdapter);
@@ -39,7 +41,7 @@ window.store = new Vuex.Store({
         retro: retrospective,
         comm: comments,
         flows: workflow,
-
+        selector: cycletime,
     }
 });
 
@@ -47,7 +49,7 @@ document.addEventListener('turbolinks:load', () => {
     var element = document.querySelector("#boards");
     if (element != undefined) {
         window.store.state.flows.workflows = JSON.parse(element.dataset.workflows)
-        const app = new Vue({
+        new Vue({
             el: element,
             store: window.store,
             template: "<workflow/>",
@@ -59,7 +61,7 @@ document.addEventListener('turbolinks:load', () => {
     if (element != undefined) {
         window.store.state.retro.lists = JSON.parse(element.dataset.retrospectives);
         window.store.state.retro.team = JSON.parse(element.dataset.team);
-        const retrospective = new Vue({
+        new Vue({
             el: element,
             store: window.store,
             template: "<retrospective/>",
@@ -69,16 +71,28 @@ document.addEventListener('turbolinks:load', () => {
 
     element = document.querySelector('#filter')
     if (element != undefined) {
-        const filter = new Vue({
+        new Vue({
             el: element,
             store: window.store,
             template: "<mfilter/>",
             components: {Mfilter}
         })
     }
+
+    element = document.querySelector('#selector')
+    if (element != undefined) {
+        window.store.state.selector.team_id = JSON.parse(element.dataset.team);
+        new Vue({
+            el: element,
+            store: window.store,
+            template: "<selector/>",
+            components: {Selector}
+        })
+    }
+
     element = document.querySelector('#summary')
     if (element != undefined) {
-        const summary = new Vue({
+        new Vue({
             el: element,
             store: window.store,
             template: "<msummary/>",
@@ -88,7 +102,7 @@ document.addEventListener('turbolinks:load', () => {
     element = document.querySelector( '#commentpanel')
     if (element != undefined) {
         window.store.state.comm.comments.board_id = JSON.parse(element.dataset.board);
-        const commentpanel = new Vue({
+        new Vue({
             el: element,
             store: window.store,
             template: "<commentpanel/>",

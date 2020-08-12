@@ -60,6 +60,7 @@
 <%= hidden_field_tag 'teamid', @team.id, class: 'form-control', id: 'teamid' %>
 
 <div class="panel panel-default">
+
   <div class="panel-heading ">
     <p class="lead">
       <i class="fa fa-signal"></i><span id="graphtitle"><%= locals[:title] %></span>
@@ -77,6 +78,7 @@
       </div>
       <div id="bars-cycle-time-legend"></div>
     </div>
+
     <div id="bars-cycle-time-x_axis"></div>
     <div style="margin-left: 0px; width: 550px;" id="rangeSlider"></div>
   </div>

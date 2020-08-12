@@ -14,6 +14,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require d3
+//= require rickshaw
 //= require dresssed
 //= require turbolinks
 //= require sweet-alert

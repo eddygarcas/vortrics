@@ -4,6 +4,7 @@ class TeamsController < ApplicationController
   layout 'sidenav'
   helper_method :sort_column, :sort_direction
   before_action :set_team, only: [:show, :edit, :key_results, :comulative_flow_diagram, :support, :destroy]
+  before_action :ct_params, only: [:cycle_time_chart]
   before_action :team_session, except: [:show, :edit, :destroy, :key_results]
   before_action :set_current_user
 
@@ -114,10 +115,12 @@ class TeamsController < ApplicationController
   end
 
   def cycle_time_chart
-    data = Rails.cache.fetch("cycle_time_chart_#{@team.id}", expires_in: 30.minutes) {
+    data = Rails.cache.fetch("cycle_time_chart_#{@team.id}_#{ct_params}", expires_in: 30.minutes) {
       user_stories = @team.issues_selectable_for_graph
-      lead_times = user_stories.map { |elem| elem.cycle_time.ceil }
-      Montecasting::Charts.chart_cycle_time lead_times
+      selector = ct_params[:initial].presence || nil
+      user_stories.map! { |elem| elem.time_transitions({toString: ct_params[:initial].to_sym}, {toString: ct_params[:end].to_sym}).ceil } unless selector.nil?
+      user_stories.map! { |elem| elem.cycle_time.ceil } if selector.nil?
+      Montecasting::Charts.chart_cycle_time user_stories
     }
     render json: data
   end
@@ -269,4 +272,9 @@ class TeamsController < ApplicationController
   def team_params
     params.require(:team).permit(:name, :max_capacity, :current_capacity, :estimated, :board_id, :board_type, :setting_id, :project, :page, :per_page)
   end
+
+  def ct_params
+    params.permit(:initial,:end,:id)
+  end
+
 end

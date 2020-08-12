@@ -4,7 +4,6 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
-
 source "https://gems.kiso.io/" do
   gem "dresssed-ives", "~> 1.0.67"
 end
@@ -14,10 +13,8 @@ gem "rack", ">= 2.0.7"
 gem "loofah", ">= 2.2.3"
 gem "rubyzip", ">= 1.3.0"
 gem "ffi", ">= 1.11.3"
-
 # Use Puma as the app server
 gem "puma", ">= 4.3.5"
-
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -55,6 +52,7 @@ gem 'webpacker', '~> 4.x'
 
 gem 'montecasting', '>= 0.6.5'
 gem 'binky-builder', '~> 0.5.x'
+gem 'modernizr_rails'
 
 group :development, :test do
   gem 'sqlite3'

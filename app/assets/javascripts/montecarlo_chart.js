@@ -8,7 +8,8 @@ function InitializeMontecarloGraph() {
         element: document.getElementById('bars-cycle-time'),
         height: 500,
         renderer: 'multi',
-        dataURL: '/montecarlo/chart/default',
+        method: 'POST',
+        dataURL: '/montecarlo/chart',
         onData: function (data) {
 
             document.getElementById('bars-cycle-time-loader').innerHTML = "";

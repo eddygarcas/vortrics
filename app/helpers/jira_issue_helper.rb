@@ -93,7 +93,7 @@ module JiraIssueHelper
 
     def sprint_info
       return fields.sprint unless fields&.sprint.blank?
-      return IssueBuilder.new(closed_sprints) unless fields&.closedSprints.blank?
+      IssueBuilder.new(closed_sprints) unless fields&.closedSprints.blank?
     end
 
     def selectable_for_kanban?
@@ -127,6 +127,5 @@ module JiraIssueHelper
     def closed_sprints
       fields&.closedSprints.sort {|x, y| Time.parse(x['completeDate']) <=> Time.parse(y['completeDate'])}.last unless fields&.closedSprints.blank?
     end
-
   end
 end
