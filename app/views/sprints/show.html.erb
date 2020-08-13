@@ -32,10 +32,10 @@
 
 
   <div class="row match-my-cols">
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-left-fade-1000">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 animate-left-fade-1000">
       <%= render partial: "layouts/bugs_summary_panel", :locals => {:sprint => @sprint} %>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-left-fade-1000">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 animate-left-fade-1000">
       <%= render partial: "layouts/blocked_summary", :locals => {:sprint => @sprint} %>
     </div>
   </div>

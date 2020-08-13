@@ -6,17 +6,14 @@
   <div class="col-sm-12 col-md-9 animate-left-fade-1000">
     <%= render "layouts/remaining_closed_graph", :locals => { :behaviour => "chart_sprint_velocity" } %>
   </div>
-
   <div class="col-sm-12 col-md-3 animate-right-fade-1200">
     <%= render "layouts/tmf_panel" %>
   </div>
 </div>
 
 <div class="row">
-
   <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 animate-right-fade-1000">
     <%= render "layouts/release_time_graph", :locals => { :graph_id => "bars-team-release", :title => "Throughput", :behaviour => "chart_historical_throughtput" } %>
-
   </div>
   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 animate-left-fade-1200">
     <%= render "layouts/average_stories_graph" %>

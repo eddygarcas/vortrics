@@ -1,4 +1,5 @@
-<%= form_for(@user, url: devise_manage_users_path, method: :post, html: {class: 'form-inline form-control-lg'}) do |f| %>
+
+  <%= form_for(@user, url: devise_manage_users_path, method: :post, html: {class: 'form-inline'}) do |f| %>
   <table class="table">
     <thead>
     <tr>
@@ -14,19 +15,19 @@
     </thead>
     <tr>
       <td><%= image_tag '/images/voardtrix_logo.png', class: "img-circle profile-image", height: '35', width: '35' %></td>
-      <td><%= f.text_field :displayName, required: true, autofocus: true, placeholder: 'User name' %></td>
-      <td><%= f.email_field :email, required: true, placeholder: 'Email' %></td>
+      <td><%= f.text_field :displayName, required: true, autofocus: true, placeholder: 'User name',class: 'btn-sm' %></td>
+      <td><%= f.email_field :email, required: true, placeholder: 'Email',class: 'btn-sm' %></td>
       <td></td>
-      <td><%= f.password_field :password, required: true, placeholder: 'Password' %></td>
+      <td><%= f.password_field :password, required: true, placeholder: 'Password', class: 'btn-sm' %></td>
       <td>
-        <label class="switch switch-success">
+        <label class="switch switch-success btn-xs">
           <%= check_box_tag 'admin' %>
           <span></span>
         </label>
       </td>
       <td>
         <div class="btn-group">
-          <%= select_tag "setting_id", options_from_collection_for_select(Setting.all, "id", "name"), class: 'form-control form-control-lg', include_blank: "Defined by user" %>
+          <%= select_tag "setting_id", options_from_collection_for_select(Setting.all, "id", "name"), class: 'form-control mselector btn-sm', include_blank: "Defined by user" %>
         </div>
       </td>
       <td>

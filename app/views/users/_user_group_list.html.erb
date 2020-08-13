@@ -1,3 +1,15 @@
+<style>
+  .mselector {
+    display: inline-block;
+    height: 32px;
+    width: 100%;
+    outline: none;
+    color: #74646e;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+  }
+</style>
 <% @title = "Users & Groups" %>
 
 <% content_for :description do %>
@@ -15,13 +27,13 @@
           <table class="table" id="userlist">
             <thead>
             <tr>
-              <th width="15">Avatar</th>
-              <th><%= sort_link "displayName", "Name" %></th>
-              <th><%= sort_link "email", "email" %></th>
-              <th>Provider</th>
-              <th>Last login</th>
-              <th width="15">Admin</th>
-              <th width="40">Jira</th>
+              <th style="min-width:20px;">Avatar</th>
+              <th style="min-width:150px;"><%= sort_link "displayName", "Name" %></th>
+              <th style="min-width:150px;"><%= sort_link "email", "email" %></th>
+              <th style="min-width:20px;">Provider</th>
+              <th style="min-width:60px;">Last login</th>
+              <th style="min-width:15px;">Admin</th>
+              <th style="min-width:100px;">Jira</th>
               <th>Actions</th>
             </tr>
             </thead>
@@ -43,9 +55,9 @@
                     <span></span>
                   </label>
                 </td>
-                <td style="min-width: 30px;" data-behavior='user_info_<%= user.id %>'>
+                <td data-behavior='user_info_<%= user.id %>'>
                   <div class="btn-group">
-                    <%= select_tag "setting_id", options_from_collection_for_select(Setting.all, "id", "name", (user.setting.id unless user.setting.blank?)), id: user.id, include_blank: 'Not defined', data: {behaviour: :site_link}, class: 'form-control form-control-lg' %>
+                    <%= select_tag "setting_id", options_from_collection_for_select(Setting.all, "id", "name", (user.setting.id unless user.setting.blank?)), id: user.id, include_blank: 'Not defined', data: {behaviour: :site_link}, class: 'form-control btn-sm mselector' %>
                   </div>
                 </td>
 
