@@ -4,7 +4,10 @@ export default {
         team_id: 0,
         initial: 'wip',
         end: 'done',
-        scale_y: {},
+        summary: {
+            days: 0,
+            cumulative: 0,
+        },
     },
     mutations: {
         callCycleUpdate(state, data) {

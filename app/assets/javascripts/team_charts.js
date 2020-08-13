@@ -97,8 +97,15 @@ function InitializeCycleTimeGraphTeam() {
                 graph: graph,
                 formatter: function (series, x, y) {
                     var content = 'Days: ' + x + '<br>';
-                    if (window.store.state.selector.mseries[0].data[x]) content += '#Tickets: ' + window.store.state.selector.mseries[0].data[x].y + '<br>';
-                    if (window.store.state.selector.mseries[1].data[x]) content += 'Cumulative: ' + window.store.state.selector.mseries[1].data[x].y + '%';
+                    window.store.state.selector.summary.days = x
+                    if (window.store.state.selector.mseries[0].data[x]) {
+                        window.store.state.selector.summary.tickets = window.store.state.selector.mseries[0].data[x].y
+                        content += '#Tickets: ' + window.store.state.selector.mseries[0].data[x].y + '<br>';
+                    }
+                    if (window.store.state.selector.mseries[1].data[x]) {
+                        window.store.state.selector.summary.cumulative = window.store.state.selector.mseries[1].data[x].y
+                        content += 'Cumulative: ' + window.store.state.selector.mseries[1].data[x].y + '%';
+                    }
                     return content;
                 }
             });
