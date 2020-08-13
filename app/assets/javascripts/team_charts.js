@@ -201,7 +201,7 @@ function InitializeReleaseTimeBugsGraphTeam() {
                 }
                 return data[4][n].y;
 
-            }
+            };
 
             new Rickshaw.Graph.Axis.X({
                 graph: graph,
@@ -324,7 +324,7 @@ function InitializeOpenClosedBugsGraphTeam(id) {
 
             graph.render();
 
-            var hoverDetail = new Rickshaw.Graph.HoverDetail({
+            new Rickshaw.Graph.HoverDetail({
                 onShow: function (event) {
                     $('#key')[0].value = $(".key_team_bug").text();
                 },

@@ -71,7 +71,7 @@ function InitializePointsGraph() {
 
             graph.render();
 
-            var hoverDetail = new Rickshaw.Graph.HoverDetail({
+            new Rickshaw.Graph.HoverDetail({
                 graph: graph,
                 formatter: function (series, x, y) {
                     var date = '<span class="date">' + data[3][x].name + '</span>';
@@ -380,7 +380,7 @@ function InitializeGrpahStories() {
 
             graph_s.render();
 
-            var hoverDetail = new Rickshaw.Graph.HoverDetail({
+            new Rickshaw.Graph.HoverDetail({
                 graph: graph_s,
                 formatter: function (series, x, y) {
                     var sprint = '<span class="date">' + data[3][x].name + '</span>';

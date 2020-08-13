@@ -11,10 +11,7 @@
 
 // The following requires are all just for the initial demo animations on the
 // dashboard layout - you can safely remove
-
-////= require generators/data_generator
 //= require demo/flot_helper
-////= require demo/maps_helper
 
 sweetAlertConfirmConfig = {
     title: 'Are you sure?',

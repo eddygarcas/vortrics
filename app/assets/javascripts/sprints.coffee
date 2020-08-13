@@ -56,7 +56,7 @@
 
         graph.render();
 
-        var hoverDetail = new Rickshaw.Graph.HoverDetail({graph: graph});
+        new Rickshaw.Graph.HoverDetail({graph: graph});
 
         $(window).on('resize', function () {
             graph.configure({
@@ -104,7 +104,7 @@
 
         });
 
-        var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
+        new Rickshaw.Graph.Behavior.Series.Highlight({
             graph: graph,
             legend: legend,
             disabledColor: function () {
@@ -112,12 +112,12 @@
             }
         });
 
-        var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+        new Rickshaw.Graph.Behavior.Series.Toggle({
             graph: graph,
             legend: legend
         })
 
-        var clickinghandler = new Rickshaw.Graph.ClickDetail({
+        new Rickshaw.Graph.ClickDetail({
             graph: graph,
             clickHandler: function (value) {
                 window.open('/issues/' + $(".id_team_story").text(),"_self")
@@ -143,7 +143,7 @@
 
         graph.render();
 
-        var hoverDetail = new Rickshaw.Graph.HoverDetail({
+        new Rickshaw.Graph.HoverDetail({
             onShow: function (event) {
                 $('#key')[0].value = $(".key_bug_sprint").text();
             },

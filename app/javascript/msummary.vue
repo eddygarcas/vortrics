@@ -10,18 +10,18 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="metric-value col-xs-12">
                             <i v-if='summary.confidence_at_50.x == undefined' class="fa fa-fw fa-spinner fa-pulse"></i>
-                            <strong>{{ summary.confidence_at_50.x }}</strong>
-                            <small>CONFIDENCE AT {{ summary.confidence_at_50.y }}%</small>
+                            <strong>{{ summary.confidence_at_50.x }}</strong> Iteration
+                            <small style="font-size: 12px">CONFIDENCE AT {{ summary.confidence_at_50.y }}%</small>
                         </div>
                         <div class="metric-value col-xs-12">
                             <i v-if='summary.confidence_at_85.x == undefined' class="fa fa-fw fa-spinner fa-pulse"></i>
-                            <strong>{{ summary.confidence_at_85.x }}</strong>
-                            <small>CONFIDENCE AT {{ summary.confidence_at_85.y }}%</small>
+                            <strong>{{ summary.confidence_at_85.x }}</strong> Iteration
+                            <small style="font-size: 12px">CONFIDENCE AT {{ summary.confidence_at_85.y }}%</small>
                         </div>
                         <div class="metric-value col-xs-12">
                             <i v-if='summary.max_likelihood.x == undefined' class="fa fa-fw fa-spinner fa-pulse"></i>
-                            <strong>{{ summary.max_likelihood.x }}</strong>
-                            <small>MAX. LIKELIHOOD {{summary.max_likelihood.y}}%</small>
+                            <strong>{{ summary.max_likelihood.x }}</strong> Iteration
+                            <small style="font-size: 12px">MAX. LIKELIHOOD {{summary.max_likelihood.y}}%</small>
                         </div>
 
                     </div>
