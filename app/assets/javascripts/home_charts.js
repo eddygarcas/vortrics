@@ -8,17 +8,12 @@ function InitializePointsGraph() {
         type: 'GET',
         url: '/teams/' + $('#searchbox')[0].value + '/graph_points',
         success: function (data) {
-
             document.getElementById('rickshaw-bars').innerHTML = "";
             document.getElementById('rickshaw-bars-x_axis').innerHTML = "";
             document.getElementById('rickshaw-bars-y_axis1').innerHTML = "";
 
-            document.getElementById('graphtitle').innerText = "Closed VS Remaining - Story Points"
-            document.getElementById('sgraph').dataset.title = "Closed VS Leftover - User Stories"
 
-
-            var graph;
-            graph = new Rickshaw.Graph({
+            p_graph = new Rickshaw.Graph({
                 element: document.getElementById('rickshaw-bars'),
                 height: 220,
                 renderer: 'multi',
@@ -53,7 +48,7 @@ function InitializePointsGraph() {
             }
 
             new Rickshaw.Graph.Axis.X({
-                graph: graph,
+                graph: p_graph,
                 orientation: 'bottom',
                 element: document.getElementById('rickshaw-bars-x_axis'),
                 pixelsPerTick: 200,
@@ -62,35 +57,105 @@ function InitializePointsGraph() {
 
             new Rickshaw.Graph.Axis.Y({
                 element: document.getElementById('rickshaw-bars-y_axis1'),
-                graph: graph,
+                graph: p_graph,
                 orientation: 'left',
                 scale: d3.scale.linear().domain([0, 100]),
                 pixelsPerTick: 20,
                 tickFormat: Rickshaw.Fixtures.Number.formatKMBT
             });
 
-            graph.render();
-
-            new Rickshaw.Graph.HoverDetail({
-                graph: graph,
-                formatter: function (series, x, y) {
-                    var date = '<span class="date">' + data[3][x].name + '</span>';
-                    var swatch = '' //'<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
-                    var content = swatch + series.name + ": " + parseInt(y) + '<br>' + date;
-                    return content;
-                }
-            });
+            p_graph.render();
 
             $(window).on('resize', function () {
-                graph.configure({
+                p_graph.configure({
                     width: $('#rickshaw-bars').parent('.panel-body').width(),
                     height: 220
                 });
-                graph.render();
+                p_graph.render();
             });
         }
     })
 }
+
+function InitializeGrpahStories() {
+    $.ajax({
+        type: 'GET',
+        url: '/teams/' + $('#searchbox')[0].value + '/graph_leftovers',
+        success: function (data) {
+
+            document.getElementById('rickshaw-bars').innerHTML = "";
+            document.getElementById('rickshaw-bars-x_axis').innerHTML = "";
+            document.getElementById('rickshaw-bars-y_axis1').innerHTML = "";
+
+
+            p_graph = new Rickshaw.Graph({
+                element: document.getElementById('rickshaw-bars'),
+                height: 220,
+                renderer: 'multi',
+                series: [
+                    {
+                        name: 'Commitment',
+                        renderer: 'bar',
+                        color: '#e9f4fb',
+                        opacity: 0.5,
+                        data: data[2]
+                    },
+                    {
+                        name: 'Stories',
+                        renderer: 'line',
+                        color: '#17d111',
+                        data: data[0]
+                    },
+                    {
+                        name: 'Leftovers',
+                        renderer: 'line',
+                        color: '#ffcc80',
+                        data: data[1]
+                    }
+                ]
+            });
+
+            var format = function (n) {
+                if (data[3][n] === undefined) {
+                    return;
+                }
+                return data[3][n].name;
+
+            }
+
+            new Rickshaw.Graph.Axis.X({
+                graph: p_graph,
+                orientation: 'bottom',
+                element: document.getElementById('rickshaw-bars-x_axis'),
+                pixelsPerTick: 200,
+                tickFormat: format
+            });
+
+            new Rickshaw.Graph.Axis.Y({
+                element: document.getElementById('rickshaw-bars-y_axis1'),
+                graph: p_graph,
+                orientation: 'left',
+                scale: d3.scale.linear().domain([0, 100]),
+                pixelsPerTick: 20,
+                tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+            });
+
+            p_graph.render();
+
+            $(window).on('resize', function () {
+                p_graph.configure({
+                    width: $('#rickshaw-bars').parent('.panel-body').width(),
+                    height: 220
+                });
+                p_graph.render();
+            });
+
+        }
+    })
+
+}
+
+
 
 function InitializeReleaseTimeGraphTeam() {
     if ($('#searchbox')[0] === undefined) {
@@ -106,7 +171,6 @@ function InitializeReleaseTimeGraphTeam() {
 
             document.getElementById('bars-team-release-loader').innerHTML = "";
 
-            var graph;
             graph = new Rickshaw.Graph({
                 element: document.getElementById('bars-team-release'),
                 height: 220,
@@ -228,7 +292,6 @@ function InitializeReleaseTimeGraphTeam() {
 }
 
 function InitializeNoEstimatesGraph() {
-
     $.ajax({
         type: 'GET',
         url: '/teams/' + $('#searchbox')[0].value + '/graph_no_estimates',
@@ -237,9 +300,6 @@ function InitializeNoEstimatesGraph() {
             document.getElementById('rickshaw-bars').innerHTML = "";
             document.getElementById('rickshaw-bars-x_axis').innerHTML = "";
             document.getElementById('rickshaw-bars-y_axis1').innerHTML = "";
-            document.getElementById('graphtitle').innerText = "No Estimate VS Closed Story Points"
-
-            var graph;
 
             graph = new Rickshaw.Graph({
                 element: document.getElementById('rickshaw-bars'),
@@ -265,7 +325,6 @@ function InitializeNoEstimatesGraph() {
                     return;
                 }
                 return data[2][n].name;
-
             }
 
             new Rickshaw.Graph.Axis.X({
@@ -287,15 +346,17 @@ function InitializeNoEstimatesGraph() {
 
             graph.render();
 
-            new Rickshaw.Graph.HoverDetail({
-                graph: graph,
-                formatter: function (series, x, y) {
-                    var date = '<span class="date">' + data[2][x].name + '</span>';
-                    var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
-                    var content = swatch + series.name + ": " + parseInt(y) + '<br>' + date;
-                    return content;
-                }
-            });
+            // new Rickshaw.Graph.HoverDetail({
+            //     graph: graph,
+            //     formatter: function (series, x, y) {
+            //         console.log(series,x,y)
+            //         var date = '<span class="date">' + data[2][x].name + '</span>';
+            //         var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
+            //         var content = swatch + series.name + ": " + parseInt(y) + '<br>' + date;
+            //         return content;
+            //     }
+            // });
+
 
             $(window).on('resize', function () {
                 graph.configure({
@@ -310,98 +371,6 @@ function InitializeNoEstimatesGraph() {
 
 }
 
-function InitializeGrpahStories() {
-    $.ajax({
-        type: 'GET',
-        url: '/teams/' + $('#searchbox')[0].value + '/graph_leftovers',
-        success: function (data) {
-
-
-            document.getElementById('rickshaw-bars').innerHTML = "";
-            document.getElementById('rickshaw-bars-x_axis').innerHTML = "";
-            document.getElementById('rickshaw-bars-y_axis1').innerHTML = "";
-
-            document.getElementById('graphtitle').innerText = "Closed VS Leftovers - User Stories"
-            document.getElementById('sgraph').dataset.title = "Closed VS Remaining - Story Points"
-
-            var graph_s;
-
-            graph_s = new Rickshaw.Graph({
-                element: document.getElementById('rickshaw-bars'),
-                height: 220,
-                renderer: 'multi',
-                series: [
-                    {
-                        name: 'Commitment',
-                        renderer: 'bar',
-                        color: '#e9f4fb',
-                        opacity: 0.5,
-                        data: data[2]
-                    },
-                    {
-                        name: 'Stories',
-                        renderer: 'line',
-                        color: '#17d111',
-                        data: data[0]
-                    },
-                    {
-                        name: 'Leftovers',
-                        renderer: 'line',
-                        color: '#ffcc80',
-                        data: data[1]
-                    }
-                ]
-            });
-
-            var format = function (n) {
-                if (data[3][n] === undefined) {
-                    return;
-                }
-                return data[3][n].name;
-
-            }
-
-            new Rickshaw.Graph.Axis.X({
-                graph: graph_s,
-                orientation: 'bottom',
-                element: document.getElementById('rickshaw-bars-x_axis'),
-                pixelsPerTick: 200,
-                tickFormat: format
-            });
-
-            new Rickshaw.Graph.Axis.Y({
-                element: document.getElementById('rickshaw-bars-y_axis1'),
-                graph: graph_s,
-                orientation: 'left',
-                scale: d3.scale.linear().domain([0, 100]),
-                pixelsPerTick: 20,
-                tickFormat: Rickshaw.Fixtures.Number.formatKMBT
-            });
-
-            graph_s.render();
-
-            new Rickshaw.Graph.HoverDetail({
-                graph: graph_s,
-                formatter: function (series, x, y) {
-                    var sprint = '<span class="date">' + data[3][x].name + '</span>';
-                    var title = '' //'<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
-                    var content = title + series.name + ": " + parseInt(y) + '<br>' + sprint;
-                    return content;
-                }
-            });
-
-            $(window).on('resize', function () {
-                graph_s.configure({
-                    width: $('#rickshaw-bars').parent('.panel-body').width(),
-                    height: 220
-                });
-                graph_s.render();
-            });
-
-        }
-    })
-
-}
 
 function InitializeAverageStoriesGraph() {
 

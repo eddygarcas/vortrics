@@ -6,11 +6,10 @@ class Home
     @handleInitializePointsGraph()
     @handleInitializeReleaseTimeGraphTeam()
     @handleInitializeAverageStoriesGraph()
-    $("#sgraph_noestimate").on "click", @handleNoEstimate
-    $("#sgraph").on "click", @handleStoryPoints
 
   handleInitializePointsGraph: ->
     return if ($('#rickshaw-bars')[0] == undefined)
+    return if ($('#bars-team-release')[0].dataset.behaviour != 'chart_historical_throughtput')
     InitializePointsGraph()
 
   handleInitializeReleaseTimeGraphTeam: ->
@@ -21,25 +20,6 @@ class Home
   handleInitializeAverageStoriesGraph: ->
     InitializeAverageStoriesGraph()
 
-  handleNoEstimate: ->
-    return if ($('#rickshaw-bars')[0] == undefined)
-    return if ($('#rickshaw-bars')[0].dataset.behaviour != 'chart_sprint_velocity')
-    if ($("#sgraph_noestimate")[0].checked)
-      InitializeNoEstimatesGraph()
-    else
-      if ($("#sgraph")[0].checked)
-        InitializeGrpahStories();
-      else
-        InitializePointsGraph();
-
-  handleStoryPoints: ->
-    return if ($('#rickshaw-bars')[0] == undefined)
-    return if ($('#rickshaw-bars')[0].dataset.behaviour != 'chart_sprint_velocity')
-    $("#sgraph_noestimate")[0].checked = false
-    if ($("#sgraph")[0].checked)
-      InitializeGrpahStories()
-    else
-      InitializePointsGraph()
 
 ready = ->
   jQuery ->

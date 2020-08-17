@@ -1,8 +1,24 @@
 <style>
-  .rickshaw_graph .detail .x_label { display: none }
-  .rickshaw_graph .detail .item { line-height: 1.4; padding: 0.5em }
-  .detail_swatch { float: right; display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 0 }
-  .rickshaw_graph .detail .date { color: #a0a0a0 }
+  .rickshaw_graph .detail .x_label {
+    display: none
+  }
+
+  .rickshaw_graph .detail .item {
+    line-height: 1.4;
+    padding: 0.5em
+  }
+
+  .detail_swatch {
+    float: right;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 4px 0 0
+  }
+
+  .rickshaw_graph .detail .date {
+    color: #a0a0a0
+  }
 
   #rickshaw-bars-legend {
     background: transparent;
@@ -42,18 +58,17 @@
 
 <div class="panel panel-default">
   <div class="panel-heading ">
-    <p class="lead"><i class="fa fa-area-chart"></i><span id="graphtitle">Closed VS Remaining - Story Points</span>
-
-      <label class="switch switch-info pull-right font_small"> Stories vs Points
-        <input type="checkbox" data-toggle="tooltip" data-title="Compare complete stories vs. completed story points." id="sgraph_noestimate">
-        <span style="margin-bottom: -5px;"></span>
-      </label>
-
-      <label class="switch switch-info pull-right font_small" id="sgraph_title">Story count
-        <input type="checkbox" data-toggle="tooltip" data-title="Count stories rather than points" id="sgraph">
-        <span style="margin-bottom: -5px;" class="mr5"></span>
-      </label>
-    </p>
+    <%= tag.div id: :levers, data:
+        {
+            charts: {
+                title: 'Closed VS Remaining',
+                levers: [
+                    {title: ' Story Count', id: 'sgraph_noestimate', chkd: 'InitializeNoEstimatesGraph' ,unchkd: 'InitializePointsGraph'},
+                    {title: 'Points vs Stories', id: 'sgraph', chkd: 'InitializeGrpahStories', unchkd:'InitializePointsGraph'},
+                ]
+            }
+        }
+    %>
   </div>
 
   <div class="panel-body" style="position: relative">
@@ -65,8 +80,6 @@
     </div>
     <div id="rickshaw-bars-x_axis"></div>
   </div>
-
-
 
 
 </div>

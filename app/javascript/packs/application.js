@@ -25,12 +25,14 @@ import Mfilter from '../mfilter'
 import Msummary from '../msummary'
 import Commentpanel from '../components/commentpanel'
 import Selector from '../components/selector'
+import Levers from '../components/switchgroup'
 
 import montecarlo from "./modules/montecarlo";
 import retrospective from "./modules/retrospective";
 import comments from "./modules/comments"
 import workflow from "./modules/workflow";
 import cycletime from "./modules/cycletime";
+import levers from "./modules/switchgroup"
 
 Vue.use(Vuex);
 Vue.use(TurbolinksAdapter);
@@ -42,13 +44,14 @@ window.store = new Vuex.Store({
         comm: comments,
         flows: workflow,
         selector: cycletime,
+        charts: levers,
     }
 });
 
 document.addEventListener('turbolinks:load', () => {
     var element = document.querySelector("#boards");
     if (element != undefined) {
-        window.store.state.flows.workflows = JSON.parse(element.dataset.workflows)
+        window.store.state.flows.workflows = JSON.parse(element.dataset.workflows);
         new Vue({
             el: element,
             store: window.store,
@@ -57,7 +60,7 @@ document.addEventListener('turbolinks:load', () => {
         })
     }
 
-    element = document.querySelector('#retrospective')
+    element = document.querySelector('#retrospective');
     if (element != undefined) {
         window.store.state.retro.lists = JSON.parse(element.dataset.retrospectives);
         window.store.state.retro.team = JSON.parse(element.dataset.team);
@@ -69,7 +72,7 @@ document.addEventListener('turbolinks:load', () => {
         })
     }
 
-    element = document.querySelector('#filter')
+    element = document.querySelector('#filter');
     if (element != undefined) {
         new Vue({
             el: element,
@@ -79,7 +82,7 @@ document.addEventListener('turbolinks:load', () => {
         })
     }
 
-    element = document.querySelector('#selector')
+    element = document.querySelector('#selector');
     if (element != undefined) {
         window.store.state.selector.team_id = JSON.parse(element.dataset.team);
         new Vue({
@@ -90,7 +93,18 @@ document.addEventListener('turbolinks:load', () => {
         })
     }
 
-    element = document.querySelector('#summary')
+    element = document.querySelector('#levers');
+    if (element != undefined) {
+        window.store.state.charts = JSON.parse(element.dataset.charts);
+        new Vue({
+            el: element,
+            store: window.store,
+            template: "<levers/>",
+            components: {Levers}
+        })
+    }
+
+    element = document.querySelector('#summary');
     if (element != undefined) {
         new Vue({
             el: element,
@@ -99,7 +113,7 @@ document.addEventListener('turbolinks:load', () => {
             components: {Msummary}
         })
     }
-    element = document.querySelector( '#commentpanel')
+    element = document.querySelector('#commentpanel');
     if (element != undefined) {
         window.store.state.comm.comments.board_id = JSON.parse(element.dataset.board);
         new Vue({
