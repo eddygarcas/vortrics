@@ -5,14 +5,15 @@ export default {
             levers: [{
                 id: "",
                 title: "",
+                state: false,
             }],
         },
     },
     mutations: {
         resetLevers(state, data) {
             state.levers.forEach(function (item) {
-                var i = state.levers.findIndex(x => x.id != data.id);
-                if (i > -1) {
+                if (item.id != data.id) {
+                    var i = state.levers.findIndex(x => x.id == item.id);
                     $('#' + state.levers[i].id).attr('checked', false);
                 }
             });
