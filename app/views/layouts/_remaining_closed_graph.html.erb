@@ -57,6 +57,7 @@
 </style>
 
 <div class="panel panel-default">
+
   <div class="panel-heading ">
     <%= tag.div id: :levers, data:
         {
@@ -64,7 +65,7 @@
                 title: 'Closed VS Remaining',
                 levers: [
                     {title: ' Story Count', id: 'sgraph_noestimate', chkd: 'InitializeNoEstimatesGraph' ,unchkd: 'InitializePointsGraph'},
-                    {title: 'Points vs Stories', id: 'sgraph', chkd: 'InitializeGrpahStories', unchkd:'InitializePointsGraph'},
+                    {title: 'Points vs Stories', id: 'sgraph', chkd: 'InitializeGraphStories', unchkd:'InitializePointsGraph'},
                 ]
             }
         }

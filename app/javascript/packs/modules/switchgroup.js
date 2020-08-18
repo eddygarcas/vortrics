@@ -5,7 +5,6 @@ export default {
             levers: [{
                 id: "",
                 title: "",
-                state: false,
             }],
         },
     },

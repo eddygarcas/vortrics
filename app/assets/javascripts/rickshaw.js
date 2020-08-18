@@ -2268,6 +2268,7 @@ Rickshaw.Graph.HoverDetail = Rickshaw.Class.create({
   _calcLayoutError: function(alignables) {
     // Layout error is calculated as the number of linear pixels by which
     // an alignable extends past the left or right edge of the parent.
+    if (this.element.parentNode === null) { return }
     var parentRect = this.element.parentNode.getBoundingClientRect();
 
     var error = 0;
