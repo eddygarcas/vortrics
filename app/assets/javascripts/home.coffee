@@ -1,3 +1,4 @@
+
 class Home
   constructor: ->
     @setup()
@@ -9,7 +10,6 @@ class Home
 
   handleInitializePointsGraph: ->
     return if ($('#rickshaw-bars')[0] == undefined)
-    return if ($('#bars-team-release')[0].dataset.behaviour != 'chart_historical_throughtput')
     InitializePointsGraph()
 
   handleInitializeReleaseTimeGraphTeam: ->
@@ -20,9 +20,8 @@ class Home
   handleInitializeAverageStoriesGraph: ->
     InitializeAverageStoriesGraph()
 
-
 ready = ->
-  jQuery ->
-    new Home
+jQuery ->
+  new Home()
 
 $(document).on('turbolinks:load', ready)
