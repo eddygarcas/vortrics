@@ -41,8 +41,10 @@
     <%= yield :head %>
   </head>
   <body class="<%= yield (:body_class) %>">
+    <div class="load-container load13 vortrics-loader" id="spinner">
+      <div class="loader"></div>
+    </div>
     <%= render "layouts/navbar" %>
-
     <div id="main" class="container-fluid">
       <div class="row">
         <%= yield %>
