@@ -80,10 +80,10 @@ production:
   <<: *defaults
   name: Vortrics
   :jira:
+    :agile_url: /rest/agile/1.0
+    :green_hopper_url: /rest/greenhopper/1.0
     :fields: key,priority,issuetype,status,componentes,customfield_11382,summary,customfield_11802,timeoriginalestimate,components,description,assignee,created,updated,resolutiondate,closedSprints,sprint,histories
     :changelogfields: status,flagged,component,resolution,epic link
-
-
 
 test: &test
   <<: *defaults
