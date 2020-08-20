@@ -18,6 +18,7 @@ class Home
     InitializeReleaseTimeGraphTeam()
 
   handleInitializeAverageStoriesGraph: ->
+    return if ($('#teamid')[0] == undefined)
     InitializeAverageStoriesGraph()
 
 ready = ->
