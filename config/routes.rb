@@ -91,7 +91,7 @@ Rails.application.routes.draw do
   get '/import/kanban(/:board_id)', to: 'kanban#import_issues', as: 'kanban_import_issues'
 
   get '/:id', to: 'home#dashboard', as: 'get_dashboard'
-  get '/:id/refresh', to: 'home#refresh', as: 'refresh_path'
+  #get '/:id/refresh', to: 'home#refresh', as: 'refresh_path'
 
 	get '/landing/info', to: 'landing#info', as: 'landing_info'
   get '/landing/error/401', to: 'landing#error_401', as: 'landing_error_401'

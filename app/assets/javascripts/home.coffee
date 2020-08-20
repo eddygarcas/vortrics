@@ -21,7 +21,7 @@ class Home
     InitializeAverageStoriesGraph()
 
 ready = ->
-jQuery ->
-  new Home()
+  jQuery ->
+    new Home()
 
 $(document).on('turbolinks:load', ready)

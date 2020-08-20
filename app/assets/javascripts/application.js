@@ -24,7 +24,7 @@
 //= require_tree .
 
 $(document).on("turbolinks:click", function(){
-    $("#spinner").show();
+    $("#spinner").modal({backdrop: 'static', keyboard: false})
 });
 
 $(document).on("turbolinks:load", function(){

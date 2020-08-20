@@ -46,7 +46,6 @@ function onCompleteOptions(graph_i, _labels, _formatter) {
 }
 
 function InitializePointsGraph() {
-
     var _labels;
     new Rickshaw.Graph.Ajax({
         element: document.getElementById('rickshaw-bars'),
