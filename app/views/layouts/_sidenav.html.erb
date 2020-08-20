@@ -35,7 +35,7 @@
     <% end %>
     <%= render 'menu/menu_admin' %>
     <li class="nav-side-menu-footer">
-      <% unless @team&.sprint&.blank? %>
+      <% unless @team&.sprint.blank? %>
         <div>
           <strong><%= @team.name %></strong> / <%= days_remain @team&.sprint&.enddate %> days left
         </div>
