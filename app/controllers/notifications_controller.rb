@@ -3,6 +3,8 @@ class NotificationsController < ApplicationController
 
   def index
     @notifications = Notification.where(recipient: current_user).recent
+    pp @notifications
+
   end
 
   def mark_as_read
