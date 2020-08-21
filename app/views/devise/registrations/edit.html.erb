@@ -14,7 +14,7 @@
           <%= f.error_notification %>
 
           <div class="avatar text-center">
-            <img alt="2" class="img-rounded" src="<%= current_user&.avatar.to_s%>" width="150" height="150">
+            <img alt="2" class="img-rounded" src="<%= current_user&.avatar.to_s %>" width="150" height="150">
             <p style="font-size: 28px;margin-bottom: 5px;"><%= current_user&.displayName %></p>
           </div>
 
@@ -38,30 +38,39 @@
             </div>
           <% end %>
 
-          <%= f.form_group :password do |f| %>
-            <%= f.label :password, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
-            <div class="col-sm-10">
-              <%= f.password_field :password, class: "form-control" %>
-              <%= f.error_messages %>
-            </div>
-          <% end %>
-
-          <%= f.form_group :password_confirmation do |f| %>
-            <%= f.label :password_confirmation, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
-            <div class="col-sm-10">
-              <%= f.password_field :password_confirmation, class: "form-control" %>
-              <%= f.error_messages %>
-            </div>
-          <% end %>
-
-          <%= f.form_group :current_password do |f| %>
-            <%= f.label :current_password, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
-            <div class="col-sm-10">
-              <%= f.password_field :current_password, class: "form-control" %>
-              <%= f.error_messages %>
-              <div class="help-inline">
-                We need your current password to confirm your changes.
+          <% if current_user&.services&.blank? %>
+            <%= f.form_group :password do |f| %>
+              <%= f.label :password, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
+              <div class="col-sm-10">
+                <%= f.password_field :password, class: "form-control" %>
+                <%= f.error_messages %>
               </div>
+            <% end %>
+
+            <%= f.form_group :password_confirmation do |f| %>
+              <%= f.label :password_confirmation, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
+              <div class="col-sm-10">
+                <%= f.password_field :password_confirmation, class: "form-control" %>
+                <%= f.error_messages %>
+              </div>
+            <% end %>
+
+            <%= f.form_group :current_password do |f| %>
+              <%= f.label :current_password, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
+              <div class="col-sm-10">
+                <%= f.password_field :current_password, class: "form-control" %>
+                <%= f.error_messages %>
+                <div class="help-inline">
+                  We need your current password to confirm your changes.
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <%= f.label 'Provider', class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
+            <div class="col-sm-10">
+              <% current_user.services.each do |p| %>
+                <%= provider_icon p %>
+              <% end %>
             </div>
           <% end %>
 
@@ -70,7 +79,6 @@
             <%= link_to "Cancel my account", registration_path(resource_name), confirm: "Cancelling your account will also remove all imported data, are you sure?", method: :delete, class: "pull-right text-red-400 pt10" %>
           </div>
 
-
         <% end %>
       </div>
     </div>
@@ -78,15 +86,17 @@
     <div class="row mt20">
       <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
         <div style="display:block;" id="policy" class="col-sm-offset-4 animate-fade-in-500">
-          <p>Your privacy is important to us. It's Vortrics policy to respect your privacy regarding any information collected
-            across our website, <a href="http://vortrics.com">http://vortrics.com</a>, and any other sites owned or operated.</p>
-          <p>Cancelling your account, Vortrics guarantees that will remove all your personal information as well as any content from external sites such as teams, sprint, issues, change logs and particularly any connection data.</p>
+          <p>Your privacy is important to us. It's Vortrics policy to respect your privacy regarding any information
+            collected
+            across our website, <a href="http://vortrics.com">http://vortrics.com</a>, and any other sites owned or
+            operated.</p>
+          <p>Cancelling your account, Vortrics guarantees that will remove all your personal information as well as any
+            content from external sites such as teams, sprint, issues, change logs and particularly any connection
+            data.</p>
           <p>Please, feel free to contact us if you want more details about this process at info@vortrics.com </p>
         </div>
       </div>
     </div>
-
-
 
 
   </div>
