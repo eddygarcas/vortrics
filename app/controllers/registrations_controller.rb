@@ -1,5 +1,15 @@
 class RegistrationsController < Devise::RegistrationsController
 
+  # Overwrite update_resource to let users to update their user without giving their password
+  def update_resource(resource, params)
+    if current_user&.services&.present?
+      params.delete("current_password")
+      resource.update_without_password(params)
+    else
+      resource.update_with_password(params)
+    end
+  end
+
   def destroy
     Setting.find(current_user.setting.id).destroy unless current_user.setting.blank?
     super
@@ -12,8 +22,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def account_update_params
-     return params.require(:user).permit(:avatar, :displayName,:extuser, :email) unless current_user&.services&.blank?
-     params.require(:user).permit(:avatar, :displayName,:extuser, :email, :password, :password_confirmation, :current_password) unless current_user&.services&.present?
+     params.require(:user).permit(:avatar, :displayName,:extuser, :email, :password, :password_confirmation, :current_password)
   end
 
 end
