@@ -150,10 +150,10 @@
             graph: graph,
             formatter: function (series, x, y) {
                 var sprint = '<span class="date key_bug_sprint">' + data[0][x].y + '</span><span class="date"> ' + data[5][x].y + '</span>';
-                var flagged = '<i class="fa fa-flag"></i>'
-                var bug = '<i class="fa fa-bug"></i>'
-                var firsttime = '<i class="fa fa-bolt"></i>'
-                var moreonesprint = '<i class="fa fa-exclamation-triangle"></i>'
+                var flagged = ' <i class="fa fa-flag"></i>'
+                var bug = ' <i class="fa fa-bug"></i>'
+                var firsttime = ' <i class="fa fa-bolt"></i>'
+                var moreonesprint = ' <i class="fa fa-exclamation-triangle"></i>'
 
                 var content = series.name + ": " + parseInt(y) + ' days<br>' + sprint;
                 if (series.name === 'Comulative Time Blocked') return content;

@@ -40,10 +40,10 @@ class AdvicesController < ApplicationController
   def create
     respond_to do |format|
       if @team.advices.create_from_params(advice_params)
-        format.html { redirect_to advices_path, notice: 'Advice was successfully created.' }
+        format.html { redirect_to advices_path, notice: 'Message successfully created.' }
         format.json { render :show, status: :created, location: @advice }
       else
-        format.html { redirect_to advices_path, error: 'Was unable to store the advice.' }
+        format.html { redirect_to advices_path, error: 'Was unable to save the message.' }
         format.json { render json: @advice.errors, status: :unprocessable_entity }
       end
     end
@@ -54,7 +54,7 @@ class AdvicesController < ApplicationController
   def update
     respond_to do |format|
       if @advice.update(advice_params)
-        format.html { redirect_to @advice, notice: 'Advice was successfully updated.' }
+        format.html { redirect_to @advice, notice: 'Message successfully updated.' }
         format.json { render :show, status: :ok, location: @advice }
       else
         format.html { render :edit }
@@ -68,7 +68,7 @@ class AdvicesController < ApplicationController
   def destroy
     @advice.destroy
     respond_to do |format|
-      format.html { redirect_to advices_url, notice: 'Advice was successfully destroyed.' }
+      format.html { redirect_to advices_url, notice: 'Message successfully removed.' }
       format.json { head :no_content }
     end
   end

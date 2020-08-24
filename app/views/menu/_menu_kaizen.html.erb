@@ -8,7 +8,7 @@
     end %>
 
     <%= activatable_li_tag advices_path do |url|
-      link_to_unless current_user.admin?, fa_icon_tag("newspaper-o") << "Wallboard", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
+      link_to_unless current_user.admin?, fa_icon_tag("envelope") << "Messages", {}, data: { title: 'Admin only', toggle: :tooltip } do |name|
       link_to name, url
       end
     end %>
