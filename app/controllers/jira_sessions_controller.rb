@@ -1,7 +1,5 @@
 class JiraSessionsController < ApplicationController
   before_action :get_jira_client
-  #Calling team session here provokes a too many redirects issue
-  #before_action :team_session
 
   def new
     request_token = @jira_client.request_token(oauth_callback: callback_url)
