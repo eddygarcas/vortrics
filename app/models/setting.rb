@@ -1,4 +1,5 @@
 class Setting < ApplicationRecord
+  after_initialize :init
   has_many :configs, dependent: :destroy
   has_many :users, through: :configs
   has_many :workflow, dependent: :destroy
@@ -10,19 +11,23 @@ class Setting < ApplicationRecord
 
   validates :name, presence: {message: "Better define a name for this connection."}
   validates :key_file, presence: {message: "OAuth requires a certification file."}, if: :oauth?
-  validates :site, presence: {message: "Site cannot be blank"}
-  validates :base_path, presence: {message: "Base path cannot be blank"}
-  validates :site, format: {with: URL_REGEXP, message: "You provided invalid URL"}
-  validates :base_path, format: {with: PATH_REGEXP, message: "You provided invalid base path"}
-  validates :login, presence: {message: "Login cannot be blank using a Basic authorisation."}, unless: :oauth?
-  validates :password, presence: {message: "Password cannot be blank using a Basic authorisation."}, unless: :oauth?
+  validates :site, presence: {message: "Site cannot be blank"}, unless: :tokenized?
+  validates :base_path, presence: {message: "Base path cannot be blank"}, unless: :tokenized?
+  validates :site, format: {with: URL_REGEXP, message: "You provided invalid URL"}, unless: :tokenized?
+  validates :base_path, format: {with: PATH_REGEXP, message: "You provided invalid base path"}, unless: :tokenized?
+  validates :login, presence: {message: "Login cannot be blank using a Basic authorisation."}, unless: -> record {record.oauth? || record.tokenized?}
+  validates :password, presence: {message: "Password cannot be blank using a Basic authorisation."}, unless: -> record {record.oauth? || record.tokenized?}
+
+  def init
+    self.provider ||= :jira.to_s
+  end
 
   def workflow_tags_for column_name
     begin
       Rails.cache.fetch("column_status_#{id}_#{column_name}", expires_in: 1.minutes) {
         workflow.where(name: column_name).first.cards.pluck(:name)
       }
-    rescue NoMethodError => error
+    rescue NoMethodError
       nil
     end
   end

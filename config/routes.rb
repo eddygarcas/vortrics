@@ -51,6 +51,9 @@ Rails.application.routes.draw do
   get '/callback', to: 'jira_sessions#authorize'
   get '/signout', to: 'jira_sessions#destroy'
 
+  get '/oauth', to: 'trello_sessions#new'
+  get '/oauth/authorize', to: 'trello_sessions#authorize', as:'oauth_authorize'
+
   get '/teams/:id/graph_points', to: 'teams#get_graph_data'
   get '/teams/:id/graph_stories', to: 'teams#get_graph_stories'
   get '/teams/:id/graph_bugs', to: 'teams#get_graph_bugs'

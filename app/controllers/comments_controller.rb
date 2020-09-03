@@ -72,7 +72,7 @@ class CommentsController < ApplicationController
 
   def comments_by_board
     board_id = params[:board_id]
-    render json: issue_first_comments(board_id)
+    render json: bugs_first_comments(board_id)
   end
 
   private

@@ -1,3 +1,3 @@
 module SettingsHelper
-	include JiraActions
+	include Connect
 end

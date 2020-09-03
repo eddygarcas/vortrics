@@ -68,7 +68,11 @@
             <%= f.label 'Provider(s)', class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
             <div class="col-sm-10 mb15">
               <% current_user.services.each do |p| %>
-                <%= provider_icon p %>
+                <% if p.provider.eql? "trello" %>
+                  <%= provider_icon p, "linkedin" %>
+                <%else%>
+                  <%= provider_icon p %>
+                <%end %>
               <% end %>
             </div>
           <% end %>

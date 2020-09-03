@@ -16,7 +16,7 @@ class KanbanController < ApplicationController
   def import_issues
     options = {fields: vt_jira_issue_fields, maxResults: 400, expand: :changelog}
 
-    issues = import_kanban(@team.board_id, options).
+    issues = kanban(@team.board_id, options).
         map {|elem| IssueBuilder.new(elem,@team.estimated)}.
         select(&:selectable_for_kanban?).
         sort_by!(&:created_at).

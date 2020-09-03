@@ -2,6 +2,7 @@ require_relative 'logic'
 module ApplicationHelper
 	include EmailTemplateHelper
 	include JiraIssueHelper
+	include Connect
 
 	def app_name
 		Vortrics.config['name']
@@ -103,7 +104,7 @@ module ApplicationHelper
 				text
 	end
 
-	def vt_work_time_tag(key, title = '', text = 'n/d')
+	def vt_work_time_tag(key, title = '', txt = 'n/d')
 		content_tag(:i, nil, class: "fa fa-trophy", style: "color:goldenrod;font-size: 14px;") <<
 				title <<
 				" shortest " <<
@@ -114,7 +115,7 @@ module ApplicationHelper
 
 	def vt_project_tag(project)
 		elem = ""
-		issue = IssueBuilder.new(current_project(project, { fields: [:project], maxResults: 1 }).first)
+		issue = IssueBuilder.new(issue_by_project(project, { fields: [:project], maxResults: 1 }).first)
 		project_name = issue&.fields&.project.blank? ? 'n/d' : issue.fields.project.name
 		project_icon = issue&.fields&.project.blank? ? '' : issue.fields.project.avatarUrls._32x32
 		elem << image_tag(project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30')
