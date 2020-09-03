@@ -32,4 +32,13 @@ class JiraSessionsController < ApplicationController
   def destroy
     session.data.delete(:jira_auth)
   end
+
+  private
+
+  def get_jira_client
+    return if current_user.setting.blank?
+    @jira_client = Jira::Client.instance(self)
+    flash[:danger] = Vortrics.config[:messages][:external_service_error] if @jira_client.nil?
+  end
+
 end

@@ -17,7 +17,7 @@ class SprintsController < ApplicationController
   # GET /sprints/1
   # GET /sprints/1.json
   def show
-    @bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, @sprint.enddate, {fields: :key}).map {|elem| IssueBuilder.new(elem)}
+    @bugs = bugs_by_board(@sprint.team.board_id, @sprint.start_date, @sprint.enddate, {fields: :key}).map {|elem| IssueBuilder.new(elem)}
   end
 
   # GET /sprints/news
@@ -36,7 +36,7 @@ class SprintsController < ApplicationController
   def graph_closed_by_day
     data = Rails.cache.fetch("graph_closed_by_day_sprint_#{@sprint.id}", expires_in: 30.minutes) {
       data = Array.new {Array.new}
-      bugs = bug_for_board(@sprint.team.board_id, @sprint.start_date, @sprint.enddate, {fields: :created}).map {|elem| IssueBuilder.new(elem)}
+      bugs = bugs_by_board(@sprint.team.board_id, @sprint.start_date, @sprint.enddate, {fields: :created}).map {|elem| IssueBuilder.new(elem)}
       burndown = @sprint.stories + @sprint.remainingstories
       data[0] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of_by_date(@sprint.issues, :resolutiondate, :story, date)}}
       data[1] = @sprint.week_days.map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
@@ -81,7 +81,7 @@ class SprintsController < ApplicationController
       criteria[:board_type] = @team.board_type
       criteria[:change_scope] = sprint_report(@team.board_id, criteria[:sprint_id])['issueKeysAddedDuringSprint'].count
 
-      issues = import_sprint(criteria[:sprint_id], options).map {|elem| IssueBuilder.new(elem, @team.estimated)}
+      issues = scrum(criteria[:sprint_id], options).map {|elem| IssueBuilder.new(elem, @team.estimated)}
       issues_save = issues.select {|el| el.closed_in.include? criteria[:sprint_id] unless el.closed_in.blank?}
       sprint_data = SprintsHelper::SprintBuilder.new(issues, criteria)
       @team.update_active_sprint(sprint_data)
@@ -96,7 +96,7 @@ class SprintsController < ApplicationController
     unless @sprint.sprint_id.blank?
       redirect_to sprint_import_url(@sprint.team_id), notice: 'Cannot find the related team.' and return if @team.blank?
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
-      issues = import_sprint(@sprint.sprint_id, options).map {|e| IssueBuilder.new(e, @team&.estimated)}
+      issues = scrum(@sprint.sprint_id, options).map {|e| IssueBuilder.new(e, @team&.estimated)}
       issues_save = issues.select {|e| e.closed_in.include? @sprint.sprint_id.to_s unless e.closed_in.blank?}
       sprint_data = SprintsHelper::SprintBuilder.new(
           issues,

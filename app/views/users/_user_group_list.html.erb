@@ -45,7 +45,11 @@
                 <td data-behavior='user_info_<%= user.id %>'><%= user.email %></td>
                 <td data-behavior='user_info_<%= user.id %>'>
                   <% user.services.each do |p| %>
+                    <% if p.provider.eql? "trello" %>
+                      <%= provider_icon p, "linkedin" %>
+                    <%else%>
                      <%= provider_icon p %>
+                    <%end %>
                   <% end %>
                 </td>
                 <td data-behavior='user_info_<%= user.id %>'><%= user.last_sign_in_at.strftime("%d-%m-%Y") unless user.last_sign_in_at.blank? %></td>

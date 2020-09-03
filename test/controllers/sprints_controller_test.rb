@@ -1,6 +1,6 @@
 require 'test_helper'
 require 'mocha/minitest'
-require_relative '../../app/helpers/jira_helper'
+require_relative '../../app/helpers/connect'
 
 
 class SprintsControllerTest < ActionDispatch::IntegrationTest
@@ -8,7 +8,7 @@ class SprintsControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     sign_in FactoryBot.create(:user)
-    ApplicationController.any_instance.stubs(:bug_for_board).returns([])
+    ApplicationController.any_instance.stubs(:bugs_by_board).returns([])
     @sprint = FactoryBot.create(:sprint)
   end
 
@@ -26,8 +26,8 @@ class SprintsControllerTest < ActionDispatch::IntegrationTest
   # end
 
   test "should retrieve project information" do
-    JiraActions.stubs(:current_project).returns(file_fixture('current_project.json').read)
-    assert_equal JiraActions.current_project('MTR-1111'), file_fixture('current_project.json').read
+    stubs(:issue_by_project).returns(file_fixture('current_project.json').read)
+    assert_equal issue_by_project('MTR-1111'), file_fixture('current_project.json').read
   end
 
   test "should get edit" do

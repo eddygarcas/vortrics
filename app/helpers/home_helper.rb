@@ -17,6 +17,6 @@ module HomeHelper
 
   def navbar_visible?
 	  return false if @team.blank?
-    return (@team.id.present? && project_list.present?)
+    return (@team.id.present? && projects.present?)
   end
 end

@@ -1,7 +1,7 @@
 require 'test_helper'
-require_relative '../../app/helpers/jira_actions'
+require_relative '../../app/helpers/connect'
 
-class JiraActionsTest < ActionView::TestCase
+class ConnectTest < ActionView::TestCase
   include Devise::Test::IntegrationHelpers
 
   def current_user
@@ -47,14 +47,14 @@ class JiraActionsTest < ActionView::TestCase
   end
 
   test "Connection to a JIRA Cloud instance" do
-    user_profile(current_user) { |data|
+    profile(current_user) { |data|
       assert_equal data['name'], 'eduard.garcia'
       assert_equal data['key'], 'eduard.garcia'
     }
   end
 
   test "Get projects form user" do
-    data = project_list.first
+    data = projects.first
     assert_equal data.key, "IM"
     assert_equal data.name, "VeePee - Manager"
     assert_equal data.projectTypeKey, "software"
@@ -69,7 +69,7 @@ class JiraActionsTest < ActionView::TestCase
   end
 
   test "Get issues from an specific project" do
-    data = current_project 'VOR'
+    data = issue_by_project 'VOR'
     assert_not_nil data
   end
 
@@ -94,7 +94,7 @@ class JiraActionsTest < ActionView::TestCase
   end
 
   test "Get active sprint from a jira instances for an specific board" do
-    data = import_sprint 1, @options
+    data = scrum 1, @options
     assert_equal data.last.dig('changelog').present?, true
     assert_equal data.last.dig('changelog','histories').present?, true
   end

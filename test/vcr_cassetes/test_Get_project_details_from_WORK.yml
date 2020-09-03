@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://vortrics.atlassian.net/rest/api/3/project/VOR?jql=
+    uri: https://vortrics.atlassian.net/rest/api/3/project/VOR
     body:
       encoding: US-ASCII
       string: ''

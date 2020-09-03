@@ -103,7 +103,7 @@ class TeamsController < ApplicationController
   def graph_time_first_response
     render json: Rails.cache.fetch("graph_time_first_response_#{@team.id}", expires_in: 1.day) {
       data = Array.new { Array.new }
-      bugs = issue_first_comments @team.board_id
+      bugs = bugs_first_comments @team.board_id
       average_first_time = bugs.map { |issue| ((issue[:first_time]['created']&.to_time - issue[:created]) / 1.hour).ceil }.average
 
       data[0] = bugs.map.with_index { |issue, index| {x: index, y: issue[:key]} }
@@ -196,7 +196,7 @@ class TeamsController < ApplicationController
 
   def support
     @support_bugs = bugs_selectable_for_graph.map { |elem| IssueBuilder.new(elem).to_issue }.sort_by!(&:lead_time)
-    @comments = issue_first_comments @team.board_id
+    @comments = bugs_first_comments @team.board_id
   end
 
   # GET /teams/1
@@ -242,7 +242,7 @@ class TeamsController < ApplicationController
   private
 
   def bugs_selectable_for_graph
-    bug_for_board(
+    bugs_by_board(
         @team.board_id,
         (DateTime.now - 6.months).strftime("%Y-%m-%d"),
         nil,
