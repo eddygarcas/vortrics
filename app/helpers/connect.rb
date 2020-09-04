@@ -43,15 +43,15 @@ module Connect
   def scrum(sprintId, options = {})
     return if current_user.setting.blank?
     Rails.cache.fetch("#{__method__}_#{sprintId}", expires_in: 1.hour) {
-      Connect.client(self).agile_query"/sprint/#{sprintId}/issue", {}, options
-    }[:issues.to_s]
+      Connect.client(self).agile_query("/sprint/#{sprintId}/issue", {}, options)[:issues.to_s]
+    }
   end
 
   def kanban(boardId, options = {})
     return if current_user.setting.blank?
     Rails.cache.fetch("#{__method__}_#{boardId}", expires_in: 1.hour) {
-      Connect.client(self).agile_query"/board/#{boardId}/issue", {}, options
-    }[:issues.to_s]
+      Connect.client(self).agile_query("/board/#{boardId}/issue", {}, options)[:issues.to_s]
+    }
   end
 
   def boards_by_project(keyorid, type = '', options = {})
@@ -64,23 +64,23 @@ module Connect
   def boards_by_sprint(board, startAt = 0, options = {})
     return if current_user.setting.blank?
     Rails.cache.fetch("#{__method__}_#{board.to_s}", expires_in: 1.day) {
-      Connect.client(self).agile_query "/board/#{board}/sprint", {startAt: startAt, toLast: 20}, options
-    }['values']
+      Connect.client(self).agile_query( "/board/#{board}/sprint", {startAt: startAt, toLast: 20}, options)[:values.to_s]
+    }
   end
 
   def sprint_report(boardid, sprintid, options = {})
     return if current_user.setting.blank?
     return if sprintid.blank?
     Rails.cache.fetch("#{__method__}_#{sprintid.to_s}", expires_in: 1.day) {
-      Connect.client(self).green_hopper_query '/rapid/charts/sprintreport', {rapidViewId: boardid, sprintId: sprintid}, options
-    }['contents']
+      Connect.client(self).green_hopper_query( '/rapid/charts/sprintreport', {rapidViewId: boardid, sprintId: sprintid}, options)[:contents.to_s]
+    }
   end
 
   def issue_by_project(key, options = {})
     return if current_user.setting.blank?
     Rails.cache.fetch("#{__method__}_#{key.to_s}", expires_in: 1.hour) {
-      Connect.client(self).rest_query('/search', {:jql => parse_jql_params({project: "='#{key}'"})}, options)
-    }[:issues.to_s]
+      Connect.client(self).rest_query('/search', {:jql => parse_jql_params({project: "='#{key}'"})}, options)[:issues.to_s]
+    }
   end
 
   def issue_attachments(key)
@@ -114,8 +114,8 @@ module Connect
       param_hash.merge!({created: ">='#{startdate}'"})
       param_hash.merge!({resolutiondate: "<='#{enddate}'"}) unless enddate.blank?
       param_hash.merge!({status: "='#{status}'"}) unless status.blank?
-      Connect.client(self).agile_query "/board/#{boardid}/issue", {:jql => parse_jql_params(param_hash)}, options
-    }[:issues.to_s]
+      Connect.client(self).agile_query( "/board/#{boardid}/issue", {:jql => parse_jql_params(param_hash)}, options)[:issues.to_s]
+    }
   end
 
   protected

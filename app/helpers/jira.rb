@@ -42,25 +42,32 @@ module Jira
 
     def agile_query(url, jql_param = {}, options = {})
       jql_param.update JIRA::Base.query_params_for_search(options)
-      json = JSON.parse(@instance.get(url_with_query_params(agile_url << url, jql_param)).body)
-      if (json['isLast'].to_s.eql? 'false') && (jql_param.include? :toLast)
-        jql_param[:startAt] += jql_param[:toLast]
-        json = agile_query(url, jql_param, options)
+      json = JSON.parse(@instance.get(url_with_query_params(agile_url + url, jql_param)).body)
+      if pagination?(jql_param) && !json[:isLast.to_s]
+        json = agile_query(url, next_page(jql_param), {})
       end
       json
     end
 
     def green_hopper_query(url, jql_param = {}, options = {})
       jql_param.update JIRA::Base.query_params_for_search(options)
-      JSON.parse(@instance.get(url_with_query_params(greenhopper_url << url, jql_param)).body)
+      JSON.parse(@instance.get(url_with_query_params(greenhopper_url + url, jql_param)).body)
     end
 
     def rest_query(path, jql_param = {}, options = {})
       jql_param.update JIRA::Base.query_params_for_search(options) unless options.empty?
-      JSON.parse(@instance.get(url_with_query_params(@instance.options[:rest_base_path] << path, jql_param)).body)
+      JSON.parse(@instance.get(url_with_query_params(@instance.options[:rest_base_path] + path, jql_param)).body)
     end
 
     private
+
+    def pagination? (params)
+      (params.include? :toLast) && (params.include? :startAt)
+    end
+
+    def next_page(params)
+      params.slice(:startAt,:toLast).transform_values! {|v| v += params[:toLast]}
+    end
 
     def url_with_query_params(url, query_params = {})
       uri = URI.parse(url)
