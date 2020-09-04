@@ -34,7 +34,7 @@
     <%= f.form_group :estimated do |f| %>
       <%= f.label :estimated, class: 'control-label col-md-2' %>
       <div class='col-md-8'>
-        <%= f.select :estimated, fields(@team.project).invert, {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?} %>
+        <%= f.select :estimated, fields(key: @team.project).invert, {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?} %>
         <%= f.error_messages %>
       </div>
     <% end %>

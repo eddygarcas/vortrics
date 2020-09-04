@@ -6,8 +6,8 @@ module Jira
 
     attr_reader :agile_url, :greenhopper_url, :instance
 
-    def initialize(_class, _setting = nil )
-      @instance = self.class.instance(_class,_setting)
+    def initialize(_class, _setting = nil)
+      @instance = self.class.instance(_class, _setting)
       @agile_url = Vortrics.config[:jira][:agile_url]
       @greenhopper_url = Vortrics.config[:jira][:green_hopper_url]
     end
@@ -40,8 +40,74 @@ module Jira
       @instance
     end
 
+    def projects
+      @instance.Project.all.map {|p| Project.new(p.attrs)}
+    end
+
+    def fields(args)
+      rest_query('/field', {}, args[:options]).map {|c| [c['id'], "#{c['name'].humanize} - #{c['id']}"]}.sort! {|a, b| a[1] <=> b[1]}.to_h
+    end
+
+    def project_details(args)
+      rest_query("/project/#{args[:key]}", {}, args[:options].presence)
+    end
+
+    def scrum(args)
+      agile_query("/sprint/#{args[:sprintId]}/issue", {}, args[:options])[:issues.to_s]
+    end
+
+    def kanban(args)
+      agile_query("/board/#{args[:boardId]}/issue", {}, args[:options])[:issues.to_s]
+    end
+
+    def boards_by_project(args)
+      agile_query('/board', {projectKeyOrId: args[:keyorid], type: args[:type]}, args[:options])
+    end
+
+    def boards_by_sprint(args)
+      agile_query("/board/#{args[:board]}/sprint", {startAt: args[:startAt], toLast: 20}, args[:options])[:values.to_s]
+    end
+
+    def sprint_report(args)
+      return if args[:sprintid].blank?
+      green_hopper_query('/rapid/charts/sprintreport', {rapidViewId: args[:boardid], sprintId: args[:sprintid]}, args[:options])[:contents.to_s]
+    end
+
+    def issue_by_project(args)
+      rest_query('/search', {:jql => parse_jql_params({project: "='#{args[:key]}'"})}, args[:options])[:issues.to_s]
+    end
+
+    def issue_attachments(key)
+      @instance.Issue.find(key, fields: :attachment).attachments
+    end
+
+    def issue_comments(key)
+      @instance.Issue.find(key, fields: :comment).comments.map(&:attrs)
+    end
+
+    def bugs_first_comments(args)
+      items = bugs_by_board(boardid: args[:boardid], startdate: (DateTime.now - 6.months).strftime("%Y-%m-%d"), options: args[:options])
+      items.map! {|elem| {
+          priority: {icon: elem.dig('fields', 'priority', 'iconUrl'), name: elem.dig('fields', 'priority', 'name')},
+          status: {icon: elem.dig('fields', 'status', 'iconUrl'), name: elem.dig('fields', 'status', 'name')},
+          key: elem['key'],
+          first_time: issue_comments(elem.dig('key'))&.first,
+          created: elem.dig('fields', 'created')&.to_time}
+      }.delete_if {|elem| elem[:first_time].blank?}
+    end
+
+    def bugs_by_board(args)
+      param_hash = {issuetype: "='Bug'"}
+      param_hash.merge!({created: ">='#{args[:startdate]}'"})
+      param_hash.merge!({resolutiondate: "<='#{args[:enddate]}'"}) unless args[:enddate].blank?
+      param_hash.merge!({status: "='#{args[:status]}'"}) unless args[:status].blank?
+      agile_query("/board/#{args[:boardid]}/issue", {:jql => parse_jql_params(param_hash)}, args[:options])[:issues.to_s]
+    end
+
+    protected
+
     def agile_query(url, jql_param = {}, options = {})
-      jql_param.update JIRA::Base.query_params_for_search(options)
+      jql_param.update JIRA::Base.query_params_for_search(options) unless options.blank?
       json = JSON.parse(@instance.get(url_with_query_params(agile_url + url, jql_param)).body)
       if pagination?(jql_param) && !json[:isLast.to_s]
         json = agile_query(url, next_page(jql_param), {})
@@ -50,23 +116,27 @@ module Jira
     end
 
     def green_hopper_query(url, jql_param = {}, options = {})
-      jql_param.update JIRA::Base.query_params_for_search(options)
+      jql_param.update JIRA::Base.query_params_for_search(options) unless options.blank?
       JSON.parse(@instance.get(url_with_query_params(greenhopper_url + url, jql_param)).body)
     end
 
     def rest_query(path, jql_param = {}, options = {})
-      jql_param.update JIRA::Base.query_params_for_search(options) unless options.empty?
+      jql_param.update JIRA::Base.query_params_for_search(options) unless options.blank?
       JSON.parse(@instance.get(url_with_query_params(@instance.options[:rest_base_path] + path, jql_param)).body)
     end
 
     private
+
+    def parse_jql_params(jql_param)
+      jql_param.map {|k, v| "#{k}#{v}"}.join(' AND ')
+    end
 
     def pagination? (params)
       (params.include? :toLast) && (params.include? :startAt)
     end
 
     def next_page(params)
-      params.slice(:startAt,:toLast).transform_values! {|v| v += params[:toLast]}
+      params.slice(:startAt, :toLast).transform_values! {|v| v += params[:toLast]}
     end
 
     def url_with_query_params(url, query_params = {})

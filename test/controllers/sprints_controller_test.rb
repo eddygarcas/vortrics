@@ -27,7 +27,7 @@ class SprintsControllerTest < ActionDispatch::IntegrationTest
 
   test "should retrieve project information" do
     stubs(:issue_by_project).returns(file_fixture('current_project.json').read)
-    assert_equal issue_by_project('MTR-1111'), file_fixture('current_project.json').read
+    assert_equal issue_by_project(key: 'MTR-1111'), file_fixture('current_project.json').read
   end
 
   test "should get edit" do

@@ -64,12 +64,12 @@ class ConnectTest < ActionView::TestCase
   end
 
   test "Get project details from WORK" do
-    data = project_details "VOR"
+    data = project_details key: "VOR"
     assert_equal data['id'], "10000"
   end
 
   test "Get issues from an specific project" do
-    data = issue_by_project 'VOR'
+    data = issue_by_project key: 'VOR'
     assert_not_nil data
   end
 
@@ -85,7 +85,7 @@ class ConnectTest < ActionView::TestCase
   end
 
   test "List of boards by project" do
-    data = boards_by_project "VOR"
+    data = boards_by_project keyorid: "VOR"
     assert_equal data.values.size, 5
     assert_instance_of Array,data.values
     assert_instance_of Hash,data.values.last[0]
@@ -94,7 +94,7 @@ class ConnectTest < ActionView::TestCase
   end
 
   test "Get active sprint from a jira instances for an specific board" do
-    data = scrum 1, @options
+    data = scrum sprintId: 1, options: @options
     assert_equal data.last.dig('changelog').present?, true
     assert_equal data.last.dig('changelog','histories').present?, true
   end
