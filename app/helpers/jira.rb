@@ -40,63 +40,77 @@ module Jira
       @instance
     end
 
+    def profile
+      usr = @instance.User.singular_path(yield)
+      yield JSON.parse(@instance.get(usr).body)
+    end
+
     def projects
       @instance.Project.all.map {|p| Project.new(p.attrs)}
     end
 
-    def fields(args)
-      rest_query('/field', {}, args[:options]).map {|c| [c['id'], "#{c['name'].humanize} - #{c['id']}"]}.sort! {|a, b| a[1] <=> b[1]}.to_h
+    def fields
+      rest_query('/field', {}, yield[:options]).map {|c| [c['id'], "#{c['name'].humanize} - #{c['id']}"]}.sort! {|a, b| a[1] <=> b[1]}.to_h
     end
 
-    def project_details(args)
+    def project_details
+      args = yield
       rest_query("/project/#{args[:key]}", {}, args[:options].presence)
     end
 
-    def scrum(args)
+    def scrum
+      args = yield
       agile_query("/sprint/#{args[:sprintId]}/issue", {}, args[:options])[:issues.to_s]
     end
 
-    def kanban(args)
+    def kanban
+      args = yield
       agile_query("/board/#{args[:boardId]}/issue", {}, args[:options])[:issues.to_s]
     end
 
-    def boards_by_project(args)
+    def boards_by_project
+      args = yield
       agile_query('/board', {projectKeyOrId: args[:keyorid], type: args[:type]}, args[:options])
     end
 
-    def boards_by_sprint(args)
+    def boards_by_sprint
+      args = yield
       agile_query("/board/#{args[:board]}/sprint", {startAt: args[:startAt], toLast: 20}, args[:options])[:values.to_s]
     end
 
-    def sprint_report(args)
+    def sprint_report
+      args = yield
       return if args[:sprintid].blank?
       green_hopper_query('/rapid/charts/sprintreport', {rapidViewId: args[:boardid], sprintId: args[:sprintid]}, args[:options])[:contents.to_s]
     end
 
-    def issue_by_project(args)
+    def issue_by_project
+      args = yield
       rest_query('/search', {:jql => parse_jql_params({project: "='#{args[:key]}'"})}, args[:options])[:issues.to_s]
     end
 
-    def issue_attachments(key)
-      @instance.Issue.find(key, fields: :attachment).attachments
+    def issue_attachments
+      @instance.Issue.find(yield, fields: :attachment).attachments
     end
 
-    def issue_comments(key)
-      @instance.Issue.find(key, fields: :comment).comments.map(&:attrs)
+    def issue_comments
+      @instance.Issue.find(yield, fields: :comment).comments.map(&:attrs)
     end
 
-    def bugs_first_comments(args)
-      items = bugs_by_board(boardid: args[:boardid], startdate: (DateTime.now - 6.months).strftime("%Y-%m-%d"), options: args[:options])
+    def bugs_first_comments
+      args = yield
+      items = bugs_by_board { {boardid: args[:boardid], startdate: (DateTime.now - 6.months).strftime("%Y-%m-%d"), options: args[:options]} }
       items.map! {|elem| {
           priority: {icon: elem.dig('fields', 'priority', 'iconUrl'), name: elem.dig('fields', 'priority', 'name')},
           status: {icon: elem.dig('fields', 'status', 'iconUrl'), name: elem.dig('fields', 'status', 'name')},
           key: elem['key'],
-          first_time: issue_comments(elem.dig('key'))&.first,
+          first_time: issue_comments{ elem.dig('key')}&.first,
           created: elem.dig('fields', 'created')&.to_time}
       }.delete_if {|elem| elem[:first_time].blank?}
     end
 
-    def bugs_by_board(args)
+    def bugs_by_board
+      args = yield
       param_hash = {issuetype: "='Bug'"}
       param_hash.merge!({created: ">='#{args[:startdate]}'"})
       param_hash.merge!({resolutiondate: "<='#{args[:enddate]}'"}) unless args[:enddate].blank?

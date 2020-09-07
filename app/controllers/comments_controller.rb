@@ -72,7 +72,7 @@ class CommentsController < ApplicationController
 
   def comments_by_board
     board_id = params[:board_id]
-    render json: bugs_first_comments(boardid: board_id, options: {fields: vt_jira_issue_fields, maxResults: 400})
+    render json: service_method(:bugs_first_comments,boardid: board_id, options: {fields: vt_jira_issue_fields, maxResults: 400})
   end
 
   private

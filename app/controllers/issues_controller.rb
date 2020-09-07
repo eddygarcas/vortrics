@@ -28,8 +28,8 @@ class IssuesController < ApplicationController
   # GET /issues/1.json
   def show
     redirect_to issues_path and return unless @issue.present?
-    @comments = issue_comments(@issue&.key)
-    @attachments = issue_attachments(@issue&.key)
+    @comments = service_method(:issue_comments,@issue&.key)
+    @attachments = service_method(:issue_attachments,@issue&.key)
     @sprint = Sprint.find(@issue&.sprint_id)
   end
 

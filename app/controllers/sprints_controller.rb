@@ -17,7 +17,7 @@ class SprintsController < ApplicationController
   # GET /sprints/1
   # GET /sprints/1.json
   def show
-    @bugs = bugs_by_board(boardid: @sprint.team.board_id,startdate: @sprint.start_date, enddate: @sprint.enddate, options: {fields: :key}).map {|elem| IssueBuilder.new(elem)}
+    @bugs = service_method(:bugs_by_board,boardid: @sprint.team.board_id,startdate: @sprint.start_date, enddate: @sprint.enddate, options: {fields: :key}).map {|elem| IssueBuilder.new(elem)}
   end
 
   # GET /sprints/news
@@ -36,7 +36,7 @@ class SprintsController < ApplicationController
   def graph_closed_by_day
     data = Rails.cache.fetch("graph_closed_by_day_sprint_#{@sprint.id}", expires_in: 30.minutes) {
       data = Array.new {Array.new}
-      bugs = bugs_by_board(boardid: @sprint.team.board_id, startdate: @sprint.start_date, enddate: @sprint.enddate, options: {fields: :created}).map {|elem| IssueBuilder.new(elem)}
+      bugs = service_method(:bugs_by_board,boardid: @sprint.team.board_id, startdate: @sprint.start_date, enddate: @sprint.enddate, options: {fields: :created}).map {|elem| IssueBuilder.new(elem)}
       burndown = @sprint.stories + @sprint.remainingstories
       data[0] = @sprint.week_days.map.with_index {|date, index| {x: index, y: GraphHelper.number_of_by_date(@sprint.issues, :resolutiondate, :story, date)}}
       data[1] = @sprint.week_days.map.with_index {|date, index| {x: index, y: date.strftime("%b %d")}}
@@ -68,7 +68,7 @@ class SprintsController < ApplicationController
 
   #GET /sprints/import
   def import
-    @board_sprint = boards_by_sprint board: @team.board_id, startAt: 0
+    @board_sprint = service_method(:boards_by_sprint, board: @team.board_id, startAt: 0)
     @board_sprint.sort_by! {|x| x[sort_column_import].blank? ? '' : x[sort_column_import]}
     @board_sprint.reverse! unless sort_direction.eql? 'asc'
   end
@@ -79,9 +79,9 @@ class SprintsController < ApplicationController
       criteria = import_params
       criteria[:team_id] = @team.id
       criteria[:board_type] = @team.board_type
-      criteria[:change_scope] = sprint_report(boardid: @team.board_id, sprintid: criteria[:sprint_id])['issueKeysAddedDuringSprint'].count
+      criteria[:change_scope] = service_method(:sprint_report,boardid: @team.board_id, sprintid: criteria[:sprint_id])['issueKeysAddedDuringSprint'].count
 
-      issues = scrum(sprintId: criteria[:sprint_id], options: options).map {|elem| IssueBuilder.new(elem, @team.estimated)}
+      issues = service_method(:scrum,sprintId: criteria[:sprint_id], options: options).map {|elem| IssueBuilder.new(elem, @team.estimated)}
       issues_save = issues.select {|el| el.closed_in.include? criteria[:sprint_id] unless el.closed_in.blank?}
       sprint_data = SprintsHelper::SprintBuilder.new(issues, criteria)
       @team.update_active_sprint(sprint_data)
@@ -96,7 +96,7 @@ class SprintsController < ApplicationController
     unless @sprint.sprint_id.blank?
       redirect_to sprint_import_url(@sprint.team_id), notice: 'Cannot find the related team.' and return if @team.blank?
       options = {fields: vt_jira_issue_fields, maxResults: 200, expand: :changelog}
-      issues = scrum(sprintId: @sprint.sprint_id, options: options).map {|e| IssueBuilder.new(e, @team&.estimated)}
+      issues = service_method(:scrum,sprintId: @sprint.sprint_id, options: options).map {|e| IssueBuilder.new(e, @team&.estimated)}
       issues_save = issues.select {|e| e.closed_in.include? @sprint.sprint_id.to_s unless e.closed_in.blank?}
       sprint_data = SprintsHelper::SprintBuilder.new(
           issues,
@@ -104,7 +104,7 @@ class SprintsController < ApplicationController
               sprint_id: @team&.sprint&.sprint_id.to_s,
               team_id: @team&.id,
               board_type: @team&.board_type,
-              change_scope: sprint_report(boardid: @team.board_id, sprintid: @team&.sprint&.sprint_id.to_s)['issueKeysAddedDuringSprint'].count
+              change_scope: service_method(:sprint_report,boardid: @team.board_id, sprintid: @team&.sprint&.sprint_id.to_s)['issueKeysAddedDuringSprint'].count
           }
       ).to_h.compact
       @sprint.update(sprint_data)

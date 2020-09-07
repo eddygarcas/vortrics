@@ -55,7 +55,7 @@ module ApplicationHelper
 	end
 
 	def board(team)
-		boards_by_project(keyorid: team.project_info.key)['values'].map { |c| Board.new(c) }.find{|board| board.id.eql? team.board_id}.name
+		service_method(:boards_by_project,keyorid: team.project_info.key)['values'].map { |c| Board.new(c) }.find{|board| board.id.eql? team.board_id}.name
 	end
 
 	def days_remain(enddate = Time.now.to_datetime)
@@ -115,7 +115,7 @@ module ApplicationHelper
 
 	def vt_project_tag(project)
 		elem = ""
-		issue = IssueBuilder.new(issue_by_project(key: project, options: { fields: [:project], maxResults: 1 }).first)
+		issue = IssueBuilder.new(service_method(:issue_by_project,key: project, options: { fields: [:project], maxResults: 1 }).first)
 		project_name = issue&.fields&.project.blank? ? 'n/d' : issue.fields.project.name
 		project_icon = issue&.fields&.project.blank? ? '' : issue.fields.project.avatarUrls._32x32
 		elem << image_tag(project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30')
