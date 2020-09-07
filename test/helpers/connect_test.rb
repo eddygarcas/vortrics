@@ -80,7 +80,7 @@ class ConnectTest < ActionView::TestCase
   end
 
   test "Get attachments from an specific issue" do
-    data = service_method(:issue_attachments,key: 'VOR-1')
+    data = service_method(:issue_attachments,'VOR-1')
     assert_equal data.first.filename, "vertical_on_corporate_500x500px_by_logaster.png"
   end
 

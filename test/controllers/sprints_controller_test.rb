@@ -4,6 +4,7 @@ require_relative '../../app/helpers/connect'
 
 
 class SprintsControllerTest < ActionDispatch::IntegrationTest
+  include Connect
   include Devise::Test::IntegrationHelpers
 
   setup do
@@ -15,19 +16,6 @@ class SprintsControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     get sprints_url
     assert_response :found
-  end
-
-
-  # test "should create sprint" do
-  #   assert_difference('Sprint.count') do
-  #     post sprints_url, params: { sprint: { bugs: @sprint.bugs, closed_points: @sprint.closed_points, name: @sprint.name, remaining_points: @sprint.remaining_points, stories: @sprint.stories, team_id: @sprint.team_id } }
-  #   end
-  #   assert_redirected_to sprints_url
-  # end
-
-  test "should retrieve project information" do
-    stubs(service_method(:issue_by_project)).returns(file_fixture('current_project.json').read)
-    assert_equal service_method(:issue_by_project,key: 'MTR-1111'), file_fixture('current_project.json').read
   end
 
   test "should get edit" do
