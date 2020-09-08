@@ -1,4 +1,5 @@
 module Connect
+  class MethodNotFoundError < StandardError; end
   def self.included(base)
     base.include Trelo
     base.include Jira

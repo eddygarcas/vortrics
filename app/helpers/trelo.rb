@@ -1,5 +1,6 @@
 require 'trello'
 module Trelo
+
   class Builder
     include Binky::Struct
   end
@@ -39,5 +40,10 @@ module Trelo
     def find(path, id, type = nil, params = {})
       Builder.new(JSON.parse(@instance.get("/#{path.to_s.pluralize}/#{id}/#{type}", params)))
     end
+
+    def method_missing(name, *args)
+      raise Connect::MethodNotFoundError
+    end
+
   end
 end

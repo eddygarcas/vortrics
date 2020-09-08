@@ -118,6 +118,10 @@ module Jira
       agile_query("/board/#{args[:boardid]}/issue", {:jql => parse_jql_params(param_hash)}, args[:options])[:issues.to_s]
     end
 
+    def method_missing(name, *args)
+      raise Connect::MethodNotFoundError
+    end
+
     protected
 
     def agile_query(url, jql_param = {}, options = {})

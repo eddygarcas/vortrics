@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   include Connect
-
   protect_from_forgery with: :exception
   #Will only get into JIRA if a Devise user has logged in
   #It calls get_jira_client every time a redirect is requested.
@@ -8,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from JIRA::HTTPError, with: :render_403
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
+  rescue_from Connect::MethodNotFoundError, with: :render_501
   rescue_from SocketError, with: :render_401
   rescue_from JIRA::OauthClient::UninitializedAccessTokenError do
     redirect_to signin_path
@@ -18,7 +18,11 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404
-    redirect_to root_url, flash: {warning: "Ups! The content you are try to reach doesn't exist. "}
+    redirect_to root_url, flash: {warning: "<strong>Ups!</strong> The content you are try to reach doesn't exist."}
+  end
+
+  def render_501
+    redirect_to root_url, flash: {notice: "<strong>Ups!</strong> Action called is not yet available for <strong>#{current_user.setting.provider.humanize}</strong>."}
   end
 
   def render_403
@@ -58,7 +62,6 @@ class ApplicationController < ActionController::Base
       return
     end
   end
-
 
   private
 
