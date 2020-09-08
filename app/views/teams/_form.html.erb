@@ -7,7 +7,7 @@
       <div class='col-md-8'>
         <%= @team.project_info.blank? ? image_tag('/images/voardtrix_logo.png', class: "img-rounded", height: '32', width: '32', id: 'project_image') : image_tag(@team.project_info.icon, class: "img-rounded", height: '32', width: '32', id: 'project_image') %>
         <div class="btn-group">
-          <%= f.collection_select :project, projects, :key, :name, {prompt: 'Select project...', required: true}, {class: 'form-control form-control-lg', data: {behaviour: :team_project_change}, disabled: f.object.persisted?} %>
+          <%= f.collection_select :project, service_method(:projects,key: ""), :key, :name, {prompt: 'Select project...', required: true}, {class: 'form-control form-control-lg', data: {behaviour: :team_project_change}, disabled: f.object.persisted?} %>
         </div>
         <%= f.error_messages %>
       </div>
@@ -16,11 +16,7 @@
     <%= f.form_group :board_id do |f| %>
       <%= f.label :board_id, class: 'control-label col-md-2' %>
       <div class='col-md-4'>
-        <% if (f.object.persisted?) %>
-          <%= f.label board @team, {class: 'form-control form-control-lg'} %>
-        <% else %>
-          <%= f.select :board_id, "Not defined", {prompt: 'Not defined', required: true}, {required: true,class: 'form-control', data: {behaviour: :team_board_id_change}, disabled: f.object.persisted?} %>
-        <% end %>
+        <%= f.select :board_id, "Not defined", {prompt: 'Not defined', required: true}, {required: true,class: 'form-control', data: {behaviour: :team_board_id_change}, disabled: f.object.persisted?} %>
         <%= f.error_messages %>
       </div>
       <div class='col-md-2 pull-left'>
@@ -34,7 +30,7 @@
     <%= f.form_group :estimated do |f| %>
       <%= f.label :estimated, class: 'control-label col-md-2' %>
       <div class='col-md-8'>
-        <%= f.select :estimated, fields(@team.project).invert, {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?} %>
+        <%= f.select :estimated, service_method(:fields,key: @team.project).invert, {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?} %>
         <%= f.error_messages %>
       </div>
     <% end %>

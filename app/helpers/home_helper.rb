@@ -17,6 +17,6 @@ module HomeHelper
 
   def navbar_visible?
 	  return false if @team.blank?
-    return (@team.id.present? && projects.present?)
+    return (@team.id.present? && service_method(:projects).present?)
   end
 end

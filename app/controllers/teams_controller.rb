@@ -103,7 +103,7 @@ class TeamsController < ApplicationController
   def graph_time_first_response
     render json: Rails.cache.fetch("graph_time_first_response_#{@team.id}", expires_in: 1.day) {
       data = Array.new { Array.new }
-      bugs = bugs_first_comments @team.board_id
+      bugs = service_method(:bugs_first_comments, boardid: @team.board_id)
       average_first_time = bugs.map { |issue| ((issue[:first_time]['created']&.to_time - issue[:created]) / 1.hour).ceil }.average
 
       data[0] = bugs.map.with_index { |issue, index| {x: index, y: issue[:key]} }
@@ -177,11 +177,11 @@ class TeamsController < ApplicationController
   end
 
   def full_project_details
-    render json: project_details(params['proj_id'])
+    render json: service_method(:project_details,key: params['proj_id'])
   end
 
   def boards_by_team
-    render json: boards_by_project(params['proj_id'])['values'].map { |e| Board.new(e) }
+    render json: service_method(:boards_by_project,keyorid: params['proj_id'])['values'].map { |e| Board.new(e) }
   end
 
   def key_results
@@ -196,7 +196,7 @@ class TeamsController < ApplicationController
 
   def support
     @support_bugs = bugs_selectable_for_graph.map { |elem| IssueBuilder.new(elem).to_issue }.sort_by!(&:lead_time)
-    @comments = bugs_first_comments @team.board_id
+    @comments = service_method(:bugs_first_comments,boardid: @team.board_id, options: {fields: vt_jira_issue_fields, maxResults: 400})
   end
 
   # GET /teams/1
@@ -217,7 +217,7 @@ class TeamsController < ApplicationController
   # POST /teams.json
   def create
     @team = Team.new(team_params)
-    @team.project_info_id = ProjectInfo.create_data(project_details(@team.project)).id
+    @team.project_info_id = ProjectInfo.create_data(service_method(:project_details,key: @team.project)).id
     respond_to do |format|
       if @team.save
         format.html { redirect_to teams_url, notice: 'Team was successfully created.' }
@@ -242,12 +242,11 @@ class TeamsController < ApplicationController
   private
 
   def bugs_selectable_for_graph
-    bugs_by_board(
-        @team.board_id,
-        (DateTime.now - 6.months).strftime("%Y-%m-%d"),
-        nil,
-        {fields: vt_jira_issue_fields, maxResults: 400
-        }
+    service_method(:bugs_by_board,
+        boardid: @team.board_id,
+        startdate: (DateTime.now - 6.months).strftime("%Y-%m-%d"),
+        enddate: nil,
+        options: {fields: vt_jira_issue_fields, maxResults: 400}
     )
   end
 

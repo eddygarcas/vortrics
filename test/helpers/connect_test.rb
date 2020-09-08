@@ -47,14 +47,14 @@ class ConnectTest < ActionView::TestCase
   end
 
   test "Connection to a JIRA Cloud instance" do
-    profile(current_user) { |data|
+    service_method(:profile,current_user.extuser) { |data|
       assert_equal data['name'], 'eduard.garcia'
       assert_equal data['key'], 'eduard.garcia'
     }
   end
 
   test "Get projects form user" do
-    data = projects.first
+    data = service_method(:projects).first
     assert_equal data.key, "IM"
     assert_equal data.name, "VeePee - Manager"
     assert_equal data.projectTypeKey, "software"
@@ -64,28 +64,28 @@ class ConnectTest < ActionView::TestCase
   end
 
   test "Get project details from WORK" do
-    data = project_details "VOR"
+    data = service_method(:project_details, key: "VOR")
     assert_equal data['id'], "10000"
   end
 
   test "Get issues from an specific project" do
-    data = issue_by_project 'VOR'
+    data = service_method(:issue_by_project, key: 'VOR')
     assert_not_nil data
   end
 
   test "Get comments from an specific issue" do
-    data = issue_comments 'VOR-1'
+    data = service_method(:issue_comments,'VOR-1')
     assert_equal data.first.dig('body')['content'][0]['content'][0]['text'], "This is a test comment, for testing purposes only"
     assert_equal data.first.dig('id'), "10011"
   end
 
   test "Get attachments from an specific issue" do
-    data = issue_attachments 'VOR-1'
+    data = service_method(:issue_attachments,'VOR-1')
     assert_equal data.first.filename, "vertical_on_corporate_500x500px_by_logaster.png"
   end
 
   test "List of boards by project" do
-    data = boards_by_project "VOR"
+    data = service_method(:boards_by_project,keyorid: "VOR")
     assert_equal data.values.size, 5
     assert_instance_of Array,data.values
     assert_instance_of Hash,data.values.last[0]
@@ -94,7 +94,7 @@ class ConnectTest < ActionView::TestCase
   end
 
   test "Get active sprint from a jira instances for an specific board" do
-    data = scrum 1, @options
+    data = service_method(:scrum, sprintId: 1, options: @options)
     assert_equal data.last.dig('changelog').present?, true
     assert_equal data.last.dig('changelog','histories').present?, true
   end

@@ -41,7 +41,7 @@ class UsersController < ApplicationController
 	def create_profile
 		@user = User.find(user_params[:id])
 		return @user.full_profile?
-		profile(@user) { |data|
+		service_method(:profile,@user.extuser) { |data|
 			@user.update(displayName: data[:displayName.to_s], active: data[:active.to_s], avatar: data[:avatarUrls.to_s]['48x48'])
 		}
 	end
