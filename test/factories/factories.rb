@@ -29,6 +29,8 @@ FactoryBot.define do
     base_path {"/rest/api/2"}
     context {""}
     oauth {true}
+    tokenized {false}
+    provider {:jira}
     debug {Faker::Boolean.boolean}
     signature_method {""}
     consumer_key {"OAuth"}

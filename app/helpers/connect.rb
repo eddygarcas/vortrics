@@ -22,5 +22,4 @@ module Connect
       Connect.client(self).send(method) { args[0] unless args.blank? }
     end
   end
-
 end

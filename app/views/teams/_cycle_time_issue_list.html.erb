@@ -26,7 +26,7 @@
           <th>Components</th>
           <th>Status</th>
           <th><%=sort_link 'cycle_time', "Cycle time" %></th>
-          <th>Jira</th>
+          <th><%=current_user.setting.provider.humanize %></th>
         </tr>
         </thead>
         <tbody>
