@@ -1,4 +1,4 @@
-<% @title = "#{@team.board_type.humanize} / #{@sprint.name}" %>
+<% @title = "#{@team.board_type.humanize} / #{@sprint.name.humanize}" %>
 
 <% content_for :description do %>
   <p><%= vt_project_tag @sprint.team.project %> / <%= @sprint.team.name %> -
