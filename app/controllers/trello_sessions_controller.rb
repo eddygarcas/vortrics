@@ -28,7 +28,7 @@ class TrelloSessionsController < ApplicationController
     else
       user = User.create!(
           email: data.aaEmail,
-          avatar: data.avatarUrl,
+          avatar: "https://www.gravatar.com/avatar/#{data.gravatarHash}.jpg",
           name: data.fullName,
           displayName: data.username,
           password: Devise.friendly_token[0, 20]
