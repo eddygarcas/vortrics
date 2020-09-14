@@ -42,6 +42,10 @@ class User < ApplicationRecord
     setting.present?
   end
 
+  def edit_setting?
+    !setting&.tokenized? || external_user? || admin?
+  end
+
   def admin?
     return false if group.blank?
     group.priority.eql? 1
