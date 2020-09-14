@@ -19,7 +19,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           uid: auth.uid,
           access_token: auth.credentials.token
       )
-      user.save_dependent(Setting.find_by_name("Vortrics").id,false) if Setting.find_by_name("Vortrics").present?
     end
     sign_in_and_redirect user, event: :authentication
   end
