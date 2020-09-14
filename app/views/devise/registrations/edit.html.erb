@@ -10,14 +10,11 @@
         <h2 class="p0 m0 mb20 text-center">Sign Up</h2>
         <%= form_for resource, as: resource_name, url: registration_path(resource_name),
                      html: {method: :put, novalidate: true, class: "form-horizontal col-xs-12 col-md-6 col-md-offset-3"} do |f| %>
-
           <%= f.error_notification %>
-
           <div class="avatar text-center">
             <img alt="2" class="img-rounded" src="<%= current_user&.avatar.to_s %>" width="150" height="150">
             <p style="font-size: 28px;margin-bottom: 5px;"><%= current_user&.displayName %></p>
           </div>
-
           <%= f.form_group :email do |f| %>
             <%= f.label :email, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
             <div class="col-sm-10">
@@ -27,14 +24,13 @@
           <% end %>
 
           <%= f.form_group :extuser do |f| %>
-            <%= f.label "#{current_user.setting.provider.humanize} Login", class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
+            <%= f.label "#{current_user&.setting&.provider&.humanize} Login", class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
             <div class="col-sm-10">
               <%= f.text_field :extuser, required: true, autofocus: true, class: "form-control" %>
               <%= f.error_messages %>
               <div class="help-inline">
                 This field may be required on those external service where the login data differs from the email given.
               </div>
-
             </div>
           <% end %>
           <% if current_user&.services&.blank? %>
@@ -45,7 +41,6 @@
                 <%= f.error_messages %>
               </div>
             <% end %>
-
             <%= f.form_group :password_confirmation do |f| %>
               <%= f.label :password_confirmation, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
               <div class="col-sm-10">
@@ -53,7 +48,6 @@
                 <%= f.error_messages %>
               </div>
             <% end %>
-
             <%= f.form_group :current_password do |f| %>
               <%= f.label :current_password, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
               <div class="col-sm-10">
@@ -76,12 +70,10 @@
               <% end %>
             </div>
           <% end %>
-
           <div class="form-actions col-sm-offset-2">
             <%= f.submit "Update", class: 'btn btn-primary' %>
             <%= link_to "Cancel my account", registration_path(resource_name), confirm: "Cancelling your account will also remove all imported data, are you sure?", method: :delete, class: "pull-right text-red-400 pt10" %>
           </div>
-
         <% end %>
       </div>
     </div>
@@ -100,7 +92,5 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </div>
