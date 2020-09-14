@@ -589,7 +589,7 @@ class Teams
       method: "GET"
       success: (data) ->
         if (data != undefined)
-          $("#project_image")[0].src = data.avatarUrls["32x32"]
+          $("#project_image")[0].src = data['icon']
         else
           $("[data-behaviour='board_type']").html("Error")
     )
@@ -607,6 +607,20 @@ class Teams
     )
   handleBoardChange: (e) ->
     $("[data-behaviour='board_type']").val(boards[$('select#team_board_id option:selected').index() - 1].type)
+    if ($("[data-behaviour='board_type']").val() == "" )
+      $("[data-behaviour='board_type']").val("kanban");
+
+    $.ajax(
+      url: "/teams/custom_fields_by_board/" + $('select#team_board_id').val()
+      type: "JSON"
+      method: "GET"
+      contentType: "application/json"
+      success: (resp) ->
+        $('select#team_estimated').empty()
+        $('select#team_estimated').append($('<option>', {value: '', text: 'Select estimation field...'}))
+        resp.map (board) ->
+          $('select#team_estimated').append($('<option>', {value: board['id'], text: board['name']}))
+    )
 
   handleFirstResponse: (e) ->
     return if $('#teamid').val() == undefined

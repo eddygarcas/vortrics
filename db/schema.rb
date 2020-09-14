@@ -238,15 +238,13 @@ ActiveRecord::Schema.define(version: 2020_09_03_074837) do
 
   create_table "teams", force: :cascade do |t|
     t.string "name"
-    t.integer "max_capacity"
-    t.integer "current_capacity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tmf_process", default: 0
     t.integer "tmf_value", default: 0
     t.integer "tmf_quality", default: 0
     t.string "project"
-    t.integer "board_id"
+    t.string "board_id"
     t.string "avatar"
     t.string "estimated"
     t.integer "setting_id"

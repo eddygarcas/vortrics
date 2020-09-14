@@ -1,6 +1,11 @@
 require 'jira-ruby'
 require_relative 'file'
 module Jira
+
+  class Response
+    include Binky::Builder
+  end
+
   class Client
     @instance
 
@@ -50,12 +55,13 @@ module Jira
     end
 
     def fields
-      rest_query('/field', {}, yield[:options]).map {|c| [c['id'], "#{c['name'].humanize} - #{c['id']}"]}.sort! {|a, b| a[1] <=> b[1]}.to_h
+      rest_query('/field', {}, yield[:options]).map { |c| Jira::Response.new(c) }
     end
 
     def project_details
       args = yield
-      rest_query("/project/#{args[:key]}", {}, args[:options].presence)
+      resp = rest_query("/project/#{args[:key]}", {}, args[:options].presence)
+      Jira::Response.new({key: resp.dig('key'),name: resp.dig('name'),icon: resp.dig('avatarUrls','32x32')})
     end
 
     def scrum
@@ -70,7 +76,8 @@ module Jira
 
     def boards_by_project
       args = yield
-      agile_query('/board', {projectKeyOrId: args[:keyorid], type: args[:type]}, args[:options])
+      resp = agile_query('/board', {projectKeyOrId: args[:keyorid], type: args[:type]}, args[:options])['values'].map { |c| Jira::Response.new(c) }
+      args[:board].present? ? resp.find{|board| board.id.to_s.eql? args[:board]}.name : resp
     end
 
     def boards_by_sprint

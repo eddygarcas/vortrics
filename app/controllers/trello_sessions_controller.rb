@@ -12,7 +12,7 @@ class TrelloSessionsController < ApplicationController
 
   def authorize
     access_token = Trelo::Client.omniauth.get_request_token.get_access_token(oauth_verifier: params[:oauth_verifier])
-    session[:trello] = {:oauth_token => access_token.token, :oauth_token_secret => access_token.secret}
+    session[:trello] = {:oauth_token.to_s => access_token.token, :oauth_token_secret.to_s => access_token.secret}
     sign_in_and_redirect trello, event: :authentication
   end
 
@@ -20,7 +20,7 @@ class TrelloSessionsController < ApplicationController
 
   def trello
 
-    data = Trelo::Client.new(self).find(:token, session[:trello][:oauth_token], :member)
+    data = Trelo::Client.new(self).find(:token, session[:trello][:oauth_token.to_s], :member)
     service = Service.where(provider: :trello, uid: data.aaId).first
 
     if (service.present?)
@@ -36,8 +36,8 @@ class TrelloSessionsController < ApplicationController
       user.services.create!(
           provider: :trello,
           uid: data.aaId,
-          access_token: session[:trello][:oauth_token],
-          access_token_secret: session[:trello][:oauth_token_secret]
+          access_token: session[:trello][:oauth_token.to_s],
+          access_token_secret: session[:trello][:oauth_token_secret.to_s]
       )
       setting = Setting.create!(
           name: data.fullName,
@@ -51,7 +51,7 @@ class TrelloSessionsController < ApplicationController
       )
       Workflow.create_by_setting(setting.id)
       user.save_dependent setting.id,false
-      user
     end
+    user
   end
 end

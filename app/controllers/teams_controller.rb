@@ -181,7 +181,11 @@ class TeamsController < ApplicationController
   end
 
   def boards_by_team
-    render json: service_method(:boards_by_project,keyorid: params['proj_id'])['values'].map { |e| Board.new(e) }
+    render json: service_method(:boards_by_project,keyorid: params['proj_id'])
+  end
+
+  def custom_fields_by_board
+    render json: service_method(:fields, boardid: params['board_id'])
   end
 
   def key_results
@@ -191,7 +195,6 @@ class TeamsController < ApplicationController
   end
 
   def comulative_flow_diagram
-
   end
 
   def support
@@ -269,7 +272,7 @@ class TeamsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def team_params
-    params.require(:team).permit(:name, :max_capacity, :current_capacity, :estimated, :board_id, :board_type, :setting_id, :project, :page, :per_page)
+    params.require(:team).permit(:name,:estimated, :board_id, :board_type, :setting_id, :project, :page, :per_page)
   end
 
   def ct_params

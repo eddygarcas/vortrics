@@ -7,7 +7,7 @@
       <div class='col-md-8'>
         <%= @team.project_info.blank? ? image_tag('/images/voardtrix_logo.png', class: "img-rounded", height: '32', width: '32', id: 'project_image') : image_tag(@team.project_info.icon, class: "img-rounded", height: '32', width: '32', id: 'project_image') %>
         <div class="btn-group">
-          <%= f.collection_select :project, service_method(:projects,key: ""), :key, :name, {prompt: 'Select project...', required: true}, {class: 'form-control form-control-lg', data: {behaviour: :team_project_change}, disabled: f.object.persisted?} %>
+          <%= f.collection_select :project, service_method(:projects,user: current_user.displayName), :key, :name, {prompt: 'Select project...', required: true}, {class: 'form-control form-control-lg', data: {behaviour: :team_project_change}, disabled: f.object.persisted?} %>
         </div>
         <%= f.error_messages %>
       </div>
@@ -30,7 +30,7 @@
     <%= f.form_group :estimated do |f| %>
       <%= f.label :estimated, class: 'control-label col-md-2' %>
       <div class='col-md-8'>
-        <%= f.select :estimated, service_method(:fields,key: @team.project).invert, {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?} %>
+        <%= f.select :estimated, "Select estimated field...", {required: true}, {class: 'form-control form-control-lg', disabled: f.object.persisted?} %>
         <%= f.error_messages %>
       </div>
     <% end %>

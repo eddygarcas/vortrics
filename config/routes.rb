@@ -71,6 +71,7 @@ Rails.application.routes.draw do
   get '/teams/:id/support', to: 'teams#support', as: 'teams_support'
   get '/teams/boards_by_team/:proj_id', to: 'teams#boards_by_team', as: 'teams_boards_by_team'
   get '/teams/full_project_details/:proj_id', to: 'teams#full_project_details', as: 'teams_full_project_details'
+  get '/teams/custom_fields_by_board/:board_id', to: 'teams#custom_fields_by_board', as: 'teams_custom_fields_by_board'
 
   get '/comments/by_board/:board_id', to:'comments#comments_by_board', as: 'comments_by_board'
 
