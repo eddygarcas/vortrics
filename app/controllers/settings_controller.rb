@@ -23,6 +23,7 @@ class SettingsController < ApplicationController
 
 	# GET /settings/1/edit
 	def edit
+		redirect_to settings_url, notice: 'This external service configuration cannot be modified.' unless current_user.external_user?
 	end
 
 	# POST /settings
