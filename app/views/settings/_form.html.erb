@@ -102,7 +102,7 @@
       <%= f.label ' ', class: 'control-label col-md-2' %>
       <div class='col-md-8'>
         <div class="input-group leading">
-          <%= content_tag :p, @setting.key_data, class: 'small' %>
+          <%= content_tag :p, @setting.key_data.slice(0,50), class: 'small' %>
         </div>
       </div>
     <% end if @setting.key_data.present? %>
