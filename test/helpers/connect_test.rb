@@ -65,7 +65,7 @@ class ConnectTest < ActionView::TestCase
 
   test "Get project details from WORK" do
     data = service_method(:project_details, key: "VOR")
-    assert_equal data['id'], "10000"
+    assert_equal data.key, "VOR"
   end
 
   test "Get issues from an specific project" do
@@ -86,11 +86,10 @@ class ConnectTest < ActionView::TestCase
 
   test "List of boards by project" do
     data = service_method(:boards_by_project,keyorid: "VOR")
-    assert_equal data.values.size, 5
-    assert_instance_of Array,data.values
-    assert_instance_of Hash,data.values.last[0]
-    assert_equal data.values.last[0]['id'], 1
-    assert_equal data.values.last[0]['name'], "VOR board"
+    assert_instance_of Array,data
+    assert_instance_of Jira::Response,data[0]
+    assert_equal data[0].id, 1
+    assert_equal data[0].name, "VOR board"
   end
 
   test "Get active sprint from a jira instances for an specific board" do

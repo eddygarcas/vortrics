@@ -37,7 +37,6 @@ FactoryBot.define do
     login { "eduard.garcia"}
     password {"test"}
   end
-
 end
 
 

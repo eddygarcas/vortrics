@@ -2,8 +2,6 @@
 
 one:
   name: MyString
-  max_capacity: 1
-  current_capacity: 1
   project: MTR
   board_id: 1
   board_type: scrum
@@ -11,8 +9,6 @@ one:
 
 two:
   name: MyString
-  max_capacity: 1
-  current_capacity: 1
   project: MTR
   board_id: 2
   board_type: kanban
