@@ -1,7 +1,8 @@
 require 'trello'
 module Trelo
-  class Builder
-    include Binky::Struct
+
+  class Response
+    include Binky::Builder
   end
 
   class Client
@@ -17,8 +18,8 @@ module Trelo
       @instance = Trello::Client.new(
           :consumer_key => Rails.application.secrets.trello_consumer_key,
           :consumer_secret => Rails.application.secrets.trello_consumer_secret,
-          :oauth_token => _class.session[:trello][:oauth_token],
-          :oauth_token_secret => _class.session[:trello][:oauth_token_secret]
+          :oauth_token => _class.session[:trello.to_s][:oauth_token.to_s],
+          :oauth_token_secret => _class.session[:trello.to_s][:oauth_token_secret.to_s]
       )
     end
 
@@ -36,8 +37,42 @@ module Trelo
           })
     end
 
-    def find(path, id, type = nil, params = {})
-      Builder.new(JSON.parse(@instance.get("/#{path.to_s.pluralize}/#{id}/#{type}", params)))
+    def kanban
+      args = yield
+      JSON.parse(@instance.get("/boards/#{args[:boardId]}/cards",{})).map do |v|
+        Trelo::Response.new({key: v["id"], name: v["displayName"]})
+      end
     end
+
+    def find(path, id, type = nil, params = {})
+      Trelo::Response.new(JSON.parse(@instance.get("/#{path.to_s.pluralize}/#{id}/#{type}", params)))
+    end
+
+    def projects
+      JSON.parse(@instance.get("/members/#{yield[:user]}/organizations",{})).map do |v|
+        Trelo::Response.new({key: v["id"], name: v["displayName"]})
+      end
+    end
+
+    def project_details
+      resp = JSON.parse(@instance.get("/organizations/#{yield[:key]}",{}))
+      Trelo::Response.new({key: resp["id"], name: resp["displayName"],icon: resp["logoUrl"]})
+    end
+
+
+    def boards_by_project
+      args = yield
+      resp = JSON.parse(@instance.get("/organizations/#{args[:keyorid]}/boards",{}))
+      args[:board].present? ? resp.find{|board| board['id'].to_s.eql? args[:board]}['name'] : resp
+    end
+
+    def fields
+      JSON.parse(@instance.get("/boards/#{yield[:boardid]}/customFields"))&.map {|c| Trelo::Response.new(c)}
+    end
+
+    def method_missing(name, *args)
+      raise Connect::MethodNotFoundError
+    end
+
   end
 end

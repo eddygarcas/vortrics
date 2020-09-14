@@ -34,7 +34,7 @@
               <li class="dropdown navbar-brand">
                 <%= dropdown_menu @team.blank? ? "Select team" : @team.name.to_s.upcase do %>
                   <% current_user.teams.each do |team| %>
-                    <%= activatable_li_tag_with_link (team.project_info.blank? ? '' : image_tag(team.project_info.icon, class: "img-rounded", height: '20', width: '20')) << " #{team.name}", get_dashboard_path(team.id) %>
+                    <%= activatable_li_tag_with_link (image_tag(team&.project_info&.icon.presence || "/images/voardtrix_logo.png", class: "img-rounded", height: '20', width: '20')) << " #{team.name}", get_dashboard_path(team.id) %>
                   <% end %>
                 <% end %>
               </li>

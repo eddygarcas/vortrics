@@ -3,7 +3,7 @@ FactoryBot.define do
     id { Faker::Number.between}
     name {Faker::Name::first_name_men}
     project {"MTR"}
-    board_id {Faker::Number.between}
+    board_id {Faker::Number.between.to_s}
     board_type {"scrum"}
     avatar {""}
     estimated {"Story Points"}
