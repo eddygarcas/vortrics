@@ -33,22 +33,23 @@ class TrelloSessionsController < ApplicationController
           displayName: data.username,
           password: Devise.friendly_token[0, 20]
       )
-      user.services.create!(
-          provider: :trello,
-          uid: data.aaId,
-          access_token: session[:trello][:oauth_token.to_s],
-          access_token_secret: session[:trello][:oauth_token_secret.to_s]
-      )
-      setting = Setting.create!(
+      setting = Setting.new(
           name: data.fullName,
           consumer_key: data.aaId,
-          tokenized: true,
-          provider: :trello.to_s,
           site: "https://trello.com",
           debug: true,
           signature_method: Trelo::Client.omniauth.options[:signature_method],
           oauth: false
       )
+      setting.save!(validate: false)
+      user.services.create!(
+          provider: :trello,
+          uid: data.aaId,
+          setting_id: setting.id,
+          access_token: session[:trello][:oauth_token.to_s],
+          access_token_secret: session[:trello][:oauth_token_secret.to_s]
+      )
+
       Workflow.create_by_setting(setting.id)
       user.save_dependent setting.id,false
     end

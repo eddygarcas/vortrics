@@ -41,9 +41,8 @@ class UsersController < ApplicationController
 	def create_profile
 		@user = User.find(user_params[:id])
 		return @user.full_profile?
-		service_method(:profile,@user.extuser) { |data|
-			@user.update(displayName: data[:displayName.to_s], active: data[:active.to_s], avatar: data[:avatarUrls.to_s]['48x48'])
-		}
+		usr_data = service_method(:profile,@user.extuser)
+		@user.update(displayName: usr_data[:displayName.to_s], active: usr_data[:active.to_s], avatar: usr_data[:avatarUrls.to_s]['48x48']) unless usr_data.blank?
 	end
 
 	# POST /teams

@@ -47,7 +47,7 @@ module Jira
 
     def profile
       usr = @instance.User.singular_path(yield)
-      yield JSON.parse(@instance.get(usr).body)
+      JSON.parse(@instance.get(usr).body)
     end
 
     def projects

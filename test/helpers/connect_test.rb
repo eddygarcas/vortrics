@@ -47,10 +47,9 @@ class ConnectTest < ActionView::TestCase
   end
 
   test "Connection to a JIRA Cloud instance" do
-    service_method(:profile,current_user.extuser) { |data|
-      assert_equal data['name'], 'eduard.garcia'
-      assert_equal data['key'], 'eduard.garcia'
-    }
+    usr_data =  service_method(:profile,current_user.extuser)
+    assert_equal usr_data['name'], 'eduard.garcia'
+    assert_equal usr_data['key'], 'eduard.garcia'
   end
 
   test "Get projects form user" do

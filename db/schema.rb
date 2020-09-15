@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_03_074837) do
+ActiveRecord::Schema.define(version: 2020_09_15_082710) do
 
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id"
@@ -183,6 +183,8 @@ ActiveRecord::Schema.define(version: 2020_09_03_074837) do
     t.text "auth"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "setting_id"
+    t.index ["setting_id"], name: "index_services_on_setting_id"
     t.index ["user_id"], name: "index_services_on_user_id"
   end
 
@@ -202,8 +204,6 @@ ActiveRecord::Schema.define(version: 2020_09_03_074837) do
     t.string "password"
     t.string "name"
     t.boolean "usessl"
-    t.boolean "tokenized"
-    t.string "provider"
   end
 
   create_table "sprints", force: :cascade do |t|
@@ -268,7 +268,7 @@ ActiveRecord::Schema.define(version: 2020_09_03_074837) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.string "extuser", default: "Guest"
+    t.string "extuser"
     t.string "displayName", default: "Guest"
     t.boolean "active"
     t.string "avatar", default: "/images/tmf_1.png"
@@ -307,6 +307,7 @@ ActiveRecord::Schema.define(version: 2020_09_03_074837) do
   add_foreign_key "issues", "sprints"
   add_foreign_key "postits", "retrospectives"
   add_foreign_key "retrospectives", "teams"
+  add_foreign_key "services", "settings"
   add_foreign_key "services", "users"
   add_foreign_key "sprints", "teams"
   add_foreign_key "team_advices", "advices"
