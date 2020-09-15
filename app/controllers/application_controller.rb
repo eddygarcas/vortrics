@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
   include Connect
   protect_from_forgery with: :exception
-  #Will only get into JIRA if a Devise user has logged in
-  #It calls get_jira_client every time a redirect is requested.
   before_action :authenticate_user!, except: [:info, :register]
 
   rescue_from JIRA::HTTPError, with: :render_403
@@ -22,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_501
-    redirect_to root_url, flash: {notice: "<strong>Ups!</strong> Action called is not yet available for <strong>#{current_user.setting.provider.humanize}</strong>."}
+    redirect_to root_url, flash: {notice: "<strong>Ups!</strong> Action called is not yet available for <strong>#{current_user&.setting&.provider.humanize}</strong>."}
   end
 
   def render_403
@@ -44,9 +42,8 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     User.current = current_user
-    service_method(:profile,current_user.extuser) {|data|
-      current_user.update(displayName: data[:displayName.to_s], avatar: data[:avatarUrls.to_s]['48x48'])
-    } unless current_user.full_profile?
+    data = service_method(:profile,current_user.extuser) unless (current_user.full_profile? || current_user.extuser.blank?)
+    current_user.update(displayName: data[:displayName.to_s], avatar: data[:avatarUrls.to_s]['48x48']) unless data.blank?
   end
 
   def admin_user?

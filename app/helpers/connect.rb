@@ -6,7 +6,7 @@ module Connect
   end
 
   def self.client(_class, _setting = nil)
-    case _setting&.provider.presence || _class&.current_user&.setting&.provider
+    case _setting&.service&.provider.presence || _class&.current_user&.setting&.service&.provider
     when :trello.to_s
       Trelo::Client.new(_class)
     else

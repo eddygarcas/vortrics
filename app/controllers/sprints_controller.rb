@@ -1,6 +1,5 @@
 class SprintsController < ApplicationController
   include ApplicationHelper
-
   layout 'sidenav'
   helper_method :sort_column, :sort_direction
   before_action :set_board, only: [:import]
@@ -68,7 +67,7 @@ class SprintsController < ApplicationController
 
   #GET /sprints/import
   def import
-    @board_sprint = service_method(:boards_by_sprint, board: @team.board_id, startAt: 0)
+    @board_sprint = service_method(:boards_by_sprint, board: @team&.board_id, startAt: 0)
     @board_sprint.sort_by! {|x| x[sort_column_import].blank? ? '' : x[sort_column_import]}
     @board_sprint.reverse! unless sort_direction.eql? 'asc'
   end
@@ -162,7 +161,7 @@ class SprintsController < ApplicationController
   end
 
   def set_board
-    @team = Team.find_by_board_id(params[:board_id].presence || Team.first.board_id)
+    @team = Team.find_by_board_id(params[:board_id].presence || Team.first&.board_id)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

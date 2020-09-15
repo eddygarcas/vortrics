@@ -28,7 +28,7 @@
               <th>Signature method</th>
               <th>Key file</th>
               <th>Consumer key</th>
-              <th>Oauth</th>
+              <th>OAuth</th>
               <th></th>
             </tr>
             </thead>
@@ -41,7 +41,7 @@
                 <td><%= setting.signature_method %></td>
                 <td><%= setting.key_file %></td>
                 <td><%= setting.consumer_key %></td>
-                <td><%= fa_icon_tag("lock") if (setting.oauth || setting.tokenized) %></td>
+                <td><%= fa_icon_tag("lock") if setting.locked? %></td>
                 <td class="actions">
                   <%= link_to fa_icon_tag("pencil"), edit_setting_path(setting), rel: 'tooltip', title: 'Edit' if current_user.edit_setting? %>
                   <%= link_to fa_icon_tag("trash-o"), setting, rel: 'tooltip', title: 'Delete', data: { confirm: 'Are you sure?' }, method: :delete %>

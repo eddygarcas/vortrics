@@ -3,9 +3,9 @@
 <% content_for :description do %>
   <p><%= vt_project_icon %>
     from
-    <strong><%= current_user.setting.provider.humanize %></strong> <%= "#{current_user.setting.site}#{current_user.setting.base_path} #{(current_user.setting.oauth? ? :oauth : :basic).to_s.humanize} authentication" %>
+    <strong><%= current_user&.setting&.provider&.humanize %></strong>
+    <%= "#{current_user.setting.site}#{current_user.setting.base_path} #{(current_user.setting.oauth? ? :oauth : :basic).to_s.humanize} authentication" %>
   </p>
-
 <% end %>
 
 <div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12">

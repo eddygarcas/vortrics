@@ -1,5 +1,5 @@
 class Setting < ApplicationRecord
-  after_initialize :init
+  #after_initialize :init
   has_many :configs, dependent: :destroy
   has_many :users, through: :configs
   has_many :workflow, dependent: :destroy
@@ -18,8 +18,20 @@ class Setting < ApplicationRecord
   validates :login, presence: {message: "Login cannot be blank using a Basic authorisation."}, unless: -> record {record.oauth? || record.tokenized?}
   validates :password, presence: {message: "Password cannot be blank using a Basic authorisation."}, unless: -> record {record.oauth? || record.tokenized?}
 
-  def init
-    self.provider ||= :jira.to_s
+  def service
+    Service.find_by_setting_id(id)
+  end
+
+  def provider
+    service&.provider.presence || :jira.to_s
+  end
+
+  def tokenized?
+    !provider.eql? :jira.to_s
+  end
+
+  def locked?
+    oauth? || tokenized?
   end
 
   def workflow_tags_for column_name

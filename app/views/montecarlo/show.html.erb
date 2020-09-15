@@ -1,8 +1,8 @@
 
-<% @title = "Montecarlo Forecasting / #{@team.name}" %>
+<% @title = "Montecarlo Forecasting / #{@team&.name}" %>
 
 <% content_for :description do %>
-  <p><%= vt_project_tag @team.project %> / <%= @team.name %></p>
+  <p><%= vt_project_tag @team&.project %> / <%= @team&.name %></p>
 
 <% end %>
 
