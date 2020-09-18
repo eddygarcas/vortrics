@@ -11,14 +11,14 @@ module Jira
 
     attr_reader :agile_url, :greenhopper_url, :instance
 
-    def initialize(_class, _setting = nil)
-      @instance = self.class.instance(_class, _setting)
+    def initialize(_class)
+      @instance = self.class.instance(_class)
       @agile_url = Vortrics.config[:jira][:agile_url]
       @greenhopper_url = Vortrics.config[:jira][:green_hopper_url]
     end
 
-    def self.instance(_class, _setting = nil)
-      setting = _setting.presence || _class.current_user.setting
+    def self.instance(_class)
+      setting = Connect.setting.presence || _class.current_user.setting
       sess = _class.session
 
       options = {
