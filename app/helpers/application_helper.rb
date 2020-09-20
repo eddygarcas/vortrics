@@ -1,7 +1,6 @@
 require_relative 'logic'
 module ApplicationHelper
 	include EmailTemplateHelper
-	include JiraIssueHelper
 	include Connect
 
 	def app_name
@@ -114,7 +113,7 @@ module ApplicationHelper
 
 	def vt_project_tag(project)
 		elem = ""
-		issue = IssueBuilder.new(service_method(:issue_by_project,key: project, options: { fields: [:project], maxResults: 1 }).first)
+		issue = Connect::Issue.new(service_method(:issue_by_project,key: project, options: { fields: [:project], maxResults: 1 }).first)
 		project_name = issue&.fields&.project.blank? ? 'n/d' : issue.fields.project.name
 		project_icon = issue&.fields&.project.blank? ? '' : issue.fields.project.avatarUrls._32x32
 		elem << image_tag(project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30')

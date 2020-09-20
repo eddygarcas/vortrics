@@ -17,7 +17,7 @@ class KanbanController < ApplicationController
     options = {fields: vt_jira_issue_fields, maxResults: 400, expand: :changelog}
 
     issues = service_method(:kanban,boardId: @team.board_id, options: options).
-        map {|elem| IssueBuilder.new(elem,@team.estimated)}.
+        map {|elem| Connect::Issue.new(elem,@team.estimated)}.
         select(&:selectable_for_kanban?).
         sort_by!(&:created_at).
         reverse!

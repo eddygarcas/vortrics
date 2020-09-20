@@ -3,6 +3,7 @@ require_relative '../../app/helpers/connect'
 
 class ConnectTest < ActionView::TestCase
   include Devise::Test::IntegrationHelpers
+  include Connect
 
   def current_user
     @current_user
@@ -95,5 +96,9 @@ class ConnectTest < ActionView::TestCase
     data = service_method(:scrum, sprintId: 1, options: @options)
     assert_equal data.last.dig('changelog').present?, true
     assert_equal data.last.dig('changelog','histories').present?, true
+  end
+
+  test "Get public methods from Jira issues" do
+    data = service_method(:scrum, sprintId: 1, options: @options)
   end
 end

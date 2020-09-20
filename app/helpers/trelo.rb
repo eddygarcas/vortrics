@@ -39,9 +39,7 @@ module Trelo
 
     def kanban
       args = yield
-      JSON.parse(@instance.get("/boards/#{args[:boardId]}/cards",{})).map do |v|
-        Trelo::Response.new({key: v["id"], name: v["displayName"]})
-      end
+      JSON.parse(@instance.get("/boards/#{args[:boardId]}/cards",{}))
     end
 
     def find(path, id, type = nil, params = {})

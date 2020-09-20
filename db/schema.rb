@@ -271,7 +271,7 @@ ActiveRecord::Schema.define(version: 2020_09_15_082710) do
     t.string "extuser"
     t.string "displayName", default: "Guest"
     t.boolean "active"
-    t.string "avatar", default: "/images/tmf_1.png"
+    t.string "avatar", default: "/images/voardtrix_logo.png"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
