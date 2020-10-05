@@ -30,10 +30,9 @@ module Connect
 
   class Issue
     include Binky::Struct
-    alias :super_initialize :initialize
 
     def initialize(*args)
-      super_initialize args[0]
+      super args[0]
       @estimation_field = args[1].presence || ""
       eigenclass(Connect.setting&.service&.provider.presence || :jira)
     end
