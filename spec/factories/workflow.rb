@@ -5,5 +5,4 @@ FactoryBot.define do
     position {Faker::Number.between}
     setting {FactoryBot.create(:setting)}
   end
-
 end
