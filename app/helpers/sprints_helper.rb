@@ -5,10 +5,9 @@ module SprintsHelper
 
   class SprintBuilder
     include Binky::Struct
-    alias :super_initialize :initialize
 
     def initialize(issues = [], params = nil)
-      super_initialize params
+      super params
       generate_sprint_info(issues) unless issues.blank?
     end
 

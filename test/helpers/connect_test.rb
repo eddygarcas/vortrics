@@ -68,11 +68,6 @@ class ConnectTest < ActionView::TestCase
     assert_equal data.key, "VOR"
   end
 
-  test "Get issues from an specific project" do
-    data = service_method(:issue_by_project, key: 'VOR')
-    assert_not_nil data
-  end
-
   test "Get comments from an specific issue" do
     data = service_method(:issue_comments,'VOR-1')
     assert_equal data.first.dig('body')['content'][0]['content'][0]['text'], "This is a test comment, for testing purposes only"

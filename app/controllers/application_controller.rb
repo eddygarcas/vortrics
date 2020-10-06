@@ -19,8 +19,9 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, flash: {warning: "<strong>Ups!</strong> The content you are try to reach doesn't exist."}
   end
 
-  def render_501
-    redirect_to root_url, flash: {notice: "<strong>Ups!</strong> Action called is not yet available for <strong>#{current_user&.setting&.provider.humanize}</strong>."}
+  def render_501 exception
+    pp "#{exception.method} #{exception.arguments}"
+    redirect_to teams_url , flash: {notice: "<strong>Ups!</strong> Action called is not yet available for <strong>#{current_user&.setting&.provider.humanize}</strong>."}
   end
 
   def render_403

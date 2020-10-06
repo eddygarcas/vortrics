@@ -1,5 +1,12 @@
 module Connect
-  class MethodNotFoundError < StandardError; end
+  class MethodNotFoundError < StandardError
+    attr_reader :method,:arguments
+    def initialize(method = nil, arguments = nil)
+      @method = method
+      @arguments = arguments
+    end
+  end
+
   def self.included(base)
     base.include Trelo
     base.include Jira

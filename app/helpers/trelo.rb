@@ -57,11 +57,14 @@ module Trelo
       Trelo::Response.new({key: resp["id"], name: resp["displayName"],icon: resp["logoUrl"]})
     end
 
-
     def boards_by_project
       args = yield
       resp = JSON.parse(@instance.get("/organizations/#{args[:keyorid]}/boards",{}))
       args[:board].present? ? resp.find{|board| board['id'].to_s.eql? args[:board]}['name'] : resp
+    end
+
+    def bugs_by_board
+      []
     end
 
     def fields
@@ -69,7 +72,7 @@ module Trelo
     end
 
     def method_missing(name, *args)
-      raise Connect::MethodNotFoundError
+      raise Connect::MethodNotFoundError.new(name,args)
     end
 
   end

@@ -91,10 +91,11 @@ module Jira
       green_hopper_query('/rapid/charts/sprintreport', {rapidViewId: args[:boardid], sprintId: args[:sprintid]}, args[:options])[:contents.to_s]
     end
 
-    def issue_by_project
-      args = yield
-      rest_query('/search', {:jql => parse_jql_params({project: "='#{args[:key]}'"})}, args[:options])[:issues.to_s]
-    end
+    # def issue_by_project
+    #   args = yield
+    #   resp = rest_query('/search', {:jql => parse_jql_params({project: "='#{args[:key]}'"})}, args[:options])[:issues.to_s]
+    #   Jira::Response.new({key: resp.dig('key'),name: resp.dig('name'),icon: resp.dig('avatarUrls','32x32')})
+    # end
 
     def issue_attachments
       @instance.Issue.find(yield, fields: :attachment).attachments
@@ -126,7 +127,7 @@ module Jira
     end
 
     def method_missing(name, *args)
-      raise Connect::MethodNotFoundError
+      raise Connect::MethodNotFoundError.new(name,args)
     end
 
     protected

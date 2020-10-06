@@ -71,7 +71,7 @@ module ApplicationHelper
 	def percent_num(value, total)
 		begin
 			(((value.to_f) / total.to_f) * 100).round
-		rescue ZeroDivisionError
+		rescue FloatDomainError
 			return 0
 		end
 	end
@@ -113,11 +113,11 @@ module ApplicationHelper
 
 	def vt_project_tag(project)
 		elem = ""
-		issue = Connect::Issue.new(service_method(:issue_by_project,key: project, options: { fields: [:project], maxResults: 1 }).first)
-		project_name = issue&.fields&.project.blank? ? 'n/d' : issue.fields.project.name
-		project_icon = issue&.fields&.project.blank? ? '' : issue.fields.project.avatarUrls._32x32
+		issue = service_method(:project_details,key: project)
+		project_name = issue&.name.presence || 'n/d'
+		project_icon = issue&.icon.presence || ''
 		elem << image_tag(project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30')
-		elem << " #{project_name.to_s}" unless project_name.blank?
+		elem << " #{project_name.to_s}"
 		elem.html_safe
 	end
 
