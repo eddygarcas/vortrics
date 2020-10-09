@@ -37,7 +37,7 @@ module ApplicationHelper
 				active: "label label-success",
 				future: "label label-primary"
 		}
-		content_tag(:span, status, class: class_options[key.to_sym])
+		content_tag(:span, status, class: class_options[key.downcase.to_sym])
 	end
 
 	def vt_trend_tag value = 0, target = 0, icon = :chevon
@@ -95,11 +95,11 @@ module ApplicationHelper
 		i_col = value > 0 ? i_pos_col : i_neg_col
 
 		content_tag(:i, nil, class: options[:i], style: i_col) <<
-				col.html_safe <<
+				sanitize(col <<
 				value.abs.floor.to_s <<
 				(percent ? '%' : '') <<
-				"</strong>".html_safe <<
-				text
+				"</strong>" <<
+				text)
 	end
 
 	def vt_work_time_tag(key, title = '', txt = 'n/d')
@@ -118,7 +118,7 @@ module ApplicationHelper
 		project_icon = issue&.icon.presence || ''
 		elem << image_tag(project_icon.to_s, class: "img-circle profile-image", height: '30', width: '30')
 		elem << " #{project_name.to_s}"
-		elem.html_safe
+		sanitize elem
 	end
 
 	def tmf_badge(size, css_class)
@@ -135,7 +135,7 @@ module ApplicationHelper
 			elem << content_tag(tag, nil, class: "fa fa-#{name}", style: "color:goldenrod;font-size: 20px;")
 		end
 		elem << content_tag(tag, nil, class: "fa fa-#{name}", style: "color:#888888;font-size: 20px;") if num.zero?
-		elem.html_safe
+		sanitize elem
 	end
 
 	def link_to_ext(key, name = fa_icon_tag("eye"))

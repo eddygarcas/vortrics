@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from Connect::MethodNotFoundError, with: :render_501
   rescue_from SocketError, with: :render_401
+  rescue_from FloatDomainError, with: :render_generic_error
   rescue_from JIRA::OauthClient::UninitializedAccessTokenError do
     redirect_to signin_path
   end
@@ -20,9 +21,13 @@ class ApplicationController < ActionController::Base
   end
 
   def render_501 exception
-    pp "#{exception.method} #{exception.arguments}"
-    redirect_to teams_url , flash: {notice: "<strong>Ups!</strong> Action called is not yet available for <strong>#{current_user&.setting&.provider.humanize}</strong>."}
+    redirect_to teams_url , flash: {notice: "<strong>Ups!</strong> Action called (#{exception.method}) is not yet available for <strong>#{current_user&.setting&.provider.humanize}</strong>."}
   end
+
+  def render_generic_error exception
+    redirect_to teams_url , flash: {error: "<strong>Ups!</strong> Action called raised an error <strong>#{exception.message}</strong>."}
+  end
+
 
   def render_403
     redirect_to landing_error_403_path

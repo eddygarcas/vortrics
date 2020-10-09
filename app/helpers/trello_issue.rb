@@ -1,30 +1,33 @@
+
 module TrelloIssue
+  include Connect
   def to_issue
    Issue.new
   end
 
-  def to_hash
+  def map
+    assigne = service_method(:members, id: idMembers&.first) unless idMembers.empty?
     {
-        key: "TRL-#{rand(999)}",
-        issuetype: "Test #{rand(999)}",
+        key: id,
+        issuetype: "task",
         issueicon: "",
-        issuetypeid: 4,
-        summary: "Summary #{rand(999)}",
-        closed_in: "",
-        customfield_11382: count_sprints,
-        description: "description",
-        priority: "top",
+        issuetypeid: 1,
+        summary: name,
+        closed_in: "1",
+        customfield_11382: 1,
+        description: desc,
+        priority: "major",
         priorityicon: "",
-        components: "WEB",
-        status: "intermediate",
-        statusname: "In Progress",
-        assignee: "Eduard",
-        assigneeavatar: "",
+        components: labels&.map {|elem| elem['name']}.join(","),
+        status: (badges&.dueComplete || closed) ? "done" : "indeterminate",
+        statusname: service_method(:lists, id: idList)&.name,
+        assignee: assigne&.fullName.presence || "",
+        assigneeavatar: assigne&.avatarUrl.presence || "",
         created: created_at,
-        updated: Time.zone.now - rand(30),
-        resolutiondate: Time.zone.now,
+        updated: dateLastActivity,
+        resolutiondate: badges&.due,
         histories: [],
-        customfield_11802: story_points
+        customfield_11802: 1
     }.compact
 
   end
@@ -33,7 +36,7 @@ module TrelloIssue
   end
 
   def story_points
-    rand(40)
+    1
   end
 
   def created_at
@@ -49,7 +52,7 @@ module TrelloIssue
   end
 
   def count_sprints
-    return 1
+    1
   end
 
   def sprint_info

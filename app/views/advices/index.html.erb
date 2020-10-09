@@ -28,7 +28,7 @@
               <tr>
                 <td style="min-width: 190px; max-width: 190px;"><%= advice.advice_type.humanize %></td>
                 <td><span class="badge" data-toggle="tooltip" title="Number of comments made" data-placement="top"><%= advice.comments.count %></span></td>
-                <td><%= advice.description.html_safe %></td>
+                <td><%= sanitize advice.description %></td>
                 <td style="min-width: 110px; max-width: 110px;">
                   <div class="btn-group btn-group-sm">
                     <%= link_to fa_icon_tag("eye"), comment_path(advice.id), rel: 'tooltip', title: 'Show', class: "btn btn-default" %>

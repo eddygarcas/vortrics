@@ -46,6 +46,10 @@ class User < ApplicationRecord
     !setting&.tokenized? || external_user? || admin?
   end
 
+  def internal_user?
+    services.map(&:provider).include? :jira.to_s
+  end
+
   def admin?
     return false if group.blank?
     group.priority.eql? 1

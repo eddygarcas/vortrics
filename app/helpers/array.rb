@@ -8,7 +8,9 @@ class Array
   end
 
   def map_sum_done key_status = [:done]
-    map { |issue| yield issue if key_status.include? issue.fields&.status&.statusCategory&.key&.to_sym }
+    map do |issue|
+      yield issue if key_status.include? issue.map.dig(:status)&.to_sym
+    end
   end
 
   def map_sum

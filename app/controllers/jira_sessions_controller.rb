@@ -36,9 +36,22 @@ class JiraSessionsController < ApplicationController
   private
 
   def get_jira_client
-    return if current_user.setting.blank?
-    @jira_client = Jira::Client.instance(self)
+    return if current_user&.setting.blank?
+    @jira_client = Jira::Client.instance
+    update_jira_tokens
     flash[:danger] = Vortrics.config[:messages][:external_service_error] if @jira_client.nil?
+  end
+
+  def update_jira_tokens
+    service = Service.where(provider: :jira, user_id: current_user.id).first
+    if (service.present?)
+      service.update(
+          access_token: session[:jira_auth]['access_token'],
+          access_token_secret: session[:jira_auth]['access_key']
+      ) if session[:jira_auth].present?
+    else
+      current_user.services.create!(provider: :jira)
+    end
   end
 
 end

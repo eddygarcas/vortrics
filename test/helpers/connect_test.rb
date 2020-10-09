@@ -82,7 +82,7 @@ class ConnectTest < ActionView::TestCase
   test "List of boards by project" do
     data = service_method(:boards_by_project,keyorid: "VOR")
     assert_instance_of Array,data
-    assert_instance_of Jira::Response,data[0]
+    assert_instance_of Connect::Response,data[0]
     assert_equal data[0].id, 1
     assert_equal data[0].name, "VOR board"
   end

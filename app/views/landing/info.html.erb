@@ -122,7 +122,7 @@
             <div class="alert alert-dismissable alert-bottom-border fade in" style="color:white;">
               <h4>Thank you!</h4>
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-              <%= fa_icon_tag "info-sign" %> <%= message.html_safe %>
+              <%= fa_icon_tag "info-sign" %> <%= sanitize message %>
             </div>
           <% end %>
 
