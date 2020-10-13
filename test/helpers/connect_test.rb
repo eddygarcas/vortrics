@@ -16,7 +16,7 @@ class ConnectTest < ActionView::TestCase
   def create_setting
     Setting.create(
         {
-            "id" => 4,
+            "id" => rand(999),
             "site" => "https://vortrics.atlassian.net",
             "base_path" => "/rest/api/3",
             "context" => "",
@@ -36,6 +36,7 @@ class ConnectTest < ActionView::TestCase
     @current_user.setting = create_setting
     sign_in @current_user
     VCR.insert_cassette(name)
+    Thread.current[:user].setting = create_setting
     @options = {fields: Vortrics.config[:jira][:fields], maxResults: 200, expand: :changelog}
   end
 
