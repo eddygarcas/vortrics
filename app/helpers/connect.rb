@@ -27,22 +27,22 @@ module Connect
     Thread.current[:user]&.setting
   end
 
-  def self.client(user)
+  def self.client
     case setting&.service&.provider
     when :trello.to_s
-      Trelo::Client.new(user)
+      Trelo::Client.new
     else
-      Jira::Client.new(user)
+      Jira::Client.new
     end
   end
 
   def service_method(method, *args)
     begin
       Rails.cache.fetch(Hashcode.generate(method,current_user&.displayName,args), expires_in: 1.day) {
-        Connect.client(current_user).send(method) {args[0] unless args.blank?}
+        Connect.client.send(method) {args[0] unless args.blank?}
       }
     rescue IOError
-      Connect.client(current_user).send(method) {args[0] unless args.blank?}
+      Connect.client.send(method) {args[0] unless args.blank?}
     end
   end
 
