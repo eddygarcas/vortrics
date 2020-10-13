@@ -8,6 +8,7 @@ module Jira
     attr_reader :agile_url, :greenhopper_url, :instance
 
     def initialize(user)
+      pp "This is the value of the current user #{current_user}"
       @instance = self.class.instance(user)
       @agile_url = Vortrics.config[:jira][:agile_url]
       @greenhopper_url = Vortrics.config[:jira][:green_hopper_url]

@@ -37,7 +37,6 @@ module Connect
   end
 
   def service_method(method, *args)
-    pp current_user
     begin
       Rails.cache.fetch(Hashcode.generate(method,current_user&.displayName,args), expires_in: 1.day) {
         Connect.client(current_user).send(method) {args[0] unless args.blank?}
