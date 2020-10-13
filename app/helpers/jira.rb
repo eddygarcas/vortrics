@@ -14,6 +14,7 @@ module Jira
     end
 
     def self.instance
+      pp Thread.current[:user]
       setting = Thread.current[:user]&.setting
       options = {
           site: setting.site,
