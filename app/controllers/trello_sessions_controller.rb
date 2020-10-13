@@ -19,7 +19,7 @@ class TrelloSessionsController < ApplicationController
   private
 
   def trello
-    data = Trelo::Client.new(
+    data = Trelo::Client.new(nil,
         session[:trello][:oauth_token.to_s],
         session[:trello][:oauth_token_secret.to_s]
     ).find(:token, session[:trello][:oauth_token.to_s], :member)
