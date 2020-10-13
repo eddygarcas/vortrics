@@ -6,12 +6,12 @@ module Trelo
 
     attr_reader :instance
 
-    def initialize(token = nil, secret = nil)
+    def initialize(user, token = nil, secret = nil)
       @instance = Trello::Client.new(
           :consumer_key => Rails.application.secrets.trello_consumer_key,
           :consumer_secret => Rails.application.secrets.trello_consumer_secret,
-          :oauth_token => token.presence || Thread.current[:user]&.services.find_by_provider(:trello).access_token,
-          :oauth_token_secret => secret.presence || Thread.current[:user]&.services.find_by_provider(:trello).access_token_secret
+          :oauth_token => token.presence || user&.services.find_by_provider(:trello).access_token,
+          :oauth_token_secret => secret.presence || user&.services.find_by_provider(:trello).access_token_secret
       )
     end
 

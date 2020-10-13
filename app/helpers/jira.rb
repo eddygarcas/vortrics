@@ -7,15 +7,14 @@ module Jira
 
     attr_reader :agile_url, :greenhopper_url, :instance
 
-    def initialize
-      @instance = self.class.instance
+    def initialize(user)
+      @instance = self.class.instance(user)
       @agile_url = Vortrics.config[:jira][:agile_url]
       @greenhopper_url = Vortrics.config[:jira][:green_hopper_url]
     end
 
-    def self.instance
-      pp Thread.current[:user]
-      setting = Thread.current[:user]&.setting
+    def self.instance(user)
+      setting = user&.setting.presence || Connect.setting
       options = {
           site: setting.site,
           rest_base_path: setting.base_path,
@@ -35,7 +34,7 @@ module Jira
       }
       @instance = JIRA::Client.new(options)
       if setting.oauth?
-        service = Thread.current[:user]&.services.find_by_provider(:jira)
+        service = user&.services.find_by_provider(:jira)
         @instance.set_access_token(
             service.access_token,
             service.access_token_secret

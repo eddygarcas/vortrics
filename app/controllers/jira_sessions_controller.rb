@@ -37,7 +37,7 @@ class JiraSessionsController < ApplicationController
 
   def get_jira_client
     return if current_user&.setting.blank?
-    @jira_client = Jira::Client.instance
+    @jira_client = Jira::Client.instance(current_user)
     update_jira_tokens
     flash[:danger] = Vortrics.config[:messages][:external_service_error] if @jira_client.nil?
   end
