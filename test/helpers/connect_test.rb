@@ -36,7 +36,6 @@ class ConnectTest < ActionView::TestCase
     @current_user.setting = create_setting
     sign_in @current_user
     VCR.insert_cassette(name)
-    Thread.current[:user] = @current_user
     @options = {fields: Vortrics.config[:jira][:fields], maxResults: 200, expand: :changelog}
   end
 
