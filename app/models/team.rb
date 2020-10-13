@@ -13,7 +13,7 @@ class Team < ApplicationRecord
   scope :by_setting, -> (setting_id) {where(:setting_id => setting_id)}
   scope :scrum, -> {where(board_type: [nil, 'scrum'])}
   scope :kanban, -> {where(board_type: 'kanban')}
-  scope :progress_by_project, -> (key) {where("project = ?", key).all.sort_by {|e| e.sprint.enddate}}
+  scope :progress_by_setting, -> (setting_id) {where(:setting_id => setting_id).all.sort_by {|e| e.sprint.enddate}}
 
   def sprint
      sprints&.active

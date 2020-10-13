@@ -99,8 +99,8 @@ class IssuesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_issue
-    @issue = Issue.find(params[:id]) unless params[:id].blank?
-    @issue = Issue.find_by_key(params[:key]) unless params[:key].blank?
+    @issue = ::Issue.find(params[:id]) unless params[:id].blank?
+    @issue = ::Issue.find_by_key(params[:key]) unless params[:key].blank?
   end
 
   # Use callbacks to share common setup or constraints between actions.
