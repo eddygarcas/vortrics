@@ -132,11 +132,16 @@ function InitializeMontecarloGraph() {
             graph.render();
 
             $(window).on('resize', function () {
-                graph.configure({
-                    width: $('#bars-cycle-time').parent('.container-fluid').width(),
-                    height: 500
-                });
-                graph.render();
+                try {
+                  graph.configure({
+                      width: $('#bars-cycle-time').parent('.container-fluid').width(),
+                      height: 500
+                  });
+                  graph.render();
+                }
+                catch(err) {
+                    console.log("graph error")
+                }
             });
         }
     });

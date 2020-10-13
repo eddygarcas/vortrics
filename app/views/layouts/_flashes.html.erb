@@ -1,6 +1,6 @@
 <% flash.each do |type, message| %>
     <div class="alert <%= bootstrap_class_for(type) %> alert-dismissable alert-bottom-border fade in mt15 ml15 mr15">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <%= fa_icon_tag "info-sign" %> <%= message.html_safe %>
+    <%= fa_icon_tag "info-sign" %> <%= sanitize message %>
   </div>
 <% end %>

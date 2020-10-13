@@ -16,7 +16,7 @@
     </li>
 
     <li role="presentation" class="dropdown pull-right">
-      <%= dropdown_menu "<i class='fa fa-fw fa fa-bolt'></i> Active".html_safe do %>
+      <%= dropdown_menu sanitize("<i class='fa fa-fw fa fa-bolt'></i> Active") do %>
           <% @sprint.active_sprints(@team.project).each do |sprint| %>
               <%= activatable_li_tag_with_link "#{sprint.team.name} - #{sprint.name}", sprint %>
           <% end %>

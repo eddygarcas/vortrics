@@ -18,7 +18,7 @@ class SettingsController < ApplicationController
 	def new
 		@setting = Setting.new
 		flash.discard
-		flash[:default] = Vortrics.config[:messages][:first_steps].html_safe
+		flash[:default] = Vortrics.config[:messages][:first_steps]
 	end
 
 	# GET /settings/1/edit

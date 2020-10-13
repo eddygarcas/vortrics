@@ -1,30 +1,48 @@
+require 'digest'
 module Connect
-  class MethodNotFoundError < StandardError; end
   def self.included(base)
     base.include Trelo
     base.include Jira
+  end
+
+  class MethodNotFoundError < StandardError
+    attr_reader :method,:arguments
+    def initialize(method = nil, arguments = nil)
+      @method = method
+      @arguments = arguments
+    end
+  end
+
+  class Response
+    include Binky::Builder
+  end
+
+  class Hashcode
+    def self.generate(*args)
+       Digest::MD5.hexdigest args.to_s
+    end
   end
 
   def self.setting
     Thread.current[:user]&.setting
   end
 
-  def self.client(_class)
+  def self.client
     case setting&.service&.provider
     when :trello.to_s
-      Trelo::Client.new(_class)
+      Trelo::Client.new
     else
-      Jira::Client.new(_class)
+      Jira::Client.new
     end
   end
 
   def service_method(method, *args)
     begin
-      Rails.cache.fetch("#{__method__}_#{current_user&.displayName}_#{method}_#{args[0].to_s unless args.blank?}", expires_in: 1.day) {
-        Connect.client(self).send(method) {args[0] unless args.blank?}
+      Rails.cache.fetch(Hashcode.generate(method,current_user&.displayName,args), expires_in: 1.day) {
+        Connect.client.send(method) {args[0] unless args.blank?}
       }
     rescue IOError
-      Connect.client(self).send(method) {args[0] unless args.blank?}
+      Connect.client.send(method) {args[0] unless args.blank?}
     end
   end
 

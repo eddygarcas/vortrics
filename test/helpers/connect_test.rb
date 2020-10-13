@@ -36,6 +36,7 @@ class ConnectTest < ActionView::TestCase
     @current_user.setting = create_setting
     sign_in @current_user
     VCR.insert_cassette(name)
+    Thread.current[:user] = @current_user
     @options = {fields: Vortrics.config[:jira][:fields], maxResults: 200, expand: :changelog}
   end
 
@@ -65,12 +66,8 @@ class ConnectTest < ActionView::TestCase
 
   test "Get project details from WORK" do
     data = service_method(:project_details, key: "VOR")
-    assert_equal data.key, "VOR"
-  end
-
-  test "Get issues from an specific project" do
-    data = service_method(:issue_by_project, key: 'VOR')
-    assert_not_nil data
+    assert_instance_of Connect::Response,data
+    assert_equal JSON.parse(data.to_json)['key'], "VOR"
   end
 
   test "Get comments from an specific issue" do
@@ -87,9 +84,9 @@ class ConnectTest < ActionView::TestCase
   test "List of boards by project" do
     data = service_method(:boards_by_project,keyorid: "VOR")
     assert_instance_of Array,data
-    assert_instance_of Jira::Response,data[0]
-    assert_equal data[0].id, 1
-    assert_equal data[0].name, "VOR board"
+    assert_instance_of Connect::Response,data[0]
+    assert_equal JSON.parse(data[0].to_json)['id'], 1
+    assert_equal JSON.parse(data[0].to_json)['name'], "VOR board"
   end
 
   test "Get active sprint from a jira instances for an specific board" do

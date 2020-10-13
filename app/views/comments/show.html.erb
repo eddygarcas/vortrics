@@ -14,7 +14,7 @@
         <%= @advice.advice_type.humanize %>
       </div>
       <p class="panel-body">
-        <%= @advice.description.html_safe %>
+        <%= sanitize(@advice.description) %>
       </p>
     </div>
   </div>
