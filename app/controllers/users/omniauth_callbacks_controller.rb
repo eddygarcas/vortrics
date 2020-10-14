@@ -13,7 +13,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           displayName: auth.info.nickname,
           password: Devise.friendly_token[0, 20]
       )
-      user.save_dependent(Setting.find_by_name('Vortrics')&.id)
 
       user.services.create!(
           provider: auth.provider,
