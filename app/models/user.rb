@@ -43,11 +43,11 @@ class User < ApplicationRecord
   end
 
   def registered?
-    admin? || !(user_provider? {:github} || user_provider? {:trello})
+    admin? || user_provider? {:github}
   end
 
-  def user_provider?
-    services.map(&:provider).include? yield&.to_s.presence || :github.to_s
+  def providers?
+    user_provider? {:github} || user_provider? {:trello}
   end
 
   def admin?
@@ -71,6 +71,12 @@ class User < ApplicationRecord
 
   def full_profile?
     displayName.present? && (!User.column_defaults.has_value? avatar)
+  end
+
+  private
+
+  def user_provider?
+    services.map(&:provider).include? yield&.to_s.presence || :github.to_s
   end
 
 end
