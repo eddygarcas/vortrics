@@ -60,9 +60,9 @@
       </table>
     </div>
   </div>
-  <div class="panel-footer"><%= "<strong>".html_safe << sprint.sprint_commitment.to_s << " </strong>".html_safe %> Story
+  <div class="panel-footer"><%= sanitize("<strong>" << sprint.sprint_commitment.to_s << " </strong>") %> Story
     points
-    <%= "<strong>".html_safe << sprint.issues.count(&:task?).to_s << " </strong>".html_safe %> User stories
-    <%= "<strong>".html_safe << sprint.issues.count(&:bug?).to_s << " </strong>".html_safe %> Bugs
+    <%= sanitize("<strong>" << sprint.issues.count(&:task?).to_s << " </strong>") %> User stories
+    <%= sanitize("<strong>" << sprint.issues.count(&:bug?).to_s << " </strong>") %> Bugs
   </div>
 </div>

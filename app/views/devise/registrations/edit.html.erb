@@ -33,7 +33,7 @@
               </div>
             </div>
           <% end %>
-          <% if current_user&.services&.blank? %>
+          <% if current_user.internal_user? %>
             <%= f.form_group :password do |f| %>
               <%= f.label :password, class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
               <div class="col-sm-10">
@@ -62,7 +62,10 @@
             <%= f.label 'Provider(s)', class: "col-xs-1 col-sm-2 col-md-2 control-label" %>
             <div class="col-sm-10 mb15">
               <% current_user.services.each do |p| %>
-                <% if p.provider.eql? "trello" %>
+                <% case p.provider %>
+                  <% when "trello" %>
+                  <%= provider_icon p, "linkedin" %>
+                <% when "jira" %>
                   <%= provider_icon p, "linkedin" %>
                 <%else%>
                   <%= provider_icon p %>

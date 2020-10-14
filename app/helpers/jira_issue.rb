@@ -24,7 +24,7 @@ module JiraIssue
     issue
   end
 
-  def to_hash
+  def map
     {
         key: key,
         issuetype: fields.issuetype&.name,

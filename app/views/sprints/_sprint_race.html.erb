@@ -20,7 +20,7 @@
           </tr>
           </thead>
           <tbody>
-          <% Team.progress_by_project(@team.project_info.key).each do |team| %>
+          <% Team.progress_by_setting(current_user.setting.id).each do |team| %>
             <tr class="small">
               <td><%= image_tag team.project_info.icon.to_s, class: "img-circle profile-image", height: '25', width: '25' %></td>
               <td><%= team.name %></td>

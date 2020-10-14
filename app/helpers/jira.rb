@@ -2,25 +2,19 @@ require 'jira-ruby'
 require_relative 'file'
 module Jira
 
-  class Response
-    include Binky::Builder
-  end
-
   class Client
     @instance
 
     attr_reader :agile_url, :greenhopper_url, :instance
 
-    def initialize(_class)
-      @instance = self.class.instance(_class)
+    def initialize(user)
+      @instance = self.class.instance(user)
       @agile_url = Vortrics.config[:jira][:agile_url]
       @greenhopper_url = Vortrics.config[:jira][:green_hopper_url]
     end
 
-    def self.instance(_class)
-      setting = Connect.setting.presence || _class.current_user.setting
-      sess = _class.session
-
+    def self.instance(user)
+      setting = user&.setting.presence || Connect.setting
       options = {
           site: setting.site,
           rest_base_path: setting.base_path,
@@ -40,7 +34,11 @@ module Jira
       }
       @instance = JIRA::Client.new(options)
       if setting.oauth?
-        @instance.set_access_token(sess[:jira_auth]['access_token'], sess[:jira_auth]['access_key']) if sess[:jira_auth].present?
+        service = user&.services.find_by_provider(:jira)
+        @instance.set_access_token(
+            service.access_token,
+            service.access_token_secret
+        ) if service&.access_token.present?
       end
       @instance
     end
@@ -55,13 +53,13 @@ module Jira
     end
 
     def fields
-      rest_query('/field', {}, yield[:options]).map { |c| Jira::Response.new(c) }
+      rest_query('/field', {}, yield[:options]).map { |c| Connect::Response.new(c) }
     end
 
     def project_details
       args = yield
       resp = rest_query("/project/#{args[:key]}", {}, args[:options].presence)
-      Jira::Response.new({key: resp.dig('key'),name: resp.dig('name'),icon: resp.dig('avatarUrls','32x32')})
+      Connect::Response.new({key: resp.dig('key'),name: resp.dig('name'),icon: resp.dig('avatarUrls','32x32')})
     end
 
     def scrum
@@ -76,7 +74,7 @@ module Jira
 
     def boards_by_project
       args = yield
-      resp = agile_query('/board', {projectKeyOrId: args[:keyorid], type: args[:type]}, args[:options])['values'].map { |c| Jira::Response.new(c) }
+      resp = agile_query('/board', {projectKeyOrId: args[:keyorid], type: args[:type]}, args[:options])['values'].map { |c| Connect::Response.new(c) }
       args[:board].present? ? resp.find{|board| board.id.to_s.eql? args[:board]}.name : resp
     end
 
@@ -89,11 +87,6 @@ module Jira
       args = yield
       return if args[:sprintid].blank?
       green_hopper_query('/rapid/charts/sprintreport', {rapidViewId: args[:boardid], sprintId: args[:sprintid]}, args[:options])[:contents.to_s]
-    end
-
-    def issue_by_project
-      args = yield
-      rest_query('/search', {:jql => parse_jql_params({project: "='#{args[:key]}'"})}, args[:options])[:issues.to_s]
     end
 
     def issue_attachments
@@ -126,7 +119,7 @@ module Jira
     end
 
     def method_missing(name, *args)
-      raise Connect::MethodNotFoundError
+      raise Connect::MethodNotFoundError.new(name,args)
     end
 
     protected

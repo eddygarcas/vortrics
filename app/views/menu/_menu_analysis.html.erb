@@ -5,16 +5,11 @@
   <ul class="nav nav-second-level" aria-expanded="false">
 
     <%= activatable_li_tag teams_support_path(@team.id) do |url| %>
-      <%= link_to "<i class='fa fa-signal fa-medkit'></i>Support Metrics".html_safe, url %>
+      <%= link_to sanitize("<i class='fa fa-signal fa-medkit'></i>Support Metrics"), url %>
     <% end %>
 
     <%= activatable_li_tag teams_key_results_path(@team.id) do |url| %>
-      <%= link_to "<i class='fa fa-signal fa-flip-horizontal'></i>Cycle time".html_safe, url %>
+      <%= link_to sanitize("<i class='fa fa-signal fa-flip-horizontal'></i>Cycle time"), url %>
     <% end %>
-
-    <%#= activatable_li_tag teams_comulative_flow_diagram_path(@team.id) do |url| %>
-      <%#= link_to "<i class='fa fa-signal fa-area-chart'></i>Comulative Flow Diagram".html_safe, url %>
-    <%# end %>
-
   </ul>
 </li>

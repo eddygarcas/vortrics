@@ -47,7 +47,7 @@
             <li class='list-group-item'>
               <div class="media">
                 <a class="pull-left" href="#">
-                  <%= image_tag @team.project_info.icon, data: {toggle: "tooltip", title: @team.project_info.name} %>
+                  <%= image_tag @team&.project_info&.icon, data: {toggle: "tooltip", title: @team.project_info.name} %>
                 </a>
                 <div class="media-body">
                   <h5 class="media-heading">
@@ -114,9 +114,9 @@
       </ul>
     </div>
   </div>
-  <div class="panel-footer"><%= " <strong>".html_safe << sprint.issues.count {|issue| issue.in_progress?}.to_s << " </strong>".html_safe %>
+  <div class="panel-footer"><%= sanitize(" <strong>" << sprint.issues.count {|issue| issue.in_progress?}.to_s << " </strong>") %>
     items in progress
-    and <%= " <strong>".html_safe << sprint.issues.count {|issue| issue.done?}.to_s << " </strong>".html_safe %>
+    and <%= sanitize("<strong>" << sprint.issues.count {|issue| issue.done?}.to_s << " </strong>") %>
     done
   </div>
 

@@ -12,7 +12,7 @@ class Sprint < ApplicationRecord
     Issue.transaction do
       jiraissue.each do |i|
         issue = Issue.find_or_initialize_by(key: i.key,sprint_id: id)
-        issue.update(i.to_hash)
+        issue.update(i.map)
         issue.save_changelog
       end
     end

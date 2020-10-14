@@ -19,12 +19,15 @@ class TrelloSessionsController < ApplicationController
   private
 
   def trello
-
-    data = Trelo::Client.new(self).find(:token, session[:trello][:oauth_token.to_s], :member)
+    data = Trelo::Client.new(nil,
+        session[:trello][:oauth_token.to_s],
+        session[:trello][:oauth_token_secret.to_s]
+    ).find(:token, session[:trello][:oauth_token.to_s], :member)
     service = Service.where(provider: :trello, uid: data.aaId).first
 
     if (service.present?)
       user = service.user
+      service.update(access_token: session[:trello][:oauth_token.to_s],access_token_secret: session[:trello][:oauth_token_secret.to_s])
     else
       user = User.create!(
           email: data.aaEmail,
