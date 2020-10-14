@@ -43,11 +43,11 @@ class User < ApplicationRecord
   end
 
   def registered?
-    admin? || !user_provider? {:github} || !user_provider? {:trello}
+    admin? || !(user_provider? {:github} || user_provider? {:trello})
   end
 
   def user_provider?
-    services.map(&:provider).include? yield&.to_s.presence || :github
+    services.map(&:provider).include? yield&.to_s.presence || :github.to_s
   end
 
   def admin?
