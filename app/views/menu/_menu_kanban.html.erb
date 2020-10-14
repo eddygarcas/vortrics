@@ -5,19 +5,11 @@
 
   <ul class="nav nav-second-level" aria-expanded="false">
     <% if @team.present? %>
-
-
-
       <% if @team.sprint.present? %>
         <%= activatable_li_tag sprint_path(@team.sprint) do |url| %>
           <%= link_to fa_icon_tag("line-chart") << "Dashboard", url %>
         <% end %>
-
       <% end %>
     <% end %>
-
-
-
-
   </ul>
 <% end %>

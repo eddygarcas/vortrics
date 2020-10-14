@@ -1,4 +1,5 @@
-<li class="nav-item">
+<% if @team&.id.present? %>
+  <li class="nav-item">
 
   <a class="nav-link"> <i class="icon ion-erlenmeyer-flask fa-lg fa-fw"></i> Agile spectral analysis
     <span class="fa arrow"></span></a>
@@ -13,3 +14,4 @@
     <% end %>
   </ul>
 </li>
+<% end %>

@@ -1,4 +1,5 @@
-<li class="nav-item">
+<% if @team&.id.present? %>
+  <li class="nav-item">
   <a class="nav-link"> <i class="fa fa-fw fa-map-o fa-lg fa-fw"></i> Forecasting <span class="fa arrow"></span></a>
   <ul class="nav nav-second-level" aria-expanded="false">
 
@@ -8,3 +9,4 @@
 
   </ul>
 </li>
+<% end %>

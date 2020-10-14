@@ -1,4 +1,5 @@
-<li class="nav-item">
+<% if @team&.id.present? %>
+  <li class="nav-item">
   <a class="nav-link"> <i class="fa fa-fw fa-magic fa-lg fa-fw"></i> Kaizen <span class="fa arrow"></span></a>
   <ul class="nav nav-second-level" aria-expanded="false">
     <%= activatable_li_tag retrospectives_path do |url|
@@ -11,3 +12,4 @@
 
   </ul>
 </li>
+<%end %>

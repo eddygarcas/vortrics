@@ -32,16 +32,19 @@
             </div>
             <ul class="nav navbar-nav" style="font-size: 18px;">
               <li class="dropdown navbar-brand">
-                <%= dropdown_menu @team.blank? ? "Select team" : @team.name.to_s.upcase do %>
+                <%= dropdown_menu @team&.id.blank? ? "Select team" : @team.name.to_s.upcase do %>
                   <% current_user.teams.each do |team| %>
                     <%= activatable_li_tag_with_link (image_tag(team&.project_info&.icon.presence || "/images/voardtrix_logo.png", class: "img-rounded", height: '20', width: '20')) << " #{team.name}", get_dashboard_path(team.id) %>
                   <% end %>
-                <% end %>
+                  <% if current_user&.teams.blank? %>
+                    <%= activatable_li_tag_with_link (image_tag("/images/voardtrix_logo.png", class: "img-rounded", height: '20', width: '20')) << " Add a team", new_team_url %>
+                  <%end %>
+              <% end %>
               </li>
             </ul>
             <ul class="nav navbar-nav" style="font-size: 18px;">
               <li>
-                <% if @team.present? %>
+                <% if @team&.id.present? %>
                   <%= link_to "Add sprints", sprint_import_path(@team.board_id) unless @team.kanban? %>
                   <%= link_to "Update data", kanban_import_issues_path(@team.board_id) unless @team.scrum? %>
               <%end %>
