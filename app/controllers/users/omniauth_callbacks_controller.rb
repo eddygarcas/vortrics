@@ -20,6 +20,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           access_token: auth.credentials.token
       )
     end
+    pp "Github user #{user}"
     sign_in_and_redirect user, event: :authentication
   end
 
