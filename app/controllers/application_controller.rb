@@ -53,7 +53,11 @@ class ApplicationController < ActionController::Base
   end
 
   def admin_user?
-    raise JIRA::HTTPError, "User Not Authorised" unless current_user.admin?
+    redirect_to root_url, flash: {error: "<strong>Ups!</strong> You are not authorized to perform this action."} unless current_user.admin?
+  end
+
+  def registered_user?
+    redirect_to root_url, flash: {error: "<strong>Ups!</strong> You are not authorized to modify an external service configuration."} unless current_user.registered?
   end
 
   def team_session

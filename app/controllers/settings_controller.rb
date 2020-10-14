@@ -2,6 +2,7 @@ class SettingsController < ApplicationController
 	layout 'sidenav'
 	before_action :set_setting, only: [:edit, :update, :destroy]
 	before_action :team_session
+	before_action :registered_user?, only: [:index,:edit,:destroy,:update]
 	# GET /settings
 	# GET /settings.json
 	def index
@@ -23,7 +24,6 @@ class SettingsController < ApplicationController
 
 	# GET /settings/1/edit
 	def edit
-		redirect_to settings_url, notice: 'This external service configuration cannot be modified.' unless current_user.edit_setting?
 	end
 
 	# POST /settings

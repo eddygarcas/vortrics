@@ -14,11 +14,11 @@ class User < ApplicationRecord
   has_many :services, dependent: :destroy
 
   def self.current
-    Thread.current[:user]
+    Thread&.current[:user]
   end
 
   def self.current=(user)
-    Thread.current[:user] = user
+    Thread&.current[:user] = user
   end
 
   def self.workflow type = :open
@@ -42,12 +42,12 @@ class User < ApplicationRecord
     setting.present?
   end
 
-  def edit_setting?
-    !setting&.tokenized? || external_user? || admin?
+  def registered?
+    admin? || !user_provider? {:github} || !user_provider? {:trello}
   end
 
-  def internal_user?
-    services.map(&:provider).include? :jira.to_s
+  def user_provider?
+    services.map(&:provider).include? yield&.to_s.presence || :github
   end
 
   def admin?
@@ -67,10 +67,6 @@ class User < ApplicationRecord
 
   def group?
     group.present?
-  end
-
-  def external_user?
-    extuser.present?
   end
 
   def full_profile?

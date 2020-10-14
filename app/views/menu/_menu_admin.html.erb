@@ -3,9 +3,11 @@
   <ul class="nav nav-second-level" aria-expanded="false">
 
     <% if current_user.setting.present? %>
-      <%= activatable_li_tag teams_path do |url| %>
-        <%= link_to fa_icon_tag("users") << "Teams", url %>
-      <% end %>
+      <%= activatable_li_tag teams_path do |url|
+        link_to_unless current_user&.registered?, fa_icon_tag("users") << "Teams", {}, data: { title: 'Registered users only', toggle: :tooltip } do |name|
+          link_to name, url
+        end
+      end %>
     <% end %>
 
     <%= activatable_li_tag devise_manage_users_path do |url|
@@ -24,9 +26,10 @@
       <a class="nav-link"><i class="fa fa-fw fa-wrench fa-lg fa-fw"></i> Configuration
         <span class="fa arrow"></span></a>
       <ul class="nav nav-third-level" aria-expanded="false">
-
         <%= activatable_li_tag settings_path do |url|
-          link_to fa_icon_tag("server") << "External service", url
+          link_to_unless current_user&.registered?, fa_icon_tag("server") << "External service", {}, data: { title: 'Registered users only', toggle: :tooltip } do |name|
+            link_to name, url
+          end
         end %>
 
         <%= activatable_li_tag workflows_path do |url|

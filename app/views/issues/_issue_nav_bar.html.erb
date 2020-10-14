@@ -19,7 +19,7 @@
       <%= link_to fa_icon_tag("eye") << " Sprint", @issue.sprint %>
     </li>
 
-    <% if @current_user.external_user? %>
+    <% if @current_user.registered? %>
     <li role="presentation">
       <%= link_to_ext @issue.key, fa_icon_tag("external-link") << " #{current_user&.setting&.provider&.humanize}" %>
     </li>

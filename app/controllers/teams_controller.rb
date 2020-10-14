@@ -7,6 +7,7 @@ class TeamsController < ApplicationController
   before_action :ct_params, only: [:cycle_time_chart]
   before_action :team_session, except: [:show, :edit, :destroy, :key_results]
   before_action :set_current_user
+  before_action :show_teams_info?, only: [:index,:show,:edit]
 
   # GET /teams
   # GET /teams.json
@@ -243,6 +244,11 @@ class TeamsController < ApplicationController
   end
 
   private
+
+  def show_teams_info?
+    redirect_to root_url, flash: {error: "<strong>Ups!</strong> Only registered users can manage teams."}  unless current_user&.registered?
+  end
+
 
   def bugs_selectable_for_graph
     service_method(:bugs_by_board,
