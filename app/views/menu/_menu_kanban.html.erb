@@ -9,6 +9,9 @@
         <%= activatable_li_tag sprint_path(@team.sprint) do |url| %>
           <%= link_to fa_icon_tag("line-chart") << "Dashboard", url %>
         <% end %>
+        <%= activatable_li_tag sprints_dashboards_path(@team.project) do |url| %>
+          <%= link_to fa_icon_tag("align-left") << "Iterations", url %>
+        <% end %>
       <% end %>
     <% end %>
   </ul>

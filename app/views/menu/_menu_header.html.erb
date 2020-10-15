@@ -13,7 +13,7 @@
 
         <%= link_to advices_path, method: :get, class: "btn btn-link btn-flat btn-xs btn-borderless", data: { title: 'Messages', toggle: :tooltip } do %>
           <i class="fa fa-envelope"></i>
-        <% end if current_user.admin?%>
+        <% end %>
 
         <%= link_to edit_user_registration_path, method: :get, class: "btn btn-link btn-flat btn-xs btn-borderless", data: { title: 'Profile', toggle: :tooltip } do %>
           <i class="fa fa-user"></i>
