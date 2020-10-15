@@ -1,4 +1,5 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  rescue_from ActiveRecord::RecordInvalid, with: :render_omniauth_error
 
   def github
     service = Service.where(provider: auth.provider, uid: auth.uid).first
@@ -24,6 +25,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   private
+
+  def render_omniauth_error ex
+    set_flash_message(:error, :already_authenticated, kind: :github.to_s.humanize)
+    redirect_to after_omniauth_failure_path_for(resource_name)
+  end
 
   def auth
     request.env['omniauth.auth']

@@ -43,7 +43,7 @@ class User < ApplicationRecord
   end
 
   def registered?
-    admin? || user_provider? {:github}
+    admin?  || user_provider? {:github} || user_provider? {:jira}
   end
 
   def providers?
