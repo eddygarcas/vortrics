@@ -47,8 +47,9 @@
                   <% user.services.each do |p| %>
                     <% if p.provider.eql? "trello" %>
                       <%= provider_icon p, "linkedin" %>
-                    <%else%>
-                     <%= provider_icon p %>
+                    <% elsif p.provider.eql? "jira"%>
+                      <%else %>
+                        <%= provider_icon p %>
                     <%end %>
                   <% end %>
                 </td>
