@@ -28,7 +28,6 @@ module TrelloIssue
         histories: [],
         customfield_11802: 1
     }.compact
-
   end
 
   def transitions
@@ -44,7 +43,7 @@ module TrelloIssue
   end
 
   def resolution_date
-    Time.zone.now - rand(30)
+    badges&.due.presence || Time.zone.now
   end
 
   def closed_in

@@ -6,17 +6,19 @@ class Setting < ApplicationRecord
   has_many :teams, dependent: :destroy
 
   URL_REGEXP = /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/
-
+  SM_REGEX = /[a-zA-Z](-)SHA[0-9]/
   PATH_REGEXP = /\A(\/)[a-z0-9]/
 
   validates :name, presence: {message: "Better define a name for this connection."}
   validates :key_file, presence: {message: "OAuth requires a certification file."}, if: :oauth?
+  validates :signature_method, presence: {message: "Signature method is required for OAuth."}, if: :oauth?
+  validates :signature_method, format: {with: SM_REGEX, message: "You provided an invalid signature method."}, if: :oauth?
   validates :site, presence: {message: "Site cannot be blank"}, unless: :tokenized?
   validates :base_path, presence: {message: "Base path cannot be blank"}, unless: :tokenized?
   validates :site, format: {with: URL_REGEXP, message: "You provided invalid URL"}, unless: :tokenized?
   validates :base_path, format: {with: PATH_REGEXP, message: "You provided invalid base path"}, unless: :tokenized?
   validates :login, presence: {message: "Login cannot be blank using a Basic authorisation."}, unless: -> record {record.oauth? || record.tokenized?}
-  validates :password, presence: {message: "Password cannot be blank using a Basic authorisation."}, unless: -> record {record.oauth? || record.tokenized?}
+  validates :password, presence: {message: "Password cannot be blank using a Basic Authorization."}, unless: -> record {record.oauth? || record.tokenized?}
 
   def service
     Service.find_by_setting_id(id)
