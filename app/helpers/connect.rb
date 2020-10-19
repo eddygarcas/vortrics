@@ -27,8 +27,12 @@ module Connect
     Thread.current[:user]&.setting
   end
 
+  def self.provider
+    setting&.service&.provider
+  end
+
   def self.client(user)
-    case setting&.service&.provider
+    case provider
     when :trello.to_s
       Trelo::Client.new(user)
     else
@@ -52,7 +56,7 @@ module Connect
     def initialize(*args)
       super args[0]
       @estimation_field = args[1].presence || ""
-      eigenclass(Connect.setting&.service&.provider.presence || :jira)
+      eigenclass(Connect&.provider.presence || :jira)
     end
 
     private

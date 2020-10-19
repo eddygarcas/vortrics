@@ -1,7 +1,7 @@
 class TrelloSessionsController < ApplicationController
   include Connect
-
   before_action :authenticate_user!, except: [:new, :authorize]
+  rescue_from ActiveRecord::RecordInvalid, with: :render_validation_error
 
   def new
     request_token = Trelo::Client.omniauth.get_request_token(:oauth_callback => oauth_authorize_url)
@@ -17,6 +17,11 @@ class TrelloSessionsController < ApplicationController
   end
 
   private
+
+  def render_validation_error ex
+    redirect_to new_user_session_path , flash: {alert: "<strong>Ups!</strong> Could not sign in you from Trello because the email has already been taken."}
+  end
+
 
   def trello
     data = Trelo::Client.new(nil,

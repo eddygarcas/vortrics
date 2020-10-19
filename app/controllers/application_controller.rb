@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404
-    redirect_to root_url, flash: {warning: "<strong>Ups!</strong> The content you are try to reach doesn't exist."}
+    redirect_to root_url, flash: {alert: "<strong>Ups!</strong> The content you are try to reach doesn't exist."}
   end
 
   def render_501 exception

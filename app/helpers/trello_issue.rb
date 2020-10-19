@@ -6,7 +6,6 @@ module TrelloIssue
   end
 
   def map
-    assigne = service_method(:members, id: idMembers&.first) unless idMembers.empty?
     {
         key: id,
         issuetype: "task",
@@ -20,9 +19,9 @@ module TrelloIssue
         priorityicon: "",
         components: labels&.map {|elem| elem['name']}.join(","),
         status: (badges&.dueComplete || closed) ? "done" : "indeterminate",
-        statusname: service_method(:lists, id: idList)&.name,
-        assignee: assigne&.fullName.presence || "",
-        assigneeavatar: assigne&.avatarUrl.presence || "",
+        statusname: statusname&.presence || "",
+        assignee: assignee&.presence || "",
+        assigneeavatar: assigneeavatar&.presence || "",
         created: created_at,
         updated: dateLastActivity,
         resolutiondate: badges&.due,
@@ -33,6 +32,7 @@ module TrelloIssue
   end
 
   def transitions
+
   end
 
   def story_points
@@ -78,7 +78,6 @@ module TrelloIssue
   def bug?
     false
   end
-
 
   def keep_log_if log, index = 1
     yield log
