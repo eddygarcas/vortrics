@@ -30,7 +30,7 @@ FactoryBot.define do
     context {""}
     oauth {true}
     debug {Faker::Boolean.boolean}
-    signature_method {""}
+    signature_method {"RSA-SHA1"}
     consumer_key {"OAuth"}
     login { "eduard.garcia"}
     password {"test"}
