@@ -135,7 +135,7 @@ module ApplicationHelper
 			elem << content_tag(tag, nil, class: "fa fa-#{name}", style: "color:goldenrod;font-size: 20px;")
 		end
 		elem << content_tag(tag, nil, class: "fa fa-#{name}", style: "color:#888888;font-size: 20px;") if num.zero?
-		sanitize elem
+		elem.html_safe
 	end
 
 	def link_to_ext(key, name = fa_icon_tag("eye"))
