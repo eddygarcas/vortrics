@@ -31,7 +31,13 @@ module Trelo
 
     def kanban
       args = yield
-      JSON.parse(@instance.get("/boards/#{args[:boardId]}/cards?fields=all",{}))
+      cards = JSON.parse(@instance.get("/boards/#{args[:boardId]}/cards?fields=all", {}))
+      #GET /1/cards/{id}/actions
+      # JSON.parse(@instance.get("/cards/#{cards.last["id"]}/actions",{filter: :createCard}))
+      cards.map do |v|
+        v.merge!(JSON.parse(@instance.get("/cards/#{v["id"]}/actions", {filter: :createCard}))&.last)
+            .merge!({status: JSON.parse(@instance.get("/lists/#{v["idList"]}?fields=name"))})
+      end
     end
 
     def find(path, id, type = nil, params = {})
@@ -39,20 +45,20 @@ module Trelo
     end
 
     def projects
-      JSON.parse(@instance.get("/members/#{yield[:user]}/organizations",{})).map do |v|
+      JSON.parse(@instance.get("/members/#{yield[:user]}/organizations", {})).map do |v|
         Connect::Response.new({key: v["id"], name: v["displayName"]})
       end
     end
 
     def project_details
-      resp = JSON.parse(@instance.get("/organizations/#{yield[:key]}",{}))
-      Connect::Response.new({key: resp["id"], name: resp["displayName"],icon: resp["logoUrl"]})
+      resp = JSON.parse(@instance.get("/organizations/#{yield[:key]}", {}))
+      Connect::Response.new({key: resp["id"], name: resp["displayName"], icon: resp["logoUrl"]})
     end
 
     def boards_by_project
       args = yield
-      resp = JSON.parse(@instance.get("/organizations/#{args[:keyorid]}/boards",{}))
-      args[:board].present? ? resp.find{|board| board['id'].to_s.eql? args[:board]}['name'] : resp
+      resp = JSON.parse(@instance.get("/organizations/#{args[:keyorid]}/boards", {}))
+      args[:board].present? ? resp.find { |board| board['id'].to_s.eql? args[:board] }['name'] : resp
     end
 
     def bugs_by_board
@@ -60,7 +66,7 @@ module Trelo
     end
 
     def fields
-      JSON.parse(@instance.get("/boards/#{yield[:boardid]}/customFields"))&.map {|c| Trelo::Response.new(c)}
+      JSON.parse(@instance.get("/boards/#{yield[:boardid]}/customFields"))&.map { |c| Trelo::Response.new(c) }
     end
 
     def lists
@@ -73,7 +79,7 @@ module Trelo
 
 
     def method_missing(name, *args)
-      raise Connect::MethodNotFoundError.new(name,args)
+      raise Connect::MethodNotFoundError.new(name, args)
     end
 
   end

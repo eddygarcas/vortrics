@@ -19,11 +19,11 @@ module TrelloIssue
         priorityicon: "",
         components: labels&.map {|elem| elem['name']}.join(","),
         status: (badges&.dueComplete || closed) ? "done" : "indeterminate",
-        statusname: statusname&.presence || "",
-        assignee: assignee&.presence || "",
-        assigneeavatar: assigneeavatar&.presence || "",
-        created: created_at,
-        updated: dateLastActivity,
+        statusname: status&.name&.presence || "",
+        assignee: memberCreator&.fullName.presence || "Not assigned",
+        assigneeavatar: memberCreator&.avatarUrl.presence || memberCreator&.initials,
+        created: date&.to_datetime.presence || Time.zone.now,
+        updated: dateLastActivity&.to_datetime,
         resolutiondate: badges&.due,
         histories: [],
         customfield_11802: 1
@@ -39,7 +39,7 @@ module TrelloIssue
   end
 
   def created_at
-    Time.zone.now - rand(15)
+    date&.to_datetime.presence || Time.zone.now
   end
 
   def resolution_date
