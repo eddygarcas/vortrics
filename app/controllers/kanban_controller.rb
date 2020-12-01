@@ -1,6 +1,5 @@
 class KanbanController < ApplicationController
   include ApplicationHelper
-  include KanbanHelper
   layout 'sidenav'
   before_action :set_board, only: [:import_issues]
   before_action :team_session, :set_current_user
