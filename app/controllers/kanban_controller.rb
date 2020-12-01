@@ -21,11 +21,9 @@ class KanbanController < ApplicationController
         select(&:selectable_for_kanban?).
         sort_by!(&:created_at).
         reverse!
-    last60days = issues.select { |i| i.created_at >= (issues.first.created_at - 180.days)}
+    #last60days = issues.select { |i| i.created_at >= (issues.first.created_at - 180.days)}
 
-    set_trello_issues last60days
-
-    @team.update_active_sprint(SprintsHelper::SprintBuilder.new(last60days,{
+    @team.update_active_sprint(SprintsHelper::SprintBuilder.new(issues,{
         sprint_id: @team.board_id,
         team_id: @team.id,
         board_type: @team.board_type,
@@ -33,7 +31,7 @@ class KanbanController < ApplicationController
         enddate: Time.zone.now.to_date,
         start_date: issues.last.created_at
     }))
-    @team.sprint.save_issues(last60days)
+    @team.sprint.save_issues(issues)
     Rails.cache.clear
     redirect_to sprint_path(@team.sprint), notice: "Kanban board has been updated"
   end

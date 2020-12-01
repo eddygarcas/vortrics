@@ -35,10 +35,32 @@ module Trelo
       #GET /1/cards/{id}/actions
       # JSON.parse(@instance.get("/cards/#{cards.last["id"]}/actions",{filter: :createCard}))
       cards.map do |v|
-        v.merge!(JSON.parse(@instance.get("/cards/#{v["id"]}/actions", {filter: :createCard}))&.last)
-            .merge!({status: JSON.parse(@instance.get("/lists/#{v["idList"]}?fields=name"))})
+        v.merge!({log: JSON.parse(@instance.get("/cards/#{v["id"]}/actions", {filter: "commentCard,updateCard:idList,createCard"})) || ""})
+            .merge!({status: JSON.parse(@instance.get("/lists/#{v["idList"]}?fields=name")) || {"name" => "open"}})
+      end
+      pp cards.last
+      cards
+    end
+
+    def issue_comments
+      JSON.parse(@instance.get("/cards/#{yield}/actions", {filter: "commentCard"})).map do |elem|
+        {
+            "author" => {
+                "displayName" => elem&.dig("memberCreator", "fullName"),
+                "avatarUrls" => {
+                    "48x48" => "#{elem&.dig("memberCreator", "avatarUrl")}/50.png"
+                }
+            },
+            "created" => elem&.dig("date"),
+            "body" => elem&.dig("data", "text")
+        }
       end
     end
+
+    def issue_attachments
+      {}
+    end
+
 
     def find(path, id, type = nil, params = {})
       Connect::Response.new(JSON.parse(@instance.get("/#{path.to_s.pluralize}/#{id}/#{type}", params)))

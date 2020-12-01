@@ -18,7 +18,7 @@
                 <li class='list-group-item'>
                   <div class="media">
                     <a class="pull-left" href="#">
-                      <%= image_tag issue.assigneeavatar, data: {toggle: "tooltip", title: issue.assignee} unless issue.assignee.nil? %>
+                      <%= image_tag issue.assigneeavatar, class: "avatar img-rounded", width: 40, height: 40, data: {toggle: "tooltip", title: issue.assignee} unless issue.assignee.nil? %>
                       <%= random_avatar 40, "media-object" if issue.assignee.nil? %>
                     </a>
                     <div class="media-body">
@@ -43,7 +43,7 @@
                 </li>
             <% end %>
         <% end %>
-        <% if sprint.issues.any? {|issue| issue.done?} %>
+        <% if !sprint.issues.any? {|issue| issue.in_progress?} %>
             <li class='list-group-item'>
               <div class="media">
                 <a class="pull-left" href="#">
@@ -69,7 +69,7 @@
                 <li class='list-group-item' id="recent-<%= issue.key %>">
                   <div class="media">
                     <a class="pull-left" href="#">
-                      <%= image_tag issue.assigneeavatar, data: {toggle: "tooltip", title: issue.assignee} unless issue.assignee.nil? %>
+                      <%= image_tag issue.assigneeavatar, class: "avatar img-rounded", width: 40, height: 40, data: {toggle: "tooltip", title: issue.assignee} unless issue.assignee.nil? %>
                       <%= random_avatar 40, "media-object" if issue.assignee.nil? %>
                     </a>
                     <div class="media-body">

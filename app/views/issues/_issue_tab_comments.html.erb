@@ -4,16 +4,15 @@
       <li class='list-group-item'>
         <div class="media">
           <a class="pull-left" href="#">
-            <%= image_tag comment['author']['avatarUrls']["48x48"], class: "img-rounded", height: '24', width: '24', data: {toggle: "tooltip", title: comment['author']['displayName']} unless comment['author'].nil? %>
-            <%= random_avatar 40, "media-object" if comment['author'].nil? %>
+            <%= image_tag comment&.dig("author","avatarUrls","48x48"), class: "img-rounded", height: '24', width: '24', data: {toggle: "tooltip", title: comment&.dig("author","displayName")} unless comment&.dig("author").nil? %>
+            <%= random_avatar 40, "media-object" if comment&.dig("author").nil? %>
           </a>
           <div class="media-body">
             <h5 class="media-heading">
-              <a href="#" title=""><%= comment['author']['displayName'] %></a> commented at
-              <a href="#" title=""><%= comment['created'].to_datetime.strftime("%d/%m/%Y %H:%M") %> </a>
+              <a href="#" title=""><%= comment&.dig("author","displayName") %></a> commented at
+              <a href="#" title=""><%= comment&.dig("created").to_datetime.strftime("%d/%m/%Y %H:%M") %> </a>
             </h5>
-            <p class='small'><%= comment['body'] %></p>
-
+            <p class='small'><%= comment&.dig("body") %></p>
           </div>
         </div>
       </li>
