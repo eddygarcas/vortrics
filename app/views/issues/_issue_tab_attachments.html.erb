@@ -4,19 +4,18 @@
       <li class='list-group-item'>
         <div class="media">
           <a class="pull-left" href="#">
-            <%= image_tag attach&.author&.avatarUrls["48x48"],class: "img-rounded", height: '24', width: '24', data: {toggle: "tooltip", title: attach&.author&.displayName} unless attach&.author.nil? %>
-            <%= random_avatar 40, "media-object" if attach.author.nil? %>
+            <%= image_tag attach&.dig("author","avatarUrls","48x48").presence || "/images/vortrics_icon.svg",class: "img-rounded", height: '24', width: '24', data: {toggle: "tooltip", title: attach&.dig("author","displayName").presence || "nd"}%>
           </a>
           <div class="media-body">
             <h5 class="media-heading">
-              <a href="#" title=""><%= attach&.author&.displayName %></a> attached at
-              <a href="#" title=""><%= attach&.created&.to_datetime.strftime("%d/%m/%Y %H:%M") %> </a>
+              <a href="#" title=""><%= attach&.dig("author","displayName") %></a> attached at
+              <a href="#" title=""><%= attach&.dig("created").to_datetime.strftime("%d/%m/%Y %H:%M") %> </a>
             </h5>
             <p class='small'>
-              <% unless attach&.mimeType.include? "image" %>
-                <%= link_to attach.content, data: {toggle: "tooltip", title: attach&.author&.displayName } unless attach&.author.nil? %>
+              <% unless attach&.dig("mimeType")&.include? "image" %>
+                <%= link_to attach&.dig("content"), data: {toggle: "tooltip", title: attach&.dig("author","displayName")} unless attach&.dig("author").nil? %>
               <% else %>
-                <%= link_to image_tag(attach&.thumbnail), attach&.content, data: {lightbox: "#{attach&.author&.displayName}", title: "#{@issue&.key} Attachment"} %>
+                <%= link_to image_tag(attach&.dig("thumbnail")), attach&.dig("content"), data: {lightbox: "#{attach&.dig("author","displayName")}", title: "#{@issue&.key} Attachment"} %>
               <% end %>
             </p>
 
@@ -29,7 +28,7 @@
       <li class='list-group-item'>
         <div class="media">
           <a class="pull-left" href="#">
-            <%= image_tag @issue.assigneeavatar.blank? ? "/images/voardtrix_logo.png" : @issue.assigneeavatar,class: "img-rounded", height: '24', width: '24', data: { toggle: "tooltip", title: @issue.assignee } %>
+            <%= image_tag @issue.assigneeavatar.presence || "/images/vortrics_icon.svg",class: "img-rounded", height: '24', width: '24', data: { toggle: "tooltip", title: @issue.assignee } %>
           </a>
           <div class="media-body">
             <h5 class="media-heading">

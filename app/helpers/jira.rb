@@ -49,7 +49,7 @@ module Jira
     end
 
     def projects
-      @instance.Project.all.map {|p| Project.new(p.attrs)}
+      @instance.Project.all.map { |p| Project.new(p.attrs) }
     end
 
     def fields
@@ -59,7 +59,7 @@ module Jira
     def project_details
       args = yield
       resp = rest_query("/project/#{args[:key]}", {}, args[:options].presence)
-      Connect::Response.new({key: resp.dig('key'),name: resp.dig('name'),icon: resp.dig('avatarUrls','32x32')})
+      Connect::Response.new({key: resp.dig('key'), name: resp.dig('name'), icon: resp.dig('avatarUrls', '32x32')})
     end
 
     def scrum
@@ -75,7 +75,7 @@ module Jira
     def boards_by_project
       args = yield
       resp = agile_query('/board', {projectKeyOrId: args[:keyorid], type: args[:type]}, args[:options])['values'].map { |c| Connect::Response.new(c) }
-      args[:board].present? ? resp.find{|board| board.id.to_s.eql? args[:board]}.name : resp
+      args[:board].present? ? resp.find { |board| board.id.to_s.eql? args[:board] }.name : resp
     end
 
     def boards_by_sprint
@@ -90,7 +90,21 @@ module Jira
     end
 
     def issue_attachments
-      @instance.Issue.find(yield, fields: :attachment).attachments
+      @instance.Issue.find(yield, fields: :attachment).attachments.map(&:attrs)
+      #     .map do |elem|
+      #   {
+      #       "author" => {
+      #           "displayName" => elem&.author&.displayName.presence || elem&.author&.name,
+      #           "avatarUrls" => {
+      #               "48x48" => elem.author.avatarUrls["48x48"]
+      #           }
+      #       },
+      #       "created" => elem&.created,
+      #       "mimeType" => elem&.mimeType,
+      #       "thumbnail" => elem&.thumbnail.presence || elem&.name,
+      #       "content" => elem&.content
+      #   }
+      # end
     end
 
     def issue_comments
@@ -100,13 +114,13 @@ module Jira
     def bugs_first_comments
       args = yield
       items = bugs_by_board { {boardid: args[:boardid], startdate: (DateTime.now - 6.months).strftime("%Y-%m-%d"), options: args[:options]} }
-      items.map! {|elem| {
+      items.map! { |elem| {
           priority: {icon: elem.dig('fields', 'priority', 'iconUrl'), name: elem.dig('fields', 'priority', 'name')},
           status: {icon: elem.dig('fields', 'status', 'iconUrl'), name: elem.dig('fields', 'status', 'name')},
           key: elem['key'],
-          first_time: issue_comments{ elem.dig('key')}&.first,
+          first_time: issue_comments { elem.dig('key') }&.first,
           created: elem.dig('fields', 'created')&.to_time}
-      }.delete_if {|elem| elem[:first_time].blank?}
+      }.delete_if { |elem| elem[:first_time].blank? }
     end
 
     def bugs_by_board
@@ -119,7 +133,7 @@ module Jira
     end
 
     def method_missing(name, *args)
-      raise Connect::MethodNotFoundError.new(name,args)
+      raise Connect::MethodNotFoundError.new(name, args)
     end
 
     protected
@@ -146,7 +160,7 @@ module Jira
     private
 
     def parse_jql_params(jql_param)
-      jql_param.map {|k, v| "#{k}#{v}"}.join(' AND ')
+      jql_param.map { |k, v| "#{k}#{v}" }.join(' AND ')
     end
 
     def pagination? (params)
@@ -154,7 +168,7 @@ module Jira
     end
 
     def next_page(params)
-      params.slice(:startAt, :toLast).transform_values! {|v| v += params[:toLast]}
+      params.slice(:startAt, :toLast).transform_values! { |v| v += params[:toLast] }
     end
 
     def url_with_query_params(url, query_params = {})
@@ -164,7 +178,7 @@ module Jira
     end
 
     def hash_to_query_string(query_params = {})
-      query_params.map {|k, v| "#{CGI.escape(k.to_s)}=#{CGI.escape(Array.wrap(v).join(','))}"}.join('&')
+      query_params.map { |k, v| "#{CGI.escape(k.to_s)}=#{CGI.escape(Array.wrap(v).join(','))}" }.join('&')
     end
   end
 end

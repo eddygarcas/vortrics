@@ -38,8 +38,6 @@ module Trelo
         v.merge!({log: JSON.parse(@instance.get("/cards/#{v["id"]}/actions", {filter: "commentCard,updateCard:idList,createCard"})) || ""})
             .merge!({status: JSON.parse(@instance.get("/lists/#{v["idList"]}?fields=name")) || {"name" => "open"}})
       end
-      pp cards.last
-      cards
     end
 
     def issue_comments
@@ -58,7 +56,22 @@ module Trelo
     end
 
     def issue_attachments
-      {}
+      attachm = JSON.parse(@instance.get("/cards/#{yield}/attachments", {})).map do |elem|
+        {
+            "author" => {
+                "displayName" => elem&.dig("idMember"),
+                "avatarUrls" => {
+                    "48x48" => "/images/vortrics_icon.svg",
+                }
+            },
+            "created" => elem&.dig("date"),
+            "mimeType" => elem&.dig("mimeType") || "image/png",
+            "thumbnail" => elem&.dig("previews")&.first&.dig("url"),
+            "content" => elem&.dig("url"),
+        }
+      end
+      pp attachm.last
+      attachm
     end
 
 
