@@ -91,20 +91,6 @@ module Jira
 
     def issue_attachments
       @instance.Issue.find(yield, fields: :attachment).attachments.map(&:attrs)
-      #     .map do |elem|
-      #   {
-      #       "author" => {
-      #           "displayName" => elem&.author&.displayName.presence || elem&.author&.name,
-      #           "avatarUrls" => {
-      #               "48x48" => elem.author.avatarUrls["48x48"]
-      #           }
-      #       },
-      #       "created" => elem&.created,
-      #       "mimeType" => elem&.mimeType,
-      #       "thumbnail" => elem&.thumbnail.presence || elem&.name,
-      #       "content" => elem&.content
-      #   }
-      # end
     end
 
     def issue_comments
