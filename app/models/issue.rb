@@ -1,4 +1,5 @@
 require_relative '../../app/helpers/time'
+
 class Issue < ApplicationRecord
 
   belongs_to :sprint
@@ -22,7 +23,7 @@ class Issue < ApplicationRecord
   end
 
   def lead_time
-    (time_transitions({toString: :first}, {toString: :done}))
+    (time_transitions({ toString: :first }, { toString: :done }))
   end
 
   def new?
@@ -57,7 +58,6 @@ class Issue < ApplicationRecord
     !subtask? && !bug? && !epic?
   end
 
-
   def selectable_for_graph?
     done? && task? && any_log?
   end
@@ -83,19 +83,19 @@ class Issue < ApplicationRecord
   end
 
   def time_flagged
-    (time_transitions({fromString: :flagged}, {toString: :flagged})).abs
+    (time_transitions({ fromString: :flagged }, { toString: :flagged })).abs
   end
 
   def time_in_wip
-    (time_transitions({toString: :wip}, {toString: :testing})).abs
+    (time_transitions({ toString: :wip }, { toString: :testing })).abs
   end
 
   def time_to_release
-    (time_transitions({toString: :testing}, {toString: :done})).abs
+    (time_transitions({ toString: :testing }, { toString: :done })).abs
   end
 
   def time_in_backlog
-    (time_transitions({toString: :first}, {toString: :wip})).abs
+    (time_transitions({ toString: :first }, { toString: :wip })).abs
   end
 
   def was_wip? date
@@ -120,24 +120,22 @@ class Issue < ApplicationRecord
     change_logs.select(&:first_time_review?).count <= 1
   end
 
-  def time_transitions start = {}, finish = {}
+  def time_transitions(start = {}, finish = {})
     time_in start, finish, false, :done, :last
   end
 
-  def time_in start = {}, finish = {}, format = true, alternatice_tag = :first, alternative_pos = :first
+  def time_in(start = {}, finish = {}, format = true, alternative_tag = :done, alternative_pos = :last)
     return 0 if change_logs.blank? && start.keys.first.eql?(:first)
     return life_time format if change_logs.blank?
     times_in = []
-    times_in << changelog_lapse(start.keys.first, start.fetch(start.keys.first), &:first)
-    times_in << changelog_lapse(finish.keys.first, finish.fetch(finish.keys.first), &:first)
-    times_in << changelog_lapse(finish.keys.first, alternatice_tag, &alternative_pos) unless times_in.all?
+    times_in << changelog_lapse(start.keys.first, start.fetch(start.keys.first), &:first) || changelog_lapse(start.keys.first, :first, &:first)
+    times_in << changelog_lapse(finish.keys.first, finish.fetch(finish.keys.first), &:first) || changelog_lapse(finish.keys.first, alternative_tag, &alternative_pos)
     return 0 unless times_in.all?
-    return times_in.sort_by!(&:created).inject {|sum, number| sum.created.to_date.business_days_until(number.created.to_date)} unless format
-    times_in.sort_by!(&:created).inject {|sum, number| sum.remaining(number)}
-
+    return times_in.sort_by!(&:created).inject { |sum, number| sum.created.to_date.business_days_until(number.created.to_date) } unless format
+    times_in.sort_by!(&:created).inject { |sum, number| sum.remaining(number) }
   end
 
-  def life_time format = true
+  def life_time(format = true)
     return 0 if created.blank?
     finish = resolutiondate.blank? ? updated : resolutiondate
     return created.to_date.business_days_until(finish.to_date).to_f unless format
@@ -145,27 +143,26 @@ class Issue < ApplicationRecord
   end
 
   def save_changelog
-    histories.each {|elem| ChangeLog.find_or_initialize_by(id: elem.id).update(elem.as_json.merge({issue_id: id}).compact)}
+    histories.each { |elem| ChangeLog.find_or_initialize_by(id: elem.id).update(elem.as_json.merge({ issue_id: id }).compact) }
   end
 
   protected
 
   def save_cycle_time
-    write_attribute(:cycle_time, (time_transitions({toString: :wip}, {toString: :done})).abs)
+    write_attribute(:cycle_time, (time_transitions({ toString: :wip }, { toString: :done })).abs)
     save!
   end
 
-  def changelog_lapse column, tag
+  def changelog_lapse(column, tag)
     return change_logs&.first if tag.eql? :first
     return change_logs&.last if tag.eql? :last
-    yield change_logs&.select {|log| workflow_stats(tag, log.send(column)) unless log.send(column).blank?}
+    yield change_logs&.select { |log| log.send(column).present? && workflow_stats(tag, log.send(column)) }
   end
 
   private
 
-  def workflow_stats tag, column
-    return Vortrics.config[:changelog][tag].include? column.to_s.downcase unless User.workflow(tag).present?
-    User.workflow(tag).include? column.to_s.downcase
+  def workflow_stats(column, tag)
+    (User.workflow(column).include? tag.to_s.downcase) || (Vortrics.config[:changelog][column].include? tag.to_s.downcase)
   end
 
 end

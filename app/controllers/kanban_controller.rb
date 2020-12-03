@@ -22,8 +22,9 @@ class KanbanController < ApplicationController
         sort_by!(&:created_at).
         reverse!
     #last60days = issues.select { |i| i.created_at >= (issues.first.created_at - 180.days)}
+    last60days = issues
 
-    @team.update_active_sprint(SprintsHelper::SprintBuilder.new(issues,{
+    @team.update_active_sprint(SprintsHelper::SprintBuilder.new(last60days,{
         sprint_id: @team.board_id,
         team_id: @team.id,
         board_type: @team.board_type,
@@ -31,7 +32,7 @@ class KanbanController < ApplicationController
         enddate: Time.zone.now.to_date,
         start_date: issues.last.created_at
     }))
-    @team.sprint.save_issues(issues)
+    @team.sprint.save_issues(last60days)
     Rails.cache.clear
     redirect_to sprint_path(@team.sprint), notice: "Kanban board has been updated"
   end
