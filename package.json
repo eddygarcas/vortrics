@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "5.4.3",
-    "lodash": "4.17.19",
+    "lodash": "4.17.21",
     "moment": "^2.24.0",
     "rails-ujs": "^5.2.3",
     "serialize-javascript": "3.1.0",
