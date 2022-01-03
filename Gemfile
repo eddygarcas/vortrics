@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.7.1"
+ruby "2.7.5"
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
@@ -54,6 +54,12 @@ gem 'webpacker', '~> 4.x'
 gem 'montecasting', '>= 0.6.5'
 gem 'binky-builder', '~> 0.5.x'
 gem 'modernizr_rails'
+
+#DIGITAL OCEAN
+gem 'capistrano', '~> 3.11'
+gem 'capistrano-rails', '~> 1.4'
+gem 'capistrano-passenger', '~> 0.2.0'
+gem 'capistrano-rbenv', '~> 2.1', '>= 2.1.4'
 
 group :development, :test do
   gem 'sqlite3'

@@ -38,3 +38,5 @@ tags
 yarn-debug.log*
 .yarn-integrity
 Gemfile.lock
+/config/deploy/
+/config/deploy.rb
