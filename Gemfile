@@ -8,7 +8,7 @@ source "https://gems.kiso.io/" do
   gem "dresssed-ives", "~> 1.0.67"
 end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0', '>= 6.0.3.2'
+gem 'rails', '>= 7.0.0'
 gem "rack", ">= 2.0.7"
 gem "loofah", ">= 2.2.3"
 gem "rubyzip", ">= 1.3.0"
@@ -16,7 +16,7 @@ gem "ffi", ">= 1.11.3"
 # Use Puma as the app server
 gem "puma", ">= 4.3.5"
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -37,23 +37,23 @@ gem 'acts_as_list'
 
 gem 'jira-ruby', '1.7.0', :require => 'jira-ruby'
 
-gem "devise", ">= 4.7.1"
+gem "devise"
 gem 'ruby-trello'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection', '~> 0.1'
 
-gem 'jquery-rails', '~> 4.3.1'
-gem 'jquery-ui-rails','~> 6.0.1'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'rails-ujs'
 
 gem 'resque'
 gem 'business_time'
 
-gem 'webpacker', '~> 4.x'
+gem 'webpacker'
 
 gem 'montecasting', '>= 0.6.5'
 gem 'binky-builder', '~> 0.5.x'
-gem 'modernizr_rails'
+
 
 #DIGITAL OCEAN
 gem 'capistrano', '~> 3.11'
@@ -80,9 +80,9 @@ end
 
 group :development do
   gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'listen'
+  gem 'spring', ">= 1.2","< 3.0"
+  gem 'spring-watcher-listen'
   gem 'awesome_print'
 end
 
@@ -90,7 +90,7 @@ group :production do
   gem 'pg'
   gem 'rails_12factor'
   # Use Redis adapter to run Action Cable in production
-  gem 'redis', '~> 4.1.3'
+  gem 'redis'
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
